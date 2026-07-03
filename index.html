@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>SID — Structured Intelligence Design</title>
+<title>SID - Structured Intelligence Design</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
@@ -257,7 +257,7 @@
   .tier-02 .diff-fill{background:var(--violet);}
   .tier-03 .diff-fill{background:var(--amber);}
 
-  /* lessons — knowledge content */
+  /* lessons - knowledge content */
   .lessons-label{
     font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:0.12em;text-transform:uppercase;
     color:var(--ink-faint);margin-bottom:16px;
@@ -405,7 +405,7 @@
   }
   .mv-list li .mk{flex:none;width:19px;height:19px;margin-top:3px;color:var(--ink-faint);}
 
-  /* the turn — accent resolution block */
+  /* the turn - accent resolution block */
   .movement.turn{
     border-top:none;margin-top:10px;
     background:linear-gradient(135deg, rgba(76,95,213,0.09), rgba(124,92,209,0.11));
@@ -469,6 +469,165 @@
 
   footer{padding:40px 0 60px;text-align:center;}
   footer p{font-size:13px;color:var(--ink-faint);}
+
+  /* ============ MODAL ============ */
+  .modal-overlay{
+    position:fixed;inset:0;z-index:200;
+    background:rgba(27,33,64,0.55);
+    backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);
+    display:flex;align-items:center;justify-content:center;padding:20px;
+    opacity:0;pointer-events:none;transition:opacity 0.28s ease;
+  }
+  .modal-overlay.open{opacity:1;pointer-events:all;}
+  .modal-box{
+    width:100%;max-width:520px;
+    background:var(--glass-strong);
+    border:1px solid var(--glass-border);
+    border-radius:28px;
+    box-shadow:var(--shadow-lg);
+    padding:44px 40px 40px;
+    position:relative;
+    transform:translateY(18px) scale(0.98);
+    transition:transform 0.28s ease;
+    max-height:90vh;overflow-y:auto;
+  }
+  .modal-overlay.open .modal-box{transform:translateY(0) scale(1);}
+  .modal-close{
+    position:absolute;top:18px;right:18px;
+    width:32px;height:32px;border-radius:50%;border:none;cursor:pointer;
+    background:rgba(27,33,64,0.08);color:var(--ink-soft);
+    display:flex;align-items:center;justify-content:center;
+    font-size:18px;line-height:1;
+    transition:background 0.2s;
+  }
+  .modal-close:hover{background:rgba(27,33,64,0.15);}
+  .modal-title{
+    font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:24px;
+    color:var(--ink);margin:12px 0 6px;
+  }
+  .modal-sub{font-size:14px;color:var(--ink-soft);margin-bottom:28px;line-height:1.5;}
+  .form-group{margin-bottom:16px;}
+  .form-group label{
+    display:block;font-size:12.5px;font-weight:600;color:var(--ink-soft);
+    margin-bottom:6px;letter-spacing:0.03em;
+  }
+  .form-group input,
+  .form-group textarea{
+    width:100%;padding:12px 16px;
+    border:1.5px solid rgba(27,33,64,0.14);
+    border-radius:12px;
+    font-family:'Inter',sans-serif;font-size:15px;color:var(--ink);
+    background:rgba(255,255,255,0.8);
+    outline:none;transition:border-color 0.2s,box-shadow 0.2s;
+    resize:none;
+  }
+  .form-group input:focus,
+  .form-group textarea:focus{
+    border-color:var(--indigo);
+    box-shadow:0 0 0 3px rgba(76,95,213,0.12);
+  }
+  .form-group textarea{height:90px;}
+  .form-submit{
+    width:100%;border:none;padding:16px 0;border-radius:100px;
+    background:linear-gradient(120deg,var(--indigo),var(--indigo-deep));
+    color:#fff;font-family:'Inter',sans-serif;font-size:15px;font-weight:700;
+    cursor:pointer;margin-top:6px;
+    box-shadow:0 10px 28px rgba(76,95,213,0.32);
+    transition:transform 0.2s,box-shadow 0.2s,opacity 0.2s;
+  }
+  .form-submit:hover{transform:translateY(-2px);box-shadow:0 14px 34px rgba(76,95,213,0.40);}
+  .form-submit:disabled{opacity:0.65;cursor:not-allowed;transform:none;}
+  .modal-success{
+    display:none;text-align:center;padding:24px 0 8px;
+  }
+  .modal-success .success-icon{
+    width:56px;height:56px;border-radius:50%;
+    background:linear-gradient(135deg,var(--indigo),var(--violet));
+    display:flex;align-items:center;justify-content:center;
+    margin:0 auto 18px;
+    box-shadow:0 8px 24px rgba(76,95,213,0.30);
+  }
+  .modal-success h3{font-family:'Space Grotesk',sans-serif;font-size:21px;font-weight:700;color:var(--ink);margin-bottom:8px;}
+  .modal-success p{font-size:15px;color:var(--ink-soft);line-height:1.6;}
+  @media(max-width:560px){
+    .modal-box{padding:32px 22px 28px;}
+    .modal-title{font-size:20px;}
+  }
+
+  /* ============ TRAINER ============ */
+  .trainer-card{
+    display:grid;grid-template-columns:280px 1fr;gap:56px;
+    padding:48px 48px 44px;border-radius:28px;
+    align-items:start;
+  }
+  .trainer-portrait{
+    position:relative;
+  }
+  .trainer-portrait img{
+    width:100%;border-radius:20px;
+    object-fit:cover;aspect-ratio:3/4;
+    display:block;
+    box-shadow:var(--shadow-md);
+  }
+  .trainer-linkedin{
+    display:inline-flex;align-items:center;gap:8px;
+    margin-top:16px;width:100%;
+    background:linear-gradient(120deg,#0077B5,#005885);
+    color:#fff;border-radius:12px;padding:11px 16px;
+    font-size:13.5px;font-weight:600;font-family:'Inter',sans-serif;
+    text-decoration:none;transition:transform 0.2s,box-shadow 0.2s;
+    box-shadow:0 6px 18px rgba(0,119,181,0.28);
+    justify-content:center;
+  }
+  .trainer-linkedin:hover{transform:translateY(-2px);box-shadow:0 10px 24px rgba(0,119,181,0.38);}
+  .trainer-linkedin svg{flex:none;}
+  .trainer-info{}
+  .trainer-name{
+    font-family:'Space Grotesk',sans-serif;font-weight:700;
+    font-size:clamp(26px,3.5vw,38px);color:var(--ink);margin:14px 0 8px;
+  }
+  .trainer-short{
+    font-size:15.5px;color:var(--ink-soft);line-height:1.65;
+    border-left:3px solid var(--indigo);padding-left:16px;
+    margin-bottom:28px;
+  }
+  .trainer-about-label{
+    font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:0.13em;
+    text-transform:uppercase;color:var(--ink-faint);margin-bottom:10px;
+  }
+  .trainer-about{
+    font-size:15.5px;color:var(--ink-soft);line-height:1.7;margin-bottom:36px;
+  }
+  .exp-label{
+    font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:0.13em;
+    text-transform:uppercase;color:var(--ink-faint);margin-bottom:18px;
+  }
+  .exp-list{display:flex;flex-direction:column;gap:0;}
+  .exp-item{
+    display:grid;grid-template-columns:44px 1fr;gap:16px;
+    padding:18px 0;border-top:1px solid var(--line);
+    align-items:start;
+  }
+  .exp-item:first-child{border-top:none;padding-top:0;}
+  .exp-dot-col{display:flex;flex-direction:column;align-items:center;padding-top:4px;}
+  .exp-dot{
+    width:10px;height:10px;border-radius:50%;flex:none;
+    background:linear-gradient(135deg,var(--indigo),var(--violet));
+    box-shadow:0 0 0 3px rgba(76,95,213,0.15);
+  }
+  .exp-line{width:2px;flex:1;background:var(--line);margin-top:6px;min-height:20px;}
+  .exp-item:last-child .exp-line{display:none;}
+  .exp-role{font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:16px;color:var(--ink);margin-bottom:2px;}
+  .exp-company{font-size:14px;color:var(--indigo-deep);font-weight:500;margin-bottom:3px;}
+  .exp-meta{font-size:13px;color:var(--ink-faint);margin-bottom:6px;}
+  .exp-desc{font-size:14px;color:var(--ink-soft);line-height:1.55;}
+  @media(max-width:860px){
+    .trainer-card{grid-template-columns:1fr;gap:32px;}
+    .trainer-portrait img{aspect-ratio:auto;height:auto;max-height:none;object-fit:initial;}
+  }
+  @media(max-width:540px){
+    .trainer-card{padding:28px 22px;}
+  }
 </style>
 </head>
 <body>
@@ -481,8 +640,9 @@
       <li><a href="#solution">Giải pháp</a></li>
       <li><a href="#path">Chương trình</a></li>
       <li><a href="#pricing">Học phí</a></li>
+      <li><a href="#trainer">Giảng viên</a></li>
     </ul>
-    <button class="nav-cta">Đăng ký ngay</button>
+    <button class="nav-cta" onclick="openModal('')">Đăng ký ngay</button>
   </div>
 </nav>
 
@@ -518,10 +678,10 @@
   <div class="wrap hero-inner">
     <span class="eyebrow">Structured Intelligence Design</span>
     <h1>Biến tư duy mạch lạc<br>thành <span>trợ lý AI của riêng bạn</span></h1>
-    <p class="hero-sub">Khoá học không đòi hỏi nền tảng kỹ thuật. Chỉ cần bạn nói chuyện trôi chảy — SID dạy bạn cách cấu trúc tri thức, "lập trình" hội thoại và làm chủ AI như một kiến trúc sư thông tin.</p>
+    <p class="hero-sub">Khoá học không đòi hỏi nền tảng kỹ thuật. Chỉ cần bạn nói chuyện trôi chảy - SID dạy bạn cách cấu trúc tri thức, "lập trình" hội thoại và làm chủ AI như một kiến trúc sư thông tin.</p>
     <div class="hero-actions">
       <button class="btn-primary">Xem lộ trình học</button>
-      <button class="btn-ghost">Tải SID Handbook</button>
+      <a href="sid-curriculumn.html" class="btn-ghost" target="_blank" rel="noopener">Tải SID Handbook</a>
     </div>
     <div class="hero-stats">
       <div class="stat-card glass"><div class="stat-num">3</div><div class="stat-label">Cấp độ: Basic → Pro → Advance</div></div>
@@ -585,10 +745,10 @@
   <div class="wrap">
     <div class="sec-head reveal">
       <span class="eyebrow">Giải pháp</span>
-      <h2>SID — Structured Intelligence Design</h2>
+      <h2>SID - Structured Intelligence Design</h2>
     </div>
     <p class="solution-lead reveal">AI vận hành trên xác suất ngôn ngữ và không gian vector. Để AI trả lời <strong>đúng – đủ – sâu</strong>, bạn cần nâng cấp tư duy từ truy vấn thông tin sang kiến trúc tri thức. SID là bộ khung tư duy và hệ kỹ năng giúp bạn làm chủ bước chuyển này.</p>
-    <p class="solution-lead reveal">Khoá học SID giúp bạn "lập trình" hội thoại, cấu trúc tri thức và vận hành AI như một kiến trúc sư thông tin — <strong>không yêu cầu nền tảng kỹ thuật</strong>. Chỉ cần bạn giao tiếp trôi chảy, SID sẽ hướng dẫn từng bước một cách có hệ thống.</p>
+    <p class="solution-lead reveal">Khoá học SID giúp bạn "lập trình" hội thoại, cấu trúc tri thức và vận hành AI như một kiến trúc sư thông tin - <strong>không yêu cầu nền tảng kỹ thuật</strong>. Chỉ cần bạn giao tiếp trôi chảy, SID sẽ hướng dẫn từng bước một cách có hệ thống.</p>
 
     <div class="learn-label reveal">Bạn sẽ học được</div>
     <div class="learn-list">
@@ -623,7 +783,7 @@
     <div class="sec-head reveal">
       <span class="eyebrow">Lộ trình 3 cấp độ</span>
       <h2>Từ tư duy gốc đến kiến trúc hội thoại chuyên sâu</h2>
-      <p>Mỗi cấp độ nâng độ phức tạp của chatbot bạn có thể xây — và độ "nóng" của chuyên môn cũng tăng dần theo màu sắc lộ trình.</p>
+      <p>Mỗi cấp độ nâng độ phức tạp của chatbot bạn có thể xây - và độ "nóng" của chuyên môn cũng tăng dần theo màu sắc lộ trình.</p>
     </div>
 
     <div class="staircase">
@@ -647,7 +807,7 @@
             <p class="lesson-desc">Framing như một cơ chế điều khiển nhận thức khi làm việc với AI.</p>
             <div class="lesson-adds">
               <span class="lesson-add">Extended mind, AI mindset, NLP mindset</span>
-              <span class="lesson-add">Cấu trúc của ngôn ngữ — dùng ngôn ngữ tự nhiên để diễn đạt thông tin có cấu trúc</span>
+              <span class="lesson-add">Cấu trúc của ngôn ngữ - dùng ngôn ngữ tự nhiên để diễn đạt thông tin có cấu trúc</span>
             </div>
           </div>
           <div class="lesson">
@@ -690,7 +850,7 @@
           <h3 class="tier-name">SID Pro</h3>
           <span class="tier-tag">Chatbot có nghiệp vụ thật: rules, guardrails, workflow.</span>
         </div>
-        <p class="tier-outcome">Xây dựng phần mềm chatbot có nghiệp vụ và khối lượng thông tin phức tạp — với khả năng reasoning, validation và kiểm soát tri thức chặt chẽ.</p>
+        <p class="tier-outcome">Xây dựng phần mềm chatbot có nghiệp vụ và khối lượng thông tin phức tạp - với khả năng reasoning, validation và kiểm soát tri thức chặt chẽ.</p>
         <div class="tier-projects">
           <span class="proj-chip">Onboarding · Travel search <span class="diff-bar"><span class="diff-fill" style="width:50%"></span></span></span>
           <span class="proj-chip">Project 3 · Neuron knowledge extraction <span class="diff-bar"><span class="diff-fill" style="width:75%"></span></span></span>
@@ -741,7 +901,7 @@
           <span class="proj-chip">Project 5 · Book architect design <span class="diff-bar"><span class="diff-fill" style="width:90%"></span></span></span>
           <span class="proj-chip">Project 6 · Kid lens <span class="diff-bar"><span class="diff-fill" style="width:90%"></span></span></span>
         </div>
-        <p style="font-size:13.5px;color:var(--ink-soft);margin-bottom:4px;">Chương trình học chi tiết đang được hoàn thiện — đăng ký danh sách chờ để nhận thông tin sớm nhất.</p>
+        <p style="font-size:13.5px;color:var(--ink-soft);margin-bottom:4px;">Chương trình học chi tiết đang được hoàn thiện - đăng ký danh sách chờ để nhận thông tin sớm nhất.</p>
         <div class="docs-row">
           <span class="doc-chip">Conversation design library chuẩn quốc tế</span>
           <span class="doc-chip">Tài liệu governance, routing, validation</span>
@@ -779,7 +939,7 @@
         <p>Thành thạo một ngôn ngữ (tiếng Việt, tiếng Anh...) để diễn đạt mạch lạc.</p>
       </div>
       <div class="prereq-card glass reveal">
-        <div class="prereq-icon">—</div>
+        <div class="prereq-icon">-</div>
         <p>Không yêu cầu phải biết về IT, LLM hay AI kỹ thuật.</p>
       </div>
       <div class="prereq-card glass reveal">
@@ -797,7 +957,7 @@
     <div class="sec-head reveal">
       <span class="eyebrow">So sánh học phí</span>
       <h2>Chọn cấp độ phù hợp với mục tiêu của bạn</h2>
-      <p>Ba gói được thiết kế nối tiếp nhau — có thể học tuần tự Basic → Pro → Advance hoặc bắt đầu từ cấp độ phù hợp với năng lực hiện tại.</p>
+      <p>Ba gói được thiết kế nối tiếp nhau - có thể học tuần tự Basic → Pro → Advance hoặc bắt đầu từ cấp độ phù hợp với năng lực hiện tại.</p>
     </div>
     <div class="pricing-grid">
       <!-- BASIC -->
@@ -808,7 +968,7 @@
         <p class="price-desc">Dành cho người mới bắt đầu, làm quen với LLM, AI và chatbot.</p>
         <div class="price-amount">5.000.000<span class="per">₫ / khoá</span></div>
         <p class="price-fine">10 buổi học · 2 dự án thực chiến<br>Có thể học tiếp lên Pro bất cứ lúc nào.</p>
-        <button class="price-cta">Đăng ký Basic</button>
+        <button class="price-cta" onclick="openModal('SID Basic')">Đăng ký Basic</button>
         <ul class="price-features">
           <li><svg class="tick" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><polyline points="20 6 9 17 4 12"/></svg>Framing cognitive & prompt stacks</li>
           <li><svg class="tick" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><polyline points="20 6 9 17 4 12"/></svg>Trích xuất tri thức: decomposition, knowledge mapping, KB orchestration</li>
@@ -829,7 +989,7 @@
         <p class="price-desc">Dành cho học viên đã hoàn thành Basic, cần triển khai chatbot có nghiệp vụ thật.</p>
         <div class="price-amount">15.000.000<span class="per">₫ / khoá</span></div>
         <p class="price-fine">9 buổi học · 3 dự án thực chiến<br>Bao gồm toàn bộ lợi ích của gói Basic.</p>
-        <button class="price-cta">Đăng ký Pro</button>
+        <button class="price-cta" onclick="openModal('SID Pro')">Đăng ký Pro</button>
         <ul class="price-features">
           <li><svg class="tick" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><polyline points="20 6 9 17 4 12"/></svg><strong>Toàn bộ lợi ích gói Basic</strong></li>
           <li><svg class="tick" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><polyline points="20 6 9 17 4 12"/></svg>Reasoning & validation với LLM</li>
@@ -850,7 +1010,7 @@
         <p class="price-desc">Dành cho học viên đã hoàn thành Pro, muốn làm chủ conversation design chuyên sâu.</p>
         <div class="price-amount">25.000.000<span class="per">₫ / khoá</span></div>
         <p class="price-fine">Chương trình chi tiết đang hoàn thiện.<br>Bao gồm toàn bộ lợi ích của gói Pro.</p>
-        <button class="price-cta">Vào danh sách chờ</button>
+        <button class="price-cta" onclick="openModal('SID Advance')">Vào danh sách chờ</button>
         <ul class="price-features">
           <li><svg class="tick" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><polyline points="20 6 9 17 4 12"/></svg><strong>Toàn bộ lợi ích gói Pro</strong></li>
           <li><svg class="tick" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><polyline points="20 6 9 17 4 12"/></svg>Thiết kế hội thoại chuyên biệt</li>
@@ -865,21 +1025,150 @@
   </div>
 </section>
 
+<!-- ============ TRAINER & MENTOR ============ -->
+<section id="trainer">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <span class="eyebrow">Trainer &amp; Mentor</span>
+      <h2>Người đồng hành trong hành trình của bạn</h2>
+      <p>Hơn 22 năm kinh nghiệm thực chiến trong quản lý sản phẩm số, thiết kế UX và kỹ thuật phần mềm.</p>
+    </div>
+
+    <div class="trainer-card glass reveal">
+      <!-- Portrait -->
+      <div class="trainer-portrait">
+        <img src="trainer_mentor.jpg" alt="Binh Truong - Trainer &amp; Mentor">
+        <a class="trainer-linkedin" href="https://www.linkedin.com/in/dax-truong/" target="_blank" rel="noopener">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M20.45 20.45h-3.55v-5.57c0-1.33-.03-3.04-1.85-3.04-1.85 0-2.13 1.45-2.13 2.94v5.67H9.37V9h3.41v1.56h.05c.48-.9 1.64-1.85 3.37-1.85 3.6 0 4.27 2.37 4.27 5.45v6.29zM5.34 7.43a2.06 2.06 0 1 1 0-4.12 2.06 2.06 0 0 1 0 4.12zM7.12 20.45H3.56V9h3.56v11.45zM22.22 0H1.77C.79 0 0 .77 0 1.73v20.54C0 23.23.79 24 1.77 24h20.45C23.2 24 24 23.23 24 22.27V1.73C24 .77 23.2 0 22.22 0z"/></svg>
+          LinkedIn
+        </a>
+      </div>
+
+      <!-- Info -->
+      <div class="trainer-info">
+        <span class="eyebrow">Trainer &amp; Mentor</span>
+        <h3 class="trainer-name">Binh Truong</h3>
+        <p class="trainer-short">Senior (Technical) Product Manager, UX expert, Human behavior intervention designer · 22+ years of experience in e-Commerce, FinTech, Digital &amp; Software product management, from idea 💡 to delivery 📦 and growth 📊📈</p>
+
+        <div class="trainer-about-label">About</div>
+        <p class="trainer-about">Decades in IT as a Software engineer, UI/UX design, and Digital PM/PO. I'm comfortable working with ideas, data-informed, metrics, pixels, and code. My hands-on experience across eCommerce, Online booking, B2B, B2C SaaS, Enterprise software applications, and fin-tech products.</p>
+
+        <div class="exp-label">Experience</div>
+        <div class="exp-list">
+          <div class="exp-item">
+            <div class="exp-dot-col"><div class="exp-dot"></div><div class="exp-line"></div></div>
+            <div>
+              <div class="exp-role">Technical Product Manager</div>
+              <div class="exp-company">Aon · Full-time</div>
+              <div class="exp-meta">Dec 2021 – Present · 4 yrs 8 mos · Germany, On-site</div>
+            </div>
+          </div>
+          <div class="exp-item">
+            <div class="exp-dot-col"><div class="exp-dot"></div><div class="exp-line"></div></div>
+            <div>
+              <div class="exp-role">Regional Manager APAC</div>
+              <div class="exp-company">IxDF – Interaction Design Foundation</div>
+              <div class="exp-meta">2015 – 2023 · 8 yrs · Remote</div>
+              <p class="exp-desc">From 2015 to 2022, served as a volunteer Regional Manager APAC for the world's largest UX/Interaction Design community, with hundreds of thousands of members worldwide, leading its growth across the region.</p>
+            </div>
+          </div>
+          <div class="exp-item">
+            <div class="exp-dot-col"><div class="exp-dot"></div><div class="exp-line"></div></div>
+            <div>
+              <div class="exp-role">Senior Director of Product Management</div>
+              <div class="exp-company">MBS – MB Securities JSC · Contract</div>
+              <div class="exp-meta">Mar 2019 – Jul 2021 · 2 yrs 5 mos</div>
+              <p class="exp-desc">Head of Product cum PMO Head: Lead Product Team for Stock Exchange Platform.</p>
+            </div>
+          </div>
+          <div class="exp-item">
+            <div class="exp-dot-col"><div class="exp-dot"></div><div class="exp-line"></div></div>
+            <div>
+              <div class="exp-role">Digital Product Manager</div>
+              <div class="exp-company">Johnnie Walker · Full-time</div>
+              <div class="exp-meta">Jan 2017 – Dec 2018 · 2 yrs · Singapore</div>
+              <p class="exp-desc">Lead the digital platform product (JohnnieWalkerHouse.com) which includes Web, Mobile App, CRM, Email marketing for China, Singapore, and Vietnam markets. Rolled out and launched the product.</p>
+            </div>
+          </div>
+          <div class="exp-item">
+            <div class="exp-dot-col"><div class="exp-dot"></div></div>
+            <div>
+              <div class="exp-role">Technical Product Manager</div>
+              <div class="exp-company">Kempinski Hotels · Full-time</div>
+              <div class="exp-meta">May 2015 – Dec 2016 · 1 yr 8 mos · Geneva, Switzerland</div>
+              <p class="exp-desc">Help the company to rebuild the digital booking platform (web, app, integrated car booking Sixt, social media through Olapic, public API, membership API) to drive online revenue increased by 203%.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
 <!-- ============ CTA ============ -->
 <section class="cta-section">
   <div class="wrap">
     <div class="cta-card reveal">
       <span class="eyebrow" style="justify-content:center;">Sẵn sàng bắt đầu</span>
-      <h2>Bắt đầu với tư duy gốc — SID Basic</h2>
+      <h2>Bắt đầu với tư duy gốc - SID Basic</h2>
       <p>Chỉ 10 buổi để nắm vững cách cấu trúc tri thức và tự tay xây trợ lý AI đầu tiên của bạn.</p>
-      <button class="btn-primary">Đăng ký SID Basic</button>
+      <button class="btn-primary" onclick="openModal('SID Basic')">Đăng ký SID Basic</button>
     </div>
   </div>
 </section>
 
 <footer>
-  <p>SID — Structured Intelligence Design · Cấu trúc tư duy, làm chủ AI.</p>
+  <p>SID - Structured Intelligence Design · Cấu trúc tư duy, làm chủ AI.</p>
 </footer>
+
+<!-- ============ MODAL ============ -->
+<div class="modal-overlay" id="regModal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+  <div class="modal-box">
+    <button class="modal-close" id="modalClose" aria-label="Đóng">&#x2715;</button>
+
+    <!-- Form state -->
+    <div id="formState">
+      <span class="eyebrow">Đăng ký khoá học</span>
+      <h2 class="modal-title" id="modalTitle">Bắt đầu hành trình của bạn</h2>
+      <p class="modal-sub">Điền thông tin bên dưới - chúng tôi sẽ liên hệ xác nhận trong 24h.</p>
+
+      <form id="regForm" action="https://api.web3forms.com/submit" method="POST" novalidate>
+        <input type="hidden" name="access_key" value="abc398c6-806d-4409-9fce-d56a0b1947ae">
+
+        <div class="form-group">
+          <label for="f-name">Họ tên</label>
+          <input id="f-name" type="text" name="Họ tên" placeholder="Nguyễn Văn A" required>
+        </div>
+        <div class="form-group">
+          <label for="f-email">Email</label>
+          <input id="f-email" type="email" name="Email" placeholder="email@example.com" required>
+        </div>
+        <div class="form-group">
+          <label for="f-phone">Điện thoại</label>
+          <input id="f-phone" type="text" name="Điện thoại" placeholder="0912 345 678" required>
+        </div>
+        <div class="form-group">
+          <label for="f-course">Khoá học bạn chọn</label>
+          <input id="f-course" type="text" name="Khóa học bạn chọn" placeholder="SID Basic / Pro / Advance" required>
+        </div>
+        <div class="form-group">
+          <label for="f-msg">Lời nhắn</label>
+          <textarea id="f-msg" name="Lời nhắn" placeholder="Bạn muốn nhắn gì thêm?" required></textarea>
+        </div>
+        <button type="submit" class="form-submit" id="formSubmitBtn">Gửi đăng ký</button>
+      </form>
+    </div>
+
+    <!-- Success state -->
+    <div class="modal-success" id="successState">
+      <div class="success-icon">
+        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+      </div>
+      <h3>Đã gửi thành công!</h3>
+      <p>Cảm ơn bạn đã đăng ký. Chúng tôi sẽ liên hệ trong vòng 24 giờ để xác nhận thông tin.</p>
+    </div>
+  </div>
+</div>
 
 <script>
   // Scroll reveal
@@ -891,8 +1180,56 @@
   }, {threshold:0.12});
   revealEls.forEach(el=>io.observe(el));
 
-  // Smooth nav anchor offset handled by scroll-behavior + CSS scroll-margin
+  // Smooth nav anchor offset
   document.querySelectorAll('section[id]').forEach(s=>{ s.style.scrollMarginTop = '110px'; });
+
+  // Modal
+  const overlay = document.getElementById('regModal');
+  const courseInput = document.getElementById('f-course');
+  const formState = document.getElementById('formState');
+  const successState = document.getElementById('successState');
+  const submitBtn = document.getElementById('formSubmitBtn');
+  const regForm = document.getElementById('regForm');
+
+  function openModal(course) {
+    courseInput.value = course || '';
+    formState.style.display = '';
+    successState.style.display = 'none';
+    submitBtn.disabled = false;
+    submitBtn.textContent = 'Gửi đăng ký';
+    overlay.classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+  function closeModal() {
+    overlay.classList.remove('open');
+    document.body.style.overflow = '';
+  }
+
+  document.getElementById('modalClose').addEventListener('click', closeModal);
+  overlay.addEventListener('click', e => { if(e.target === overlay) closeModal(); });
+  document.addEventListener('keydown', e => { if(e.key === 'Escape') closeModal(); });
+
+  // Form submit via fetch (no page reload)
+  regForm.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    submitBtn.disabled = true;
+    submitBtn.textContent = 'Đang gửi…';
+    try {
+      const res = await fetch(regForm.action, { method: 'POST', body: new FormData(regForm) });
+      const json = await res.json();
+      if (json.success) {
+        formState.style.display = 'none';
+        successState.style.display = 'block';
+        regForm.reset();
+      } else {
+        submitBtn.disabled = false;
+        submitBtn.textContent = 'Thử lại';
+      }
+    } catch {
+      submitBtn.disabled = false;
+      submitBtn.textContent = 'Thử lại';
+    }
+  });
 </script>
 
 </body>
