@@ -1,0 +1,1320 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Claude Prompt Shortcuts — Hướng dẫn toàn diện</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,500;0,600;0,700;0,800;1,400&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg1: #0a0a1a;
+    --bg2: #0f0f2e;
+    --accent1: #7c6aff;
+    --accent2: #e060c8;
+    --accent3: #38d9c0;
+    --accent4: #f5a623;
+    --glass-bg: rgba(255,255,255,0.06);
+    --glass-border: rgba(255,255,255,0.13);
+    --glass-hover: rgba(255,255,255,0.11);
+    --text-primary: #f0eeff;
+    --text-secondary: rgba(240,238,255,0.65);
+    --text-muted: rgba(240,238,255,0.38);
+    --radius: 18px;
+    --radius-sm: 10px;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 16px;
+    background: var(--bg1);
+    color: var(--text-primary);
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* ── Orbs ── */
+  .orb {
+    position: fixed;
+    border-radius: 50%;
+    filter: blur(90px);
+    opacity: 0.22;
+    pointer-events: none;
+    z-index: 0;
+    animation: floatOrb 18s ease-in-out infinite alternate;
+  }
+  .orb1 { width: 600px; height: 600px; background: var(--accent1); top: -150px; left: -200px; animation-delay: 0s; }
+  .orb2 { width: 500px; height: 500px; background: var(--accent2); top: 30%; right: -150px; animation-delay: -6s; }
+  .orb3 { width: 400px; height: 400px; background: var(--accent3); bottom: 10%; left: 20%; animation-delay: -12s; }
+  @keyframes floatOrb {
+    from { transform: translate(0,0) scale(1); }
+    to   { transform: translate(30px, 40px) scale(1.06); }
+  }
+
+  /* ── Layout ── */
+  .container { max-width: 1180px; margin: 0 auto; padding: 0 24px; position: relative; z-index: 1; }
+
+  /* ── Nav ── */
+  nav {
+    position: sticky; top: 0; z-index: 100;
+    backdrop-filter: blur(24px) saturate(1.4);
+    background: rgba(10,10,26,0.72);
+    border-bottom: 1px solid var(--glass-border);
+    padding: 0 24px;
+  }
+  .nav-inner {
+    max-width: 1180px; margin: 0 auto;
+    display: flex; align-items: center; justify-content: space-between;
+    height: 60px;
+  }
+  .nav-logo {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-weight: 800; font-size: 18px;
+    background: linear-gradient(90deg, var(--accent1), var(--accent2));
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    text-decoration: none;
+  }
+  .nav-links { display: flex; gap: 6px; flex-wrap: wrap; }
+  .nav-links a {
+    font-size: 13px; font-weight: 500;
+    color: var(--text-secondary);
+    text-decoration: none;
+    padding: 6px 12px; border-radius: 20px;
+    transition: all .2s;
+  }
+  .nav-links a:hover { background: var(--glass-bg); color: var(--text-primary); }
+
+  /* ── Hero ── */
+  .hero {
+    text-align: center;
+    padding: 96px 24px 64px;
+  }
+  .hero-badge {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    border-radius: 30px; padding: 6px 16px;
+    font-size: 13px; color: var(--accent3);
+    margin-bottom: 28px;
+    letter-spacing: .04em;
+  }
+  .hero h1 {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: clamp(36px, 6vw, 72px);
+    font-weight: 800; line-height: 1.08;
+    margin-bottom: 20px;
+  }
+  .hero h1 .line1 { color: var(--text-primary); display: block; }
+  .hero h1 .line2 {
+    display: block;
+    background: linear-gradient(90deg, var(--accent1) 0%, var(--accent2) 55%, var(--accent4) 100%);
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  }
+  .hero p {
+    font-size: 18px; color: var(--text-secondary);
+    max-width: 620px; margin: 0 auto 40px;
+    line-height: 1.7;
+  }
+  .hero-stats {
+    display: flex; justify-content: center; gap: 40px; flex-wrap: wrap;
+    margin-top: 16px;
+  }
+  .stat {
+    text-align: center;
+  }
+  .stat-num {
+    font-family: 'Plus Jakarta Sans', sans-serif; font-size: 32px; font-weight: 800;
+    background: linear-gradient(135deg, var(--accent1), var(--accent3));
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  }
+  .stat-label { font-size: 13px; color: var(--text-muted); margin-top: 2px; }
+
+  /* ── Section ── */
+  section { padding: 72px 0; }
+  .section-header { margin-bottom: 40px; }
+  .section-eyebrow {
+    font-size: 12px; font-weight: 600; letter-spacing: .12em;
+    text-transform: uppercase; color: var(--accent3);
+    margin-bottom: 10px;
+  }
+  .section-title {
+    font-family: 'Plus Jakarta Sans', sans-serif; font-size: clamp(24px, 3.5vw, 36px);
+    font-weight: 700; line-height: 1.2;
+  }
+  .section-desc { color: var(--text-secondary); font-size: 16px; margin-top: 10px; line-height: 1.6; max-width: 640px; }
+
+  /* ── Tabs ── */
+  .tabs-wrap { margin-bottom: 28px; }
+  .tabs {
+    display: flex; gap: 8px; flex-wrap: wrap;
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    border-radius: 40px; padding: 6px;
+    width: fit-content;
+  }
+  .tab-btn {
+    padding: 8px 20px; border: none; cursor: pointer;
+    border-radius: 30px; font-size: 14px; font-weight: 500;
+    font-family: 'DM Sans', sans-serif;
+    color: var(--text-secondary);
+    background: transparent; transition: all .25s;
+  }
+  .tab-btn.active {
+    background: linear-gradient(135deg, var(--accent1), var(--accent2));
+    color: #fff; box-shadow: 0 4px 20px rgba(124,106,255,.35);
+  }
+  .tab-btn:hover:not(.active) { color: var(--text-primary); background: var(--glass-hover); }
+
+  .tab-panel { display: none; animation: fadeIn .3s ease; }
+  .tab-panel.active { display: block; }
+  @keyframes fadeIn { from { opacity:0; transform: translateY(8px); } to { opacity:1; transform: translateY(0); } }
+
+  /* ── Cards Grid ── */
+  .cards-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 16px;
+  }
+
+  /* ── Card ── */
+  .card {
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    border-radius: var(--radius);
+    padding: 20px 22px;
+    cursor: pointer;
+    transition: all .25s;
+    position: relative;
+    overflow: hidden;
+  }
+  .card::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: linear-gradient(135deg, rgba(124,106,255,.08), transparent);
+    opacity: 0; transition: opacity .25s;
+  }
+  .card:hover { border-color: rgba(124,106,255,.4); transform: translateY(-3px); box-shadow: 0 12px 40px rgba(0,0,0,.35); }
+  .card:hover::before { opacity: 1; }
+
+  .card-code {
+    font-size: 11px; font-weight: 700; letter-spacing: .08em;
+    font-family: 'Courier New', monospace;
+    padding: 4px 10px; border-radius: 6px;
+    display: inline-block; margin-bottom: 12px;
+    background: rgba(124,106,255,.18);
+    color: var(--accent1);
+    border: 1px solid rgba(124,106,255,.25);
+  }
+  .card h3 {
+    font-family: 'Plus Jakarta Sans', sans-serif; font-size: 16px; font-weight: 700;
+    margin-bottom: 8px; line-height: 1.3;
+  }
+  .card p { font-size: 14px; color: var(--text-secondary); line-height: 1.6; }
+  .card-arrow {
+    position: absolute; bottom: 16px; right: 16px;
+    font-size: 18px; color: var(--text-muted);
+    transition: all .2s;
+  }
+  .card:hover .card-arrow { color: var(--accent1); transform: translate(2px,-2px); }
+
+  /* accent colors per section */
+  .card.color-2 .card-code { background: rgba(224,96,200,.18); color: var(--accent2); border-color: rgba(224,96,200,.25); }
+  .card.color-3 .card-code { background: rgba(56,217,192,.18); color: var(--accent3); border-color: rgba(56,217,192,.25); }
+  .card.color-4 .card-code { background: rgba(245,166,35,.18); color: var(--accent4); border-color: rgba(245,166,35,.25); }
+  .card.color-2:hover { border-color: rgba(224,96,200,.4); }
+  .card.color-3:hover { border-color: rgba(56,217,192,.4); }
+  .card.color-4:hover { border-color: rgba(245,166,35,.4); }
+
+  /* ── Modal ── */
+  .modal-overlay {
+    position: fixed; inset: 0; z-index: 200;
+    background: rgba(5,5,20,.75);
+    backdrop-filter: blur(12px);
+    display: flex; align-items: center; justify-content: center;
+    padding: 20px;
+    opacity: 0; pointer-events: none;
+    transition: opacity .25s;
+  }
+  .modal-overlay.open { opacity: 1; pointer-events: all; }
+
+  .modal {
+    background: rgba(15,15,46,0.92);
+    border: 1px solid var(--glass-border);
+    border-radius: 24px;
+    padding: 40px;
+    max-width: 680px; width: 100%;
+    max-height: 88vh; overflow-y: auto;
+    position: relative;
+    transform: scale(.95) translateY(20px);
+    transition: all .3s cubic-bezier(.34,1.56,.64,1);
+    backdrop-filter: blur(30px);
+    box-shadow: 0 40px 100px rgba(0,0,0,.6);
+  }
+  .modal-overlay.open .modal { transform: scale(1) translateY(0); }
+
+  .modal-close {
+    position: absolute; top: 18px; right: 18px;
+    background: var(--glass-bg); border: 1px solid var(--glass-border);
+    border-radius: 50%; width: 36px; height: 36px;
+    display: flex; align-items: center; justify-content: center;
+    cursor: pointer; font-size: 18px; color: var(--text-secondary);
+    transition: all .2s;
+  }
+  .modal-close:hover { background: rgba(255,255,255,.12); color: var(--text-primary); }
+
+  .modal-badge {
+    font-size: 11px; font-weight: 700; letter-spacing: .1em;
+    text-transform: uppercase;
+    padding: 5px 12px; border-radius: 6px;
+    display: inline-block; margin-bottom: 16px;
+    font-family: 'Courier New', monospace;
+  }
+  .modal h2 {
+    font-family: 'Plus Jakarta Sans', sans-serif; font-size: 26px; font-weight: 800;
+    margin-bottom: 10px; line-height: 1.2;
+  }
+  .modal-tagline { font-size: 16px; color: var(--text-secondary); margin-bottom: 28px; line-height: 1.6; }
+
+  .modal-block { margin-bottom: 28px; }
+  .modal-block-title {
+    font-size: 11px; font-weight: 700; letter-spacing: .12em;
+    text-transform: uppercase; color: var(--text-muted);
+    margin-bottom: 12px; display: flex; align-items: center; gap: 8px;
+  }
+  .modal-block-title::after {
+    content: ''; flex: 1; height: 1px; background: var(--glass-border);
+  }
+
+  .modal-desc { font-size: 16px; color: var(--text-secondary); line-height: 1.7; }
+
+  .how-it-works {
+    background: rgba(124,106,255,.08);
+    border: 1px solid rgba(124,106,255,.2);
+    border-radius: var(--radius-sm);
+    padding: 16px 18px;
+    font-size: 15px; color: var(--text-secondary); line-height: 1.7;
+  }
+
+  .prompt-example {
+    background: rgba(10,10,20,.7);
+    border: 1px solid var(--glass-border);
+    border-radius: var(--radius-sm);
+    padding: 16px 18px;
+    font-family: 'Courier New', monospace;
+    font-size: 14px; line-height: 1.7;
+    color: var(--accent3);
+    position: relative;
+    white-space: pre-wrap; word-break: break-word;
+  }
+  .prompt-example::before {
+    content: '›';
+    position: absolute; left: 18px; top: 14px;
+    color: var(--accent1); font-size: 18px;
+  }
+  .prompt-example span { padding-left: 16px; }
+  .copy-btn {
+    position: absolute; top: 12px; right: 12px;
+    background: var(--glass-bg); border: 1px solid var(--glass-border);
+    border-radius: 6px; padding: 4px 10px;
+    font-size: 12px; color: var(--text-muted); cursor: pointer;
+    font-family: 'DM Sans', sans-serif;
+    transition: all .2s;
+  }
+  .copy-btn:hover { background: var(--glass-hover); color: var(--text-primary); }
+
+  .use-cases {
+    display: flex; flex-wrap: wrap; gap: 8px;
+  }
+  .use-case-chip {
+    background: var(--glass-bg); border: 1px solid var(--glass-border);
+    border-radius: 20px; padding: 6px 14px;
+    font-size: 13px; color: var(--text-secondary);
+  }
+
+  /* ── Divider ── */
+  .divider {
+    border: none;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--glass-border), transparent);
+    margin: 0;
+  }
+
+  /* ── Footer ── */
+  footer {
+    text-align: center;
+    padding: 48px 24px;
+    color: var(--text-muted);
+    font-size: 14px;
+    border-top: 1px solid var(--glass-border);
+  }
+  footer a { color: var(--accent1); text-decoration: none; }
+
+  /* ── Scrollbar ── */
+  ::-webkit-scrollbar { width: 6px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb { background: var(--glass-border); border-radius: 3px; }
+
+  /* ── Responsive ── */
+  @media (max-width: 600px) {
+    .hero { padding: 64px 16px 48px; }
+    .modal { padding: 28px 20px; }
+    .hero-stats { gap: 24px; }
+    .tabs { flex-direction: column; width: 100%; border-radius: var(--radius-sm); }
+    .tab-btn { text-align: left; }
+  }
+</style>
+</head>
+<body>
+
+<!-- Background orbs -->
+<div class="orb orb1"></div>
+<div class="orb orb2"></div>
+<div class="orb orb3"></div>
+
+<!-- Nav -->
+<nav>
+  <div class="nav-inner">
+    <a class="nav-logo" href="#">⚡ PromptShortcuts</a>
+    <div class="nav-links">
+      <a href="#understand">Hiểu & Học</a>
+      <a href="#think">Tư duy</a>
+      <a href="#write">Viết lách</a>
+      <a href="#work">Công việc</a>
+      <a href="#creative">Sáng tạo</a>
+      <a href="#advanced">Nâng cao</a>
+    </div>
+  </div>
+</nav>
+
+<!-- Hero -->
+<div class="hero">
+  <div class="hero-badge">✦ Tổng hợp từ 100 + 32 Claude Shortcuts</div>
+  <h1>
+    <span class="line1">Viết Prompt Như</span>
+    <span class="line2">Chuyên Gia</span>
+  </h1>
+  <p>Hướng dẫn đầy đủ tất cả các shortcut giúp bạn khai thác tối đa Claude — từ cơ bản đến nâng cao. Hiểu cơ chế, xem ví dụ thực tế, copy & dùng ngay.</p>
+  <div class="hero-stats">
+    <div class="stat"><div class="stat-num">132</div><div class="stat-label">Shortcuts tổng hợp</div></div>
+    <div class="stat"><div class="stat-num">12</div><div class="stat-label">Danh mục chủ đề</div></div>
+    <div class="stat"><div class="stat-num">∞</div><div class="stat-label">Prompt có thể tạo ra</div></div>
+  </div>
+</div>
+
+<hr class="divider">
+
+<!-- ======== SECTION 1: HIỂU & HỌC ======== -->
+<section id="understand">
+  <div class="container">
+    <div class="section-header">
+      <div class="section-eyebrow">📚 Nhóm 1</div>
+      <div class="section-title">Giải thích & Hiểu sâu</div>
+      <div class="section-desc">Những shortcut giúp Claude trình bày thông tin ở đúng cấp độ bạn cần — từ siêu đơn giản đến học thuật.</div>
+    </div>
+
+    <div class="tabs-wrap">
+      <div class="tabs" data-group="s1">
+        <button class="tab-btn active" data-target="s1-explain">Giải thích</button>
+        <button class="tab-btn" data-target="s1-decision">Tư duy & Quyết định</button>
+        <button class="tab-btn" data-target="s1-learning">Học tập</button>
+      </div>
+    </div>
+
+    <div id="s1-explain" class="tab-panel active">
+      <div class="cards-grid" id="cards-explain"></div>
+    </div>
+    <div id="s1-decision" class="tab-panel">
+      <div class="cards-grid" id="cards-decision"></div>
+    </div>
+    <div id="s1-learning" class="tab-panel">
+      <div class="cards-grid" id="cards-learning"></div>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- ======== SECTION 2: VIẾT LÁCH ======== -->
+<section id="write">
+  <div class="container">
+    <div class="section-header">
+      <div class="section-eyebrow">✍️ Nhóm 2</div>
+      <div class="section-title">Viết lách & Chỉnh sửa văn bản</div>
+      <div class="section-desc">Kiểm soát phong cách, tone và chất lượng văn bản với độ chính xác cao.</div>
+    </div>
+
+    <div class="tabs-wrap">
+      <div class="tabs" data-group="s2">
+        <button class="tab-btn active" data-target="s2-writing">Công cụ viết</button>
+        <button class="tab-btn" data-target="s2-email">Email & Tin nhắn</button>
+      </div>
+    </div>
+
+    <div id="s2-writing" class="tab-panel active">
+      <div class="cards-grid" id="cards-writing"></div>
+    </div>
+    <div id="s2-email" class="tab-panel">
+      <div class="cards-grid" id="cards-email"></div>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- ======== SECTION 3: CÔNG VIỆC ======== -->
+<section id="work">
+  <div class="container">
+    <div class="section-header">
+      <div class="section-eyebrow">💼 Nhóm 3</div>
+      <div class="section-title">Công việc & Chuyên môn</div>
+      <div class="section-desc">Tăng tốc quy trình làm việc, từ meeting notes đến performance reviews.</div>
+    </div>
+
+    <div class="tabs-wrap">
+      <div class="tabs" data-group="s3">
+        <button class="tab-btn active" data-target="s3-work">Tác vụ công việc</button>
+        <button class="tab-btn" data-target="s3-roleplay">Role-play & Góc nhìn</button>
+      </div>
+    </div>
+
+    <div id="s3-work" class="tab-panel active">
+      <div class="cards-grid" id="cards-work"></div>
+    </div>
+    <div id="s3-roleplay" class="tab-panel">
+      <div class="cards-grid" id="cards-roleplay"></div>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- ======== SECTION 4: SÁNG TẠO & ĐỜI SỐNG ======== -->
+<section id="creative">
+  <div class="container">
+    <div class="section-header">
+      <div class="section-eyebrow">🎨 Nhóm 4</div>
+      <div class="section-title">Sáng tạo & Đời sống</div>
+      <div class="section-desc">Khám phá Claude như một đối tác sáng tạo và trợ lý cá nhân toàn diện.</div>
+    </div>
+
+    <div class="tabs-wrap">
+      <div class="tabs" data-group="s4">
+        <button class="tab-btn active" data-target="s4-creative">Nội dung sáng tạo</button>
+        <button class="tab-btn" data-target="s4-life">Đời sống & Tăng trưởng</button>
+      </div>
+    </div>
+
+    <div id="s4-creative" class="tab-panel active">
+      <div class="cards-grid" id="cards-creative"></div>
+    </div>
+    <div id="s4-life" class="tab-panel">
+      <div class="cards-grid" id="cards-life"></div>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- ======== SECTION 5: NÂNG CAO ======== -->
+<section id="advanced">
+  <div class="container">
+    <div class="section-header">
+      <div class="section-eyebrow">🚀 Nhóm 5 — Từ "32 Shortcuts"</div>
+      <div class="section-title">Kỹ thuật Prompt Nâng cao</div>
+      <div class="section-desc">Các shortcut cấu trúc cao giúp bạn kiểm soát chất lượng, logic và độ chính xác của output.</div>
+    </div>
+
+    <div class="tabs-wrap">
+      <div class="tabs" data-group="s5">
+        <button class="tab-btn active" data-target="s5-compress">Compress</button>
+        <button class="tab-btn" data-target="s5-format">Format</button>
+        <button class="tab-btn" data-target="s5-quality">Chất lượng</button>
+        <button class="tab-btn" data-target="s5-advanced">Advanced</button>
+      </div>
+    </div>
+
+    <div id="s5-compress" class="tab-panel active">
+      <div class="cards-grid" id="cards-compress"></div>
+    </div>
+    <div id="s5-format" class="tab-panel">
+      <div class="cards-grid" id="cards-format"></div>
+    </div>
+    <div id="s5-quality" class="tab-panel">
+      <div class="cards-grid" id="cards-quality"></div>
+    </div>
+    <div id="s5-advanced" class="tab-panel">
+      <div class="cards-grid" id="cards-advanced"></div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <p>Tổng hợp từ <strong>100 Claude Prompt Shortcuts</strong> (Ruben Hassid) &amp; <strong>32 Claude Shortcuts That Cut Prompting Time</strong> &nbsp;·&nbsp; Made for learners ✦</p>
+</footer>
+
+<!-- ======== MODAL ======== -->
+<div class="modal-overlay" id="modal-overlay">
+  <div class="modal" id="modal-box">
+    <button class="modal-close" id="modal-close">✕</button>
+    <div id="modal-content"></div>
+  </div>
+</div>
+
+<script>
+// ══════════════════════════════════════════════════════
+//  DATA
+// ══════════════════════════════════════════════════════
+const data = {
+
+  "cards-explain": [
+    {
+      code: "/ELI5",
+      title: "Giải thích như cho trẻ 5 tuổi",
+      short: "Bỏ mọi thuật ngữ, giải thích theo cách đơn giản nhất có thể.",
+      what: "Yêu cầu Claude trình bày khái niệm như thể đang nói chuyện với một đứa trẻ 5 tuổi — không jargon, không abstraction, chỉ ngôn ngữ tự nhiên và dễ hiểu.",
+      how: "Claude kích hoạt chế độ tối giản ngôn ngữ: loại bỏ thuật ngữ kỹ thuật, dùng ẩn dụ đời thường (\"như khi bạn xây nhà bằng Lego\"), câu ngắn, cấu trúc đơn giản. Không gian kiến thức rút xuống mức phổ thông tuyệt đối.",
+      example: "/ELI5 blockchain",
+      uses: ["Giải thích cho non-tech stakeholder", "Tóm tắt báo cáo phức tạp", "Onboarding khái niệm mới"],
+      color: 1
+    },
+    {
+      code: "/ELI15",
+      title: "Giải thích cho tuổi 15",
+      short: "Cấp độ trung bình — hiểu cơ bản nhưng chưa chuyên sâu.",
+      what: "Khác với ELI5, đây là mức teenager: đã hiểu logic nhân quả, có thể xử lý khái niệm trừu tượng nhẹ, nhưng chưa cần thuật ngữ chuyên ngành.",
+      how: "Claude sử dụng so sánh quen thuộc với Gen Z (game, mạng xã hội), loại bỏ jargon cao cấp nhưng giữ nguyên cấu trúc logic. Phù hợp khi ELI5 quá đơn giản nhưng bản gốc quá khó.",
+      example: "/ELI15 cách hoạt động của mô hình ngôn ngữ lớn (LLM)",
+      uses: ["Đào tạo nhân viên mới", "Nội dung blog phổ thông", "Giải thích cho family member"],
+      color: 1
+    },
+    {
+      code: "/TLDR",
+      title: "Tóm tắt cực ngắn",
+      short: "\"Too Long; Didn't Read\" — nén nội dung dài thành vài dòng cốt lõi.",
+      what: "Rút gọn văn bản, tài liệu hoặc PDF thành phiên bản ngắn nhất có thể, giữ lại ý chính và loại bỏ phần dư thừa.",
+      how: "Claude phân tích cấu trúc thông tin, xếp hạng ý theo tầm quan trọng, rồi nén xuống 3–5 câu (hoặc bullet). Model ưu tiên luận điểm chính, kết quả/kết luận và hành động tiếp theo.",
+      example: "/TLDR [dán nội dung email 10 đoạn vào đây]",
+      uses: ["Đọc báo cáo nhanh", "Tóm tắt nghiên cứu", "Digest nội dung dài"],
+      color: 1
+    },
+    {
+      code: "/DEFINE",
+      title: "Định nghĩa có ngữ cảnh",
+      short: "Không phải từ điển — là định nghĩa kèm ví dụ thực tế và bối cảnh ứng dụng.",
+      what: "Cung cấp định nghĩa phong phú: ngoài nghĩa gốc còn có origin, cách dùng trong ngữ cảnh thực tế, ví dụ minh họa và phân biệt với khái niệm gần.",
+      how: "Claude tra cứu trong knowledge base, tổng hợp các nghĩa theo context domain (tech/business/general), đồng thời note thêm các trường hợp dễ nhầm lẫn.",
+      example: "/DEFINE product-market fit",
+      uses: ["Học thuật ngữ chuyên ngành", "Viết tài liệu chính xác", "Onboarding team"],
+      color: 1
+    },
+    {
+      code: "/ANALOGY",
+      title: "So sánh với cái quen thuộc",
+      short: "Giải thích khái niệm khó bằng cách so sánh với thứ đã biết.",
+      what: "Yêu cầu Claude tạo một hoặc nhiều phép so sánh (analogy/metaphor) giúp não bộ \"kết nối\" kiến thức mới với nền tảng đã có.",
+      how: "Claude dùng kỹ thuật mapping cấu trúc — tìm điểm tương đồng về quan hệ (A:B = C:D) hoặc cơ chế hoạt động giữa domain quen thuộc và domain mới, sau đó trình bày từng bước.",
+      example: "/ANALOGY transformer neural network",
+      uses: ["Giảng dạy", "Thuyết trình ý tưởng phức tạp", "Viết content giáo dục"],
+      color: 1
+    },
+    {
+      code: "/SIMPLIFY",
+      title: "Viết lại đơn giản hơn",
+      short: "Chuyển văn bản phức tạp sang ngôn ngữ phổ thông mà không mất nghĩa.",
+      what: "Nhận vào đoạn văn khó đọc (jargon-heavy, câu dài, cấu trúc rối) và viết lại sao cho người bình thường đọc hiểu ngay lần đầu.",
+      how: "Claude phân tích từng câu, thay thế từ ngữ phức tạp bằng từ phổ thông tương đương, bẻ câu dài, sắp xếp lại trật tự ý tưởng theo logic tự nhiên.",
+      example: "/SIMPLIFY [dán điều khoản hợp đồng hoặc văn bản pháp lý]",
+      uses: ["Đơn giản hóa tài liệu nội bộ", "Rewrite policy cho nhân viên", "Clear communication"],
+      color: 1
+    },
+    {
+      code: "/TIMELINE",
+      title: "Sắp xếp theo trục thời gian",
+      short: "Trình bày lịch sử hoặc diễn biến của một chủ đề theo thứ tự thời gian.",
+      what: "Yêu cầu Claude lấy tất cả sự kiện liên quan đến một chủ đề và trình bày theo timeline có mốc thời gian rõ ràng.",
+      how: "Claude trích xuất dates/periods từ knowledge, sắp xếp chronologically, thêm context cho từng mốc quan trọng và highlight turning points.",
+      example: "/TIMELINE lịch sử phát triển của trí tuệ nhân tạo",
+      uses: ["Nghiên cứu lịch sử", "Chuẩn bị bài thuyết trình", "Học ôn thi"],
+      color: 1
+    },
+    {
+      code: "/GLOSSARY",
+      title: "Tạo từ điển thuật ngữ",
+      short: "Danh sách định nghĩa tất cả thuật ngữ chính của một lĩnh vực.",
+      what: "Tạo một mini-dictionary với tất cả key terms quan trọng trong một chủ đề, có định nghĩa ngắn gọn và dễ tra cứu.",
+      how: "Claude xác định nhóm thuật ngữ cốt lõi của domain, viết định nghĩa concise (1–2 câu), sắp xếp alphabetically hoặc theo nhóm logic.",
+      example: "/GLOSSARY machine learning",
+      uses: ["Chuẩn bị tài liệu đào tạo", "Onboarding", "Viết sách/khóa học"],
+      color: 1
+    }
+  ],
+
+  "cards-decision": [
+    {
+      code: "/PROS AND CONS",
+      title: "Phân tích ưu và nhược điểm",
+      short: "Bảng so sánh hai chiều cổ điển — ra quyết định có cơ sở.",
+      what: "Liệt kê có hệ thống các lợi ích và bất lợi của một option, quyết định hoặc sản phẩm/dịch vụ.",
+      how: "Claude đánh giá từng khía cạnh (cost, risk, benefit, feasibility, time...), phân loại vào hai cột, và có thể thêm weighting nếu bạn cung cấp context ưu tiên.",
+      example: "/PROS AND CONS chuyển sang làm freelancer thay vì đi làm công ty",
+      uses: ["Ra quyết định cá nhân", "Business case", "So sánh công nghệ"],
+      color: 2
+    },
+    {
+      code: "/SWOT",
+      title: "Phân tích SWOT",
+      short: "Strengths, Weaknesses, Opportunities, Threats — framework kinh điển.",
+      what: "Tạo bảng phân tích 4 góc độ cho một tổ chức, sản phẩm, cá nhân hoặc ý tưởng kinh doanh.",
+      how: "Claude map thông tin bạn cung cấp vào 4 quadrant, phân tích internal (S/W) và external (O/T) factors, sau đó gợi ý strategic implications.",
+      example: "/SWOT ứng dụng mobile giao đồ ăn cho thị trường tier-2 Việt Nam",
+      uses: ["Business planning", "Product strategy", "Career planning"],
+      color: 2
+    },
+    {
+      code: "/STEP-BY-STEP",
+      title: "Hướng dẫn từng bước",
+      short: "Chia nhỏ task phức tạp thành các bước cụ thể, có thể thực hiện ngay.",
+      what: "Yêu cầu Claude chuyển một nhiệm vụ hoặc quy trình thành danh sách bước thực thi có số thứ tự, rõ ràng và không bỏ sót.",
+      how: "Claude decompose task thành atomic actions (hành động không thể chia nhỏ hơn), sắp xếp theo dependency order, thêm tips hoặc warnings ở các bước dễ fail.",
+      example: "/STEP-BY-STEP cách thiết lập CI/CD pipeline cho dự án Node.js",
+      uses: ["Viết SOP", "Hướng dẫn kỹ thuật", "Training material"],
+      color: 2
+    },
+    {
+      code: "/COUNTERARGUMENT",
+      title: "Phản biện quan điểm",
+      short: "Đặt Claude vào vai trò người phản biện — phát hiện lỗ hổng trong lập luận.",
+      what: "Claude trình bày quan điểm đối lập mạnh nhất có thể với một luận điểm bạn đưa ra, thậm chí khi Claude đồng ý với bạn.",
+      how: "Claude tìm steelman argument (phiên bản mạnh nhất của phía đối lập), không tấn công cọng rơm. Hữu ích để kiểm tra tính vững chắc của một ý tưởng.",
+      example: "/COUNTERARGUMENT remote work tăng năng suất hơn office work",
+      uses: ["Chuẩn bị debate", "Kiểm tra thesis", "Devil's advocate trong brainstorming"],
+      color: 2
+    },
+    {
+      code: "/DECISION MATRIX",
+      title: "Ma trận quyết định",
+      short: "Chấm điểm và xếp hạng các lựa chọn theo nhiều tiêu chí.",
+      what: "Tạo scoring grid để so sánh nhiều option theo các criteria có trọng số khác nhau — output là ranking khách quan có cơ sở.",
+      how: "Claude nhận vào danh sách options và criteria, gán điểm và weight, tính weighted score cho mỗi option, trình bày dạng bảng và giải thích kết quả.",
+      example: "/DECISION MATRIX [chọn tech stack cho startup: React vs Vue vs Svelte, criteria: learning curve, community, performance, ecosystem]",
+      uses: ["Lựa chọn vendor/tool", "Hire comparison", "Strategic prioritization"],
+      color: 2
+    },
+    {
+      code: "/RED FLAGS",
+      title: "Cảnh báo rủi ro",
+      short: "Tìm dấu hiệu nguy hiểm trước khi commit — áp dụng cho job, hợp đồng, deal.",
+      what: "Phân tích tình huống, văn bản hoặc kế hoạch để chỉ ra các warning signs đáng lo ngại mà bạn có thể bỏ qua khi hứng khởi.",
+      how: "Claude đóng vai skeptic có kinh nghiệm, scan từng element để tìm inconsistencies, vague clauses, unrealistic promises, và missing information.",
+      example: "/RED FLAGS [dán JD tuyển dụng hoặc điều khoản hợp đồng]",
+      uses: ["Review hợp đồng", "Due diligence", "Job offer evaluation"],
+      color: 2
+    }
+  ],
+
+  "cards-learning": [
+    {
+      code: "/QUIZ ME ON",
+      title: "Tạo quiz kiểm tra",
+      short: "Claude trở thành quiz master — test kiến thức vừa học.",
+      what: "Claude tạo bộ câu hỏi trắc nghiệm hoặc tự luận để kiểm tra mức độ hiểu biết của bạn về một chủ đề.",
+      how: "Claude thiết kế câu hỏi theo Bloom's taxonomy (recall → comprehension → application → analysis), tăng dần độ khó, cung cấp đáp án và giải thích.",
+      example: "/QUIZ ME ON những nguyên tắc cơ bản của UX research (10 câu, trắc nghiệm)",
+      uses: ["Ôn thi", "Self-assessment", "Training quiz cho team"],
+      color: 3
+    },
+    {
+      code: "/FLASHCARDS",
+      title: "Tạo flashcard",
+      short: "Term-and-definition cards có thể copy sang Anki hoặc Quizlet.",
+      what: "Chuyển nội dung học thành format Q&A ngắn gọn, phù hợp spaced repetition — một mặt là khái niệm, mặt kia là định nghĩa/giải thích.",
+      how: "Claude xác định key concepts, tạo cặp Front/Back với ngôn ngữ concise, đảm bảo mỗi card chứa đúng 1 ý (không overload), format ready-to-copy.",
+      example: "/FLASHCARDS 20 thuật ngữ quan trọng nhất trong marketing digital",
+      uses: ["Học ngoại ngữ", "Ôn chứng chỉ", "Memorize terminology"],
+      color: 3
+    },
+    {
+      code: "/STUDY PLAN",
+      title: "Lộ trình học tập",
+      short: "Day-by-day hoặc week-by-week roadmap để master một kỹ năng.",
+      what: "Tạo kế hoạch học chi tiết có mốc thời gian, resources được gợi ý và milestones để đo progress.",
+      how: "Claude estimate thời gian cần thiết, chia nhỏ skill tree, sắp xếp theo learning dependencies (học A trước B), gợi ý mix practice-theory.",
+      example: "/STUDY PLAN học Python data analysis trong 8 tuần, 1 giờ/ngày",
+      uses: ["Self-learning roadmap", "Chuẩn bị chứng chỉ", "Skill development planning"],
+      color: 3
+    },
+    {
+      code: "/BEGINNER GUIDE TO",
+      title: "Hướng dẫn cho người mới bắt đầu",
+      short: "Entry point friendly — không assume prior knowledge.",
+      what: "Tạo tài liệu nhập môn từ số 0: giải thích tại sao chủ đề này quan trọng, những khái niệm nền tảng cần biết, và bước đầu tiên nên làm gì.",
+      how: "Claude thiết kế theo progressive disclosure — từ big picture xuống chi tiết, tránh overwhelm, thêm FAQs và \"common mistakes\" của beginner.",
+      example: "/BEGINNER GUIDE TO thiết kế UX cho mobile app",
+      uses: ["Tự học lĩnh vực mới", "Tạo tài liệu training", "Content marketing"],
+      color: 3
+    }
+  ],
+
+  "cards-writing": [
+    {
+      code: "/REWRITE",
+      title: "Viết lại toàn bộ",
+      short: "Giữ nội dung, nâng chất lượng diễn đạt.",
+      what: "Claude viết lại đoạn văn của bạn với cấu trúc, flow và word choice tốt hơn trong khi bảo toàn ý nghĩa gốc.",
+      how: "Claude phân tích intent gốc, giữ nguyên thông tin factual, tối ưu clarity và engagement. Bạn có thể kết hợp với /MORE FORMAL, /MORE CASUAL để định hướng tone.",
+      example: "/REWRITE [dán đoạn email draft lủng củng của bạn]",
+      uses: ["Cải thiện bản draft", "Polish writing", "Nâng tone văn bản"],
+      color: 4
+    },
+    {
+      code: "/SHORTER",
+      title: "Rút ngắn văn bản",
+      short: "Cắt bớt không cần thiết mà không làm mất điểm quan trọng.",
+      what: "Giảm word count tối đa có thể trong khi giữ nguyên ý nghĩa và tone. Thích hợp cho emails dài, slides quá nhiều chữ.",
+      how: "Claude áp dụng ruthless editing: loại bỏ filler phrases (\"it is important to note that...\"), gộp câu, thay multi-word expressions bằng single words, eliminate redundancy.",
+      example: "/SHORTER [dán đoạn bio LinkedIn 300 từ, rút xuống còn 100]",
+      uses: ["Twitter/social media", "Slide content", "Executive summaries"],
+      color: 4
+    },
+    {
+      code: "/FIX GRAMMAR",
+      title: "Sửa ngữ pháp",
+      short: "Sửa lỗi grammar, chính tả mà không thay đổi giọng văn.",
+      what: "Phát hiện và sửa tất cả lỗi ngữ pháp, chính tả và punctuation mà không can thiệp vào voice hay style của tác giả.",
+      how: "Claude chạy grammar check toàn diện, gắn flag lỗi, đề xuất correction. Không rewrite câu nếu không cần thiết — chỉ fix what's broken.",
+      example: "/FIX GRAMMAR [dán bài viết của bạn]",
+      uses: ["Proofread trước khi gửi", "Non-native writer support", "Blog posts"],
+      color: 4
+    },
+    {
+      code: "/MORE FORMAL",
+      title: "Nâng tone trang trọng",
+      short: "Biến casual text thành formal — phù hợp client, sếp, đối tác.",
+      what: "Tái cấu trúc ngôn ngữ để phù hợp môi trường professional: loại bỏ slang, viết đầy đủ thay vì viết tắt, câu trúc chặt chẽ hơn.",
+      how: "Claude thay thế informal vocabulary bằng formal equivalents, điều chỉnh sentence structure, thêm proper salutations và closings nếu là email.",
+      example: "/MORE FORMAL \"Ơi, hôm qua meeting mình quên mất việc đó rồi, sorry nha, để hôm nay mình fix nhé\"",
+      uses: ["Client emails", "Official documents", "Chuyển chat → email"],
+      color: 4
+    },
+    {
+      code: "/MORE CASUAL",
+      title: "Giảm tone xuống thân thiện",
+      short: "Làm văn bản bớt cứng nhắc — phù hợp team, peers, social.",
+      what: "Chuyển văn bản formal/stiff sang conversational hơn — cảm giác nói chuyện với người thật, không phải robot hoặc luật sư.",
+      how: "Claude thêm contractions, shorter sentences, friendly phrasing, đôi khi humor nhẹ. Giữ professionalism nhưng bỏ stuffiness.",
+      example: "/MORE CASUAL [dán paragraph từ company policy cứng nhắc]",
+      uses: ["Internal comms", "Social media", "Community messages"],
+      color: 4
+    },
+    {
+      code: "/CHANGE TONE TO",
+      title: "Thay đổi tone theo yêu cầu",
+      short: "Chỉ định chính xác tone bạn muốn: witty, empathetic, urgent...",
+      what: "Claude nhận chỉ thị tone cụ thể và rewrite văn bản để phù hợp — linh hoạt hơn /MORE FORMAL và /MORE CASUAL.",
+      how: "Claude map tone descriptor (witty, warm, urgent, confident, empathetic...) vào vocabulary, rhythm, và sentence structure tương ứng.",
+      example: "/CHANGE TONE TO [empathetic]: [dán email từ chối ứng viên]",
+      uses: ["Brand voice consistency", "Customer service templates", "Marketing copy"],
+      color: 4
+    }
+  ],
+
+  "cards-email": [
+    {
+      code: "/EMAIL FROM",
+      title: "Email từ bullet points",
+      short: "Biến ghi chú nháp thành email đầy đủ, chuyên nghiệp.",
+      what: "Nhận danh sách ý bạn muốn truyền đạt và chuyển thành một email hoàn chỉnh với subject, greeting, body và closing phù hợp.",
+      how: "Claude mở rộng từng bullet thành paragraph logic, sắp xếp theo flow hợp lý, thêm transitional phrases và appropriate formality level.",
+      example: "/EMAIL FROM [bullet notes]\n- Cảm ơn cuộc họp hôm qua\n- Đã review proposal, có 3 câu hỏi\n- Xin lịch call tuần sau",
+      uses: ["Soạn email nhanh từ note", "Chuẩn bị client email", "Follow-up sau meeting"],
+      color: 1
+    },
+    {
+      code: "/SUBJECT LINE FOR",
+      title: "Subject line thu hút",
+      short: "Tạo subject line email có tỷ lệ mở cao.",
+      what: "Claude generate nhiều phương án subject line cho email với các approach khác nhau: direct, curiosity-driven, benefit-focused...",
+      how: "Claude áp dụng copywriting principles: cụ thể hơn vague, benefit rõ ràng, urgency khi phù hợp, tránh spam triggers. Thường cho 3–5 phương án.",
+      example: "/SUBJECT LINE FOR [email thông báo update tính năng mới cho user]",
+      uses: ["Email marketing", "Cold outreach", "Internal announcements"],
+      color: 1
+    },
+    {
+      code: "/POLITE DECLINE",
+      title: "Từ chối lịch sự",
+      short: "Nói \"không\" mà không làm hỏng mối quan hệ.",
+      what: "Viết message từ chối một yêu cầu (meeting, collaboration, job offer...) theo cách tử tế, rõ ràng và không để lại bad feelings.",
+      how: "Claude dùng sandwich structure: acknowledge → decline clearly → optional alternative/redirect. Giữ tone warm nhưng firm, không vague hoặc apologetic quá mức.",
+      example: "/POLITE DECLINE [lời mời tham gia dự án side mà mình không có thời gian]",
+      uses: ["Từ chối meeting không cần thiết", "Decline invitations", "Say no to scope creep"],
+      color: 1
+    },
+    {
+      code: "/APOLOGY",
+      title: "Xin lỗi chân thành",
+      short: "Xin lỗi không robotic, không cringey — đúng lúc, đúng cách.",
+      what: "Soạn email/message xin lỗi genuine: acknowledge mistake → take responsibility → concrete next step. Không over-apologize hay under-apologize.",
+      how: "Claude tránh các lỗi phổ biến của apology viết tệ: too vague (\"I'm sorry you feel that way\"), too defensive, hoặc promise mà không có action plan.",
+      example: "/APOLOGY [giao hàng trễ 2 ngày cho khách hàng VIP]",
+      uses: ["Customer service recovery", "Professional apologies", "Team communication"],
+      color: 1
+    }
+  ],
+
+  "cards-work": [
+    {
+      code: "/MEETING AGENDA FOR",
+      title: "Tạo agenda cuộc họp",
+      short: "Structured agenda với time blocks và discussion points.",
+      what: "Claude tạo meeting agenda hoàn chỉnh: objective rõ ràng, time allocation cho từng item, câu hỏi dẫn dắt và desired outcomes.",
+      how: "Claude áp dụng best practices facilitation: SMART objectives, timeboxed agenda items, action-oriented framing, pre-meeting reads list.",
+      example: "/MEETING AGENDA FOR quarterly strategy review, 90 phút, 8 người tham dự",
+      uses: ["Chuẩn bị họp", "All-hands meeting", "Client presentations"],
+      color: 2
+    },
+    {
+      code: "/EXEC SUMMARY",
+      title: "Tóm tắt cho lãnh đạo",
+      short: "One-paragraph version cho người không có thời gian đọc chi tiết.",
+      what: "Rút gọn tài liệu dài thành executive summary 1–2 đoạn: vấn đề là gì, giải pháp là gì, cần quyết định gì và tại sao quan trọng.",
+      how: "Claude ưu tiên bottom-line-up-front (BLUF) structure: kết luận và recommendation trước, context theo sau. Tránh jargon, focus vào impact và decision.",
+      example: "/EXEC SUMMARY [dán báo cáo phân tích thị trường 20 trang]",
+      uses: ["Board/CEO updates", "Project proposals", "Research summaries"],
+      color: 2
+    },
+    {
+      code: "/RESUME BULLET",
+      title: "Bullet CV kết quả",
+      short: "Biến \"tôi đã làm X\" thành \"đạt được Y kết quả bằng cách Z\".",
+      what: "Chuyển mô tả công việc thông thường thành strong resume bullet theo format achievement-oriented với số liệu cụ thể.",
+      how: "Claude áp dụng XYZ formula của Google: Accomplished [X] as measured by [Y] by doing [Z]. Thêm strong action verbs, quantify whenever possible.",
+      example: "/RESUME BULLET Tôi đã quản lý team customer service và cải thiện response time",
+      uses: ["CV/resume update", "LinkedIn profile", "Performance review self-assessment"],
+      color: 2
+    },
+    {
+      code: "/COVER LETTER FOR",
+      title: "Cover letter cá nhân hóa",
+      short: "Không generic boilerplate — customized cho từng JD.",
+      what: "Tạo cover letter kết nối trực tiếp giữa kinh nghiệm của bạn và yêu cầu cụ thể của job description, thể hiện genuine interest.",
+      how: "Claude map skills/experience của bạn với pain points trong JD, storytelling approach thay vì list, kết thúc với clear call-to-action.",
+      example: "/COVER LETTER FOR [JD: Senior Product Designer] dựa trên [background: 5 năm UX tại fintech]",
+      uses: ["Job applications", "Freelance proposals", "Grant applications"],
+      color: 2
+    },
+    {
+      code: "/PERFORMANCE REVIEW PHRASES",
+      title: "Phrases đánh giá hiệu suất",
+      short: "Ngôn ngữ chuẩn cho self-review hoặc đánh giá nhân viên.",
+      what: "Generate tập hợp phrases chuyên nghiệp cho performance reviews: từ exceptional đến needs improvement, cover các trait khác nhau.",
+      how: "Claude tạo phrases specific (không generic), behavior-based (không personality-based), developmental framing cho weaknesses, với strength evidence markers.",
+      example: "/PERFORMANCE REVIEW PHRASES [trait: communication, level: exceeds expectations]",
+      uses: ["HR/manager reviews", "Self-evaluation", "Feedback documentation"],
+      color: 2
+    }
+  ],
+
+  "cards-roleplay": [
+    {
+      code: "/ACT AS",
+      title: "Đóng vai chuyên gia",
+      short: "Claude nhận diện và trả lời như một chuyên gia trong lĩnh vực cụ thể.",
+      what: "Yêu cầu Claude adopt persona của doctor, lawyer, coach, financial advisor... để đưa ra perspective chuyên ngành. Luôn verify với chuyên gia thật cho quyết định quan trọng.",
+      how: "Claude kích hoạt domain-specific knowledge và communication style của role đó — cách đặt câu hỏi, framework phân tích, terminology và caveats phù hợp.",
+      example: "/ACT AS [senior product manager]: review product roadmap của tôi và đưa ra feedback",
+      uses: ["Chuẩn bị trước khi gặp chuyên gia thật", "Brainstorm với nhiều lens", "Roleplay interview prep"],
+      color: 3
+    },
+    {
+      code: "/MULTIPLE PERSPECTIVES ON",
+      title: "Nhìn từ nhiều góc độ",
+      short: "Thấy cùng một vấn đề qua mắt các stakeholder khác nhau.",
+      what: "Claude trình bày cùng một chủ đề/tình huống từ 3–5 góc nhìn khác nhau: khách hàng, nhà đầu tư, developer, marketer...",
+      how: "Claude switches perspective frame cho từng nhóm, highlight conflicting interests và different value hierarchies, giúp bạn anticipate reactions.",
+      example: "/MULTIPLE PERSPECTIVES ON ra mắt tính năng trả phí cho product freemium",
+      uses: ["Product decisions", "Change management", "Conflict resolution", "Stakeholder alignment"],
+      color: 3
+    },
+    {
+      code: "/WHAT WOULD [expert] SAY",
+      title: "Chuyên gia nói gì về điều này?",
+      short: "Lấy lens của một expert hoặc framework nổi tiếng để nhìn vấn đề.",
+      what: "Claude phân tích tình huống qua framework của một expert cụ thể (Simon Sinek, Peter Drucker, Don Norman...) hoặc school of thought.",
+      how: "Claude áp dụng core principles và typical arguments của figure/framework đó, trình bày cách họ sẽ frame vấn đề và recommend gì.",
+      example: "/WHAT WOULD Don Norman SAY ABOUT thiết kế onboarding flow này?",
+      uses: ["Design critique", "Strategic framing", "Learning từ giants"],
+      color: 3
+    }
+  ],
+
+  "cards-creative": [
+    {
+      code: "/STORY ABOUT",
+      title: "Tạo truyện ngắn",
+      short: "Short fictional story based on prompt của bạn.",
+      what: "Claude tạo một câu chuyện hư cấu ngắn với narrative arc hoàn chỉnh: setup, conflict, resolution — dựa trên gợi ý bạn cung cấp.",
+      how: "Claude áp dụng storytelling structure (three-act hoặc hero's journey tùy độ dài), tạo characters có motivation rõ ràng, theme được thể hiện qua action chứ không phải nói thẳng.",
+      example: "/STORY ABOUT một AI nhận ra mình đang bị dùng để viết fake reviews",
+      uses: ["Content creation", "Icebreakers", "Illustrating concepts"],
+      color: 4
+    },
+    {
+      code: "/HEADLINE FOR",
+      title: "Tạo headline thu hút",
+      short: "Punchy titles khiến người ta muốn click.",
+      what: "Generate 5–10 headline options cho article, blog post hoặc content piece, theo nhiều angle khác nhau.",
+      how: "Claude áp dụng headline formulas: number + benefit, how-to, question, controversy, curiosity gap. Optimize cho clarity và click-worthiness đồng thời.",
+      example: "/HEADLINE FOR bài viết về cách dùng AI để tăng tốc UX research",
+      uses: ["Blog posts", "Email subject lines", "Social media", "Ad copy"],
+      color: 4
+    },
+    {
+      code: "/CAPTION FOR",
+      title: "Caption hình ảnh",
+      short: "Witty hoặc thoughtful caption cho social media.",
+      what: "Claude tạo caption cho ảnh dựa trên description bạn cung cấp — phù hợp với brand voice và platform (Instagram, LinkedIn...).",
+      how: "Claude cân bằng giữa informative và engaging, thêm hashtag suggestions, length-appropriate cho platform, CTAs nếu phù hợp.",
+      example: "/CAPTION FOR [ảnh team offsite tại biển, tone: professional but fun, platform: LinkedIn]",
+      uses: ["Instagram/LinkedIn posts", "Product photos", "Event coverage"],
+      color: 4
+    },
+    {
+      code: "/SLOGAN FOR",
+      title: "Tagline thương hiệu",
+      short: "Tagline options cho brand, campaign hoặc product.",
+      what: "Generate nhiều phương án slogan/tagline cho business, product hoặc campaign, theo nhiều style khác nhau.",
+      how: "Claude tạo options spanning: functional (benefits-focused), emotional, aspirational, challenger/disruptive. Mỗi kèm rationale ngắn.",
+      example: "/SLOGAN FOR ứng dụng thiền cho dân văn phòng Việt Nam",
+      uses: ["Brand identity", "Marketing campaigns", "Product launches"],
+      color: 4
+    }
+  ],
+
+  "cards-life": [
+    {
+      code: "/MEAL PLAN FOR",
+      title: "Kế hoạch dinh dưỡng",
+      short: "Multi-day meal plan cá nhân hóa theo mục tiêu của bạn.",
+      what: "Tạo kế hoạch ăn uống chi tiết theo ngày/tuần, căn chỉnh với goal (giảm cân, tăng cơ, ăn chay...) và constraints (dị ứng, budget, thời gian nấu).",
+      how: "Claude cân bằng macro nutrition, variety để không nhàm, thực tế với nguyên liệu có sẵn, thêm prep notes để tiết kiệm thời gian.",
+      example: "/MEAL PLAN FOR [goal: giảm cân, days: 5, constraints: không ăn thịt đỏ, ít thời gian buổi sáng]",
+      uses: ["Healthy eating", "Meal prep planning", "Diet specific needs"],
+      color: 3
+    },
+    {
+      code: "/WORKOUT FOR",
+      title: "Lịch tập luyện",
+      short: "Chương trình tập cá nhân hóa theo mục tiêu, không phải lời khuyên y tế.",
+      what: "Generate workout routine theo goal cụ thể (sức mạnh, cardio, linh hoạt...) với exercises, sets/reps, và progression plan.",
+      how: "Claude structure theo principle: specificity, progressive overload, recovery. Gợi ý alternatives cho thiếu equipment, note form cues quan trọng.",
+      example: "/WORKOUT FOR [goal: core strength + flexibility, equipment: chỉ có mat, 30 phút/ngày]",
+      uses: ["Home workout planning", "Gym program", "Recovery routines"],
+      color: 3
+    },
+    {
+      code: "/SMART GOAL FROM",
+      title: "SMART Goal từ ý tưởng mơ hồ",
+      short: "Biến \"muốn cải thiện\" thành mục tiêu Specific, Measurable, Achievable, Relevant, Time-bound.",
+      what: "Claude transforms vague aspiration thành SMART goal framework hoàn chỉnh với success metrics, milestones và accountability checkpoints.",
+      how: "Claude đặt câu hỏi làm rõ (hiện trạng, resources, timeline), sau đó reframe thành SMART với khuyến nghị cụ thể.",
+      example: "/SMART GOAL FROM \"tôi muốn giỏi tiếng Anh hơn\"",
+      uses: ["Personal development", "OKRs", "Team goal-setting"],
+      color: 3
+    },
+    {
+      code: "/JOURNAL PROMPT FOR",
+      title: "Câu hỏi nhật ký",
+      short: "Câu hỏi khơi gợi suy ngẫm sâu trong nhật ký.",
+      what: "Generate thoughtful journaling questions giúp bạn khám phá suy nghĩ, cảm xúc và pattern của bản thân xung quanh một theme.",
+      how: "Claude tạo questions mở (không có yes/no answer), từ concrete recall đến abstract reflection, tăng dần chiều sâu, tránh leading questions.",
+      example: "/JOURNAL PROMPT FOR [mood: cảm thấy stuck trong career]",
+      uses: ["Daily reflection", "Therapy preparation", "Mental clarity"],
+      color: 3
+    }
+  ],
+
+  "cards-compress": [
+    {
+      code: "/TLDL",
+      title: "Too Long, Didn't Listen",
+      short: "Tóm tắt nội dung audio/video/meeting thành text digest.",
+      what: "Phiên bản TLDR cho audio/visual content — rút gọn transcript hoặc notes thành bullet summary ngắn gọn.",
+      how: "Claude xác định key claims, decisions made, và action items từ content. Bỏ filler, tangents và repetitions. Output là scannable digest.",
+      example: "/TLDL [dán transcript cuộc họp 1 tiếng]",
+      uses: ["Meeting recap", "Podcast notes", "Webinar summary"],
+      color: 1
+    },
+    {
+      code: "/BRIEFLY",
+      title: "Trả lời ngắn gọn nhất có thể",
+      short: "Yêu cầu Claude cắt ngắn output — không pad, không explain dài dòng.",
+      what: "Modifier để giới hạn độ dài response — phù hợp khi bạn chỉ cần bottom line, không cần context hay caveats.",
+      how: "Claude kích hoạt conciseness mode: single sentence hoặc short paragraph, chỉ core answer, không hedging language hoặc extra context trừ khi critical.",
+      example: "/BRIEFLY [sự khác biệt chính giữa REST và GraphQL là gì?]",
+      uses: ["Quick fact-check", "Tóm tắt nhanh", "Busy contexts"],
+      color: 1
+    },
+    {
+      code: "/ELI5",
+      title: "ELI5 (Compress mode)",
+      short: "Trong context nâng cao: nén complexity thành simplicity.",
+      what: "Trong 32 Shortcuts framework, ELI5 được dùng như compression tool — không chỉ đơn giản hóa ngôn ngữ mà còn rút gọn scope xuống essential insight.",
+      how: "Claude loại bỏ mọi nuance thứ cấp, chỉ giữ core mental model. Trade-off là accuracy cho accessibility.",
+      example: "/ELI5 tại sao attention mechanism trong transformer quan trọng",
+      uses: ["Internal comms với non-technical audience", "Executive briefings", "Keynote opening"],
+      color: 1
+    }
+  ],
+
+  "cards-format": [
+    {
+      code: "/CHECKLIST",
+      title: "Tạo checklist",
+      short: "Tickable list cho repeated tasks — packing, launching, hiring...",
+      what: "Chuyển nội dung hoặc task list thành format checklist có thể check off, nhóm theo phase nếu cần.",
+      how: "Claude decompose process thành atomic checkable items, group by logical phases, order by dependency, thêm time estimates nếu hữu ích.",
+      example: "/CHECKLIST [quy trình onboarding nhân viên mới trong 2 tuần đầu]",
+      uses: ["SOP checklists", "Launch checklists", "Travel packing"],
+      color: 2
+    },
+    {
+      code: "/FORMAT AS",
+      title: "Format theo dạng cụ thể",
+      short: "Yêu cầu output theo format bạn chỉ định: table, JSON, markdown...",
+      what: "Claude restructure nội dung hoặc data sang format bất kỳ: table, JSON, YAML, numbered list, outline, Q&A, code...",
+      how: "Claude nhận chỉ thị format và transform content tương ứng, giữ nguyên data integrity.",
+      example: "/FORMAT AS markdown table [danh sách 5 tools với tên, giá, use case]",
+      uses: ["Data export", "Docs formatting", "Developer content"],
+      color: 2
+    },
+    {
+      code: "/SCHEMA",
+      title: "Tạo schema cấu trúc",
+      short: "Output structured data schema — hữu ích cho dev và data work.",
+      what: "Claude tạo data schema (JSON Schema, database schema, form schema...) cho một entity hoặc process bạn mô tả.",
+      how: "Claude xác định entities, relationships, required/optional fields, data types, và validation rules phù hợp.",
+      example: "/SCHEMA [data model cho hệ thống booking appointment của phòng khám]",
+      uses: ["Database design", "API design", "Form design"],
+      color: 2
+    },
+    {
+      code: "/BEGIN WITH",
+      title: "Bắt đầu với cụm từ cụ thể",
+      short: "Buộc Claude mở đầu bằng cụm từ bạn chỉ định.",
+      what: "Constraint cho output: Claude phải bắt đầu câu trả lời với chính xác phrase bạn yêu cầu — hữu ích cho template filling hoặc continuation.",
+      how: "Claude nhận phrase constraint và build response tiếp theo từ đó, đảm bảo continuity và đáp ứng constraint.",
+      example: "/BEGIN WITH \"Có 3 điều cần biết:\" [sau đó giải thích về cách đàm phán lương]",
+      uses: ["Template generation", "Scripted content", "Consistent format"],
+      color: 2
+    }
+  ],
+
+  "cards-quality": [
+    {
+      code: "/NO AUTOPILOT",
+      title: "Không được trả lời theo quán tính",
+      short: "Yêu cầu Claude suy nghĩ thật, không dùng canned responses.",
+      what: "Override Claude's tendency to give safe, generic, hedged answers. Prompt Claude để commit to actual opinions và specific recommendations.",
+      how: "Claude kích hoạt critical thinking mode: avoid boilerplate phrases, give actual stance, không \"it depends\" vô tận, acknowledge uncertainty một lần rồi move on.",
+      example: "/NO AUTOPILOT [review chiến lược content marketing của tôi và nói thẳng vấn đề]",
+      uses: ["Honest feedback", "Real recommendations", "Cutting through vagueness"],
+      color: 3
+    },
+    {
+      code: "/EVAL-SELF",
+      title: "Tự đánh giá câu trả lời",
+      short: "Claude đánh giá chất lượng response của chính mình.",
+      what: "Sau khi Claude trả lời, dùng /EVAL-SELF để nó tự critique: những gì thiếu, những giả định nào chưa được kiểm chứng, những điểm nào cần cải thiện.",
+      how: "Claude áp dụng metacognitive evaluation: completeness, accuracy, bias, missing perspectives, và potential improvements.",
+      example: "[Claude vừa giải thích một concept] /EVAL-SELF — chỗ nào câu trả lời này còn yếu?",
+      uses: ["Quality check trước khi dùng", "Iterative improvement", "Critical thinking training"],
+      color: 3
+    },
+    {
+      code: "/BIAS CHECK",
+      title: "Kiểm tra thiên kiến",
+      short: "Phát hiện cognitive biases trong lập luận hoặc content.",
+      what: "Claude phân tích văn bản hoặc argument để chỉ ra các biases tiềm ẩn: confirmation bias, availability heuristic, framing effects...",
+      how: "Claude scan cho common logical fallacies và cognitive biases, flag specific instances với explanation, suggest more balanced framing.",
+      example: "/BIAS CHECK [nghiên cứu này kết luận rằng remote work giảm productivity — link hoặc paste]",
+      uses: ["Research evaluation", "Decision review", "Media literacy"],
+      color: 3
+    },
+    {
+      code: "/GUARDRAIL",
+      title: "Đặt giới hạn rõ ràng",
+      short: "Chỉ định những gì Claude không được làm trong conversation này.",
+      what: "Set explicit constraints cho output: không vượt quá X từ, không đề cập Y, luôn dùng Z format, không assume prior knowledge...",
+      how: "Claude nhận constraints như system rules cho session, áp dụng consistently cho mọi response tiếp theo trong conversation.",
+      example: "/GUARDRAIL [không dùng jargon kỹ thuật, câu không quá 20 từ, luôn có ví dụ cụ thể]",
+      uses: ["Content governance", "Consistent style", "Accessibility writing"],
+      color: 3
+    }
+  ],
+
+  "cards-advanced": [
+    {
+      code: "/ROLE:TASK:FORMAT",
+      title: "Prompt 3 chiều tối ưu",
+      short: "Framework đơn giản nhất để viết prompt tốt: ai, làm gì, output gì.",
+      what: "Cấu trúc prompt theo 3 dimension: ROLE (Claude là ai), TASK (làm gì), FORMAT (output trông như thế nào). Thường tốt hơn bất kỳ shortcut đơn lẻ nào.",
+      how: "Claude nhận đủ 3 inputs, tối ưu hóa role knowledge, task execution và output format đồng thời. Giảm ambiguity và iteration.",
+      example: "/ROLE: Senior copywriter | /TASK: viết product description cho tai nghe không dây | /FORMAT: 3 versions, mỗi 60 từ, tone khác nhau",
+      uses: ["Complex content creation", "Repeatable prompts", "Team prompt templates"],
+      color: 4
+    },
+    {
+      code: "/CONTEXT STACK",
+      title: "Ngăn xếp ngữ cảnh",
+      short: "Cung cấp đủ context theo layers để Claude trả lời chính xác nhất.",
+      what: "Technique: cung cấp context theo layers từ broad đến narrow trước khi đặt câu hỏi chính — Company → Team → Project → Specific task.",
+      how: "Claude builds a rich context model từ layered info, significantly reducing generic answers và increasing specificity và actionability of output.",
+      example: "/CONTEXT STACK\nCompany: fintech startup 50 người\nTeam: product, 4 người\nProject: redesign onboarding flow\nTask: đề xuất A/B test cho màn hình đầu tiên",
+      uses: ["Strategy questions", "Specific recommendations", "Domain-specific tasks"],
+      color: 4
+    },
+    {
+      code: "/DECISION MEMO",
+      title: "Memo quyết định",
+      short: "Document hóa một quyết định quan trọng với full reasoning.",
+      what: "Claude tạo decision memo hoàn chỉnh: problem statement, options considered, evaluation criteria, recommendation và rationale.",
+      how: "Claude áp dụng structured decision-making framework, ensures all options are fairly considered, reasoning là transparent và traceable.",
+      example: "/DECISION MEMO [chúng tôi đang cân nhắc chuyển từ monolith sang microservices]",
+      uses: ["Architecture decisions", "Strategic pivots", "Hire/vendor choices"],
+      color: 4
+    },
+    {
+      code: "/RED TEAM",
+      title: "Tấn công ý tưởng của bạn",
+      short: "Claude đóng vai adversarial critic — phá ý tưởng trước khi thực tế phá.",
+      what: "Claude assume vai trò adversary và systematically attack ý tưởng, plan hoặc strategy của bạn để tìm weaknesses trước khi deployment.",
+      how: "Claude liệt kê cách ý tưởng có thể fail (technical, market, execution, financial), edge cases không được xử lý, assumptions sai, và counter-moves của competitors.",
+      example: "/RED TEAM [kế hoạch launch sản phẩm SaaS B2B trong Q3 này]",
+      uses: ["Pre-mortem analysis", "Product validation", "Strategy stress-testing"],
+      color: 4
+    }
+  ]
+};
+
+// ══════════════════════════════════════════════════════
+//  RENDER CARDS
+// ══════════════════════════════════════════════════════
+function colorClass(n) { return `color-${n||1}`; }
+
+function renderCards() {
+  Object.entries(data).forEach(([containerId, items]) => {
+    const container = document.getElementById(containerId);
+    if (!container) return;
+    container.innerHTML = items.map((item, idx) => `
+      <div class="card ${colorClass(item.color)}" data-key="${containerId}" data-idx="${idx}">
+        <div class="card-code">${item.code}</div>
+        <h3>${item.title}</h3>
+        <p>${item.short}</p>
+        <span class="card-arrow">↗</span>
+      </div>
+    `).join('');
+  });
+}
+
+// ══════════════════════════════════════════════════════
+//  MODAL
+// ══════════════════════════════════════════════════════
+const overlay  = document.getElementById('modal-overlay');
+const modalBox = document.getElementById('modal-box');
+const modalContent = document.getElementById('modal-content');
+const closeBtn = document.getElementById('modal-close');
+
+function accentColor(n) {
+  const map = {1:'#7c6aff',2:'#e060c8',3:'#38d9c0',4:'#f5a623'};
+  return map[n] || map[1];
+}
+
+function openModal(item) {
+  const ac = accentColor(item.color);
+  modalContent.innerHTML = `
+    <div class="modal-badge" style="background:${ac}22;color:${ac};border:1px solid ${ac}44">${item.code}</div>
+    <h2>${item.title}</h2>
+    <p class="modal-tagline">${item.short}</p>
+
+    <div class="modal-block">
+      <div class="modal-block-title">📌 Nó là gì?</div>
+      <p class="modal-desc">${item.what}</p>
+    </div>
+
+    <div class="modal-block">
+      <div class="modal-block-title">⚙️ Cơ chế hoạt động trong Claude</div>
+      <div class="how-it-works">${item.how}</div>
+    </div>
+
+    <div class="modal-block">
+      <div class="modal-block-title">✍️ Ví dụ prompt thực tế</div>
+      <div class="prompt-example" style="border-color:${ac}33">
+        <button class="copy-btn" onclick="copyPrompt(this)">copy</button>
+        <span>${item.example}</span>
+      </div>
+    </div>
+
+    <div class="modal-block">
+      <div class="modal-block-title">🎯 Dùng khi nào?</div>
+      <div class="use-cases">
+        ${item.uses.map(u => `<span class="use-case-chip">${u}</span>`).join('')}
+      </div>
+    </div>
+  `;
+  overlay.classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeModal() {
+  overlay.classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+function copyPrompt(btn) {
+  const text = btn.nextElementSibling.textContent.trim();
+  navigator.clipboard.writeText(text).then(() => {
+    btn.textContent = 'copied!';
+    setTimeout(() => btn.textContent = 'copy', 1500);
+  });
+}
+
+closeBtn.addEventListener('click', closeModal);
+overlay.addEventListener('click', e => { if(e.target === overlay) closeModal(); });
+document.addEventListener('keydown', e => { if(e.key === 'Escape') closeModal(); });
+
+document.addEventListener('click', e => {
+  const card = e.target.closest('.card');
+  if (!card) return;
+  const key = card.dataset.key;
+  const idx = parseInt(card.dataset.idx);
+  openModal(data[key][idx]);
+});
+
+// ══════════════════════════════════════════════════════
+//  TABS
+// ══════════════════════════════════════════════════════
+document.querySelectorAll('.tabs').forEach(tabs => {
+  tabs.querySelectorAll('.tab-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      tabs.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      const target = btn.dataset.target;
+      // find sibling panels (same section)
+      const section = tabs.closest('section');
+      section.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+      document.getElementById(target).classList.add('active');
+    });
+  });
+});
+
+// ══════════════════════════════════════════════════════
+//  INIT
+// ══════════════════════════════════════════════════════
+renderCards();
+</script>
+</body>
+</html>
