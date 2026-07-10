@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="curriculum-page">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Markdown Export</title>
+  <title>SID Handbook Markdown Export</title>
   <!-- Google tag (gtag.js) -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-9G4J7CJ0ZS"></script>
   <script>
@@ -13,239 +13,33 @@
 
     gtag('config', 'G-9G4J7CJ0ZS');
   </script>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/github-markdown-css/5.3.0/github-markdown.min.css">
-  <script>
-      window.MathJax = {
-          loader: { load: ['[tex]/ams', '[tex]/boldsymbol'] },
-          tex: {
-              inlineMath: [['$', '$'], ['\\(', '\\)']],
-              displayMath: [['$$', '$$'], ['\\[', '\\]']],
-              processEscapes: true,
-              packages: { '[+]': ['ams', 'boldsymbol'] }
-          }
-      };
-  </script>
-  <script defer src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/mermaid@11.6.0/dist/mermaid.min.js"></script>
-  <script defer src="https://cdnjs.cloudflare.com/ajax/libs/abcjs/6.5.2/abcjs-basic-min.js"></script>
-  <style>
-      html {
-          background-color: #ffffff;
-      }
-      body {
-          margin: 0;
-          background-color: #ffffff;
-          color: #24292e;
-      }
-      .markdown-body {
-          box-sizing: border-box;
-          min-width: 200px;
-          max-width: 100%;
-          width: fit-content;
-          margin: 0 auto;
-          padding: 45px;
-          background-color: #ffffff;
-          color: #24292e;
-      }
-      .markdown-body > p,
-      .markdown-body > ul,
-      .markdown-body > ol,
-      .markdown-body > blockquote,
-      .markdown-body > h1,
-      .markdown-body > h2,
-      .markdown-body > h3,
-      .markdown-body > h4,
-      .markdown-body > h5,
-      .markdown-body > h6,
-      .markdown-body > pre,
-      .markdown-body > table,
-      .markdown-body > details,
-      .markdown-body > dl,
-      .markdown-body > hr {
-          max-width: 980px;
-          margin-left: auto !important;
-          margin-right: auto !important;
-      }
-
-
-      /* Syntax Highlighting */
-      .hljs-doctag, .hljs-keyword, .hljs-template-tag, .hljs-template-variable, .hljs-type, .hljs-variable.language_ { color: #d73a49; }
-      .hljs-title, .hljs-title.class_, .hljs-title.class_.inherited__, .hljs-title.function_ { color: #6f42c1; }
-      .hljs-attr, .hljs-attribute, .hljs-literal, .hljs-meta, .hljs-number, .hljs-operator, .hljs-variable, .hljs-selector-attr, .hljs-selector-class, .hljs-selector-id { color: #005cc5; }
-      .hljs-regexp, .hljs-string, .hljs-meta .hljs-string { color: #032f62; }
-      .hljs-built_in, .hljs-symbol { color: #e36209; }
-      .hljs-comment, .hljs-code, .hljs-formula { color: #6a737d; }
-      .hljs-name, .hljs-quote, .hljs-selector-tag, .hljs-selector-pseudo { color: #22863a; }
-      .hljs-subst { color: #24292e; }
-      .hljs-section { color: #005cc5; font-weight: bold; }
-      .hljs-bullet { color: #005cc5; }
-      .hljs-emphasis { font-style: italic; }
-      .hljs-strong { font-weight: bold; }
-      .hljs-addition { color: #22863a; background-color: #f0fff4; }
-      .hljs-deletion { color: #b31d28; background-color: #ffeef0; }
-
-      .markdown-alert {
-          padding: 0.5rem 1rem;
-          margin-bottom: 16px;
-          border-left: 0.25em solid;
-          border-radius: 0.375rem;
-      }
-      .markdown-alert > :last-child {
-          margin-bottom: 0;
-      }
-      .markdown-alert-title {
-          margin: 0 0 8px;
-          font-weight: 600;
-          line-height: 1.25;
-          display: flex;
-          align-items: center;
-          gap: 8px;
-      }
-      .markdown-alert-icon {
-          display: inline-flex;
-          width: 16px;
-          height: 16px;
-      }
-      .markdown-alert-icon svg {
-          width: 16px;
-          height: 16px;
-          fill: currentColor;
-      }
-      .markdown-alert-note { color: #0969da; border-left-color: #0969da; background-color: #ddf4ff; }
-      .markdown-alert-tip { color: #1a7f37; border-left-color: #1a7f37; background-color: #dafbe1; }
-      .markdown-alert-important { color: #8250df; border-left-color: #8250df; background-color: #fbefff; }
-      .markdown-alert-warning { color: #9a6700; border-left-color: #9a6700; background-color: #fff8c5; }
-      .markdown-alert-caution { color: #cf222e; border-left-color: #cf222e; background-color: #ffebe9; }
-      .markdown-alert > *:not(.markdown-alert-title) { color: #24292e; }
-
-      .frontmatter-table {
-          width: 100%;
-          border-collapse: collapse;
-          margin-bottom: 24px;
-          font-size: 14px;
-      }
-      .frontmatter-table th,
-      .frontmatter-table td {
-          border: 1px solid #e1e4e8;
-          padding: 8px 12px;
-          text-align: left;
-      }
-      .frontmatter-table th {
-          font-weight: 600;
-          background-color: #f6f8fa;
-          width: 150px;
-      }
-
-      /* Footnote styles */
-      .footnotes {
-          margin-top: 1.5rem;
-          font-size: 0.9em;
-          border-top: 1px solid #eaecef;
-          padding-top: 8px;
-      }
-      .footnotes ol {
-          padding-left: 1.5em;
-      }
-      .footnotes ol > li::marker {
-          content: "[" counter(list-item) "] ";
-          font-weight: 600;
-      }
-      .footnotes li > p {
-          margin: 0.2em 0;
-      }
-      .footnote-ref a,
-      .footnote-backref {
-          text-decoration: none;
-      }
-      .footnote-backref {
-          margin-left: 0.4em;
-      }
-      a.reference-link {
-          font-size: 0.75em;
-          letter-spacing: -0.02em;
-          line-height: 1;
-          vertical-align: super;
-          position: relative;
-          top: 0.08em;
-      }
-
-      /* Mermaid and Math styles */
-      .mermaid-container {
-          position: relative;
-          margin-bottom: 16px;
-      }
-      .math-block {
-          margin: 1em 0;
-          overflow-x: auto;
-          text-align: center;
-      }
-      .abc-container {
-          display: flex;
-          flex-direction: column;
-          align-items: center;
-          margin: 1.5em 0;
-          padding: 1.25em;
-          background-color: #f6f8fa;
-          border: 1px solid #e1e4e8;
-          border-radius: 6px;
-          overflow-x: auto;
-      }
-      .abc-notation {
-          width: 100%;
-      }
-      .abc-notation svg {
-          background: transparent !important;
-          color: #24292e !important;
-          display: block;
-          margin: 0 auto;
-      }
-      .abc-notation svg path {
-          fill: currentColor;
-      }
-      .abc-notation svg text {
-          fill: currentColor !important;
-          stroke: none !important;
-      }
-      .abc-notation svg .abcjs-staff,
-      .abc-notation svg .abcjs-staff-extra,
-      .abc-notation svg .abcjs-bar,
-      .abc-notation svg .abcjs-ledger,
-      .abc-notation svg .abcjs-stem,
-      .abc-notation svg .abcjs-beam,
-      .abc-notation svg .abcjs-slur,
-      .abc-notation svg .abcjs-tie {
-          stroke: currentColor !important;
-      }
-      .abc-notation svg .abcjs-staff,
-      .abc-notation svg .abcjs-staff-extra,
-      .abc-notation svg .abcjs-ledger,
-      .abc-notation svg .abcjs-slur,
-      .abc-notation svg .abcjs-tie,
-      .abc-notation svg .abcjs-stem {
-          fill: none !important;
-      }
-      .abc-sr-only {
-          position: absolute;
-          width: 1px;
-          height: 1px;
-          padding: 0;
-          margin: -1px;
-          overflow: hidden;
-          clip: rect(0, 0, 0, 0);
-          white-space: nowrap;
-          border: 0;
-      }
-
-      @media (max-width: 767px) {
-          .markdown-body {
-              padding: 15px;
-          }
-      }
-  </style>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="content/css/style.css">
 </head>
-<body>
+<body id="top" class="curriculum-page">
+  <nav>
+    <div class="nav-inner">
+      <div class="logo"><div class="logo-mark"></div>SID</div>
+      <ul class="nav-links">
+        <li><a href="index.html#problem">Vấn đề</a></li>
+        <li><a href="index.html#solution">Giải pháp</a></li>
+        <li><a href="index.html#path">Chương trình</a></li>
+        <li><a href="index.html#pricing">Học phí</a></li>
+        <li><a href="index.html#trainer">Giảng viên</a></li>
+      </ul>
+      <button class="nav-cta" onclick="window.location.href='index.html'">Về Trang Chủ</button>
+    </div>
+  </nav>
+
   <article class="markdown-body">
-      <h1 id="sid-structured-intelligence-design">SID - STRUCTURED INTELLIGENCE DESIGN</h1><h2 id="syllabus-khung-chng-trnh">SYLLABUS - Khung chương trình</h2><ul>
+      <div class="sec-head curriculum-intro" id="sid-structured-intelligence-design">
+<span class="eyebrow">SID - STRUCTURED INTELLIGENCE DESIGN <v2 class="0">v2.0</v2></span>
+<h2 id="syllabus-khung-chng-trnh">SYLLABUS - Khung chương trình</h2>
+<p>Từ tư duy gốc đến kiến trúc hội thoại chuyên sâu.</p>
+</div>
+<ul>
 <li><p>Bài 01 — Framing as Cognitive Control + <strong>Updated</strong>: Extended mind, AI mindset, NLP mindset (Cấu trúc của ngôn ngữ, cách sử dụng ngôn ngữ tự nhiên để diễn đạt thông tin có cấu trúc)</p>
 </li>
 <li><p>Bài 02 — Prompt as Cognitive Interface &amp; Prompt Stack </p>
@@ -280,8 +74,20 @@
 <li>Không yêu cầu phải biết về IT, LLM, AI. </li>
 <li>Nếu bạn có thể nói chuyện trôi chảy, thì bạn hoàn toàn có thể "lập trình" ra trợ lý AI và làm chủ thông tin.</li>
 </ul>
+<div class="curriculum-anchors">
+<a class="curriculum-anchor-link" href="#tier-basic">SID Basic</a>
+<a class="curriculum-anchor-link" href="#tier-pro">SID Pro</a>
+<a class="curriculum-anchor-link" href="#tier-advance">SID Advance</a>
+</div>
 <hr>
-<h2 id="sid-pack-basic-hc-v-thc-hnh-t-bi-01-n-bi-04">SID Pack basic = Học và thực hành từ Bài 01 đến Bài 04</h2><h3 id="li-ch-sau-kha-hc">Lợi ích sau khóa học</h3><ul>
+<div id="tier-basic" class="tier tier-01 curriculum-tier">
+<div class="tier-head">
+<span class="tier-index mono">CẤP 01</span>
+<h3 class="tier-name">SID Basic</h3>
+<span class="tier-tag">Học và thực hành từ Bài 01 đến Bài 04</span>
+</div>
+</div>
+<h3 id="li-ch-sau-kha-hc">Lợi ích sau khóa học</h3><ul>
 <li>Kết quả đạt được: Nắm vững tư duy gốc và xây dựng ứng dụng chatbot hữu ích</li>
 <li>Project 1: Kich ban video (Hard 4/10)</li>
 <li>Project 2: IELTS preparation (Hard 6/10)</li>
@@ -325,7 +131,14 @@
 <li>Microsoft Prompt Engineering standard</li>
 </ul>
 <hr>
-<h2 id="sid-pack-pro-hc-v-thc-hnh-t-bi-05-n-bi-07-bai-08-is-a-bonus">SID Pack pro = Học và thực hành từ Bài 05 đến Bài 07 (Bai 08 is a bonus)</h2><h3 id="li-ch-sau-kha-hc">Lợi ích sau khóa học</h3><ul>
+<div id="tier-pro" class="tier tier-02 curriculum-tier">
+<div class="tier-head">
+<span class="tier-index mono">CẤP 02</span>
+<h3 class="tier-name">SID Pro</h3>
+<span class="tier-tag">Học và thực hành từ Bài 05 đến Bài 07 (Bài 08 là bonus)</span>
+</div>
+</div>
+<h3 id="li-ch-sau-kha-hc">Lợi ích sau khóa học</h3><ul>
 <li>Kết quả đạt được: Xây dựng các phần mềm chatbot có nghiệp vụ và khối lượng thông tin phức tạp (rules, guardrails, workflow)</li>
 <li>Project onboarding: Travel search (Hard 5/10)</li>
 <li>Project 3: Neuron knowledge extraction (Hard 7.5/10)</li>
@@ -362,87 +175,20 @@
 <li>AI-UX knowledge library (for chatbot app)</li>
 </ul>
 <hr>
-<h2 id="sid-advance-conversation-design">SID Advance &amp; Conversation Design</h2><h3 id="li-ch-sau-kha-hc">Lợi ích sau khóa học</h3><ul>
+<div id="tier-advance" class="tier tier-03 curriculum-tier">
+<div class="tier-head">
+<span class="tier-index mono">CẤP 03</span>
+<h3 class="tier-name">SID Advance</h3>
+<span class="tier-tag">Conversation Design chuyên sâu</span>
+</div>
+</div>
+<h3 id="li-ch-sau-kha-hc">Lợi ích sau khóa học</h3><ul>
 <li>Kết quả đạt được: Xây dựng được các phần mềm chatbot có Personas, Emotional, Multi-layer, Enrich knowledge and cases</li>
 <li>Project 5: Book architect design (Hard 9/10)</li>
 <li>Project 6: Kid lens (Hard 9/10)</li>
 </ul>
 <h3 id="chng-trnh-hc-sid-advance-conversation-design">CHƯƠNG TRÌNH HỌC - SID Advance &amp; Conversation Design</h3><p>COMING SOON</p>
-<hr>
-
   </article>
-      <script>
-      function fitMarkdownExportToContent() {
-          var article = document.querySelector('.markdown-body');
-          if (!article) return;
-
-          article.style.width = '';
-          article.style.maxWidth = '980px';
-
-          var overflow = article.scrollWidth - article.clientWidth;
-          if (overflow <= 1) return;
-
-          var styles = window.getComputedStyle(article);
-          var paddingLeft = parseFloat(styles.paddingLeft) || 0;
-          var paddingRight = parseFloat(styles.paddingRight) || 0;
-          var borderRight = parseFloat(styles.borderRightWidth) || 0;
-          var borderLeft = parseFloat(styles.borderLeftWidth) || 0;
-          var boxSizing = styles.boxSizing;
-
-          var requiredWidth = boxSizing === 'border-box'
-              ? Math.ceil(article.scrollWidth + borderLeft + borderRight)
-              : Math.ceil(article.scrollWidth - paddingLeft - paddingRight);
-
-          article.style.width = requiredWidth + 'px';
-          article.style.maxWidth = 'none';
-      }
-
-      function queueMarkdownExportFit() {
-          window.requestAnimationFrame(function () {
-              window.requestAnimationFrame(fitMarkdownExportToContent);
-          });
-      }
-
-      window.addEventListener('load', function () {
-          var mathReady = Promise.resolve();
-          var article = document.querySelector('.markdown-body');
-          if (article && window.MutationObserver) {
-              new MutationObserver(queueMarkdownExportFit).observe(article, {
-                  childList: true,
-                  subtree: true
-              });
-          }
-          if (window.MathJax && typeof window.MathJax.typesetPromise === 'function') {
-              mathReady = window.MathJax.typesetPromise().catch(function (err) {
-                  console.warn('MathJax typeset failed:', err);
-              });
-          }
-          if (window.mermaid) {
-              try {
-                  window.mermaid.initialize({ startOnLoad: true, theme: 'default', gantt: { useWidth: 1200 } });
-              } catch (e) {
-                  console.warn('Mermaid initialization failed:', e);
-              }
-          }
-          if (window.ABCJS) {
-              try {
-                  var abcNodes = document.querySelectorAll('.abc-notation');
-                  abcNodes.forEach(function(node) {
-                      var code = decodeURIComponent(node.getAttribute('data-original-code') || '');
-                      if (code) {
-                          ABCJS.renderAbc(node.id, code, { responsive: 'resize' });
-                      }
-                      var container = node.closest('.abc-container');
-                      if (container) container.classList.remove('is-loading');
-                  });
-              } catch (e) {
-                  console.warn('ABCJS rendering failed:', e);
-              }
-          }
-          mathReady.finally(queueMarkdownExportFit);
-          queueMarkdownExportFit();
-      });
-      window.addEventListener('resize', queueMarkdownExportFit);
-  </script>
+  <a href="#top" class="go-top" aria-label="Go to top">Go Top</a>
 </body>
 </html>
