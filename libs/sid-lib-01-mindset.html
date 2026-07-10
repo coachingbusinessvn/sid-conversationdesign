@@ -1,0 +1,1173 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI Thinking Frameworks — Tư duy làm việc với AI</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:ital,wght@0,300;0,400;0,500;0,700;0,800;1,300&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --bg: #070710;
+  --bg2: #0d0d1e;
+  --glass: rgba(255,255,255,0.04);
+  --glass-border: rgba(255,255,255,0.08);
+  --glass-hover: rgba(255,255,255,0.07);
+  --text: #f0eff8;
+  --text-muted: rgba(240,239,248,0.5);
+  --text-dim: rgba(240,239,248,0.25);
+  --accent1: #7c6ff7;
+  --accent2: #2dd4bf;
+  --accent3: #f472b6;
+  --accent4: #fb923c;
+  --accent5: #a3e635;
+  --accent6: #60a5fa;
+  --font-display: 'Be Vietnam Pro', sans-serif;
+  --font-body: 'Be Vietnam Pro', sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+  --nav-h: 56px;
+  --radius: 16px;
+  --radius-sm: 10px;
+}
+
+html { scroll-behavior: smooth; scroll-padding-top: 68px; }
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-body);
+  font-size: 15px;
+  line-height: 1.7;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ── MESH BACKGROUND ── */
+.bg-mesh {
+  position: fixed; inset: 0; z-index: 0; pointer-events: none;
+  background:
+    radial-gradient(ellipse 60% 50% at 20% 20%, rgba(124,111,247,0.15) 0%, transparent 70%),
+    radial-gradient(ellipse 50% 60% at 80% 80%, rgba(45,212,191,0.1) 0%, transparent 70%),
+    radial-gradient(ellipse 40% 40% at 60% 10%, rgba(244,114,182,0.08) 0%, transparent 60%);
+}
+.bg-grid {
+  position: fixed; inset: 0; z-index: 0; pointer-events: none; opacity: 0.03;
+  background-image:
+    linear-gradient(rgba(255,255,255,1) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,1) 1px, transparent 1px);
+  background-size: 60px 60px;
+}
+
+/* ── STICKY NAV ── */
+#sticky-nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+  height: var(--nav-h);
+  background: rgba(7,7,16,0.75);
+  backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--glass-border);
+  display: flex; align-items: center;
+  transform: translateY(-100%);
+  transition: transform .3s ease, opacity .3s ease;
+  opacity: 0;
+}
+#sticky-nav.visible { transform: translateY(0); opacity: 1; }
+.nav-inner {
+  max-width: 1100px; margin: 0 auto; padding: 0 32px;
+  display: flex; align-items: center; gap: 0; width: 100%;
+}
+.nav-logo {
+  font-family: var(--font-display); font-size: 13px; font-weight: 700;
+  letter-spacing: -.01em; color: var(--text); margin-right: 32px;
+  white-space: nowrap; flex-shrink: 0;
+}
+.nav-logo span {
+  background: linear-gradient(135deg, var(--accent1), var(--accent2));
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+}
+.nav-links {
+  display: flex; align-items: center; gap: 2px;
+  list-style: none; overflow-x: auto; scrollbar-width: none; flex: 1;
+}
+.nav-links::-webkit-scrollbar { display: none; }
+.nav-links li a {
+  display: block; padding: 6px 14px; border-radius: 100px;
+  font-family: var(--font-mono); font-size: 10px; letter-spacing: .08em;
+  text-transform: uppercase; color: var(--text-muted);
+  text-decoration: none; white-space: nowrap;
+  transition: color .2s, background .2s;
+}
+.nav-links li a:hover { color: var(--text); background: var(--glass-hover); }
+.nav-links li a.active { color: var(--accent1); background: rgba(124,111,247,0.12); }
+
+/* ── GO TOP BUTTON ── */
+#go-top {
+  position: fixed; bottom: 32px; right: 32px; z-index: 100;
+  width: 44px; height: 44px; border-radius: 50%;
+  background: rgba(124,111,247,0.18);
+  border: 1px solid rgba(124,111,247,0.35);
+  backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
+  cursor: pointer; display: flex; align-items: center; justify-content: center;
+  opacity: 0; transform: translateY(12px) scale(0.9);
+  transition: opacity .25s ease, transform .25s ease, background .2s, border-color .2s;
+  pointer-events: none;
+}
+#go-top.visible { opacity: 1; transform: translateY(0) scale(1); pointer-events: auto; }
+#go-top:hover { background: rgba(124,111,247,0.32); border-color: rgba(124,111,247,0.6); }
+#go-top svg { width: 18px; height: 18px; stroke: var(--accent1); fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+
+
+.wrapper { position: relative; z-index: 1; }
+.container { max-width: 1100px; margin: 0 auto; padding: 0 32px; }
+
+/* ── HERO ── */
+.hero {
+  min-height: 100vh;
+  display: flex; flex-direction: column; justify-content: center;
+  padding: 80px 0 60px;
+}
+.hero-eyebrow {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  letter-spacing: .15em;
+  text-transform: uppercase;
+  color: var(--accent2);
+  margin-bottom: 24px;
+  display: flex; align-items: center; gap: 10px;
+}
+.hero-eyebrow::before {
+  content: '';
+  display: block; width: 32px; height: 1px;
+  background: var(--accent2);
+}
+.hero-title {
+  font-family: var(--font-display);
+  font-size: clamp(48px, 8vw, 96px);
+  font-weight: 800;
+  line-height: .95;
+  letter-spacing: -.03em;
+  margin-bottom: 32px;
+}
+.hero-title .line2 {
+  display: block;
+  background: linear-gradient(135deg, var(--accent1) 0%, var(--accent2) 50%, var(--accent3) 100%);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+}
+.hero-sub {
+  max-width: 560px;
+  font-size: 18px;
+  color: var(--text-muted);
+  font-weight: 300;
+  line-height: 1.65;
+  margin-bottom: 48px;
+}
+.hero-stats {
+  display: flex; gap: 40px; flex-wrap: wrap;
+}
+.stat-item { display: flex; flex-direction: column; gap: 4px; }
+.stat-num {
+  font-family: var(--font-display);
+  font-size: 36px; font-weight: 700;
+  background: linear-gradient(135deg, var(--accent1), var(--accent2));
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+}
+.stat-label { font-size: 13px; color: var(--text-dim); letter-spacing: .05em; text-transform: uppercase; }
+
+/* ── SECTION ── */
+section { padding: 80px 0; }
+.section-header { margin-bottom: 56px; }
+.section-tag {
+  font-family: var(--font-mono); font-size: 11px; font-weight: 500;
+  letter-spacing: .12em; text-transform: uppercase;
+  padding: 4px 12px; border-radius: 100px;
+  border: 1px solid; display: inline-block; margin-bottom: 16px;
+}
+.section-title {
+  font-family: var(--font-display);
+  font-size: clamp(28px, 4vw, 48px);
+  font-weight: 700; line-height: 1.05;
+  letter-spacing: -.02em;
+}
+.section-title span { display: block; }
+.section-desc { margin-top: 14px; color: var(--text-muted); max-width: 520px; font-size: 16px; }
+
+/* ── TIER BADGE ── */
+.tier-nav {
+  display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 48px;
+}
+.tier-btn {
+  font-family: var(--font-mono); font-size: 11px; letter-spacing: .08em;
+  text-transform: uppercase; padding: 7px 16px; border-radius: 100px;
+  border: 1px solid var(--glass-border); background: var(--glass);
+  color: var(--text-muted); cursor: pointer; transition: all .2s;
+  backdrop-filter: blur(8px);
+}
+.tier-btn:hover, .tier-btn.active {
+  background: rgba(124,111,247,0.15); border-color: var(--accent1);
+  color: var(--text);
+}
+
+/* ── FRAMEWORK GRID ── */
+.frameworks-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 16px;
+}
+
+/* ── CARD ── */
+.card {
+  background: var(--glass);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius);
+  padding: 28px;
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  transition: all .25s ease;
+  cursor: pointer;
+  position: relative; overflow: hidden;
+}
+.card::before {
+  content: '';
+  position: absolute; inset: 0;
+  background: var(--card-glow, transparent);
+  opacity: 0; transition: opacity .3s;
+  pointer-events: none;
+}
+.card:hover { border-color: rgba(255,255,255,0.14); background: var(--glass-hover); transform: translateY(-2px); }
+.card:hover::before { opacity: 1; }
+
+.card-top { display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 16px; }
+.card-tag {
+  font-family: var(--font-mono); font-size: 10px; letter-spacing: .1em;
+  text-transform: uppercase; padding: 4px 10px; border-radius: 100px;
+  border: 1px solid; font-weight: 500;
+}
+.card-num {
+  font-family: var(--font-display); font-size: 13px; font-weight: 700;
+  color: var(--text-dim);
+}
+.card-title {
+  font-family: var(--font-display);
+  font-size: 20px; font-weight: 700;
+  letter-spacing: -.02em; margin-bottom: 10px;
+  line-height: 1.2;
+}
+.card-desc { font-size: 14px; color: var(--text-muted); line-height: 1.65; margin-bottom: 20px; }
+
+/* ── ACCORDION ── */
+.card-details { display: none; }
+.card.open .card-details { display: block; }
+.card-divider { height: 1px; background: var(--glass-border); margin: 20px 0; }
+.detail-section { margin-bottom: 18px; }
+.detail-label {
+  font-family: var(--font-mono); font-size: 10px; letter-spacing: .12em;
+  text-transform: uppercase; color: var(--text-dim); margin-bottom: 8px;
+}
+.detail-text { font-size: 13px; color: var(--text-muted); line-height: 1.65; }
+.prompt-box {
+  background: rgba(0,0,0,0.35);
+  border: 1px solid var(--glass-border);
+  border-left: 2px solid;
+  border-radius: var(--radius-sm);
+  padding: 14px 16px;
+  font-family: var(--font-mono);
+  font-size: 12px; color: var(--text-muted);
+  line-height: 1.6; white-space: pre-wrap;
+}
+.use-cases { display: flex; flex-wrap: wrap; gap: 6px; }
+.use-case-tag {
+  font-size: 11px; padding: 3px 10px; border-radius: 100px;
+  background: rgba(255,255,255,0.06); border: 1px solid var(--glass-border);
+  color: var(--text-muted);
+}
+.expand-btn {
+  display: flex; align-items: center; gap: 6px;
+  font-family: var(--font-mono); font-size: 11px; letter-spacing: .06em;
+  text-transform: uppercase; color: var(--text-dim);
+  border: none; background: none; cursor: pointer; padding: 0;
+  transition: color .2s;
+}
+.expand-btn:hover { color: var(--text); }
+.expand-icon {
+  width: 18px; height: 18px; border-radius: 50%;
+  border: 1px solid var(--glass-border);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 12px; transition: transform .25s;
+}
+.card.open .expand-icon { transform: rotate(45deg); }
+
+/* ── FORMULA SECTION ── */
+.formula-section {
+  background: var(--glass);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius);
+  padding: 48px;
+  backdrop-filter: blur(20px);
+  text-align: center;
+  position: relative; overflow: hidden;
+}
+.formula-section::before {
+  content: '';
+  position: absolute; top: -50%; left: -50%;
+  width: 200%; height: 200%;
+  background: radial-gradient(ellipse at center, rgba(124,111,247,0.08) 0%, transparent 60%);
+  pointer-events: none;
+}
+.formula {
+  font-family: var(--font-display);
+  font-size: clamp(14px, 2vw, 22px);
+  font-weight: 700; letter-spacing: -.01em;
+  line-height: 1.4; margin: 24px 0;
+  display: flex; flex-wrap: wrap; justify-content: center;
+  align-items: center; gap: 10px;
+}
+.formula-term {
+  padding: 6px 16px; border-radius: 100px;
+  border: 1px solid;
+}
+.formula-op { color: var(--text-dim); font-size: 20px; }
+
+/* ── LAYERS ── */
+.layers-grid {
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 12px;
+}
+.layer-card {
+  background: var(--glass); border: 1px solid var(--glass-border);
+  border-radius: var(--radius-sm); padding: 20px;
+  backdrop-filter: blur(16px);
+}
+.layer-num {
+  font-family: var(--font-display); font-size: 48px; font-weight: 800;
+  opacity: .06; line-height: 1; margin-bottom: -16px;
+}
+.layer-title {
+  font-family: var(--font-display); font-size: 14px; font-weight: 700;
+  letter-spacing: .05em; text-transform: uppercase; margin-bottom: 8px;
+}
+.layer-items { display: flex; flex-direction: column; gap: 4px; }
+.layer-item { font-size: 13px; color: var(--text-muted); display: flex; align-items: center; gap: 8px; }
+.layer-item::before { content: '—'; color: var(--text-dim); flex-shrink: 0; }
+.layer-question { font-size: 12px; color: var(--text-dim); margin-top: 10px; font-style: italic; }
+
+/* ── FOOTER ── */
+footer {
+  padding: 60px 0 40px;
+  border-top: 1px solid var(--glass-border);
+  text-align: center;
+}
+.footer-logo {
+  font-family: var(--font-display);
+  font-size: 24px; font-weight: 800; letter-spacing: -.03em;
+  margin-bottom: 12px;
+}
+.footer-sub { font-size: 13px; color: var(--text-dim); }
+
+/* ── SCROLL ANIMATION ── */
+.fade-up { opacity: 0; transform: translateY(24px); transition: opacity .6s ease, transform .6s ease; }
+.fade-up.visible { opacity: 1; transform: none; }
+
+/* ── RESPONSIVE ── */
+@media (max-width: 640px) {
+  .container { padding: 0 20px; }
+  .nav-inner { padding: 0 16px; }
+  .nav-logo { font-size: 12px; margin-right: 16px; }
+  .nav-links li a { padding: 5px 10px; font-size: 9px; }
+  .formula { font-size: 13px; gap: 6px; }
+  .formula-term { padding: 4px 10px; font-size: 13px; }
+  .hero-stats { gap: 24px; }
+  .card { padding: 20px; }
+  .formula-section { padding: 28px 20px; }
+  #go-top { bottom: 20px; right: 20px; width: 40px; height: 40px; }
+}
+</style>
+</head>
+<body>
+
+<div class="bg-mesh"></div>
+<div class="bg-grid"></div>
+
+<!-- ── STICKY NAV ── -->
+<nav id="sticky-nav" role="navigation" aria-label="Quick navigation">
+  <div class="nav-inner">
+    <div class="nav-logo">AI <span>Thinking</span></div>
+    <ul class="nav-links">
+      <li><a href="#sec-hero">Tổng quan</a></li>
+      <li><a href="#sec-layers">4 Tầng</a></li>
+      <li><a href="#sec-frameworks">15 Frameworks</a></li>
+      <li><a href="#sec-formula">Công thức</a></li>
+    </ul>
+  </div>
+</nav>
+
+<!-- ── GO TOP ── -->
+<button id="go-top" aria-label="Quay lên đầu trang" onclick="window.scrollTo({top:0,behavior:'smooth'})">
+  <svg viewBox="0 0 24 24"><polyline points="18 15 12 9 6 15"/></svg>
+</button>
+
+<div class="wrapper">
+<div class="container">
+
+<!-- ── HERO ── -->
+<section class="hero fade-up visible" id="sec-hero">
+  <div class="hero-eyebrow">AI Thinking Frameworks</div>
+  <h1 class="hero-title">
+    Tư duy làm việc
+    <span class="line2">với AI</span>
+  </h1>
+  <p class="hero-sub">Không phải prompt hay. Không phải tool mới. Đây là bộ khung tư duy giúp bạn khai thác AI ở chiều sâu — từ vibe coding đến kiến trúc chatbot thực thụ.</p>
+  <div class="hero-stats">
+    <div class="stat-item"><span class="stat-num">15</span><span class="stat-label">Frameworks</span></div>
+    <div class="stat-item"><span class="stat-num">4</span><span class="stat-label">Tầng tư duy</span></div>
+    <div class="stat-item"><span class="stat-num">∞</span><span class="stat-label">Ứng dụng</span></div>
+  </div>
+</section>
+
+<!-- ── LAYERS ── -->
+<section class="fade-up" id="sec-layers">
+  <div class="section-header">
+    <span class="section-tag" style="border-color: rgba(124,111,247,0.4); color: var(--accent1);">Kiến trúc tổng quan</span>
+    <h2 class="section-title">4 tầng tư duy<span style="color: var(--text-muted); font-weight: 300;">cốt lõi</span></h2>
+    <p class="section-desc">Mỗi tầng trả lời một câu hỏi khác nhau trong vòng đời xây dựng AI.</p>
+  </div>
+  <div class="layers-grid">
+    <div class="layer-card" style="border-color: rgba(124,111,247,0.2);">
+      <div class="layer-num" style="color: var(--accent1);">1</div>
+      <div class="layer-title" style="color: var(--accent1);">Định hướng</div>
+      <div class="layer-items">
+        <span class="layer-item">Strategic thinking</span>
+        <span class="layer-item">Product thinking</span>
+      </div>
+      <p class="layer-question">Xây cái gì, cho ai, để làm gì?</p>
+    </div>
+    <div class="layer-card" style="border-color: rgba(45,212,191,0.2);">
+      <div class="layer-num" style="color: var(--accent2);">2</div>
+      <div class="layer-title" style="color: var(--accent2);">Mô hình hóa</div>
+      <div class="layer-items">
+        <span class="layer-item">Systems & Analytical thinking</span>
+        <span class="layer-item">Structural thinking</span>
+        <span class="layer-item">Context engineering</span>
+      </div>
+      <p class="layer-question">Hệ này gồm những phần nào?</p>
+    </div>
+    <div class="layer-card" style="border-color: rgba(251,146,60,0.2);">
+      <div class="layer-num" style="color: var(--accent4);">3</div>
+      <div class="layer-title" style="color: var(--accent4);">Xử lý vấn đề</div>
+      <div class="layer-items">
+        <span class="layer-item">Logical thinking</span>
+        <span class="layer-item">Task decomposition</span>
+        <span class="layer-item">OODA Loop</span>
+      </div>
+      <p class="layer-question">Giải bài toán cụ thể thế nào?</p>
+    </div>
+    <div class="layer-card" style="border-color: rgba(244,114,182,0.2);">
+      <div class="layer-num" style="color: var(--accent3);">4</div>
+      <div class="layer-title" style="color: var(--accent3);">Kiểm soát chất lượng</div>
+      <div class="layer-items">
+        <span class="layer-item">Feynman Technique</span>
+        <span class="layer-item">Hypothesis-driven</span>
+        <span class="layer-item">Inversion & Pre-mortem</span>
+        <span class="layer-item">Socratic method</span>
+        <span class="layer-item">Critical thinking</span>
+        <span class="layer-item">Meta thinking</span>
+      </div>
+      <p class="layer-question">Hệ có sai không, mình có nghĩ sai không?</p>
+    </div>
+  </div>
+</section>
+
+<!-- ── FRAMEWORKS ── -->
+<section class="fade-up" id="sec-frameworks">
+  <div class="section-header">
+    <span class="section-tag" style="border-color: rgba(45,212,191,0.4); color: var(--accent2);">Bộ công cụ đầy đủ</span>
+    <h2 class="section-title">15 frameworks<span style="color: var(--text-muted); font-weight: 300;">thực chiến</span></h2>
+    <p class="section-desc">Click vào từng card để xem giải thích sâu, prompt ví dụ, và use cases thực tế.</p>
+  </div>
+
+  <div class="tier-nav">
+    <button class="tier-btn active" onclick="filterCards('all', this)">Tất cả</button>
+    <button class="tier-btn" onclick="filterCards('dinh-huong', this)">Định hướng</button>
+    <button class="tier-btn" onclick="filterCards('mo-hinh', this)">Mô hình hóa</button>
+    <button class="tier-btn" onclick="filterCards('xu-ly', this)">Xử lý vấn đề</button>
+    <button class="tier-btn" onclick="filterCards('kiem-soat', this)">Kiểm soát CL</button>
+  </div>
+
+  <div class="frameworks-grid" id="frameworks-grid">
+
+    <!-- 1. Strategic -->
+    <div class="card" data-tier="dinh-huong" style="--card-glow: radial-gradient(ellipse at top left, rgba(124,111,247,0.1), transparent 60%);">
+      <div class="card-top">
+        <span class="card-tag" style="border-color: rgba(124,111,247,0.4); color: var(--accent1);">Định hướng</span>
+        <span class="card-num">01</span>
+      </div>
+      <h3 class="card-title">Strategic Thinking</h3>
+      <p class="card-desc">Nhìn mục tiêu lớn, trade-off, thứ tự ưu tiên. Tránh làm chatbot "biết nhiều nhưng vô dụng" bằng cách xác định business outcome rõ trước khi chạm vào prompt.</p>
+      <button class="expand-btn" onclick="toggleCard(this)">
+        <span>Chi tiết</span>
+        <span class="expand-icon">+</span>
+      </button>
+      <div class="card-details">
+        <div class="card-divider"></div>
+        <div class="detail-section">
+          <div class="detail-label">Giải thích</div>
+          <div class="detail-text">Người làm non tay sẽ nhảy thẳng vào prompt khi nghe "xây chatbot CSKH". Người có strategic thinking hỏi: Bot để giảm ticket hay tăng conversion? KPI là gì? 80% câu hỏi thuộc nhóm nào? Scope của nó đến đâu?</div>
+        </div>
+        <div class="detail-section">
+          <div class="detail-label">Prompt mẫu</div>
+          <div class="prompt-box" style="border-left-color: var(--accent1);">Trước khi xây chatbot này, hãy giúp tôi xác định:
+1. Kết quả kinh doanh cụ thể muốn đạt?
+2. Top 3 use case chiếm 80% nhu cầu?
+3. Ranh giới scope: cái gì bot KHÔNG nên làm?
+4. Kiến trúc phù hợp: prompt-only, RAG, tool-calling?</div>
+        </div>
+        <div class="detail-section">
+          <div class="detail-label">Use cases</div>
+          <div class="use-cases">
+            <span class="use-case-tag">Chatbot CSKH</span>
+            <span class="use-case-tag">Product roadmap</span>
+            <span class="use-case-tag">Chọn kiến trúc AI</span>
+            <span class="use-case-tag">Scope MVP</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 2. Systems -->
+    <div class="card" data-tier="mo-hinh" style="--card-glow: radial-gradient(ellipse at top left, rgba(45,212,191,0.08), transparent 60%);">
+      <div class="card-top">
+        <span class="card-tag" style="border-color: rgba(45,212,191,0.4); color: var(--accent2);">Mô hình hóa</span>
+        <span class="card-num">02</span>
+      </div>
+      <h3 class="card-title">Systems Thinking</h3>
+      <p class="card-desc">Nhìn chatbot như một pipeline nhiều tầng: input → retrieval → memory → tool → output → eval. Lỗi ở tầng nào gây vấn đề gì? Dependency loop ở đâu?</p>
+      <button class="expand-btn" onclick="toggleCard(this)">
+        <span>Chi tiết</span>
+        <span class="expand-icon">+</span>
+      </button>
+      <div class="card-details">
+        <div class="card-divider"></div>
+        <div class="detail-section">
+          <div class="detail-label">Giải thích</div>
+          <div class="detail-text">Chatbot thật có: instruction layer → retrieval layer → memory layer → tool layer → safety layer → eval layer. Nếu chỉ "vibe prompt" mà không nghĩ hệ thống: docs lộn xộn, retrieval lạc chủ đề, assistant nhớ nhầm, tool gọi sai lúc.</div>
+        </div>
+        <div class="detail-section">
+          <div class="detail-label">Prompt mẫu</div>
+          <div class="prompt-box" style="border-left-color: var(--accent2);">Vẽ sơ đồ pipeline đầy đủ cho chatbot [X]:
+- Mỗi tầng làm gì?
+- Nếu tầng retrieval sai → output bị ảnh hưởng thế nào?
+- Failure points nào nguy hiểm nhất?
+- Feedback loop nào cần thiết kế?</div>
+        </div>
+        <div class="detail-section">
+          <div class="detail-label">Use cases</div>
+          <div class="use-cases">
+            <span class="use-case-tag">Debug chatbot</span>
+            <span class="use-case-tag">Thiết kế multi-agent</span>
+            <span class="use-case-tag">RAG architecture</span>
+            <span class="use-case-tag">Production readiness</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 3. Structural -->
+    <div class="card" data-tier="mo-hinh" style="--card-glow: radial-gradient(ellipse at top left, rgba(45,212,191,0.08), transparent 60%);">
+      <div class="card-top">
+        <span class="card-tag" style="border-color: rgba(45,212,191,0.4); color: var(--accent2);">Mô hình hóa</span>
+        <span class="card-num">03</span>
+      </div>
+      <h3 class="card-title">Structural Thinking</h3>
+      <p class="card-desc">Tổ chức thông tin thành schema, tầng, block, field, state. NLP mạnh nhất khi bạn nhìn thấy cấu trúc tri thức ẩn trong ngôn ngữ.</p>
+      <button class="expand-btn" onclick="toggleCard(this)">
+        <span>Chi tiết</span>
+        <span class="expand-icon">+</span>
+      </button>
+      <div class="card-details">
+        <div class="card-divider"></div>
+        <div class="detail-section">
+          <div class="detail-label">Giải thích</div>
+          <div class="detail-text">Thay vì prompt "hãy trả lời hay về bảo hiểm", hãy thiết kế: nhận diện intent → trích entity (loại BH, độ tuổi, thời hạn) → phân biệt fact vs recommendation → nếu thiếu dữ liệu thì hỏi lại → output theo 4 block: tóm tắt / điều kiện / ngoại lệ / bước tiếp theo.</div>
+        </div>
+        <div class="detail-section">
+          <div class="detail-label">Prompt mẫu</div>
+          <div class="prompt-box" style="border-left-color: var(--accent2);">Hãy thiết kế schema cho câu hỏi người dùng trong domain [X]:
+- Intent taxonomy (phân loại ý định)
+- Entity cần trích xuất
+- Trạng thái hội thoại (state machine)
+- Output format JSON cho từng loại intent</div>
+        </div>
+        <div class="detail-section">
+          <div class="detail-label">Use cases</div>
+          <div class="use-cases">
+            <span class="use-case-tag">Knowledge base design</span>
+            <span class="use-case-tag">NLP extraction</span>
+            <span class="use-case-tag">Custom GPT</span>
+            <span class="use-case-tag">Ontology</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 4. Context Engineering -->
+    <div class="card" data-tier="mo-hinh" style="--card-glow: radial-gradient(ellipse at top left, rgba(45,212,191,0.08), transparent 60%);">
+      <div class="card-top">
+        <span class="card-tag" style="border-color: rgba(45,212,191,0.4); color: var(--accent2);">Mô hình hóa</span>
+        <span class="card-num">04</span>
+      </div>
+      <h3 class="card-title">Context Engineering</h3>
+      <p class="card-desc">Không chỉ viết prompt — mà thiết kế toàn bộ ngữ cảnh AI nhận được: system prompt, memory, retrieved docs, tool results, conversation history. Chất lượng context = chất lượng output.</p>
+      <button class="expand-btn" onclick="toggleCard(this)">
+        <span>Chi tiết</span>
+        <span class="expand-icon">+</span>
+      </button>
+      <div class="card-details">
+        <div class="card-divider"></div>
+        <div class="detail-section">
+          <div class="detail-label">Giải thích</div>
+          <div class="detail-text">Context window là căn phòng AI tư duy. Context engineering là việc quyết định: thứ gì được vào phòng, xếp theo thứ tự nào, loại bỏ cái gì để tránh nhiễu. Prompt chỉ là một phần nhỏ trong bức tranh đó.</div>
+        </div>
+        <div class="detail-section">
+          <div class="detail-label">Prompt mẫu</div>
+          <div class="prompt-box" style="border-left-color: var(--accent2);">Audit context window của tôi cho task [X]:
+- System prompt có rõ role + constraints chưa?
+- Retrieved chunks có relevant không, có nhiễu không?
+- Memory có cần truncate không?
+- Thứ tự thông tin có tối ưu chưa? (recency bias)</div>
+        </div>
+        <div class="detail-section">
+          <div class="detail-label">Use cases</div>
+          <div class="use-cases">
+            <span class="use-case-tag">Long-form AI agent</span>
+            <span class="use-case-tag">RAG tuning</span>
+            <span class="use-case-tag">Memory management</span>
+            <span class="use-case-tag">Multi-turn chat</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 5. Task Decomposition -->
+    <div class="card" data-tier="xu-ly" style="--card-glow: radial-gradient(ellipse at top left, rgba(251,146,60,0.08), transparent 60%);">
+      <div class="card-top">
+        <span class="card-tag" style="border-color: rgba(251,146,60,0.4); color: var(--accent4);">Xử lý vấn đề</span>
+        <span class="card-num">05</span>
+      </div>
+      <h3 class="card-title">Task Decomposition</h3>
+      <p class="card-desc">Chia bài toán lớn thành các sub-task nhỏ, độc lập, có thứ tự. AI làm tốt nhất khi từng bước được định nghĩa rõ — không phải một prompt khổng lồ.</p>
+      <button class="expand-btn" onclick="toggleCard(this)">
+        <span>Chi tiết</span>
+        <span class="expand-icon">+</span>
+      </button>
+      <div class="card-details">
+        <div class="card-divider"></div>
+        <div class="detail-section">
+          <div class="detail-label">Giải thích</div>
+          <div class="detail-text">Thay vì "viết báo cáo thị trường hoàn chỉnh", hãy tách: (1) xác định scope → (2) thu thập data → (3) phân tích competitor → (4) synthesis insights → (5) viết executive summary. Mỗi bước là một lần gọi AI riêng biệt với output rõ ràng.</div>
+        </div>
+        <div class="detail-section">
+          <div class="detail-label">Prompt mẫu</div>
+          <div class="prompt-box" style="border-left-color: var(--accent4);">Tách task [X] thành các sub-task nhỏ nhất có thể:
+- Mỗi sub-task: input là gì? output là gì?
+- Sub-task nào phụ thuộc vào nhau?
+- Sub-task nào có thể song song?
+- Checkpoint quality ở bước nào?</div>
+        </div>
+        <div class="detail-section">
+          <div class="detail-label">Use cases</div>
+          <div class="use-cases">
+            <span class="use-case-tag">Agentic workflow</span>
+            <span class="use-case-tag">Chain-of-thought</span>
+            <span class="use-case-tag">Complex research</span>
+            <span class="use-case-tag">Code generation</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 6. Logical -->
+    <div class="card" data-tier="xu-ly" style="--card-glow: radial-gradient(ellipse at top left, rgba(251,146,60,0.08), transparent 60%);">
+      <div class="card-top">
+        <span class="card-tag" style="border-color: rgba(251,146,60,0.4); color: var(--accent4);">Xử lý vấn đề</span>
+        <span class="card-num">06</span>
+      </div>
+      <h3 class="card-title">Logical Thinking</h3>
+      <p class="card-desc">Thiết kế policy, decision rules, if/else trong hội thoại. Không có logic flow rõ, bot sẽ trả lời trôi chảy nhưng không đáng tin — đặc biệt trong domain chuyên môn.</p>
+      <button class="expand-btn" onclick="toggleCard(this)">
+        <span>Chi tiết</span>
+        <span class="expand-icon">+</span>
+      </button>
+      <div class="card-details">
+        <div class="card-divider"></div>
+        <div class="detail-section">
+          <div class="detail-label">Giải thích</div>
+          <div class="detail-text">Ví dụ chatbot tuyển dụng: nếu user hỏi JD → dùng knowledge base. Nếu hỏi tình trạng hồ sơ → yêu cầu mã ứng viên. Nếu thiếu mã → hỏi lại. Nếu không chắc → nói rõ chưa xác minh. Nếu liên quan thông tin cá nhân → từ chối suy đoán.</div>
+        </div>
+        <div class="detail-section">
+          <div class="detail-label">Prompt mẫu</div>
+          <div class="prompt-box" style="border-left-color: var(--accent4);">Viết decision tree đầy đủ cho chatbot [X]:
+- Khi user hỏi [A] → bot làm gì?
+- Điều kiện nào kích hoạt tool gọi?
+- Khi nào bot phải hỏi lại?
+- Khi nào từ chối, khi nào escalate?</div>
+        </div>
+        <div class="detail-section">
+          <div class="detail-label">Use cases</div>
+          <div class="use-cases">
+            <span class="use-case-tag">Policy design</span>
+            <span class="use-case-tag">Guardrails</span>
+            <span class="use-case-tag">Instruction hierarchy</span>
+            <span class="use-case-tag">Safety rules</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 7. OODA Loop -->
+    <div class="card" data-tier="xu-ly" style="--card-glow: radial-gradient(ellipse at top left, rgba(251,146,60,0.08), transparent 60%);">
+      <div class="card-top">
+        <span class="card-tag" style="border-color: rgba(251,146,60,0.4); color: var(--accent4);">Xử lý vấn đề</span>
+        <span class="card-num">07</span>
+      </div>
+      <h3 class="card-title">OODA Loop</h3>
+      <p class="card-desc"><strong style="font-weight:500;color:var(--text)">Observe → Orient → Decide → Act.</strong> Vòng lặp ra quyết định nhanh của không quân Mỹ. Áp dụng vào AI: đừng để AI phản xạ ngay — ép nó qua 4 bước trước khi output.</p>
+      <button class="expand-btn" onclick="toggleCard(this)">
+        <span>Chi tiết</span>
+        <span class="expand-icon">+</span>
+      </button>
+      <div class="card-details">
+        <div class="card-divider"></div>
+        <div class="detail-section">
+          <div class="detail-label">Giải thích</div>
+          <div class="detail-text"><strong style="font-weight:500;color:var(--text)">Observe:</strong> AI quan sát input đầy đủ (không chỉ bề mặt). <strong style="font-weight:500;color:var(--text)">Orient:</strong> AI định hướng bối cảnh — lịch sử, vai trò, constraint. <strong style="font-weight:500;color:var(--text)">Decide:</strong> AI chọn strategy phù hợp từ nhiều options. <strong style="font-weight:500;color:var(--text)">Act:</strong> AI hành động với output đã được filter qua 3 bước trên.</div>
+        </div>
+        <div class="detail-section">
+          <div class="detail-label">Prompt mẫu</div>
+          <div class="prompt-box" style="border-left-color: var(--accent4);">Trước khi trả lời, hãy đi qua OODA loop:
+OBSERVE: Tôi đang thực sự hỏi gì? Có thông tin ẩn nào không?
+ORIENT: Bối cảnh liên quan là gì? Constraint nào quan trọng?
+DECIDE: Có bao nhiêu cách tiếp cận? Cái nào tối ưu nhất?
+ACT: Bây giờ hãy đưa ra câu trả lời.</div>
+        </div>
+        <div class="detail-section">
+          <div class="detail-label">Use cases</div>
+          <div class="use-cases">
+            <span class="use-case-tag">High-stakes decisions</span>
+            <span class="use-case-tag">Ambiguous requests</span>
+            <span class="use-case-tag">Crisis response</span>
+            <span class="use-case-tag">Agent reasoning</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 8. Feynman -->
+    <div class="card" data-tier="kiem-soat" style="--card-glow: radial-gradient(ellipse at top left, rgba(244,114,182,0.08), transparent 60%);">
+      <div class="card-top">
+        <span class="card-tag" style="border-color: rgba(244,114,182,0.4); color: var(--accent3);">Kiểm soát CL</span>
+        <span class="card-num">08</span>
+      </div>
+      <h3 class="card-title">Feynman Technique</h3>
+      <p class="card-desc">Yêu cầu AI giải thích 3 lớp: đơn giản như cho trẻ 12 tuổi → ngôn ngữ chuyên môn → chỉ rõ điểm mà bản thân AI không chắc. Ba lớp này lộ ra đâu là kiến thức thật.</p>
+      <button class="expand-btn" onclick="toggleCard(this)">
+        <span>Chi tiết</span>
+        <span class="expand-icon">+</span>
+      </button>
+      <div class="card-details">
+        <div class="card-divider"></div>
+        <div class="detail-section">
+          <div class="detail-label">Giải thích</div>
+          <div class="detail-text">Richard Feynman: nếu bạn không thể giải thích đơn giản, bạn chưa thực sự hiểu. Áp dụng vào AI: ép AI qua 3 lớp giải thích buộc nó phân biệt kiến thức thật với kiến thức "nghe có vẻ đúng" — đặc biệt quan trọng trong domain chuyên môn cao.</div>
+        </div>
+        <div class="detail-section">
+          <div class="detail-label">Prompt mẫu</div>
+          <div class="prompt-box" style="border-left-color: var(--accent3);">Giải thích [khái niệm X] theo 3 lớp:
+LỚP 1: Như thể tôi 12 tuổi (không dùng jargon)
+LỚP 2: Ngôn ngữ chuyên môn đầy đủ
+LỚP 3: Những điểm nào bạn không chắc 100%,
+         hoặc có tranh luận trong cộng đồng?</div>
+        </div>
+        <div class="detail-section">
+          <div class="detail-label">Use cases</div>
+          <div class="use-cases">
+            <span class="use-case-tag">Learning complex topics</span>
+            <span class="use-case-tag">Verify AI knowledge</span>
+            <span class="use-case-tag">Domain validation</span>
+            <span class="use-case-tag">Documentation</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 9. Hypothesis Driven -->
+    <div class="card" data-tier="kiem-soat" style="--card-glow: radial-gradient(ellipse at top left, rgba(244,114,182,0.08), transparent 60%);">
+      <div class="card-top">
+        <span class="card-tag" style="border-color: rgba(244,114,182,0.4); color: var(--accent3);">Kiểm soát CL</span>
+        <span class="card-num">09</span>
+      </div>
+      <h3 class="card-title">Hypothesis-Driven Thinking</h3>
+      <p class="card-desc">Đặt giả thuyết cụ thể trước khi hỏi AI, sau đó dùng AI để kiểm chứng — không phải để xác nhận. Tránh confirmation bias khi làm việc với AI.</p>
+      <button class="expand-btn" onclick="toggleCard(this)">
+        <span>Chi tiết</span>
+        <span class="expand-icon">+</span>
+      </button>
+      <div class="card-details">
+        <div class="card-divider"></div>
+        <div class="detail-section">
+          <div class="detail-label">Giải thích</div>
+          <div class="detail-text">Nếu bạn bắt đầu với "prove me right", AI sẽ chiều bạn. Thay vào đó: đặt hypothesis → liệt kê điều kiện để hypothesis sai → nhờ AI tìm evidence phản bác → update belief dựa trên strength of evidence, không phải cảm xúc.</div>
+        </div>
+        <div class="detail-section">
+          <div class="detail-label">Prompt mẫu</div>
+          <div class="prompt-box" style="border-left-color: var(--accent3);">Giả thuyết của tôi: [X]
+1. Điều kiện nào sẽ chứng minh giả thuyết này SAI?
+2. Hãy tìm evidence mạnh nhất PHẢN BÁC giả thuyết
+3. Đánh giá: evidence ủng hộ vs phản bác — cái nào mạnh hơn?
+4. Kết luận được điều chỉnh là gì?</div>
+        </div>
+        <div class="detail-section">
+          <div class="detail-label">Use cases</div>
+          <div class="use-cases">
+            <span class="use-case-tag">Product decisions</span>
+            <span class="use-case-tag">A/B test design</span>
+            <span class="use-case-tag">Market research</span>
+            <span class="use-case-tag">Technical bets</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 10. Inversion -->
+    <div class="card" data-tier="kiem-soat" style="--card-glow: radial-gradient(ellipse at top left, rgba(244,114,182,0.08), transparent 60%);">
+      <div class="card-top">
+        <span class="card-tag" style="border-color: rgba(244,114,182,0.4); color: var(--accent3);">Kiểm soát CL</span>
+        <span class="card-num">10</span>
+      </div>
+      <h3 class="card-title">Inversion Thinking</h3>
+      <p class="card-desc">Charlie Munger: "Hãy đảo ngược, luôn luôn đảo ngược." Thay vì hỏi làm sao để thành công, hỏi làm sao để thất bại chắc chắn. AI rất giỏi liệt kê con đường dẫn đến thất bại — hãy khai thác điều đó.</p>
+      <button class="expand-btn" onclick="toggleCard(this)">
+        <span>Chi tiết</span>
+        <span class="expand-icon">+</span>
+      </button>
+      <div class="card-details">
+        <div class="card-divider"></div>
+        <div class="detail-section">
+          <div class="detail-label">Giải thích</div>
+          <div class="detail-text">Thay vì "làm sao chatbot này thành công?" → "làm sao chắc chắn chatbot này thất bại?" Liệt kê tất cả con đường dẫn đến thất bại, sau đó đảo ngược từng điểm. Kết quả: một bản checklist phòng thủ mạnh hơn bất kỳ best practice nào.</div>
+        </div>
+        <div class="detail-section">
+          <div class="detail-label">Prompt mẫu</div>
+          <div class="prompt-box" style="border-left-color: var(--accent3);">Tôi muốn [đạt mục tiêu X]. 
+Thay vì tư vấn thành công, hãy:
+1. Liệt kê 10 cách chắc chắn nhất để THẤT BẠI
+2. Xếp theo mức độ nguy hiểm
+3. Với mỗi cái: cơ chế thất bại là gì?
+Tôi sẽ tự đảo ngược danh sách đó.</div>
+        </div>
+        <div class="detail-section">
+          <div class="detail-label">Use cases</div>
+          <div class="use-cases">
+            <span class="use-case-tag">Risk management</span>
+            <span class="use-case-tag">System design</span>
+            <span class="use-case-tag">Strategy review</span>
+            <span class="use-case-tag">Anti-patterns</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 11. Pre-mortem -->
+    <div class="card" data-tier="kiem-soat" style="--card-glow: radial-gradient(ellipse at top left, rgba(244,114,182,0.08), transparent 60%);">
+      <div class="card-top">
+        <span class="card-tag" style="border-color: rgba(244,114,182,0.4); color: var(--accent3);">Kiểm soát CL</span>
+        <span class="card-num">11</span>
+      </div>
+      <h3 class="card-title">Pre-mortem Analysis</h3>
+      <p class="card-desc">Gary Klein: trước khi bắt đầu, hãy giả sử dự án đã thất bại và tìm nguyên nhân. Phát hiện rủi ro ẩn mà phân tích xuôi không bao giờ thấy.</p>
+      <button class="expand-btn" onclick="toggleCard(this)">
+        <span>Chi tiết</span>
+        <span class="expand-icon">+</span>
+      </button>
+      <div class="card-details">
+        <div class="card-divider"></div>
+        <div class="detail-section">
+          <div class="detail-label">Giải thích</div>
+          <div class="detail-text">Post-mortem phân tích thất bại sau khi xảy ra. Pre-mortem dùng "prospective hindsight" — giả sử thất bại đã xảy ra, hỏi ngược lại tại sao. Kỹ thuật này vượt qua confirmation bias và "planning fallacy" — hai kẻ thù lớn nhất của mọi dự án AI.</div>
+        </div>
+        <div class="detail-section">
+          <div class="detail-label">Prompt mẫu</div>
+          <div class="prompt-box" style="border-left-color: var(--accent3);">Tưởng tượng: 6 tháng sau, dự án [X] thất bại 
+hoàn toàn. Mọi người đang họp post-mortem.
+1. 5 nguyên nhân thất bại được đề cập nhiều nhất?
+2. Dấu hiệu cảnh báo nào đã bị bỏ qua từ đầu?
+3. Quyết định nào là turning point tệ nhất?
+Bây giờ: làm gì để ngăn chặn từng điểm đó?</div>
+        </div>
+        <div class="detail-section">
+          <div class="detail-label">Use cases</div>
+          <div class="use-cases">
+            <span class="use-case-tag">Project planning</span>
+            <span class="use-case-tag">Launch readiness</span>
+            <span class="use-case-tag">Team alignment</span>
+            <span class="use-case-tag">AI deployment</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 12. Socratic -->
+    <div class="card" data-tier="kiem-soat" style="--card-glow: radial-gradient(ellipse at top left, rgba(244,114,182,0.08), transparent 60%);">
+      <div class="card-top">
+        <span class="card-tag" style="border-color: rgba(244,114,182,0.4); color: var(--accent3);">Kiểm soát CL</span>
+        <span class="card-num">12</span>
+      </div>
+      <h3 class="card-title">Socratic Method</h3>
+      <p class="card-desc">Thay vì lấy câu trả lời từ AI, dùng AI để đặt câu hỏi ngược lại cho bạn. Câu hỏi hay hơn câu trả lời — vì câu hỏi đúng dẫn đến hiểu biết thật sự.</p>
+      <button class="expand-btn" onclick="toggleCard(this)">
+        <span>Chi tiết</span>
+        <span class="expand-icon">+</span>
+      </button>
+      <div class="card-details">
+        <div class="card-divider"></div>
+        <div class="detail-section">
+          <div class="detail-label">Giải thích</div>
+          <div class="detail-text">Socrates không dạy bằng cách đưa ra câu trả lời — ông đặt câu hỏi cho đến khi người đối diện tự phát hiện mâu thuẫn trong suy nghĩ của chính họ. Dùng AI làm "Socrates digital": ép AI hỏi bạn liên tục cho đến khi vấn đề lõi được lộ ra.</div>
+        </div>
+        <div class="detail-section">
+          <div class="detail-label">Prompt mẫu</div>
+          <div class="prompt-box" style="border-left-color: var(--accent3);">Đừng đưa ra giải pháp. Hãy đóng vai Socrates
+và hỏi tôi các câu hỏi để:
+1. Làm rõ giả định ẩn trong vấn đề của tôi
+2. Phát hiện mâu thuẫn trong suy nghĩ của tôi
+3. Dẫn tôi tự tìm ra giải pháp
+Hỏi từng câu một, chờ tôi trả lời.</div>
+        </div>
+        <div class="detail-section">
+          <div class="detail-label">Use cases</div>
+          <div class="use-cases">
+            <span class="use-case-tag">Problem framing</span>
+            <span class="use-case-tag">Learning sessions</span>
+            <span class="use-case-tag">Design thinking</span>
+            <span class="use-case-tag">Root cause analysis</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 13. Critical -->
+    <div class="card" data-tier="kiem-soat" style="--card-glow: radial-gradient(ellipse at top left, rgba(244,114,182,0.08), transparent 60%);">
+      <div class="card-top">
+        <span class="card-tag" style="border-color: rgba(244,114,182,0.4); color: var(--accent3);">Kiểm soát CL</span>
+        <span class="card-num">13</span>
+      </div>
+      <h3 class="card-title">Critical Thinking</h3>
+      <p class="card-desc">AI tạo ra "ảo giác năng lực" — bot nói trôi chảy không có nghĩa là bot đúng. Luôn kiểm tra giả định, nguồn gốc, độ tin cậy của mọi output.</p>
+      <button class="expand-btn" onclick="toggleCard(this)">
+        <span>Chi tiết</span>
+        <span class="expand-icon">+</span>
+      </button>
+      <div class="card-details">
+        <div class="card-divider"></div>
+        <div class="detail-section">
+          <div class="detail-label">Giải thích</div>
+          <div class="detail-text">Upload 20 file không có nghĩa bot hiểu domain. Bot nói trôi chảy không có nghĩa bot đúng. Test 5 câu ổn không có nghĩa production-ready. Critical thinking ép bạn kiểm: coverage đủ chưa? File có mâu thuẫn không? Câu trả lời có căn cứ không? Edge case đã test chưa?</div>
+        </div>
+        <div class="detail-section">
+          <div class="detail-label">Prompt mẫu</div>
+          <div class="prompt-box" style="border-left-color: var(--accent3);">Với câu trả lời vừa rồi, hãy tự phản biện:
+1. Giả định ẩn nào trong lập luận này?
+2. Câu trả lời này là fact hay inference?
+3. Bằng chứng nào ủng hộ? Bằng chứng nào phản bác?
+4. Điều gì sẽ khiến câu trả lời này sai hoàn toàn?</div>
+        </div>
+        <div class="detail-section">
+          <div class="detail-label">Use cases</div>
+          <div class="use-cases">
+            <span class="use-case-tag">Validation</span>
+            <span class="use-case-tag">Fact-checking</span>
+            <span class="use-case-tag">Guardrails design</span>
+            <span class="use-case-tag">Hallucination detection</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 14. Product Thinking -->
+    <div class="card" data-tier="dinh-huong" style="--card-glow: radial-gradient(ellipse at top left, rgba(124,111,247,0.1), transparent 60%);">
+      <div class="card-top">
+        <span class="card-tag" style="border-color: rgba(124,111,247,0.4); color: var(--accent1);">Định hướng</span>
+        <span class="card-num">14</span>
+      </div>
+      <h3 class="card-title">Product Thinking</h3>
+      <p class="card-desc">Nhìn chatbot như sản phẩm dùng thật, không phải demo. User đau ở đâu? Họ quay lại vì gì? Time-to-value có ngắn không? Ngăn bạn làm bot "ấn tượng nhưng không ai dùng."</p>
+      <button class="expand-btn" onclick="toggleCard(this)">
+        <span>Chi tiết</span>
+        <span class="expand-icon">+</span>
+      </button>
+      <div class="card-details">
+        <div class="card-divider"></div>
+        <div class="detail-section">
+          <div class="detail-label">Giải thích</div>
+          <div class="detail-text">Hầu hết AI demo ấn tượng trong 5 phút nhưng không ai dùng lại sau ngày đầu. Product thinking hỏi: người dùng thực sự gặp vấn đề gì? Friction nào trong flow hiện tại? Bot giải quyết đúng vấn đề đó chưa? Aha moment đến lúc nào?</div>
+        </div>
+        <div class="detail-section">
+          <div class="detail-label">Prompt mẫu</div>
+          <div class="prompt-box" style="border-left-color: var(--accent1);">Đánh giá chatbot [X] từ góc độ product:
+1. User pain point nào đang được giải quyết?
+2. Time-to-value: bao nhiêu bước để user thấy giá trị?
+3. Top 3 fail case phổ biến nhất là gì?
+4. Tại sao user KHÔNG quay lại dùng lần 2?</div>
+        </div>
+        <div class="detail-section">
+          <div class="detail-label">Use cases</div>
+          <div class="use-cases">
+            <span class="use-case-tag">UX design</span>
+            <span class="use-case-tag">Adoption analysis</span>
+            <span class="use-case-tag">Retention</span>
+            <span class="use-case-tag">MVP scoping</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 15. Meta Thinking -->
+    <div class="card" data-tier="kiem-soat" style="--card-glow: radial-gradient(ellipse at top left, rgba(244,114,182,0.08), transparent 60%);">
+      <div class="card-top">
+        <span class="card-tag" style="border-color: rgba(244,114,182,0.4); color: var(--accent3);">Kiểm soát CL</span>
+        <span class="card-num">15</span>
+      </div>
+      <h3 class="card-title">Meta Thinking</h3>
+      <p class="card-desc">Quan sát chính cách mình đang tư duy. Mình đang framing sai bài toán chưa? Over-engineer không? Dùng prompt thay cho architecture? Từ prompt writer lên architect.</p>
+      <button class="expand-btn" onclick="toggleCard(this)">
+        <span>Chi tiết</span>
+        <span class="expand-icon">+</span>
+      </button>
+      <div class="card-details">
+        <div class="card-divider"></div>
+        <div class="detail-section">
+          <div class="detail-label">Giải thích</div>
+          <div class="detail-text">Meta thinking là khi bạn tự hỏi: mình đang cố giải bằng prompt cái lẽ ra phải giải bằng data structure? Mình đang nhồi instruction quá nhiều? Mình đang thiếu test set? Nên tách workflow thành các bước thay vì một prompt lớn? Đây là tư duy giúp bạn đi xa.</div>
+        </div>
+        <div class="detail-section">
+          <div class="detail-label">Prompt mẫu</div>
+          <div class="prompt-box" style="border-left-color: var(--accent3);">Nhìn lại cách tôi đang tiếp cận vấn đề [X]:
+1. Tôi đang giải ở tầng nào (prompt/data/architecture)?
+2. Tầng đó có phù hợp với bản chất vấn đề không?
+3. Tôi đang over-engineer hay under-engineer?
+4. Nếu phải làm lại từ đầu, tôi sẽ thay đổi gì?</div>
+        </div>
+        <div class="detail-section">
+          <div class="detail-label">Use cases</div>
+          <div class="use-cases">
+            <span class="use-case-tag">Architecture review</span>
+            <span class="use-case-tag">Debugging mindset</span>
+            <span class="use-case-tag">Level-up thinking</span>
+            <span class="use-case-tag">Self-assessment</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /frameworks-grid -->
+</section>
+
+<!-- ── FORMULA ── -->
+<section class="fade-up" id="sec-formula">
+  <div class="formula-section">
+    <div style="font-family: var(--font-mono); font-size: 11px; letter-spacing: .12em; text-transform: uppercase; color: var(--text-dim); margin-bottom: 8px;">Công thức cốt lõi</div>
+    <p style="font-size: 28px; font-family: var(--font-display); font-weight: 700; letter-spacing: -.02em;">Chất lượng assistant</p>
+    <div class="formula">
+      <span class="formula-term" style="border-color: rgba(124,111,247,0.4); color: var(--accent1);">Strategic</span>
+      <span class="formula-op">×</span>
+      <span class="formula-term" style="border-color: rgba(45,212,191,0.4); color: var(--accent2);">Systems</span>
+      <span class="formula-op">×</span>
+      <span class="formula-term" style="border-color: rgba(45,212,191,0.4); color: var(--accent2);">Structure</span>
+      <span class="formula-op">×</span>
+      <span class="formula-term" style="border-color: rgba(251,146,60,0.4); color: var(--accent4);">Logic</span>
+      <span class="formula-op">×</span>
+      <span class="formula-term" style="border-color: rgba(244,114,182,0.4); color: var(--accent3);">Validation</span>
+    </div>
+    <p style="color: var(--text-dim); font-size: 14px; max-width: 500px; margin: 0 auto;">Thiếu một thừa số là bot yếu ngay — dù các thừa số còn lại có mạnh đến đâu.</p>
+  </div>
+</section>
+
+<!-- ── FOOTER ── -->
+<footer class="fade-up">
+  <div class="footer-logo">AI Thinking Frameworks</div>
+  <p class="footer-sub">Prompting là bề mặt. Thinking là lõi.</p>
+</footer>
+
+</div><!-- /container -->
+</div><!-- /wrapper -->
+
+<script>
+// ── Fade-up on scroll ──
+const obs = new IntersectionObserver(entries => {
+  entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); } });
+}, { threshold: 0.08 });
+document.querySelectorAll('.fade-up').forEach(el => obs.observe(el));
+
+// ── Toggle card ──
+function toggleCard(btn) {
+  const card = btn.closest('.card');
+  card.classList.toggle('open');
+}
+
+// ── Filter ──
+function filterCards(tier, btn) {
+  document.querySelectorAll('.tier-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  document.querySelectorAll('.card').forEach(c => {
+    c.style.display = (tier === 'all' || c.dataset.tier === tier) ? '' : 'none';
+  });
+}
+
+// ── Sticky nav & go-top ──
+const nav = document.getElementById('sticky-nav');
+const goTop = document.getElementById('go-top');
+const sections = [
+  { id: 'sec-hero',       link: null },
+  { id: 'sec-layers',     link: null },
+  { id: 'sec-frameworks', link: null },
+  { id: 'sec-formula',    link: null },
+];
+const navLinks = document.querySelectorAll('#sticky-nav .nav-links a');
+
+// Map hrefs to links
+navLinks.forEach(a => {
+  const id = a.getAttribute('href').slice(1);
+  const s = sections.find(s => s.id === id);
+  if (s) s.link = a;
+});
+
+let ticking = false;
+window.addEventListener('scroll', () => {
+  if (ticking) return;
+  ticking = true;
+  requestAnimationFrame(() => {
+    const y = window.scrollY;
+
+    // Show/hide nav after hero
+    const hero = document.getElementById('sec-hero');
+    const heroBottom = hero ? hero.offsetTop + hero.offsetHeight * 0.5 : 400;
+    nav.classList.toggle('visible', y > heroBottom);
+
+    // Show/hide go-top after 300px
+    goTop.classList.toggle('visible', y > 300);
+
+    // Active nav link — find which section is in view
+    let active = sections[0];
+    sections.forEach(s => {
+      const el = document.getElementById(s.id);
+      if (el && el.getBoundingClientRect().top <= 80) active = s;
+    });
+    navLinks.forEach(a => a.classList.remove('active'));
+    if (active && active.link) active.link.classList.add('active');
+
+    ticking = false;
+  });
+}, { passive: true });
+</script>
+</body>
+</html>
