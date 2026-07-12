@@ -1,0 +1,1322 @@
+﻿<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI đoán chữ như thế nào? — Giải thích cho người không rành kỹ thuật</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg-deep:#0A0D1C;
+    --bg-deep-2:#10152B;
+    --violet:#8C7CF5;
+    --teal:#3FDCC7;
+    --amber:#FFB86B;
+    --rose:#F5738C;
+    --glass:rgba(255,255,255,0.055);
+    --glass-border:rgba(255,255,255,0.13);
+    --glass-strong:rgba(255,255,255,0.09);
+    --text-primary:#F4F2FB;
+    --text-secondary:#A9ACC9;
+    --text-muted:#767A9E;
+  }
+
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    background:var(--bg-deep);
+    color:var(--text-primary);
+    font-family:'Plus Jakarta Sans', sans-serif;
+    font-size:16px;
+    line-height:1.65;
+    overflow-x:hidden;
+    -webkit-font-smoothing:antialiased;
+  }
+
+  h1,h2,h3,.display{
+    font-family:'Be Vietnam Pro', sans-serif;
+    letter-spacing:-0.01em;
+  }
+
+  .mono{
+    font-family:'JetBrains Mono', monospace;
+  }
+
+  /* ---------- Background aurora ---------- */
+  .aurora{
+    position:fixed;
+    inset:0;
+    z-index:0;
+    overflow:hidden;
+    pointer-events:none;
+  }
+  .aurora::before,
+  .aurora::after{
+    content:"";
+    position:absolute;
+    width:60vw;
+    height:60vw;
+    border-radius:50%;
+    filter:blur(120px);
+    opacity:0.35;
+  }
+  .aurora::before{
+    background:var(--violet);
+    top:-20%;
+    left:-10%;
+  }
+  .aurora::after{
+    background:var(--teal);
+    bottom:-25%;
+    right:-15%;
+    opacity:0.25;
+  }
+  .aurora-mid{
+    position:absolute;
+    width:45vw;
+    height:45vw;
+    left:50%;
+    top:30%;
+    transform:translate(-50%,-50%);
+    background:var(--rose);
+    border-radius:50%;
+    filter:blur(140px);
+    opacity:0.14;
+  }
+
+  .wrap{
+    position:relative;
+    z-index:1;
+    max-width:1080px;
+    margin:0 auto;
+    padding:0 24px;
+  }
+
+  /* ---------- Glass card ---------- */
+  .glass{
+    background:var(--glass);
+    border:1px solid var(--glass-border);
+    border-radius:20px;
+    backdrop-filter:blur(18px);
+    -webkit-backdrop-filter:blur(18px);
+    box-shadow:0 8px 32px rgba(0,0,0,0.35);
+  }
+
+  /* ---------- Nav ---------- */
+  nav.glass{
+    position:sticky;
+    top:16px;
+    z-index:10;
+    margin:16px auto 0;
+    max-width:1080px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:14px 22px;
+  }
+  nav .brand{
+    font-weight:700;
+    font-size:16px;
+    color:var(--text-primary);
+    display:flex;
+    align-items:center;
+    gap:10px;
+  }
+  nav .brand .dot{
+    width:10px;height:10px;border-radius:50%;
+    background:linear-gradient(135deg,var(--violet),var(--teal));
+    box-shadow:0 0 12px var(--violet);
+  }
+  nav .links{
+    display:flex;
+    gap:22px;
+  }
+  nav .links a{
+    color:var(--text-secondary);
+    text-decoration:none;
+    font-size:15px;
+    font-weight:500;
+    transition:color .2s;
+  }
+  nav .links a:hover{ color:var(--text-primary); }
+  @media (max-width:700px){ nav .links{display:none;} }
+
+  /* ---------- Hero ---------- */
+  header.hero{
+    padding:96px 0 60px;
+    text-align:center;
+  }
+  .eyebrow{
+    display:inline-flex;
+    align-items:center;
+    gap:8px;
+    font-size:15px;
+    font-weight:600;
+    color:var(--teal);
+    background:rgba(63,220,199,0.1);
+    border:1px solid rgba(63,220,199,0.28);
+    padding:7px 16px;
+    border-radius:999px;
+    margin-bottom:28px;
+  }
+  h1.display{
+    font-size:clamp(34px,5.4vw,58px);
+    font-weight:800;
+    line-height:1.16;
+    margin:0 0 22px;
+    background:linear-gradient(135deg,#FFFFFF 30%, var(--violet) 90%);
+    -webkit-background-clip:text;
+    background-clip:text;
+    -webkit-text-fill-color:transparent;
+  }
+  .hero-sub{
+    font-size:18px;
+    color:var(--text-secondary);
+    max-width:620px;
+    margin:0 auto 48px;
+  }
+
+  /* ---------- Bubble jar (signature visual) ---------- */
+  .jar-stage{
+    position:relative;
+    max-width:640px;
+    margin:0 auto;
+    padding:32px 24px 26px;
+  }
+  .jar-caption{
+    font-size:15px;
+    color:var(--text-muted);
+    margin-top:18px;
+  }
+  svg.jar{ width:100%; height:auto; display:block; }
+  .bubble-label{
+    font-family:'Be Vietnam Pro', sans-serif;
+    font-weight:700;
+    fill:#0A0D1C;
+  }
+  .bubble-pct{
+    font-family:'JetBrains Mono', monospace;
+    font-weight:500;
+    fill:rgba(10,13,28,0.65);
+  }
+  .bubble-label-light{ fill:#F4F2FB; }
+  .bubble-pct-light{ fill:rgba(244,242,251,0.7); }
+
+  /* ---------- Section shell ---------- */
+  section{
+    padding:64px 0;
+  }
+  .section-head{
+    text-align:center;
+    max-width:680px;
+    margin:0 auto 44px;
+  }
+  .section-tag{
+    font-size:15px;
+    font-weight:600;
+    color:var(--amber);
+    text-transform:uppercase;
+    letter-spacing:0.08em;
+    margin-bottom:12px;
+  }
+  h2.display{
+    font-size:clamp(26px,3.4vw,36px);
+    font-weight:700;
+    margin:0 0 16px;
+  }
+  .section-desc{
+    color:var(--text-secondary);
+    font-size:16px;
+  }
+
+  /* ---------- Analogy block ---------- */
+  .analogy{
+    padding:40px;
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:36px;
+    align-items:start;
+  }
+  @media (max-width:800px){ .analogy{ grid-template-columns:1fr; } }
+  .analogy-list{
+    margin:0;
+    padding:0;
+    list-style:none;
+    display:flex;
+    flex-direction:column;
+    gap:16px;
+  }
+  .analogy-list li{
+    font-size:16px;
+    color:var(--text-secondary);
+    padding-left:26px;
+    position:relative;
+  }
+  .analogy-list li::before{
+    content:"✦";
+    position:absolute;
+    left:0;
+    top:1px;
+    color:var(--teal);
+    font-size:14px;
+  }
+  .analogy-list strong{ color:var(--text-primary); }
+
+  /* ---------- Example section (JSON + free text, single block) ---------- */
+  .example-card-single{
+    padding:30px 32px;
+    display:flex;
+    flex-direction:column;
+    gap:16px;
+  }
+  .example-divider{
+    display:flex;
+    align-items:center;
+    gap:14px;
+    margin:6px 0;
+    color:var(--text-muted);
+    font-size:14px;
+  }
+  .example-divider::before,
+  .example-divider::after{
+    content:"";
+    flex:1;
+    height:1px;
+    background:rgba(255,255,255,0.1);
+  }
+  .example-label{
+    display:inline-flex;
+    align-items:center;
+    gap:8px;
+    font-size:14.5px;
+    font-weight:600;
+    text-transform:uppercase;
+    letter-spacing:0.06em;
+    color:var(--text-muted);
+  }
+  pre.code-block{
+    margin:0;
+    background:rgba(0,0,0,0.35);
+    border:1px solid rgba(255,255,255,0.08);
+    border-radius:12px;
+    padding:18px 20px;
+    overflow-x:auto;
+    font-family:'JetBrains Mono', monospace;
+    font-size:14.5px;
+    line-height:1.7;
+    color:#D8E0FF;
+  }
+  pre.code-block .k{ color:var(--teal); }
+  pre.code-block .v{ color:var(--amber); }
+  pre.code-block .s{ color:#B7E2A8; }
+  .freetext-block{
+    font-size:15.5px;
+    color:var(--text-secondary);
+    line-height:1.75;
+  }
+  .freetext-block ul{
+    margin:10px 0 0;
+    padding-left:20px;
+  }
+  .freetext-block li{ margin-bottom:8px; }
+  .freetext-block b{ color:var(--text-primary); }
+
+  /* ---------- Full parameter table ---------- */
+  .full-table-wrap{ padding:8px; overflow-x:auto; }
+  .default-note{
+    margin-top:18px;
+    font-size:15px;
+    color:var(--text-muted);
+    line-height:1.8;
+  }
+  .default-note .tag{
+    display:inline-block;
+    font-family:'JetBrains Mono',monospace;
+    font-size:14.5px;
+    background:rgba(255,255,255,0.06);
+    border:1px solid rgba(255,255,255,0.1);
+    padding:3px 10px;
+    border-radius:8px;
+    color:var(--text-secondary);
+    margin:2px 2px;
+  }
+  table.full-table{
+    width:100%;
+    border-collapse:collapse;
+    min-width:760px;
+  }
+  table.full-table th, table.full-table td{
+    text-align:left;
+    padding:14px 16px;
+    font-size:15px;
+    vertical-align:top;
+  }
+  table.full-table thead th{
+    color:var(--text-muted);
+    font-weight:600;
+    font-size:14.5px;
+    text-transform:uppercase;
+    letter-spacing:0.05em;
+    border-bottom:1px solid var(--glass-border);
+  }
+  table.full-table tbody tr{
+    border-bottom:1px solid rgba(255,255,255,0.06);
+  }
+  table.full-table tbody tr:last-child{ border-bottom:none; }
+  table.full-table td:first-child{
+    font-weight:700;
+    font-family:'JetBrains Mono',monospace;
+    font-size:14.5px;
+    color:var(--amber);
+    white-space:nowrap;
+  }
+  table.full-table td:nth-child(2){
+    color:var(--text-secondary);
+    white-space:nowrap;
+  }
+  table.full-table td:last-child{
+    color:var(--text-secondary);
+  }
+
+  /* ---------- Ruler (max_tokens) ---------- */
+  .ruler-box{
+    margin-top:14px;
+  }
+  .ruler-track{
+    position:relative;
+    height:8px;
+    border-radius:999px;
+    background:rgba(255,255,255,0.08);
+    margin:34px 6px 10px;
+  }
+  .ruler-fill{
+    position:absolute;
+    left:0; top:0; bottom:0;
+    width:100%;
+    border-radius:999px;
+    background:linear-gradient(90deg,var(--teal),var(--violet));
+    opacity:0.55;
+  }
+  .ruler-point{
+    position:absolute;
+    top:50%;
+    transform:translate(-50%,-50%);
+    width:16px;height:16px;
+    border-radius:50%;
+    border:3px solid var(--bg-deep);
+  }
+  .ruler-point.start{ left:0%; background:var(--teal); }
+  .ruler-point.stopseq{ left:38%; background:var(--rose); }
+  .ruler-point.end{ left:100%; background:var(--amber); }
+  .ruler-label{
+    position:absolute;
+    top:-28px;
+    transform:translateX(-50%);
+    font-size:14px;
+    color:var(--text-secondary);
+    white-space:nowrap;
+    font-family:'JetBrains Mono',monospace;
+  }
+  .ruler-label.start{ left:0%; transform:translateX(0); }
+  .ruler-label.stopseq{ left:38%; color:var(--rose); }
+  .ruler-label.end{ left:100%; transform:translateX(-100%); }
+  .ruler-caption{
+    font-size:15px;
+    color:var(--text-muted);
+    margin-top:20px;
+  }
+
+  /* ---------- Softmax mini demo ---------- */
+  .softmax-wrap{
+    padding:30px;
+  }
+  .logit-explainer{
+    display:flex;
+    gap:16px;
+    align-items:flex-start;
+    background:rgba(140,124,245,0.08);
+    border:1px solid rgba(140,124,245,0.25);
+    border-radius:14px;
+    padding:20px 22px;
+    margin-bottom:24px;
+  }
+  .logit-explainer-icon{
+    font-size:20px;
+    flex-shrink:0;
+    line-height:1;
+    margin-top:2px;
+  }
+  .logit-explainer-title{
+    font-family:'Be Vietnam Pro',sans-serif;
+    font-weight:700;
+    font-size:16px;
+    margin-bottom:6px;
+    color:var(--text-primary);
+  }
+  .logit-explainer-text{
+    font-size:15.5px;
+    color:var(--text-secondary);
+    line-height:1.7;
+  }
+  .logit-explainer-text b{ color:var(--text-primary); }
+  .softmax-formula{
+    font-family:'JetBrains Mono',monospace;
+    font-size:15px;
+    background:rgba(255,255,255,0.04);
+    border:1px solid rgba(255,255,255,0.09);
+    border-radius:12px;
+    padding:14px 18px;
+    margin-bottom:22px;
+    color:#D8E0FF;
+    display:flex;
+    flex-wrap:wrap;
+    gap:8px 18px;
+  }
+  .softmax-formula span.step{ color:var(--text-muted); }
+  table.softmax-table{
+    width:100%;
+    border-collapse:collapse;
+  }
+  table.softmax-table th, table.softmax-table td{
+    text-align:center;
+    padding:10px 8px;
+    font-size:14.5px;
+    font-family:'JetBrains Mono',monospace;
+  }
+  table.softmax-table td:first-child, table.softmax-table th:first-child{
+    text-align:left;
+    font-family:'Be Vietnam Pro',sans-serif;
+    font-weight:600;
+  }
+  table.softmax-table thead th{
+    color:var(--text-muted);
+    font-size:13.5px;
+    text-transform:uppercase;
+    letter-spacing:0.04em;
+    border-bottom:1px solid var(--glass-border);
+  }
+  table.softmax-table tbody tr{ border-bottom:1px solid rgba(255,255,255,0.06); }
+  table.softmax-table tbody tr:last-child{ border-bottom:none; }
+  table.softmax-table .cutoff{ color:var(--amber); font-weight:700; }
+  .softmax-note{
+    font-size:15px;
+    color:var(--text-muted);
+    margin-top:18px;
+  }
+
+  /* ---------- Parameter cards grid ---------- */
+  .param-grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:22px;
+  }
+  @media (max-width:800px){ .param-grid{ grid-template-columns:1fr; } }
+
+  .param-card{
+    padding:30px;
+    display:flex;
+    flex-direction:column;
+    gap:16px;
+  }
+  .param-head{
+    display:flex;
+    align-items:center;
+    gap:12px;
+  }
+  .param-icon{
+    width:40px;height:40px;
+    border-radius:12px;
+    display:flex;align-items:center;justify-content:center;
+    font-size:18px;
+    flex-shrink:0;
+  }
+  .param-title{
+    font-family:'Be Vietnam Pro', sans-serif;
+    font-weight:700;
+    font-size:19px;
+  }
+  .param-key{
+    font-family:'JetBrains Mono', monospace;
+    font-size:15px;
+    color:var(--text-muted);
+  }
+  .param-body p{
+    font-size:15.5px;
+    color:var(--text-secondary);
+    margin:0 0 12px;
+  }
+  .param-body p:last-child{margin-bottom:0;}
+  .param-viz{
+    border-radius:14px;
+    background:rgba(255,255,255,0.03);
+    border:1px solid rgba(255,255,255,0.08);
+    padding:18px 16px 14px;
+  }
+  .viz-row{
+    display:flex;
+    justify-content:space-between;
+    gap:18px;
+  }
+  .viz-col{
+    flex:1;
+    text-align:center;
+  }
+  .viz-col-label{
+    font-size:14.5px;
+    color:var(--text-muted);
+    margin-top:8px;
+    font-weight:500;
+  }
+  .viz-col-label b{ color:var(--text-secondary); }
+
+  .icon-temp{ background:rgba(245,115,140,0.14); color:var(--rose); }
+  .icon-topp{ background:rgba(140,124,245,0.14); color:var(--violet); }
+  .icon-topk{ background:rgba(63,220,199,0.14); color:var(--teal); }
+  .icon-pen{ background:rgba(255,184,107,0.14); color:var(--amber); }
+  .icon-len{ background:rgba(140,124,245,0.14); color:var(--violet); }
+
+  /* ---------- Trace / steps (details/summary) ---------- */
+  .trace-list{
+    display:flex;
+    flex-direction:column;
+    gap:16px;
+  }
+  .trace-step{
+    padding:0;
+    overflow:hidden;
+  }
+  .trace-step summary{
+    padding:20px 26px;
+    display:flex;
+    align-items:center;
+    gap:18px;
+    cursor:pointer;
+    list-style:none;
+  }
+  .trace-step summary::-webkit-details-marker{ display:none; }
+  .trace-step summary::after{
+    content:"+";
+    margin-left:auto;
+    width:28px;height:28px;
+    flex-shrink:0;
+    border-radius:50%;
+    background:rgba(255,255,255,0.06);
+    display:flex;align-items:center;justify-content:center;
+    font-size:18px;
+    color:var(--text-secondary);
+    transition:transform .2s;
+  }
+  .trace-step[open] summary::after{ content:"–"; }
+  .trace-num{
+    width:40px;height:40px;
+    border-radius:50%;
+    background:linear-gradient(135deg,var(--violet),var(--teal));
+    display:flex;align-items:center;justify-content:center;
+    font-weight:700;
+    font-family:'Be Vietnam Pro',sans-serif;
+    font-size:16px;
+    color:#0A0D1C;
+    flex-shrink:0;
+  }
+  .trace-summary-text{
+    display:flex;
+    flex-direction:column;
+    gap:3px;
+    min-width:0;
+  }
+  .trace-title{
+    font-weight:700;
+    font-size:16px;
+  }
+  .trace-sub{
+    font-size:14.5px;
+    color:var(--text-muted);
+  }
+  .trace-chosen{
+    display:inline-flex;
+    align-items:center;
+    gap:8px;
+    background:rgba(255,184,107,0.12);
+    border:1px solid rgba(255,184,107,0.32);
+    color:var(--amber);
+    padding:5px 14px;
+    border-radius:999px;
+    font-size:14.5px;
+    font-weight:600;
+    font-family:'JetBrains Mono',monospace;
+    white-space:nowrap;
+    flex-shrink:0;
+    margin-left:auto;
+  }
+  @media (max-width:640px){
+    .trace-step summary{ flex-wrap:wrap; }
+    .trace-chosen{ margin-left:54px; }
+    .trace-step summary::after{ position:absolute; right:20px; top:20px; }
+    .trace-step summary{ position:relative; }
+  }
+  .trace-detail{
+    padding:4px 26px 26px;
+    border-top:1px solid rgba(255,255,255,0.08);
+    padding-top:20px;
+  }
+  .trace-detail table.softmax-table{ margin-bottom:14px; }
+  .trace-note{
+    font-size:15px;
+    color:var(--text-muted);
+    line-height:1.65;
+  }
+  .trace-note b{ color:var(--text-primary); }
+  .built-sentence{
+    margin-top:22px;
+    text-align:center;
+    font-family:'Be Vietnam Pro',sans-serif;
+    font-size:20px;
+    font-weight:700;
+    padding:20px;
+  }
+  .built-sentence span{ color:var(--amber); }
+
+  /* ---------- Cheatsheet table ---------- */
+  .cheat-wrap{ padding:8px; overflow-x:auto; }
+  table.cheat{
+    width:100%;
+    border-collapse:collapse;
+    min-width:640px;
+  }
+  table.cheat th, table.cheat td{
+    text-align:left;
+    padding:16px 18px;
+    font-size:15px;
+  }
+  table.cheat thead th{
+    color:var(--text-muted);
+    font-weight:600;
+    font-size:14.5px;
+    text-transform:uppercase;
+    letter-spacing:0.05em;
+    border-bottom:1px solid var(--glass-border);
+  }
+  table.cheat tbody tr{
+    border-bottom:1px solid rgba(255,255,255,0.06);
+  }
+  table.cheat tbody tr:last-child{ border-bottom:none; }
+  table.cheat td:first-child{
+    font-weight:700;
+    font-family:'Be Vietnam Pro',sans-serif;
+  }
+  table.cheat .tag{
+    display:inline-block;
+    font-family:'JetBrains Mono',monospace;
+    font-size:14.5px;
+    background:rgba(255,255,255,0.06);
+    border:1px solid rgba(255,255,255,0.1);
+    padding:3px 10px;
+    border-radius:8px;
+    color:var(--text-secondary);
+  }
+
+  /* ---------- Recap ---------- */
+  .recap{
+    padding:44px;
+  }
+  .recap ul{
+    margin:0;
+    padding:0;
+    list-style:none;
+    display:flex;
+    flex-direction:column;
+    gap:14px;
+  }
+  .recap li{
+    display:flex;
+    gap:12px;
+    font-size:15.5px;
+    color:var(--text-secondary);
+  }
+  .recap li::before{
+    content:"✦";
+    color:var(--teal);
+    flex-shrink:0;
+  }
+  .recap li b{ color:var(--text-primary); }
+
+  footer{
+    text-align:center;
+    padding:50px 24px 70px;
+    color:var(--text-muted);
+    font-size:15px;
+  }
+
+  ::selection{ background:rgba(140,124,245,0.4); }
+</style>
+</head>
+<body>
+
+<div class="aurora"><div class="aurora-mid"></div></div>
+
+<nav class="glass wrap">
+  <div class="brand"><span class="dot"></span>Hiểu AI trong 10 phút</div>
+  <div class="links">
+    <a href="#analogy">Ý tưởng cốt lõi</a>
+    <a href="#example">Ví dụ mẫu</a>
+    <a href="#paramtable">Bảng tham số</a>
+    <a href="#params">4 công tắc</a>
+    <a href="#softmax">Cách tính</a>
+    <a href="#trace">Từng bước</a>
+    <a href="#cheat">Tra nhanh</a>
+  </div>
+</nav>
+
+<div class="wrap">
+
+  <header class="hero">
+    <div class="eyebrow">📖 Giải thích không cần biết code</div>
+    <h1 class="display">AI không "viết" câu trả lời —<br>nó đoán từng chữ một</h1>
+    <p class="hero-sub">Mỗi khi ChatGPT hay Claude trả lời, mô hình không nghĩ ra cả câu cùng lúc. Nó chọn từng "mảnh chữ" nối tiếp nhau, hàng trăm lần mỗi giây — giống một trò chơi đoán chữ, nhưng cực kỳ tinh vi.</p>
+
+    <div class="jar-stage glass">
+      <svg class="jar" viewBox="0 0 560 260" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="180" cy="130" r="82" fill="#FFB86B"/>
+        <text x="180" y="122" text-anchor="middle" class="bubble-label" font-size="22">AI</text>
+        <text x="180" y="146" text-anchor="middle" class="bubble-pct" font-size="14">30%</text>
+
+        <circle cx="330" cy="105" r="66" fill="#8C7CF5"/>
+        <text x="330" y="100" text-anchor="middle" class="bubble-label bubble-label-light" font-size="17">Trong</text>
+        <text x="330" y="120" text-anchor="middle" class="bubble-pct bubble-pct-light" font-size="13">24%</text>
+
+        <circle cx="420" cy="185" r="52" fill="#3FDCC7"/>
+        <text x="420" y="181" text-anchor="middle" class="bubble-label" font-size="15">Ngày</text>
+        <text x="420" y="198" text-anchor="middle" class="bubble-pct" font-size="12">18%</text>
+
+        <circle cx="95" cy="205" r="36" fill="rgba(255,255,255,0.16)"/>
+        <text x="95" y="209" text-anchor="middle" class="bubble-label bubble-label-light" font-size="13">Gần</text>
+
+        <circle cx="460" cy="65" r="28" fill="rgba(255,255,255,0.10)"/>
+        <text x="460" y="69" text-anchor="middle" class="bubble-label bubble-label-light" font-size="11">Hiện</text>
+      </svg>
+      <div class="jar-caption">Ví dụ: sau khi gõ chữ đầu tiên, AI xếp hạng các "ứng viên" theo độ tự tin — bong bóng càng to, khả năng được chọn càng cao. Ở đây nó chọn <b style="color:#FFB86B">"AI"</b>.</div>
+    </div>
+  </header>
+
+  <section id="analogy">
+    <div class="section-head">
+      <div class="section-tag">Ý tưởng cốt lõi</div>
+      <h2 class="display">Hãy tưởng tượng một lọ kẹo chữ</h2>
+      <p class="section-desc">Không cần biết lập trình — chỉ cần hiểu một hình ảnh duy nhất là nắm được toàn bộ cách AI hoạt động.</p>
+    </div>
+
+    <div class="glass analogy">
+      <ul class="analogy-list">
+        <li>Mỗi lần cần thêm một chữ vào câu trả lời, AI tưởng tượng ra <strong>một lọ kẹo</strong>, trong đó mỗi viên kẹo là một từ có thể dùng tiếp theo.</li>
+        <li>Viên kẹo nào <strong>to hơn</strong> nghĩa là AI "tự tin" hơn rằng đó là từ phù hợp. Viên nhỏ là những từ ít khả năng hơn, nhưng vẫn có mặt trong lọ.</li>
+        <li>AI sau đó <strong>bốc thăm có trọng số</strong> — không phải lúc nào cũng chọn viên to nhất, nhưng viên to nhất có nhiều cơ hội được chọn hơn. Đó là lý do cùng một câu hỏi, AI có thể trả lời hơi khác nhau mỗi lần.</li>
+      </ul>
+      <ul class="analogy-list">
+        <li>Việc này lặp lại <strong>hàng trăm lần</strong> để tạo ra một câu trả lời hoàn chỉnh — mỗi vòng lặp là một lọ kẹo mới, dựa trên những gì đã viết trước đó.</li>
+        <li>Nếu để AI tự do bốc bất kỳ viên kẹo nào, thỉnh thoảng nó sẽ chọn trúng một từ kỳ quặc, vô nghĩa. Vì vậy có <strong>các "công tắc"</strong> để kiểm soát cách bốc thăm này.</li>
+        <li>AI dừng lại khi: gặp <strong>tín hiệu kết thúc nội bộ</strong>, gặp <strong>"mật khẩu dừng"</strong> (stop) bạn tự đặt, hoặc <strong>chạm giới hạn độ dài</strong> (max_tokens) — chi tiết ở phần bên dưới.</li>
+      </ul>
+    </div>
+  </section>
+
+  <section id="example">
+    <div class="section-head">
+      <div class="section-tag">Ví dụ minh họa</div>
+      <h2 class="display">Một prompt đầy đủ tham số trông như thế nào</h2>
+      <p class="section-desc">Cùng một yêu cầu, viết theo 2 cách: máy đọc (JSON) và người đọc (mô tả bằng lời).</p>
+    </div>
+
+    <div class="glass example-card-single">
+      <div class="example-label">📦 Dạng JSON — gửi qua API</div>
+      <pre class="code-block">{
+  <span class="k">"prompt"</span>: <span class="s">"Viết bài blog ~600–800 từ về AI trong giáo dục. Mở bài, thân bài 3 ý, kết luận. Cuối bài in ra [END_OF_ARTICLE]."</span>,
+  <span class="k">"temperature"</span>: <span class="v">0.7</span>,
+  <span class="k">"top_p"</span>: <span class="v">0.9</span>,
+  <span class="k">"top_k"</span>: <span class="v">40</span>,
+  <span class="k">"max_tokens"</span>: <span class="v">1200</span>,
+  <span class="k">"stop"</span>: [<span class="s">"[END_OF_ARTICLE]"</span>],
+  <span class="k">"frequency_penalty"</span>: <span class="v">0.3</span>,
+  <span class="k">"presence_penalty"</span>: <span class="v">0.6</span>
+}</pre>
+
+      <div class="example-divider"><span>tương đương với</span></div>
+
+      <div class="example-label">💬 Dạng free-text — mô tả cho người</div>
+      <div class="freetext-block">
+        Viết bài blog ~600–800 từ về AI trong giáo dục, có mở bài, 3 ý chính, kết luận. Kết thúc bằng chuỗi <span class="mono">[END_OF_ARTICLE]</span>.
+        <ul>
+          <li><b>temperature 0.7</b> — sáng tạo vừa phải, không lạc đề.</li>
+          <li><b>top_p 0.9 + top_k 40</b> — mỗi bước chỉ xét trong 40 từ khả năng cao nhất, và dừng khi đạt 90% độ tin cậy cộng dồn.</li>
+          <li><b>max_tokens 1200</b> — bài không bị quá dài.</li>
+          <li><b>stop "[END_OF_ARTICLE]"</b> — dừng ngay khi in ra đúng marker này.</li>
+          <li><b>frequency_penalty 0.3</b> — giảm lặp từ/cụm từ.</li>
+          <li><b>presence_penalty 0.6</b> — khuyến khích ý tưởng, từ vựng đa dạng hơn.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section id="paramtable">
+    <div class="section-head">
+      <div class="section-tag">Tra cứu đầy đủ</div>
+      <h2 class="display">Bảng giải thích toàn bộ tham số</h2>
+      <p class="section-desc">Gắn với đúng ví dụ ở trên — để bạn tra lại bất cứ lúc nào.</p>
+    </div>
+
+    <div class="glass full-table-wrap">
+      <table class="full-table">
+        <thead>
+          <tr>
+            <th>Tham số</th>
+            <th>Giá trị ví dụ</th>
+            <th>Tác dụng cụ thể</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>prompt</td>
+            <td>chuỗi tiếng Việt dài</td>
+            <td>Mô tả bối cảnh, nhiệm vụ, độ dài, giọng điệu, cấu trúc và marker kết thúc mong muốn.</td>
+          </tr>
+          <tr>
+            <td>temperature</td>
+            <td>0.7</td>
+            <td>Làm phân bố xác suất "phẳng" hơn hay "nhọn" hơn. 0.7 = sáng tạo vừa phải, nhiều lựa chọn từ nhưng vẫn bám đề.</td>
+          </tr>
+          <tr>
+            <td>top_p</td>
+            <td>0.9</td>
+            <td>Chỉ xét tập từ sao cho tổng xác suất cộng dồn ≥ 0.9 — bỏ bớt các từ có khả năng cực thấp.</td>
+          </tr>
+          <tr>
+            <td>top_k</td>
+            <td>40</td>
+            <td>Mỗi bước chỉ xét 40 từ có xác suất cao nhất, bất kể tổng xác suất của chúng là bao nhiêu.</td>
+          </tr>
+          <tr>
+            <td>max_tokens</td>
+            <td>1200</td>
+            <td>Giới hạn cứng số từ tối đa được sinh ra — dù mô hình còn muốn viết thêm cũng bị cắt.</td>
+          </tr>
+          <tr>
+            <td>stop</td>
+            <td>["[END_OF_ARTICLE]"]</td>
+            <td>Khi mô hình in ra đúng chuỗi này, dừng sinh ngay lập tức — dùng để kiểm soát cấu trúc/kết bài.</td>
+          </tr>
+          <tr>
+            <td>frequency_penalty</td>
+            <td>0.3</td>
+            <td>Từ nào lặp càng nhiều lần thì càng bị giảm khả năng xuất hiện lại — phạt tăng dần theo số lần lặp.</td>
+          </tr>
+          <tr>
+            <td>presence_penalty</td>
+            <td>0.6</td>
+            <td>Từ nào đã xuất hiện dù chỉ 1 lần cũng bị phạt như nhau — khuyến khích khám phá từ vựng, ý tưởng mới.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="default-note">Không set các tham số này? Đa số API vẫn chạy bình thường vì luôn có giá trị mặc định: <span class="tag">temperature ≈ 1.0</span> <span class="tag">top_p = 1.0 (xét toàn bộ)</span> <span class="tag">top_k = tắt/không giới hạn</span> <span class="tag">frequency_penalty = 0</span> <span class="tag">presence_penalty = 0</span> <span class="tag">stop = không có</span> <span class="tag">max_tokens = giới hạn tối đa của model</span> — nghĩa là mặc định thiên về "khá ngẫu nhiên, không phạt lặp, không tự dừng sớm". Con số chính xác vẫn tuỳ từng nhà cung cấp (OpenAI, Anthropic, v.v.), nên nếu cần chắc chắn, luôn kiểm tra tài liệu API tương ứng.</div>
+  </section>
+
+  <section id="params">
+    <div class="section-head">
+      <div class="section-tag">Bốn công tắc điều khiển</div>
+      <h2 class="display">Chỉnh độ "liều lĩnh" khi AI bốc thăm</h2>
+      <p class="section-desc">Mỗi công tắc thay đổi cách AI chọn kẹo trong lọ — theo cách khác nhau.</p>
+    </div>
+
+    <div class="param-grid">
+
+      <div class="glass param-card">
+        <div class="param-head">
+          <div class="param-icon icon-temp">🌡️</div>
+          <div>
+            <div class="param-title">Temperature — Độ liều lĩnh</div>
+            <div class="param-key">temperature</div>
+          </div>
+        </div>
+        <div class="param-body">
+          <p>Tưởng tượng bạn <strong>nắn lại kích thước</strong> các viên kẹo trước khi bốc. Số thấp → viên to càng to thêm, viên nhỏ càng nhỏ đi (an toàn, ít bất ngờ). Số cao → các viên kẹo được san đều hơn (sáng tạo hơn, nhưng dễ "lạc đề" hơn).</p>
+        </div>
+        <div class="param-viz">
+          <div class="viz-row">
+            <div class="viz-col">
+              <svg viewBox="0 0 140 90" width="100%" height="80">
+                <circle cx="55" cy="45" r="38" fill="#F5738C"/>
+                <circle cx="112" cy="60" r="12" fill="rgba(255,255,255,0.15)"/>
+                <circle cx="118" cy="30" r="8" fill="rgba(255,255,255,0.1)"/>
+              </svg>
+              <div class="viz-col-label">Thấp (0.2) → <b>chọn an toàn</b></div>
+            </div>
+            <div class="viz-col">
+              <svg viewBox="0 0 140 90" width="100%" height="80">
+                <circle cx="40" cy="50" r="26" fill="#F5738C"/>
+                <circle cx="95" cy="35" r="24" fill="rgba(245,115,140,0.6)"/>
+                <circle cx="115" cy="65" r="18" fill="rgba(255,255,255,0.18)"/>
+              </svg>
+              <div class="viz-col-label">Cao (1.0) → <b>chọn đa dạng</b></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="glass param-card">
+        <div class="param-head">
+          <div class="param-icon icon-topp">✂️</div>
+          <div>
+            <div class="param-title">Top-p — Cắt theo tổng tỉ lệ</div>
+            <div class="param-key">top_p</div>
+          </div>
+        </div>
+        <div class="param-body">
+          <p>AI xếp kẹo từ to đến nhỏ, rồi <strong>cộng dồn</strong> độ tự tin cho đến khi đạt một ngưỡng (vd 90%) thì dừng — chỉ bốc trong nhóm đó, bỏ hẳn "cái đuôi" toàn kẹo tí hon phía sau.</p>
+        </div>
+        <div class="param-viz">
+          <svg viewBox="0 0 320 90" width="100%" height="80">
+            <circle cx="55" cy="45" r="34" fill="#8C7CF5"/>
+            <circle cx="130" cy="55" r="24" fill="#8C7CF5" opacity="0.75"/>
+            <circle cx="185" cy="30" r="16" fill="#8C7CF5" opacity="0.55"/>
+            <line x1="220" y1="8" x2="220" y2="82" stroke="rgba(255,255,255,0.35)" stroke-dasharray="4 4"/>
+            <circle cx="255" cy="55" r="10" fill="rgba(255,255,255,0.1)"/>
+            <circle cx="285" cy="35" r="7" fill="rgba(255,255,255,0.08)"/>
+          </svg>
+          <div class="viz-col-label" style="margin-top:4px;">Vùng bên trái vạch = 90% độ tin cậy → <b>được xét</b>. Bên phải bị loại.</div>
+        </div>
+      </div>
+
+      <div class="glass param-card">
+        <div class="param-head">
+          <div class="param-icon icon-topk">🔢</div>
+          <div>
+            <div class="param-title">Top-k — Giới hạn số viên</div>
+            <div class="param-key">top_k</div>
+          </div>
+        </div>
+        <div class="param-body">
+          <p>Khác với top-p (cắt theo %), top-k đặt <strong>giới hạn cứng</strong>: chỉ giữ lại đúng k viên kẹo to nhất, bất kể tổng độ tin cậy là bao nhiêu. Ví dụ k=5 nghĩa là chỉ 5 ứng viên được xem xét mỗi lượt.</p>
+        </div>
+        <div class="param-viz">
+          <svg viewBox="0 0 320 90" width="100%" height="80">
+            <circle cx="40" cy="45" r="30" fill="#3FDCC7"/>
+            <circle cx="95" cy="55" r="22" fill="#3FDCC7" opacity="0.8"/>
+            <circle cx="145" cy="30" r="16" fill="#3FDCC7" opacity="0.6"/>
+            <circle cx="185" cy="60" r="11" fill="#3FDCC7" opacity="0.45"/>
+            <circle cx="215" cy="35" r="8" fill="#3FDCC7" opacity="0.3"/>
+            <circle cx="255" cy="50" r="9" fill="rgba(255,255,255,0.08)"/>
+            <circle cx="285" cy="30" r="6" fill="rgba(255,255,255,0.06)"/>
+          </svg>
+          <div class="viz-col-label" style="margin-top:4px;">k = 5 → chỉ 5 viên đậm màu được xét, phần mờ bị loại thẳng.</div>
+        </div>
+      </div>
+
+      <div class="glass param-card">
+        <div class="param-head">
+          <div class="param-icon icon-pen">🔁</div>
+          <div>
+            <div class="param-title">Penalty — Phạt lặp từ</div>
+            <div class="param-key">frequency / presence_penalty</div>
+          </div>
+        </div>
+        <div class="param-body">
+          <p><strong>Frequency penalty</strong>: từ nào đã dùng càng nhiều lần thì viên kẹo mang tên nó càng bị "teo nhỏ" ở các lượt sau. <strong>Presence penalty</strong>: chỉ cần dùng 1 lần là bị teo ngay, không cần lặp nhiều — giúp AI chuyển sang ý mới thay vì nói vòng vo.</p>
+        </div>
+        <div class="param-viz">
+          <svg viewBox="0 0 320 90" width="100%" height="80">
+            <circle cx="55" cy="45" r="30" fill="#FFB86B"/>
+            <text x="55" y="50" text-anchor="middle" class="bubble-label" font-size="13">đã</text>
+            <path d="M92 45 L120 45" stroke="rgba(255,255,255,0.3)" stroke-width="2" marker-end="url(#arrow)"/>
+            <circle cx="155" cy="45" r="20" fill="#FFB86B" opacity="0.6"/>
+            <text x="155" y="49" text-anchor="middle" class="bubble-label" font-size="11">đã</text>
+            <path d="M180 45 L208 45" stroke="rgba(255,255,255,0.3)" stroke-width="2" marker-end="url(#arrow)"/>
+            <circle cx="240" cy="45" r="12" fill="#FFB86B" opacity="0.35"/>
+            <text x="240" y="48" text-anchor="middle" class="bubble-label" font-size="9">đã</text>
+            <defs><marker id="arrow" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 z" fill="rgba(255,255,255,0.3)"/></marker></defs>
+          </svg>
+          <div class="viz-col-label" style="margin-top:4px;">Từ "đã" dùng càng nhiều lượt → viên kẹo càng teo nhỏ, nhường chỗ cho từ khác.</div>
+        </div>
+      </div>
+
+      <div class="glass param-card">
+        <div class="param-head">
+          <div class="param-icon icon-len">📏</div>
+          <div>
+            <div class="param-title">Độ dài & điểm dừng</div>
+            <div class="param-key">max_tokens · stop</div>
+          </div>
+        </div>
+        <div class="param-body">
+          <p><strong>max_tokens</strong> là "trần" số chữ AI được viết — giống đặt giới hạn số trang cho một bài luận. <strong>stop</strong> là một cụm từ bí mật bạn tự đặt ra (vd <span class="mono">[HẾT]</span>); hễ AI viết ra đúng cụm đó, nó dừng ngay lập tức.</p>
+        </div>
+        <div class="param-viz">
+          <div class="viz-col-label" style="text-align:left;">Ví dụ thực tế: đặt <span class="tag">max_tokens: 1200</span> để bài viết không quá dài, và <span class="tag">stop: "[HẾT_BÀI]"</span> để AI tự cắt đúng lúc kết bài, không lan man thêm.</div>
+          <div class="ruler-box">
+            <div class="ruler-track">
+              <div class="ruler-fill"></div>
+              <div class="ruler-label start">0</div>
+              <div class="ruler-point start"></div>
+              <div class="ruler-label stopseq">gặp "stop"</div>
+              <div class="ruler-point stopseq"></div>
+              <div class="ruler-label end">max_tokens (1200)</div>
+              <div class="ruler-point end"></div>
+            </div>
+          </div>
+          <div class="ruler-caption">Nếu gặp <span class="mono">stop</span> trước (chấm hồng), AI dừng sớm — dù còn "hạn mức". Nếu không gặp, AI viết đến đúng vạch <span class="mono">max_tokens</span> (chấm vàng) rồi bị cắt ngang, dù câu còn dở.</div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <section id="softmax">
+    <div class="section-head">
+      <div class="section-tag">Nhìn dưới lớp vỏ (rút gọn)</div>
+      <h2 class="display">Softmax và top-p tính ra sao?</h2>
+      <p class="section-desc">Không cần hiểu công thức, chỉ cần thấy 3 bước biến "điểm số thô" thành "viên kẹo" và cách cắt ở top-p.</p>
+    </div>
+
+    <div class="glass softmax-wrap">
+      <div class="logit-explainer">
+        <div class="logit-explainer-icon">💡</div>
+        <div>
+          <div class="logit-explainer-title">Logit là gì?</div>
+          <div class="logit-explainer-text">Trước khi thành "viên kẹo" (xác suất %), mỗi từ được model chấm một <b>điểm số thô</b> gọi là <span class="mono">logit</span> — con số này thể hiện mức độ "ưng" của model với từ đó dựa trên ngữ cảnh, nhưng <b>chưa</b> phải phần trăm và có thể là số âm, số dương bất kỳ. Logit càng cao thì từ đó càng có khả năng được chọn. Bước <span class="mono">softmax</span> chính là công đoạn "quy đổi" một loạt logit này thành một bộ xác suất cộng lại đúng bằng 100% — giống như đổi điểm thi thô của từng thí sinh thành phần trăm xếp hạng.</div>
+        </div>
+      </div>
+
+      <div class="softmax-formula">
+        <span><span class="step">1. Chia cho nhiệt độ:</span> z'ᵢ = zᵢ / T</span>
+        <span><span class="step">2. Softmax:</span> p(i) = eᶻ'ⁱ / Σ eᶻ'ʲ</span>
+        <span><span class="step">3. Top-p:</span> cộng dồn p đến khi tổng ≥ 0.9</span>
+      </div>
+
+      <table class="softmax-table">
+        <thead>
+          <tr>
+            <th>Từ</th>
+            <th>logit (z)</th>
+            <th>z / 0.7</th>
+            <th>Softmax → p_T</th>
+            <th>Cộng dồn</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>"AI"</td><td>2.0</td><td>2.86</td><td>0.30</td><td>0.30</td></tr>
+          <tr><td>"Trong"</td><td>1.6</td><td>2.29</td><td>0.24</td><td>0.54</td></tr>
+          <tr><td>"Ngày"</td><td>1.3</td><td>1.86</td><td>0.18</td><td>0.72</td></tr>
+          <tr><td>"Gần"</td><td>0.7</td><td>1.00</td><td>0.10</td><td>0.82</td></tr>
+          <tr><td>"Hiện"</td><td>0.5</td><td>0.71</td><td>0.08</td><td class="cutoff">0.90 ← dừng</td></tr>
+        </tbody>
+      </table>
+      <div class="softmax-note">Logit càng cao → sau softmax "viên kẹo" càng to. Cộng dồn p_T từ trên xuống, vừa chạm 0.90 (≥ top_p = 0.9) là dừng — 5 từ này trở thành tập ứng viên để bốc thăm. Số liệu ở đây là ví dụ minh họa cho dễ hình dung, không phải phép tính thật từ một model cụ thể.</div>
+    </div>
+  </section>
+
+  <section id="trace">
+    <div class="section-head">
+      <div class="section-tag">Xem tận mắt</div>
+      <h2 class="display">AI ghép câu "AI trong giáo dục đang" như thế nào</h2>
+      <p class="section-desc">5 lượt bốc kẹo liên tiếp — bấm vào từng bước để xem đầy đủ: logit gốc → chia nhiệt độ → softmax → cộng dồn top-p.</p>
+    </div>
+
+    <div class="trace-list">
+
+      <details class="glass trace-step" open>
+        <summary>
+          <span class="trace-num">1</span>
+          <span class="trace-summary-text">
+            <span class="trace-title">Lọ kẹo đầu tiên — chưa có gì để dựa vào</span>
+            <span class="trace-sub">Context: <span class="mono">""</span> (chuỗi rỗng)</span>
+          </span>
+          <span class="trace-chosen">→ chọn: "AI"</span>
+        </summary>
+        <div class="trace-detail">
+          <table class="softmax-table">
+            <thead><tr><th>Từ</th><th>logit z</th><th>z / 0.7</th><th>Softmax p_T</th><th>Cộng dồn</th></tr></thead>
+            <tbody>
+              <tr><td>"AI"</td><td>2.0</td><td>2.86</td><td>0.30</td><td>0.30</td></tr>
+              <tr><td>"Trong"</td><td>1.6</td><td>2.29</td><td>0.24</td><td>0.54</td></tr>
+              <tr><td>"Ngày"</td><td>1.3</td><td>1.86</td><td>0.18</td><td>0.72</td></tr>
+              <tr><td>"Gần"</td><td>0.7</td><td>1.00</td><td>0.10</td><td>0.82</td></tr>
+              <tr><td>"Hiện"</td><td>0.5</td><td>0.71</td><td>0.08</td><td class="cutoff">0.90 ← dừng (top_p)</td></tr>
+            </tbody>
+          </table>
+          <div class="trace-note">top_k = 5 giữ đúng 5 từ này; top_p = 0.9 cộng dồn vừa chạm 0.90 ở "Hiện" → cả 5 đều vào tập ứng viên. Bốc thăm có trọng số trong tập này → ra <b>"AI"</b>.</div>
+        </div>
+      </details>
+
+      <details class="glass trace-step">
+        <summary>
+          <span class="trace-num">2</span>
+          <span class="trace-summary-text">
+            <span class="trace-title">Lọ kẹo mới, dựa trên "AI"</span>
+            <span class="trace-sub">Context: <span class="mono">"AI"</span></span>
+          </span>
+          <span class="trace-chosen">→ chọn: "trong"</span>
+        </summary>
+        <div class="trace-detail">
+          <table class="softmax-table">
+            <thead><tr><th>Từ</th><th>logit z</th><th>z / 0.7</th><th>Softmax p_T</th><th>Cộng dồn</th></tr></thead>
+            <tbody>
+              <tr><td>"trong"</td><td>2.2</td><td>3.14</td><td>0.40</td><td>0.40</td></tr>
+              <tr><td>"đang"</td><td>1.5</td><td>2.14</td><td>0.25</td><td>0.65</td></tr>
+              <tr><td>"giúp"</td><td>1.0</td><td>1.43</td><td>0.12</td><td>0.77</td></tr>
+              <tr><td>"có"</td><td>0.8</td><td>1.14</td><td>0.08</td><td>0.85</td></tr>
+              <tr><td>"là"</td><td>0.6</td><td>0.86</td><td>0.06</td><td class="cutoff">0.91 ← dừng (top_p)</td></tr>
+            </tbody>
+          </table>
+          <div class="trace-note">"trong" đã chiếm 40% — áp đảo rõ rệt. Cộng dồn chạm 0.91 ở "là" → tập ứng viên gồm cả 5 từ. Bốc thăm ra <b>"trong"</b>.</div>
+        </div>
+      </details>
+
+      <details class="glass trace-step">
+        <summary>
+          <span class="trace-num">3</span>
+          <span class="trace-summary-text">
+            <span class="trace-title">Khi top-k chặn trước khi top-p kịp dừng</span>
+            <span class="trace-sub">Context: <span class="mono">"AI trong"</span></span>
+          </span>
+          <span class="trace-chosen">→ chọn: "giáo"</span>
+        </summary>
+        <div class="trace-detail">
+          <table class="softmax-table">
+            <thead><tr><th>Từ</th><th>logit z</th><th>z / 0.7</th><th>Softmax p_T</th><th>Cộng dồn</th></tr></thead>
+            <tbody>
+              <tr><td>"giáo"</td><td>2.0</td><td>2.86</td><td>0.34</td><td>0.34</td></tr>
+              <tr><td>"doanh"</td><td>1.2</td><td>1.71</td><td>0.20</td><td>0.54</td></tr>
+              <tr><td>"y"</td><td>0.9</td><td>1.29</td><td>0.14</td><td>0.68</td></tr>
+              <tr><td>"đời"</td><td>0.7</td><td>1.00</td><td>0.10</td><td>0.78</td></tr>
+              <tr><td>"công"</td><td>0.6</td><td>0.86</td><td>0.09</td><td class="cutoff">0.87 (hết top_k)</td></tr>
+            </tbody>
+          </table>
+          <div class="trace-note">Điểm thú vị: top_k = 5 đã hết token để xét trong khi cộng dồn mới đạt 0.87 — <b>chưa chạm</b> ngưỡng top_p = 0.9. Vì không còn ứng viên nào khác, cả 5 từ này vẫn được dùng làm tập cuối. Bốc thăm ra <b>"giáo"</b>.</div>
+        </div>
+      </details>
+
+      <details class="glass trace-step">
+        <summary>
+          <span class="trace-num">4</span>
+          <span class="trace-summary-text">
+            <span class="trace-title">Một từ gần như chắc chắn</span>
+            <span class="trace-sub">Context: <span class="mono">"AI trong giáo"</span></span>
+          </span>
+          <span class="trace-chosen">→ chọn: "dục"</span>
+        </summary>
+        <div class="trace-detail">
+          <table class="softmax-table">
+            <thead><tr><th>Từ</th><th>logit z</th><th>z / 0.7</th><th>Softmax p_T</th><th>Cộng dồn</th></tr></thead>
+            <tbody>
+              <tr><td>"dục"</td><td>2.5</td><td>3.57</td><td>0.55</td><td>0.55</td></tr>
+              <tr><td>"trình"</td><td>1.0</td><td>1.43</td><td>0.18</td><td>0.73</td></tr>
+              <tr><td>"dục,"</td><td>0.8</td><td>1.14</td><td>0.12</td><td>0.85</td></tr>
+              <tr><td>"việc"</td><td>0.4</td><td>0.57</td><td>0.07</td><td class="cutoff">0.92 ← dừng (top_p)</td></tr>
+            </tbody>
+          </table>
+          <div class="trace-note">"dục" chiếm hẳn 55% — viên kẹo áp đảo. Cộng dồn chạm 0.92 ngay ở token thứ 4, nên "..." (các từ hiếm hơn) bị loại sớm. Bốc thăm gần như chắc chắn ra <b>"dục"</b>.</div>
+        </div>
+      </details>
+
+      <details class="glass trace-step">
+        <summary>
+          <span class="trace-num">5</span>
+          <span class="trace-summary-text">
+            <span class="trace-title">Một lựa chọn cân bằng hơn</span>
+            <span class="trace-sub">Context: <span class="mono">"AI trong giáo dục"</span></span>
+          </span>
+          <span class="trace-chosen">→ chọn: "đang"</span>
+        </summary>
+        <div class="trace-detail">
+          <table class="softmax-table">
+            <thead><tr><th>Từ</th><th>logit z</th><th>z / 0.7</th><th>Softmax p_T</th><th>Cộng dồn</th></tr></thead>
+            <tbody>
+              <tr><td>"đang"</td><td>2.0</td><td>2.86</td><td>0.36</td><td>0.36</td></tr>
+              <tr><td>"thay"</td><td>1.4</td><td>2.00</td><td>0.24</td><td>0.60</td></tr>
+              <tr><td>"mở"</td><td>1.0</td><td>1.43</td><td>0.15</td><td>0.75</td></tr>
+              <tr><td>"tạo"</td><td>0.8</td><td>1.14</td><td>0.11</td><td>0.86</td></tr>
+              <tr><td>"đổi"</td><td>0.6</td><td>0.86</td><td>0.08</td><td class="cutoff">0.94 ← dừng (top_p)</td></tr>
+            </tbody>
+          </table>
+          <div class="trace-note">Phân bố cân bằng hơn các bước trước — không có từ nào áp đảo quá 40%. Bốc thăm ra <b>"đang"</b>.</div>
+        </div>
+      </details>
+
+    </div>
+
+    <div class="glass built-sentence">"AI trong giáo dục đang<span>...</span>" — và vòng lặp này tiếp tục cho đến khi gặp từ khoá <span class="mono" style="font-size:16px;">stop</span> hoặc chạm giới hạn <span class="mono" style="font-size:16px;">max_tokens</span>.</div>
+  </section>
+
+  <section id="cheat">
+    <div class="section-head">
+      <div class="section-tag">Áp dụng thực tế</div>
+      <h2 class="display">Nên chỉnh gì cho từng mục đích?</h2>
+      <p class="section-desc">Không cần nhớ công thức — chỉ cần nhớ "xu hướng" nên chỉnh theo hướng nào.</p>
+    </div>
+
+    <div class="glass cheat-wrap">
+      <table class="cheat">
+        <thead>
+          <tr>
+            <th>Mục đích</th>
+            <th>Temperature</th>
+            <th>Top-p / Top-k</th>
+            <th>Penalty</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Trả lời chính xác, tra cứu, hỏi đáp</td>
+            <td><span class="tag">Thấp (0.1–0.3)</span></td>
+            <td><span class="tag">Thấp / hẹp</span></td>
+            <td><span class="tag">Gần như tắt</span></td>
+          </tr>
+          <tr>
+            <td>Viết bài blog, nội dung marketing</td>
+            <td><span class="tag">Vừa (0.6–0.8)</span></td>
+            <td><span class="tag">Vừa (0.85–0.95)</span></td>
+            <td><span class="tag">Vừa (0.3–0.6)</span></td>
+          </tr>
+          <tr>
+            <td>Viết code, công thức, số liệu</td>
+            <td><span class="tag">Rất thấp (0–0.2)</span></td>
+            <td><span class="tag">Hẹp</span></td>
+            <td><span class="tag">Tắt</span></td>
+          </tr>
+          <tr>
+            <td>Brainstorm, sáng tạo, thơ văn</td>
+            <td><span class="tag">Cao (0.9–1.2)</span></td>
+            <td><span class="tag">Rộng</span></td>
+            <td><span class="tag">Cao (0.6–1.0)</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section>
+    <div class="glass recap">
+      <div class="section-head" style="margin-bottom:28px;">
+        <div class="section-tag">Ghi nhớ trong 30 giây</div>
+        <h2 class="display" style="font-size:24px;">Nếu chỉ nhớ một điều mỗi mục</h2>
+      </div>
+      <ul>
+        <li><b>AI đoán từng chữ một</b>, không viết cả câu cùng lúc — mỗi chữ là một lượt "bốc kẹo" mới.</li>
+        <li><b>Temperature</b> quyết định AI liều lĩnh hay an toàn khi chọn.</li>
+        <li><b>Top-p</b> cắt theo phần trăm tổng độ tin cậy; <b>Top-k</b> cắt theo số lượng cố định.</li>
+        <li><b>Penalty</b> giúp AI đỡ lặp từ, lặp ý trong cùng một câu trả lời.</li>
+        <li><b>max_tokens</b> giới hạn độ dài; <b>stop</b> là "mật khẩu" để AI biết lúc nào nên dừng.</li>
+        <li>Không có công thức đúng tuyệt đối — chỉ có <b>lựa chọn phù hợp với mục đích</b> của bạn.</li>
+      </ul>
+    </div>
+  </section>
+
+</div>
+
+<footer>
+  Tài liệu tổng hợp để hiểu cơ chế sampling của LLM — dành cho người không chuyên kỹ thuật.<br>
+  Copyright © 2026 by Structure Intelligence Design. <a href="https://www.conversationdesign.net/">conversationdesign.net</a>
+
+</body>
+</html>
