@@ -1,0 +1,886 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Prompt Engineering Techniques — Hướng dẫn toàn diện</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,500;0,600;0,700;0,800;1,400&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg1: #0a0a1a;
+    --bg2: #0f0f2e;
+    --accent1: #7c6aff;
+    --accent2: #e060c8;
+    --accent3: #38d9c0;
+    --accent4: #f5a623;
+    --glass-bg: rgba(255,255,255,0.06);
+    --glass-border: rgba(255,255,255,0.13);
+    --glass-hover: rgba(255,255,255,0.11);
+    --text-primary: #f0eeff;
+    --text-secondary: rgba(240,238,255,0.65);
+    --text-muted: rgba(240,238,255,0.38);
+    --radius: 18px;
+    --radius-sm: 10px;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 16px;
+    background: var(--bg1);
+    color: var(--text-primary);
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* ── Orbs ── */
+  .orb {
+    position: fixed;
+    border-radius: 50%;
+    filter: blur(90px);
+    opacity: 0.22;
+    pointer-events: none;
+    z-index: 0;
+    animation: floatOrb 18s ease-in-out infinite alternate;
+  }
+  .orb1 { width: 600px; height: 600px; background: var(--accent1); top: -150px; left: -200px; animation-delay: 0s; }
+  .orb2 { width: 500px; height: 500px; background: var(--accent2); top: 30%; right: -150px; animation-delay: -6s; }
+  .orb3 { width: 400px; height: 400px; background: var(--accent3); bottom: 10%; left: 20%; animation-delay: -12s; }
+  @keyframes floatOrb {
+    from { transform: translate(0,0) scale(1); }
+    to   { transform: translate(30px, 40px) scale(1.06); }
+  }
+
+  /* ── Layout ── */
+  .container { max-width: 1180px; margin: 0 auto; padding: 0 24px; position: relative; z-index: 1; }
+
+  /* ── Nav ── */
+  nav {
+    position: sticky; top: 0; z-index: 100;
+    backdrop-filter: blur(24px) saturate(1.4);
+    background: rgba(10,10,26,0.72);
+    border-bottom: 1px solid var(--glass-border);
+    padding: 0 24px;
+  }
+  .nav-inner {
+    max-width: 1180px; margin: 0 auto;
+    display: flex; align-items: center; justify-content: space-between;
+    height: 60px;
+  }
+  .nav-logo {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-weight: 800; font-size: 18px;
+    background: linear-gradient(90deg, var(--accent1), var(--accent2));
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    background-clip: text;
+    text-decoration: none;
+  }
+  .nav-links { display: flex; gap: 6px; flex-wrap: wrap; }
+  .nav-links a {
+    font-size: 13px; font-weight: 500;
+    color: var(--text-secondary);
+    text-decoration: none;
+    padding: 6px 12px; border-radius: 20px;
+    transition: all .2s;
+  }
+  .nav-links a:hover { background: var(--glass-bg); color: var(--text-primary); }
+
+  /* ── Hero ── */
+  .hero {
+    text-align: center;
+    padding: 96px 24px 64px;
+  }
+  .hero-badge {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    border-radius: 30px; padding: 6px 16px;
+    font-size: 13px; color: var(--accent3);
+    margin-bottom: 28px;
+    letter-spacing: .04em;
+  }
+  .hero h1 {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: clamp(36px, 6vw, 72px);
+    font-weight: 800; line-height: 1.08;
+    margin-bottom: 20px;
+  }
+  .hero h1 .line1 { color: var(--text-primary); display: block; }
+  .hero h1 .line2 {
+    display: block;
+    background: linear-gradient(90deg, var(--accent1) 0%, var(--accent2) 55%, var(--accent4) 100%);
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  .hero p {
+    font-size: 18px; color: var(--text-secondary);
+    max-width: 620px; margin: 0 auto 40px;
+    line-height: 1.7;
+  }
+  .hero-stats {
+    display: flex; justify-content: center; gap: 40px; flex-wrap: wrap;
+    margin-top: 16px;
+  }
+  .stat {
+    text-align: center;
+  }
+  .stat-num {
+    font-family: 'Plus Jakarta Sans', sans-serif; font-size: 32px; font-weight: 800;
+    background: linear-gradient(135deg, var(--accent1), var(--accent3));
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .guide-strip {
+    margin: 0 auto 20px;
+    max-width: 1040px;
+    border: 1px solid rgba(245,166,35,.35);
+    background: rgba(245,166,35,.1);
+    border-radius: 14px;
+    padding: 12px 14px;
+    font-size: 14px;
+    color: #ffd9a8;
+  }
+
+  .playbook-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 12px;
+  }
+
+  .playbook-card {
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    border-radius: 14px;
+    padding: 14px;
+  }
+
+  .playbook-card h3 {
+    font-size: 14px;
+    margin-bottom: 8px;
+    color: var(--text-primary);
+  }
+
+  .playbook-card p {
+    font-size: 13px;
+    line-height: 1.6;
+    color: var(--text-secondary);
+  }
+  .stat-label { font-size: 13px; color: var(--text-muted); margin-top: 2px; }
+
+  /* ── Section ── */
+  section { padding: 72px 0; }
+  .section-header { margin-bottom: 40px; }
+  .section-eyebrow {
+    font-size: 12px; font-weight: 600; letter-spacing: .12em;
+    text-transform: uppercase; color: var(--accent3);
+    margin-bottom: 10px;
+  }
+  .section-title {
+    font-family: 'Plus Jakarta Sans', sans-serif; font-size: clamp(24px, 3.5vw, 36px);
+    font-weight: 700; line-height: 1.2;
+  }
+  .section-desc { color: var(--text-secondary); font-size: 16px; margin-top: 10px; line-height: 1.6; max-width: 640px; }
+
+  /* ── Tabs ── */
+  .tabs-wrap { margin-bottom: 28px; }
+  .tabs {
+    display: flex; gap: 8px; flex-wrap: wrap;
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    border-radius: 40px; padding: 6px;
+    width: fit-content;
+  }
+  .tab-btn {
+    padding: 8px 20px; border: none; cursor: pointer;
+    border-radius: 30px; font-size: 14px; font-weight: 500;
+    font-family: 'DM Sans', sans-serif;
+    color: var(--text-secondary);
+    background: transparent; transition: all .25s;
+  }
+  .tab-btn.active {
+    background: linear-gradient(135deg, var(--accent1), var(--accent2));
+    color: #fff; box-shadow: 0 4px 20px rgba(124,106,255,.35);
+  }
+  .tab-btn:hover:not(.active) { color: var(--text-primary); background: var(--glass-hover); }
+
+  .tab-panel { display: none; animation: fadeIn .3s ease; }
+  .tab-panel.active { display: block; }
+  @keyframes fadeIn { from { opacity:0; transform: translateY(8px); } to { opacity:1; transform: translateY(0); } }
+
+  /* ── Cards Grid ── */
+  .cards-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 16px;
+  }
+
+  /* ── Card ── */
+  .card {
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    border-radius: var(--radius);
+    padding: 20px 22px;
+    cursor: pointer;
+    transition: all .25s;
+    position: relative;
+    overflow: hidden;
+  }
+  .card::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: linear-gradient(135deg, rgba(124,106,255,.08), transparent);
+    opacity: 0; transition: opacity .25s;
+  }
+  .card:hover { border-color: rgba(124,106,255,.4); transform: translateY(-3px); box-shadow: 0 12px 40px rgba(0,0,0,.35); }
+  .card:hover::before { opacity: 1; }
+
+  .card-code {
+    font-size: 11px; font-weight: 700; letter-spacing: .08em;
+    font-family: 'Courier New', monospace;
+    padding: 4px 10px; border-radius: 6px;
+    display: inline-block; margin-bottom: 12px;
+    background: rgba(124,106,255,.18);
+    color: var(--accent1);
+    border: 1px solid rgba(124,106,255,.25);
+  }
+  .card h3 {
+    font-family: 'Plus Jakarta Sans', sans-serif; font-size: 16px; font-weight: 700;
+    margin-bottom: 8px; line-height: 1.3;
+  }
+  .card p { font-size: 14px; color: var(--text-secondary); line-height: 1.6; }
+  .card-arrow {
+    position: absolute; bottom: 16px; right: 16px;
+    font-size: 18px; color: var(--text-muted);
+    transition: all .2s;
+  }
+  .card:hover .card-arrow { color: var(--accent1); transform: translate(2px,-2px); }
+
+  /* accent colors per section */
+  .card.color-2 .card-code { background: rgba(224,96,200,.18); color: var(--accent2); border-color: rgba(224,96,200,.25); }
+  .card.color-3 .card-code { background: rgba(56,217,192,.18); color: var(--accent3); border-color: rgba(56,217,192,.25); }
+  .card.color-4 .card-code { background: rgba(245,166,35,.18); color: var(--accent4); border-color: rgba(245,166,35,.25); }
+  .card.color-2:hover { border-color: rgba(224,96,200,.4); }
+  .card.color-3:hover { border-color: rgba(56,217,192,.4); }
+  .card.color-4:hover { border-color: rgba(245,166,35,.4); }
+
+  /* ── Modal ── */
+  .modal-overlay {
+    position: fixed; inset: 0; z-index: 200;
+    background: rgba(5,5,20,.75);
+    backdrop-filter: blur(12px);
+    display: flex; align-items: center; justify-content: center;
+    padding: 20px;
+    opacity: 0; pointer-events: none;
+    transition: opacity .25s;
+  }
+  .modal-overlay.open { opacity: 1; pointer-events: all; }
+
+  .modal {
+    background: rgba(15,15,46,0.92);
+    border: 1px solid var(--glass-border);
+    border-radius: 24px;
+    padding: 40px;
+    max-width: 680px; width: 100%;
+    max-height: 88vh; overflow-y: auto;
+    position: relative;
+    transform: scale(.95) translateY(20px);
+    transition: all .3s cubic-bezier(.34,1.56,.64,1);
+    backdrop-filter: blur(30px);
+    box-shadow: 0 40px 100px rgba(0,0,0,.6);
+  }
+  .modal-overlay.open .modal { transform: scale(1) translateY(0); }
+
+  .modal-close {
+    position: absolute; top: 18px; right: 18px;
+    background: var(--glass-bg); border: 1px solid var(--glass-border);
+    border-radius: 50%; width: 36px; height: 36px;
+    display: flex; align-items: center; justify-content: center;
+    cursor: pointer; font-size: 18px; color: var(--text-secondary);
+    transition: all .2s;
+  }
+  .modal-close:hover { background: rgba(255,255,255,.12); color: var(--text-primary); }
+
+  .modal-badge {
+    font-size: 11px; font-weight: 700; letter-spacing: .1em;
+    text-transform: uppercase;
+    padding: 5px 12px; border-radius: 6px;
+    display: inline-block; margin-bottom: 16px;
+    font-family: 'Courier New', monospace;
+  }
+  .modal h2 {
+    font-family: 'Plus Jakarta Sans', sans-serif; font-size: 26px; font-weight: 800;
+    margin-bottom: 10px; line-height: 1.2;
+  }
+  .modal-tagline { font-size: 16px; color: var(--text-secondary); margin-bottom: 28px; line-height: 1.6; }
+
+  .modal-block { margin-bottom: 28px; }
+  .modal-block-title {
+    font-size: 11px; font-weight: 700; letter-spacing: .12em;
+    text-transform: uppercase; color: var(--text-muted);
+    margin-bottom: 12px; display: flex; align-items: center; gap: 8px;
+  }
+  .modal-block-title::after {
+    content: ''; flex: 1; height: 1px; background: var(--glass-border);
+  }
+
+  .modal-desc { font-size: 16px; color: var(--text-secondary); line-height: 1.7; }
+
+  .how-it-works {
+    background: rgba(124,106,255,.08);
+    border: 1px solid rgba(124,106,255,.2);
+    border-radius: var(--radius-sm);
+    padding: 16px 18px;
+    font-size: 15px; color: var(--text-secondary); line-height: 1.7;
+  }
+
+  .prompt-example, .output-example {
+    background: rgba(10,10,20,.7);
+    border: 1px solid var(--glass-border);
+    border-radius: var(--radius-sm);
+    padding: 16px 18px;
+    font-family: 'Courier New', monospace;
+    font-size: 14px; line-height: 1.7;
+    position: relative;
+    white-space: pre-wrap; word-break: break-word;
+  }
+  .prompt-example { color: var(--accent3); }
+  .output-example { color: var(--accent4); }
+  .prompt-example::before {
+    content: '›';
+    position: absolute; left: 18px; top: 14px;
+    color: var(--accent1); font-size: 18px;
+  }
+  .output-example::before {
+    content: '✓';
+    position: absolute; left: 18px; top: 14px;
+    color: var(--accent4); font-size: 14px;
+  }
+  .prompt-example span, .output-example span { padding-left: 16px; display: block; }
+  .copy-btn {
+    position: absolute; top: 12px; right: 12px;
+    background: var(--glass-bg); border: 1px solid var(--glass-border);
+    border-radius: 6px; padding: 4px 10px;
+    font-size: 12px; color: var(--text-muted); cursor: pointer;
+    font-family: 'DM Sans', sans-serif;
+    transition: all .2s;
+  }
+  .copy-btn:hover { background: var(--glass-hover); color: var(--text-primary); }
+
+  .use-cases {
+    display: flex; flex-wrap: wrap; gap: 8px;
+  }
+  .use-case-chip {
+    background: var(--glass-bg); border: 1px solid var(--glass-border);
+    border-radius: 20px; padding: 6px 14px;
+    font-size: 13px; color: var(--text-secondary);
+  }
+
+  /* ── Divider ── */
+  .divider {
+    border: none;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--glass-border), transparent);
+    margin: 0;
+  }
+
+  /* ── Footer ── */
+  footer {
+    text-align: center;
+    padding: 48px 24px;
+    color: var(--text-muted);
+    font-size: 14px;
+    border-top: 1px solid var(--glass-border);
+  }
+  footer a { color: var(--accent1); text-decoration: none; }
+
+  /* ── Scrollbar ── */
+  ::-webkit-scrollbar { width: 6px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb { background: var(--glass-border); border-radius: 3px; }
+
+  /* ── Responsive ── */
+  @media (max-width: 600px) {
+    .hero { padding: 64px 16px 48px; }
+    .modal { padding: 28px 20px; }
+    .hero-stats { gap: 24px; }
+    .tabs { flex-direction: column; width: 100%; border-radius: var(--radius-sm); }
+    .tab-btn { text-align: left; }
+  }
+</style>
+</head>
+<body>
+
+<!-- Background orbs -->
+<div class="orb orb1"></div>
+<div class="orb orb2"></div>
+<div class="orb orb3"></div>
+
+<!-- Nav -->
+<nav>
+  <div class="nav-inner">
+    <a class="nav-logo" href="#">🧠 PromptEngineer</a>
+    <div class="nav-links">
+      <a href="#playbook">Playbook</a>
+      <a href="#foundation">Nền tảng</a>
+      <a href="#reasoning">Suy luận</a>
+      <a href="#agentic">Công cụ &amp; Agent</a>
+      <a href="#optimization">Tối ưu hóa</a>
+    </div>
+  </div>
+</nav>
+
+<!-- Hero -->
+<div class="hero">
+  <div class="hero-badge">✦ Prompt Engineering Techniques - bản tóm lược thực hành</div>
+  <h1>
+    <span class="line1">Prompt Engineering</span>
+    <span class="line2">Techniques</span>
+  </h1>
+  <p>Bộ kỹ thuật thiết kế & tối ưu prompt giúp bạn khai thác LLM hiệu quả hơn cho các tác vụ phức tạp — hiểu cơ chế, xem prompt mẫu và output mẫu cho từng kỹ thuật.</p>
+  <div class="hero-stats">
+    <div class="stat"><div class="stat-num">18</div><div class="stat-label">Kỹ thuật</div></div>
+    <div class="stat"><div class="stat-num">4</div><div class="stat-label">Nhóm chủ đề</div></div>
+    <div class="stat"><div class="stat-num">∞</div><div class="stat-label">Ứng dụng thực tế</div></div>
+  </div>
+</div>
+
+<section id="playbook">
+  <div class="container">
+    <div class="guide-strip">
+      Lưu ý: Các kỹ thuật trong trang này chủ yếu phù hợp với GPT truyền thống. Với reasoning models như GPT-5 và o-series, nên ưu tiên yêu cầu rõ mục tiêu, dữ liệu đầu vào và định dạng đầu ra thay vì ép mẫu prompt quá cứng.
+    </div>
+    <div class="section-header">
+      <div class="section-eyebrow">🧭 Tổng quan nhanh</div>
+      <div class="section-title">Prompt Playbook Dễ Áp Dụng</div>
+      <div class="section-desc">Tóm tắt từ tài liệu gốc: bắt đầu bằng chỉ dẫn rõ ràng, cung cấp nội dung chính, thêm ví dụ khi cần, và chỉ dùng bối cảnh hỗ trợ đúng lúc.</div>
+    </div>
+    <div class="playbook-grid">
+      <article class="playbook-card">
+        <h3>1) Instructions trước tiên</h3>
+        <p>Đặt yêu cầu rõ ngay đầu prompt: mục tiêu, đối tượng, độ dài, định dạng mong muốn.</p>
+      </article>
+      <article class="playbook-card">
+        <h3>2) Primary content rõ ràng</h3>
+        <p>Đưa đúng đoạn văn, bảng, hoặc dữ liệu cần xử lý. Không trộn quá nhiều thông tin nhiễu.</p>
+      </article>
+      <article class="playbook-card">
+        <h3>3) Few-shot khi cần format ổn định</h3>
+        <p>Dùng 1-3 ví dụ input-output để model bắt đúng pattern. Không cần quá nhiều ví dụ.</p>
+      </article>
+      <article class="playbook-card">
+        <h3>4) Cue để “neo” đầu ra</h3>
+        <p>Thêm cue như “Key points:” hoặc “TL;DR:” để model đi đúng khung trình bày bạn muốn.</p>
+      </article>
+      <article class="playbook-card">
+        <h3>5) Supporting content đúng liều</h3>
+        <p>Chỉ thêm thông tin nền thực sự cần thiết như vai trò người dùng, ưu tiên, thời gian, ngữ cảnh.</p>
+      </article>
+      <article class="playbook-card">
+        <h3>6) Luôn kiểm chứng đầu ra</h3>
+        <p>Dù prompt tốt vẫn cần kiểm tra độ đúng, đặc biệt với số liệu, pháp lý, tài chính và nội dung quan trọng.</p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- ======== SECTION: NỀN TẢNG ======== -->
+<section id="foundation">
+  <div class="container">
+    <div class="section-header">
+      <div class="section-eyebrow">🧩 Nhóm 1</div>
+      <div class="section-title">Kỹ thuật nền tảng</div>
+      <div class="section-desc">Những kỹ thuật cơ bản nhất để cấu trúc một prompt hiệu quả — điểm khởi đầu cho mọi task.</div>
+    </div>
+    <div class="cards-grid" id="cards-foundation"></div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- ======== SECTION: SUY LUẬN ======== -->
+<section id="reasoning">
+  <div class="container">
+    <div class="section-header">
+      <div class="section-eyebrow">🧠 Nhóm 2</div>
+      <div class="section-title">Kỹ thuật suy luận (Reasoning)</div>
+      <div class="section-desc">Giúp model "nghĩ" từng bước, khám phá nhiều hướng lập luận và tăng độ chính xác cho task phức tạp.</div>
+    </div>
+    <div class="cards-grid" id="cards-reasoning"></div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- ======== SECTION: CÔNG CỤ & AGENT ======== -->
+<section id="agentic">
+  <div class="container">
+    <div class="section-header">
+      <div class="section-eyebrow">🛠️ Nhóm 3</div>
+      <div class="section-title">Công cụ & Tác nhân (Tool-use / Agentic)</div>
+      <div class="section-desc">Kết hợp LLM với dữ liệu ngoài, code interpreter, hoặc vòng lặp hành động — nền tảng của các AI agent.</div>
+    </div>
+    <div class="cards-grid" id="cards-agentic"></div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- ======== SECTION: TỐI ƯU HÓA ======== -->
+<section id="optimization">
+  <div class="container">
+    <div class="section-header">
+      <div class="section-eyebrow">🚀 Nhóm 4</div>
+      <div class="section-title">Tối ưu hóa Prompt</div>
+      <div class="section-desc">Các kỹ thuật nâng cao giúp tự động sinh, chọn lọc, hoặc cấu trúc hóa prompt để đạt hiệu quả tốt nhất.</div>
+    </div>
+    <div class="cards-grid" id="cards-optimization"></div>
+  </div>
+</section>
+
+<footer>
+  <p>Tổng hợp kỹ thuật Prompt Engineering theo tài liệu hướng dẫn API và thực hành prompt hiện đại &nbsp;·&nbsp; Made for learners ✦</p>
+</footer>
+
+<!-- ======== MODAL ======== -->
+<div class="modal-overlay" id="modal-overlay">
+  <div class="modal" id="modal-box">
+    <button class="modal-close" id="modal-close">✕</button>
+    <div id="modal-content"></div>
+  </div>
+</div>
+
+<script>
+// ══════════════════════════════════════════════════════
+//  DATA
+// ══════════════════════════════════════════════════════
+const data = {
+
+  "cards-foundation": [
+    {
+      code: "/ZERO-SHOT",
+      title: "Zero-shot Prompting",
+      short: "Yêu cầu model thực hiện task mà không cần bất kỳ ví dụ minh họa nào.",
+      what: "Đưa thẳng instruction cho model dựa vào khả năng đã học qua pretraining/instruction-tuning, không kèm ví dụ mẫu (demonstration).",
+      how: "Model dựa vào world knowledge và instruction-following ability để suy luận trực tiếp task. Phù hợp với task đơn giản, phổ biến mà model đã \"thấy\" nhiều dạng tương tự khi huấn luyện.",
+      example: "Bạn là nhân viên marketing. Hãy phân loại cảm xúc bình luận sau thành Tích cực/Tiêu cực/Trung lập và giải thích 1 câu:\n\"Mỹ phẩm giao chậm 2 ngày nhưng dùng khá thích.\"",
+      output: "Trung lập — vì câu chứa cả yếu tố tiêu cực (giao trễ) và tích cực (chất lượng tốt), tổng thể cân bằng.",
+      uses: ["Task phổ biến, đơn giản", "Prototype nhanh", "Khi không có ví dụ sẵn"],
+      color: 1
+    },
+    {
+      code: "/FEW-SHOT",
+      title: "Few-shot Prompting",
+      short: "Cho model vài ví dụ mẫu (input-output) trước khi giao task thật để \"chỉ đường\" định dạng và pattern mong muốn.",
+      what: "Kèm theo 2-5 cặp ví dụ minh họa trong prompt để model học in-context pattern trước khi áp dụng cho input mới.",
+      how: "Model dùng in-context learning — nhận diện pattern lặp lại giữa các ví dụ (format, tone, logic) rồi generalize sang trường hợp mới mà không cần cập nhật trọng số.",
+      example: "Bạn là nhân viên marketing, hãy học theo ví dụ rồi phân loại bình luận mới:\nInput: \"Shop tư vấn nhanh, đóng gói đẹp\" → Tích cực\nInput: \"Áo sờn chỉ sau 1 lần giặt\" → Tiêu cực\n\nInput: \"Giá hơi cao nhưng mặc lên đẹp\" → ?",
+      output: "Trung lập — dựa trên pattern từ 2 ví dụ, model nhận diện đây là câu pha trộn cả yếu tố tích cực và tiêu cực nên xếp vào nhóm trung lập.",
+      uses: ["Kiểm soát format output", "Task cần định nghĩa ngữ cảnh riêng", "Cải thiện độ chính xác so với zero-shot"],
+      color: 1
+    },
+    {
+      code: "/META-PROMPT",
+      title: "Meta Prompting",
+      short: "Tập trung vào cấu trúc và mẫu hình (pattern/syntax) của prompt thay vì nội dung cụ thể.",
+      what: "Thay vì đưa ví dụ nội dung cụ thể như few-shot, meta prompting mô tả khuôn mẫu trừu tượng (structure, format, loại lập luận cần dùng) để model tự điền nội dung phù hợp.",
+      how: "Model nhận một \"khung sườn\" gồm các bước và quy tắc cấu trúc, sau đó áp dụng khung đó cho bất kỳ nội dung nào, giúp tiết kiệm token và tổng quát hóa tốt hơn few-shot truyền thống.",
+      example: "Bạn là cô giáo tiểu học. Soạn 1 bài toán đố theo khung: [Đề bài] → [Dữ kiện] → [Lời giải từng bước] → [Đáp số] cho học sinh lớp 4, chủ đề mua vở ở nhà sách.",
+      output: "[Đề bài]: Cô Lan mua 24 quyển vở chia đều cho 6 tổ. Hỏi mỗi tổ được bao nhiêu quyển?\n[Dữ kiện]: 24 quyển, 6 tổ\n[Lời giải từng bước]: 24 : 6 = 4\n[Đáp số]: Mỗi tổ được 4 quyển vở.",
+      uses: ["Chuẩn hóa quy trình giải quyết vấn đề", "Prompt tái sử dụng nhiều domain", "Tiết kiệm token so với few-shot"],
+      color: 1
+    },
+    {
+      code: "/PROMPT-CHAINING",
+      title: "Prompt Chaining",
+      short: "Chia một task phức tạp thành chuỗi nhiều prompt nhỏ, output bước trước là input bước sau.",
+      what: "Thay vì giải quyết toàn bộ task trong 1 prompt, chia thành các subtask tuần tự (ví dụ: trích xuất → phân tích → tổng hợp), mỗi bước dùng một lượt gọi model riêng.",
+      how: "Model xử lý từng bước với phạm vi hẹp và rõ ràng hơn, giảm tải cognitive load mỗi lần gọi, dễ debug từng khâu, và cho phép chèn logic kiểm tra/xử lý giữa các bước.",
+      example: "Bạn là kế toán viên.\nBước 1: Từ bảng thu chi tháng 6, trích xuất các khoản thu, chi và số tiền.\nBước 2: Tính tổng thu, tổng chi, lãi/lỗ.\nBước 3: Viết báo cáo 3 câu gửi chủ doanh nghiệp, nêu 1 cảnh báo quan trọng.",
+      output: "Bước 1 → Thu: 420 triệu, Chi: lương 180 triệu, thuê mặt bằng 90 triệu, quảng cáo 70 triệu, chi khác 40 triệu\nBước 2 → Tổng thu 420 triệu, tổng chi 380 triệu, lãi 40 triệu\nBước 3 → Báo cáo: Tháng 6 có lãi nhưng biên lợi nhuận mỏng; chi quảng cáo chiếm tỷ trọng cao; cần theo dõi hiệu quả quảng cáo trong tháng 7.",
+      uses: ["Task nhiều bước, nhiều dạng xử lý khác nhau", "Pipeline tự động hóa", "Dễ debug và kiểm soát chất lượng từng bước"],
+      color: 1
+    }
+  ],
+
+  "cards-reasoning": [
+    {
+      code: "/CHAIN-OF-THOUGHT",
+      title: "Chain-of-Thought (CoT) Prompting",
+      short: "Yêu cầu model trình bày từng bước suy luận trung gian trước khi đưa ra đáp án cuối.",
+      what: "Kỹ thuật khuyến khích model \"nghĩ thành tiếng\" — chia nhỏ lập luận thành các bước tuần tự thay vì nhảy thẳng tới kết luận.",
+      how: "Bằng cách thêm cụm \"hãy suy nghĩ từng bước\" hoặc cung cấp ví dụ có lời giải chi tiết, model được dẫn dắt tạo ra chuỗi token trung gian phản ánh quá trình lập luận, giúp giảm lỗi ở các task toán học, logic nhiều bước.",
+      example: "Bạn là cô giáo tiểu học. Giải giúp học sinh lớp 3 theo từng bước: Lớp 3A có 42 học sinh, 17 bạn tham gia CLB vẽ và 9 bạn tham gia CLB đàn. Hỏi còn bao nhiêu bạn chưa tham gia CLB nào?",
+      output: "Bước 1: Số bạn đã tham gia CLB = 17 + 9 = 26\nBước 2: Số bạn chưa tham gia CLB = 42 - 26 = 16\nĐáp án: Có 16 bạn chưa tham gia CLB nào.",
+      uses: ["Toán, logic nhiều bước", "Task cần giải thích lập luận", "Giảm lỗi suy luận"],
+      color: 2
+    },
+    {
+      code: "/SELF-CONSISTENCY",
+      title: "Self-Consistency",
+      short: "Sinh nhiều đường suy luận (CoT) khác nhau cho cùng một câu hỏi rồi chọn đáp án xuất hiện nhiều nhất.",
+      what: "Thay vì lấy một câu trả lời CoT duy nhất, kỹ thuật này sample nhiều lần (temperature > 0) để tạo ra nhiều chuỗi lập luận độc lập, sau đó \"vote\" để chọn kết quả đáng tin cậy nhất.",
+      how: "Model chạy nhiều lượt cùng một prompt CoT, mỗi lần có thể đi theo hướng lập luận khác nhau; câu trả lời cuối được tổng hợp bằng cách chọn đáp án phổ biến nhất trong tập kết quả, giúp giảm phương sai và lỗi ngẫu nhiên.",
+      example: "(Chạy 5 lần) Bạn là kế toán viên. Một cửa hàng có doanh thu tuần lần lượt: 120, 135, 118, 142 (triệu). Hãy tính doanh thu trung bình và đề xuất 1 mức dự báo cho tuần sau. Trình bày từng bước.",
+      output: "5 lần chạy cho ra trung bình: 128.75, 128.5, 129, 128.75, 128.75 (triệu) → đáp án được chọn: 128.75 triệu/tuần. Dự báo tuần sau: khoảng 129-132 triệu nếu giữ nhịp tuần gần nhất.",
+      uses: ["Task suy luận có nhiều lời giải khả dĩ", "Giảm sai số ngẫu nhiên", "Tăng độ tin cậy cho câu hỏi khó"],
+      color: 2
+    },
+    {
+      code: "/GENERATE-KNOWLEDGE",
+      title: "Generate Knowledge Prompting",
+      short: "Yêu cầu model tự sinh ra các kiến thức nền liên quan trước, rồi dùng chính kiến thức đó để trả lời câu hỏi chính.",
+      what: "Kỹ thuật 2 bước — bước 1 model liệt kê các facts/kiến thức liên quan đến chủ đề; bước 2 model dùng các facts đó làm ngữ cảnh bổ sung để đưa ra câu trả lời chính xác hơn.",
+      how: "Bằng cách tách riêng giai đoạn \"sinh kiến thức\" khỏi giai đoạn \"suy luận trả lời\", model tránh bỏ sót thông tin nền quan trọng và giảm hallucination vì kiến thức được kiểm tra tường minh trước khi dùng.",
+      example: "Bạn là UX designer cho app ngân hàng.\nBước 1: Liệt kê kiến thức nền cần biết để người lớn tuổi dùng app dễ hơn (thị lực, thao tác, nỗi sợ sai).\nBước 2: Dựa trên đó, đề xuất 5 cải tiến màn hình chuyển khoản.",
+      output: "Bước 1 (kiến thức nền): người lớn tuổi khó đọc chữ nhỏ, sợ thao tác sai, cần xác nhận rõ ràng và hỗ trợ từng bước.\nBước 2 (đề xuất): tăng cỡ chữ mặc định, nút CTA lớn hơn, thêm chế độ tương phản cao, thêm màn xác nhận dễ hiểu trước khi chuyển khoản, và nút gọi hỗ trợ ngay trên màn hình.",
+      uses: ["Câu hỏi cần kiến thức nền chuyên sâu", "Giảm hallucination", "Task giải thích nguyên nhân - kết quả"],
+      color: 2
+    },
+    {
+      code: "/TREE-OF-THOUGHTS",
+      title: "Tree of Thoughts (ToT)",
+      short: "Khám phá nhiều nhánh lập luận song song như một cây quyết định, đánh giá và cắt tỉa các nhánh kém trước khi chọn đường đi tốt nhất.",
+      what: "Mở rộng CoT bằng cách cho phép model khám phá nhiều \"thoughts\" (bước suy nghĩ trung gian) tại mỗi node, tự đánh giá tính khả thi của từng nhánh, rồi tiếp tục đào sâu nhánh triển vọng nhất.",
+      how: "Tại mỗi bước, model sinh ra nhiều candidate thoughts, dùng chính model để \"chấm điểm\" hoặc so sánh các candidate đó, loại bỏ nhánh yếu và mở rộng nhánh mạnh — mô phỏng quá trình tìm kiếm có backtracking thay vì suy luận tuyến tính một chiều.",
+      example: "Bạn là UX designer. Bài toán: tỷ lệ hoàn tất onboarding chỉ 38%. Hãy đưa ra 3 hướng cải thiện khác nhau, chấm điểm từng hướng theo tác động/chi phí/rủi ro, rồi chọn 1 hướng ưu tiên làm trước.",
+      output: "Nhánh A: Rút ngắn form từ 7 bước xuống 4 bước (tác động cao, chi phí trung bình).\nNhánh B: Thêm video hướng dẫn ở bước 1 (tác động trung bình, chi phí thấp).\nNhánh C: Đăng nhập bằng tài khoản mạng xã hội (tác động cao, rủi ro pháp lý cao).\nKết luận: Chọn nhánh A làm trước vì tác động lớn và rủi ro triển khai thấp hơn C.",
+      uses: ["Bài toán cần tìm kiếm nhiều hướng giải", "Lập kế hoạch phức tạp", "Task có nhiều lời giải khả dĩ cần so sánh"],
+      color: 2
+    },
+    {
+      code: "/MULTIMODAL-COT",
+      title: "Multimodal Chain-of-Thought",
+      short: "Mở rộng Chain-of-Thought sang dữ liệu đa phương thức — model suy luận từng bước dựa trên cả văn bản lẫn hình ảnh.",
+      what: "CoT truyền thống chỉ dùng văn bản; Multimodal CoT kết hợp thông tin từ ảnh cùng văn bản trong quá trình sinh chuỗi lập luận trung gian, thường theo kiến trúc 2 giai đoạn: sinh rationale rồi suy ra đáp án.",
+      how: "Giai đoạn 1, model nhận cả ảnh và câu hỏi, sinh ra một đoạn giải thích trung gian mô tả các chi tiết quan sát được; giai đoạn 2, đáp án cuối được suy ra dựa trên câu hỏi gốc kết hợp với rationale vừa sinh, giúp tách biệt bước \"hiểu ảnh\" khỏi bước \"kết luận\".",
+      example: "[Ảnh: heatmap click của landing page chiến dịch 20/11]\nBạn là nhân viên marketing. Hãy phân tích vùng người dùng click nhiều/ít, chỉ ra 2 vấn đề trên layout và đề xuất 3 chỉnh sửa để tăng tỷ lệ bấm nút 'Đăng ký'.",
+      output: "Rationale: Heatmap cho thấy click tập trung ở banner trên cùng nhưng nút 'Đăng ký' ở cuối trang nhận ít tương tác; vùng lợi ích sản phẩm bị bỏ qua.\nĐáp án: (1) Đưa nút 'Đăng ký' lên phần hero, (2) tăng độ tương phản của CTA, (3) rút gọn phần mô tả dài thành bullet lợi ích để tăng CTR.",
+      uses: ["Phân tích biểu đồ, hình ảnh kèm câu hỏi", "Task thị giác cần giải thích lập luận", "Ứng dụng multimodal trong giáo dục, báo cáo"],
+      color: 2
+    }
+  ],
+
+  "cards-agentic": [
+    {
+      code: "/RAG",
+      title: "Retrieval Augmented Generation (RAG)",
+      short: "Truy xuất tài liệu liên quan từ nguồn ngoài rồi đưa vào prompt làm ngữ cảnh trước khi model trả lời.",
+      what: "Kết hợp một retriever (tìm kiếm ngữ nghĩa qua embedding) với generator (LLM) — thay vì chỉ dựa vào kiến thức nội tại, model được cấp thêm đoạn văn bản liên quan lấy trực tiếp từ nguồn dữ liệu cập nhật/riêng tư.",
+      how: "Query được chuyển thành vector embedding, so khớp với embedding của các đoạn tài liệu trong knowledge base để lấy top-k đoạn liên quan nhất, sau đó các đoạn này được nhét vào prompt làm context, giúp model trả lời chính xác và giảm hallucination.",
+      example: "[Context được retrieve]: \"Theo quy chế trường tiểu học A: học sinh nghỉ quá 3 buổi/tháng cần giáo viên chủ nhiệm gọi phụ huynh; nghỉ từ 5 buổi phải báo ban giám hiệu.\"\n\nBạn là cô giáo chủ nhiệm. Câu hỏi: Học sinh Minh nghỉ 4 buổi trong tháng này thì cô cần làm gì?",
+      output: "Theo quy chế: nghỉ quá 3 buổi/tháng thì giáo viên chủ nhiệm cần gọi phụ huynh. Minh nghỉ 4 buổi nên cô cần gọi phụ huynh để trao đổi tình hình; chưa cần báo ban giám hiệu vì chưa đến 5 buổi.",
+      uses: ["Chatbot doanh nghiệp với dữ liệu riêng", "Trả lời câu hỏi cần thông tin cập nhật", "Giảm hallucination, tăng khả năng trích dẫn nguồn"],
+      color: 3
+    },
+    {
+      code: "/ART",
+      title: "Automatic Reasoning and Tool-use (ART)",
+      short: "Model tự động chọn ví dụ suy luận phù hợp và gọi công cụ ngoài từ một thư viện task đã lập trình sẵn.",
+      what: "Framework cho phép model tự phân rã task mới thành các bước, tự chọn \"demonstration\" phù hợp nhất từ thư viện các task tương tự đã giải trước đó, đồng thời tự quyết định khi nào cần gọi tool ngoài để hoàn thành từng bước.",
+      how: "Hệ thống duy trì một thư viện các task-example kèm chuỗi suy luận + tool call mẫu; khi gặp task mới, model truy xuất ví dụ gần giống nhất làm khung sườn, chèn lệnh gọi tool (ví dụ [Search], [Calculator]) vào đúng chỗ cần thiết, và con người có thể chỉnh sửa/thêm ví dụ mới vào thư viện.",
+      example: "Task: Bạn là nhân viên marketing, cần chốt kế hoạch quảng cáo tuần này.\nModel tự làm theo bước: [Search: CPM Facebook ngành mỹ phẩm Việt Nam], [Search: CPM TikTok ngành mỹ phẩm Việt Nam], [Calculator: ngân sách 60 triệu chia theo CPM], rồi đề xuất phân bổ ngân sách.",
+      output: "[Search] CPM Facebook: 58.000đ, CPM TikTok: 46.000đ\n[Calculator] Ngân sách 60.000.000đ đề xuất: TikTok 36.000.000đ (60%), Facebook 24.000.000đ (40%)\nKết quả: Ưu tiên TikTok để tối đa reach, vẫn giữ Facebook cho nhóm chuyển đổi ổn định.",
+      uses: ["Task cần kết hợp suy luận và tra cứu số liệu", "Tự động hóa quy trình đa bước có tool", "Xây dựng thư viện demonstration tái sử dụng"],
+      color: 3
+    },
+    {
+      code: "/PAL",
+      title: "Program-Aided Language Models (PAL)",
+      short: "Model viết code để biểu diễn bước suy luận, rồi giao cho một interpreter thực thi để lấy kết quả chính xác.",
+      what: "Thay vì để model tự thực hiện phép tính bằng ngôn ngữ tự nhiên (dễ sai ở bước số học phức tạp), PAL yêu cầu model sinh đoạn code biểu diễn đúng logic bài toán, sau đó một trình thông dịch (Python) chạy code đó để lấy đáp án cuối cùng.",
+      how: "Model được prompt với vài ví dụ few-shot dạng \"câu hỏi → đoạn code giải quyết\", học cách chuyển bài toán ngôn ngữ tự nhiên thành chương trình; phần tính toán nặng được giao hoàn toàn cho interpreter, model chỉ đảm nhiệm phần dịch logic sang code.",
+      example: "Bạn là kế toán viên. Bài toán: Công ty có 36 nhân sự. 1/3 thuộc khối kinh doanh, còn lại chia đều cho vận hành và hỗ trợ. Viết code để tính số người mỗi khối.\n(Model sinh code: kd = 36//3; con_lai = 36-kd; van_hanh = con_lai//2; ho_tro = con_lai//2)",
+      output: "kd = 12\ncon_lai = 24\nvan_hanh = 12\nho_tro = 12\n→ Kết quả sau khi chạy: Kinh doanh 12 người, Vận hành 12 người, Hỗ trợ 12 người.",
+      uses: ["Bài toán số học, logic phức tạp", "Task cần độ chính xác tính toán tuyệt đối", "Kết hợp LLM với code execution"],
+      color: 3
+    },
+    {
+      code: "/REACT",
+      title: "ReAct (Reason + Act)",
+      short: "Xen kẽ giữa bước suy luận (Thought) và hành động gọi công cụ ngoài (Action), dùng kết quả trả về (Observation) để tiếp tục suy luận.",
+      what: "Framework agent kết hợp lập luận ngôn ngữ tự nhiên với khả năng tương tác môi trường ngoài theo chu trình lặp: Thought → Action → Observation → Thought tiếp theo, cho đến khi đạt câu trả lời cuối.",
+      how: "Tại mỗi vòng lặp, model sinh một \"Thought\" phân tích tình huống, chọn một \"Action\" cụ thể, nhận về \"Observation\" là kết quả thực tế từ action đó, rồi dùng observation này làm input cho vòng Thought kế tiếp — giảm hallucination vì lập luận được neo vào dữ kiện thực tế.",
+      example: "Câu hỏi: Bạn là UX designer, cần benchmark. App ngân hàng nào ở Việt Nam có onboarding dưới 5 bước?\nThought: Cần danh sách app ngân hàng lớn trước.\nAction: Search['top app ngân hàng Việt Nam 2026']\nObservation: Có A, B, C.\nThought: Cần kiểm tra luồng onboarding từng app.\nAction: Search['onboarding app A số bước'] ...\nObservation: App A 4 bước, app B 6 bước, app C 5 bước.",
+      output: "Thought: Đã có đủ dữ liệu benchmark.\nFinal Answer: App A có onboarding dưới 5 bước (4 bước). App B và C chưa đạt tiêu chí do cần từ 5-6 bước.",
+      uses: ["AI agent tương tác công cụ ngoài", "Trả lời câu hỏi cần tra cứu thông tin thời gian thực", "Task cần vừa suy luận vừa hành động"],
+      color: 3
+    },
+    {
+      code: "/REFLEXION",
+      title: "Reflexion",
+      short: "Agent tự phản tư bằng ngôn ngữ về những lần thất bại trước đó, lưu lại bài học để cải thiện ở lần thử tiếp theo.",
+      what: "Thay vì cập nhật trọng số model, Reflexion lưu \"verbal feedback\" — một đoạn văn bản tự đánh giá do chính model sinh ra sau mỗi lần thất bại — vào bộ nhớ episodic, rồi đưa các bài học đó vào ngữ cảnh của lần thử kế tiếp cho cùng task.",
+      how: "Sau mỗi episode, một \"evaluator\" đánh giá kết quả pass/fail; nếu fail, một \"self-reflection\" model phân tích nguyên nhân thất bại bằng ngôn ngữ tự nhiên, lưu vào bộ nhớ; lần thử tiếp theo, actor model đọc lại các reflection cũ này như một dạng \"kinh nghiệm\" trước khi hành động lại.",
+      example: "Lần 1: Bạn là kế toán viên, nhờ AI lập bảng đối chiếu công nợ nhưng thiếu cột 'hạn thanh toán'.\nSelf-reflection: \"Tôi đã bỏ sót trường hạn thanh toán, lần sau phải kiểm tra đủ 5 cột: khách hàng, hóa đơn, số tiền, hạn thanh toán, trạng thái.\"\nLần 2: AI tạo lại bảng với checklist 5 cột trước khi xuất kết quả.",
+      output: "Lần 2: Code mới pass 5/5 test case sau khi áp dụng bài học từ lần 1 — agent tự cải thiện qua vòng lặp thử-phản tư-thử lại mà không cần huấn luyện lại model.",
+      uses: ["Coding agent tự sửa lỗi", "Task cần thử nhiều vòng lặp cải thiện", "Agent học từ thất bại không cần fine-tune"],
+      color: 3
+    }
+  ],
+
+  "cards-optimization": [
+    {
+      code: "/APE",
+      title: "Automatic Prompt Engineer (APE)",
+      short: "Dùng chính LLM để tự sinh, đánh giá và chọn ra prompt instruction tối ưu nhất cho một task.",
+      what: "Một LLM đóng vai \"inference model\" sinh ra nhiều candidate instructions dựa trên vài cặp ví dụ input-output, sau đó các candidate được chấm điểm để chọn ra instruction hiệu quả nhất.",
+      how: "Quy trình gồm: (1) sinh instruction candidates từ demonstration, (2) chạy thử từng candidate trên tập validation, (3) chấm điểm kết quả, (4) chọn hoặc tinh chỉnh thêm instruction tốt nhất để dùng production — bản chất là tối ưu hóa prompt tự động thay vì thử-sai thủ công.",
+      example: "Bạn là nhân viên marketing mỹ phẩm. Từ 6 bình luận mẫu đã gán nhãn, hãy sinh 5 prompt instruction khác nhau để phân loại sentiment cho bình luận mới, rồi chọn 1 prompt tốt nhất theo độ rõ ràng và độ chính xác.",
+      output: "Model sinh 5 instruction. Sau khi test trên tập bình luận validation, prompt tốt nhất là: 'Phân loại sentiment theo trải nghiệm thực tế của khách (chất lượng, giao hàng, giá trị/giá), trả về 1 nhãn + 1 câu giải thích ngắn.'",
+      uses: ["Tối ưu hóa prompt hàng loạt", "Xây dựng system prompt production", "Giảm công sức thử-sai thủ công"],
+      color: 4
+    },
+    {
+      code: "/ACTIVE-PROMPT",
+      title: "Active-Prompt",
+      short: "Chủ động chọn ra những câu hỏi \"khó\" và không chắc chắn nhất để con người gán nhãn CoT mẫu.",
+      what: "Thay vì chọn ngẫu nhiên ví dụ CoT để đưa vào few-shot, Active-Prompt dùng model để đo độ không chắc chắn (uncertainty) trên tập câu hỏi chưa gán nhãn, ưu tiên chọn các câu có độ bất định cao nhất để con người viết lời giải mẫu chi tiết.",
+      how: "Model trả lời mỗi câu hỏi nhiều lần, đo mức độ bất đồng giữa các câu trả lời làm proxy cho uncertainty; các câu có uncertainty cao nhất được annotator con người gán nhãn CoT chuẩn, sau đó dùng làm few-shot exemplar cho toàn bộ tập câu hỏi tương tự.",
+      example: "Bạn là cô giáo tiểu học. Có 80 bài toán lời văn chưa có đáp án mẫu. Hãy cho model làm thử 5 lần mỗi bài, chọn 10 bài mà kết quả lệch nhau nhiều nhất để cô viết lời giải chuẩn, rồi dùng 10 bài này làm ví dụ cho các bài còn lại.",
+      output: "5 câu \"khó nhất\" được xác định (tỷ lệ đồng thuận giữa các lần chạy chỉ 40-60%) → sau khi bổ sung lời giải mẫu chuẩn cho 5 câu này vào prompt, độ chính xác trên tập 95 câu còn lại tăng đáng kể so với chọn ví dụ ngẫu nhiên.",
+      uses: ["Tối ưu hóa tập few-shot exemplar", "Task suy luận phức tạp cần annotation có mục tiêu", "Giảm chi phí gán nhãn thủ công"],
+      color: 4
+    },
+    {
+      code: "/DSP",
+      title: "Directional Stimulus Prompting",
+      short: "Dùng một model nhỏ để sinh \"gợi ý định hướng\" ngắn, chèn vào prompt nhằm dẫn dắt LLM lớn tạo output đúng hướng.",
+      what: "Kỹ thuật 2 model — một policy model nhỏ sinh ra \"stimulus\" (từ khóa, gợi ý) cho mỗi input cụ thể; stimulus này được chèn vào prompt của LLM lớn (thường đóng băng) để định hướng output mà không cần huấn luyện lại toàn bộ hệ thống.",
+      how: "Policy model được huấn luyện để sinh gợi ý ngắn tối ưu hóa metric mong muốn; khi suy luận, gợi ý này được ghép vào prompt gốc trước khi gửi tới LLM lớn, giúp cải thiện output với chi phí huấn luyện thấp hơn nhiều so với fine-tune cả model lớn.",
+      example: "Bạn là nhân viên marketing. Nội dung gốc là bài viết dài về sản phẩm serum mới.\nGợi ý định hướng: 'da nhạy cảm, không cồn, dùng sáng tối'.\nYêu cầu: Viết bản tóm tắt 120 từ cho landing page, tập trung đúng 3 ý định hướng.",
+      output: "Serum mới phù hợp da nhạy cảm nhờ công thức không cồn, thấm nhanh và có thể dùng đều đặn sáng tối. Sản phẩm tập trung phục hồi dịu nhẹ, phù hợp người mới bắt đầu routine chăm da an toàn.",
+      uses: ["Tóm tắt văn bản có định hướng", "Kiểm soát output của LLM lớn với chi phí thấp", "Cá nhân hóa output theo tiêu chí cụ thể"],
+      color: 4
+    },
+    {
+      code: "/GRAPH-PROMPTING",
+      title: "Graph Prompting",
+      short: "Biểu diễn kiến thức hoặc bài toán dưới dạng đồ thị (node-edge) để model suy luận trên cấu trúc quan hệ.",
+      what: "Nhóm kỹ thuật kết hợp graph-structured data (knowledge graph, dependency graph) với prompt cho LLM — model được cấp thông tin về node, edge, quan hệ giữa chúng để suy luận các câu hỏi liên quan đến cấu trúc, đường đi, hoặc quan hệ nhiều bước.",
+      how: "Đồ thị được tuyến tính hóa thành dạng text mà model có thể đọc (danh sách cạnh, triple subject-relation-object), sau đó model được yêu cầu suy luận trên cấu trúc này — ví dụ tìm đường đi ngắn nhất, suy ra quan hệ bắc cầu, hoặc trả lời câu hỏi multi-hop dựa trên các liên kết trong graph.",
+      example: "Bạn là kế toán viên. Đồ thị công nợ: Công ty A → Nhà cung cấp B (nợ 120tr), B → Nhà cung cấp C (nợ 70tr), C → Nhà cung cấp D (nợ 40tr).\nCâu hỏi: Nếu A chậm thanh toán, những đơn vị nào có thể bị ảnh hưởng gián tiếp và theo thứ tự nào?",
+      output: "Chuỗi ảnh hưởng gián tiếp: A chậm thanh toán → B thiếu dòng tiền → C bị trễ thanh toán dây chuyền → D có rủi ro nhận tiền muộn. Thứ tự ảnh hưởng: B trước, sau đó C, rồi D.",
+      uses: ["Suy luận multi-hop trên knowledge graph", "Task về quan hệ tổ chức, mạng lưới xã hội", "Kết hợp structured data với LLM reasoning"],
+      color: 4
+    }
+  ]
+};
+
+// ══════════════════════════════════════════════════════
+//  RENDER CARDS
+// ══════════════════════════════════════════════════════
+function colorClass(n) { return `color-${n||1}`; }
+
+function renderCards() {
+  Object.entries(data).forEach(([containerId, items]) => {
+    const container = document.getElementById(containerId);
+    if (!container) return;
+    container.innerHTML = items.map((item, idx) => `
+      <div class="card ${colorClass(item.color)}" data-key="${containerId}" data-idx="${idx}">
+        <div class="card-code">${item.code}</div>
+        <h3>${item.title}</h3>
+        <p>${item.short}</p>
+        <span class="card-arrow">↗</span>
+      </div>
+    `).join('');
+  });
+}
+
+// ══════════════════════════════════════════════════════
+//  MODAL
+// ══════════════════════════════════════════════════════
+const overlay  = document.getElementById('modal-overlay');
+const modalBox = document.getElementById('modal-box');
+const modalContent = document.getElementById('modal-content');
+const closeBtn = document.getElementById('modal-close');
+
+function accentColor(n) {
+  const map = {1:'#7c6aff',2:'#e060c8',3:'#38d9c0',4:'#f5a623'};
+  return map[n] || map[1];
+}
+
+function openModal(item) {
+  const ac = accentColor(item.color);
+  modalContent.innerHTML = `
+    <div class="modal-badge" style="background:${ac}22;color:${ac};border:1px solid ${ac}44">${item.code}</div>
+    <h2>${item.title}</h2>
+    <p class="modal-tagline">${item.short}</p>
+
+    <div class="modal-block">
+      <div class="modal-block-title">📌 Nó là gì?</div>
+      <p class="modal-desc">${item.what}</p>
+    </div>
+
+    <div class="modal-block">
+      <div class="modal-block-title">⚙️ Cơ chế hoạt động</div>
+      <div class="how-it-works">${item.how}</div>
+    </div>
+
+    <div class="modal-block">
+      <div class="modal-block-title">✍️ Prompt mẫu</div>
+      <div class="prompt-example" style="border-color:${ac}33">
+        <button class="copy-btn" onclick="copyText(this)">copy</button>
+        <span>${item.example}</span>
+      </div>
+    </div>
+
+    <div class="modal-block">
+      <div class="modal-block-title">📤 Output mẫu</div>
+      <div class="output-example" style="border-color:${ac}33">
+        <button class="copy-btn" onclick="copyText(this)">copy</button>
+        <span>${item.output}</span>
+      </div>
+    </div>
+
+    <div class="modal-block">
+      <div class="modal-block-title">🎯 Dùng khi nào?</div>
+      <div class="use-cases">
+        ${item.uses.map(u => `<span class="use-case-chip">${u}</span>`).join('')}
+      </div>
+    </div>
+
+  `;
+  overlay.classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeModal() {
+  overlay.classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+function copyText(btn) {
+  const text = btn.nextElementSibling.textContent.trim();
+  navigator.clipboard.writeText(text).then(() => {
+    btn.textContent = 'copied!';
+    setTimeout(() => btn.textContent = 'copy', 1500);
+  });
+}
+
+closeBtn.addEventListener('click', closeModal);
+overlay.addEventListener('click', e => { if(e.target === overlay) closeModal(); });
+document.addEventListener('keydown', e => { if(e.key === 'Escape') closeModal(); });
+
+document.addEventListener('click', e => {
+  const card = e.target.closest('.card');
+  if (!card) return;
+  const key = card.dataset.key;
+  const idx = parseInt(card.dataset.idx);
+  openModal(data[key][idx]);
+});
+
+// ══════════════════════════════════════════════════════
+//  INIT
+// ══════════════════════════════════════════════════════
+renderCards();
+</script>
+</body>
+</html>
+
