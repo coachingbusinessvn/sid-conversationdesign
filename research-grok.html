@@ -1,0 +1,6307 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="SID Research Pack — Nghiên cứu thị trường, competitor, discovery, keyword VI, pricing.">
+<title>SID Research Pack — Thị trường &amp; GTM</title>
+<style>
+  :root {
+    --bg: #0b0f1a;
+    --bg-elev: #121829;
+    --bg-card: #161e2e;
+    --border: rgba(148, 163, 184, 0.16);
+    --text: #e8edf7;
+    --muted: #94a3b8;
+    --accent: #6b7cff;
+    --accent-2: #4c5fd5;
+    --accent-soft: rgba(107, 124, 255, 0.12);
+    --code-bg: #0a0e17;
+    --radius: 14px;
+    --shadow: 0 12px 40px rgba(0,0,0,.35);
+    --font: "Inter", "Segoe UI", system-ui, -apple-system, sans-serif;
+    --mono: "JetBrains Mono", "SF Mono", ui-monospace, Menlo, Consolas, monospace;
+    --max: 920px;
+    --toc-w: 280px;
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    margin: 0;
+    font-family: var(--font);
+    background:
+      radial-gradient(1200px 600px at 10% -10%, rgba(76, 95, 213, 0.25), transparent 55%),
+      radial-gradient(900px 500px at 100% 0%, rgba(52, 211, 153, 0.08), transparent 50%),
+      var(--bg);
+    color: var(--text);
+    line-height: 1.65;
+    font-size: 15.5px;
+    -webkit-font-smoothing: antialiased;
+  }
+  a { color: #a5b4fc; text-decoration: none; }
+  a:hover { color: #c7d2fe; text-decoration: underline; }
+  .topbar {
+    position: sticky; top: 0; z-index: 50;
+    backdrop-filter: blur(14px);
+    background: rgba(11, 15, 26, 0.82);
+    border-bottom: 1px solid var(--border);
+  }
+  .topbar-inner {
+    max-width: calc(var(--max) + var(--toc-w) + 80px);
+    margin: 0 auto; padding: 12px 20px;
+    display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap;
+  }
+  .brand { display: flex; align-items: center; gap: 10px; font-weight: 700; letter-spacing: -0.02em; }
+  .brand-badge {
+    width: 28px; height: 28px; border-radius: 8px;
+    background: linear-gradient(135deg, var(--accent), #34d399);
+    display: grid; place-items: center; color: #0b0f1a; font-size: 12px; font-weight: 800;
+  }
+  .meta-pills { display: flex; flex-wrap: wrap; gap: 8px; }
+  .pill {
+    font-size: 12px; color: var(--muted); border: 1px solid var(--border);
+    background: var(--bg-elev); padding: 4px 10px; border-radius: 999px;
+  }
+  .pill strong { color: var(--text); font-weight: 600; }
+  .actions { display: flex; gap: 8px; flex-wrap: wrap; }
+  .btn {
+    border: 1px solid var(--border); background: var(--bg-card); color: var(--text);
+    padding: 8px 12px; border-radius: 10px; font-size: 13px; cursor: pointer; font-family: inherit;
+  }
+  .btn:hover { border-color: var(--accent); color: #fff; }
+  .btn-primary {
+    background: linear-gradient(135deg, var(--accent-2), var(--accent));
+    border-color: transparent; color: white; font-weight: 600;
+  }
+  .layout {
+    max-width: calc(var(--max) + var(--toc-w) + 80px);
+    margin: 0 auto; padding: 24px 20px 80px;
+    display: grid; grid-template-columns: var(--toc-w) minmax(0, 1fr);
+    gap: 28px; align-items: start;
+  }
+  .toc-wrap {
+    position: sticky; top: 72px; max-height: calc(100vh - 90px); overflow: auto;
+    padding: 14px; border: 1px solid var(--border); border-radius: var(--radius);
+    background: rgba(18, 24, 41, 0.9);
+  }
+  .toc-wrap > h2 {
+    margin: 0 0 10px; font-size: 12px; text-transform: uppercase;
+    letter-spacing: 0.08em; color: var(--muted); font-weight: 700; border: 0; padding: 0;
+  }
+  #TOC ul { list-style: none; padding-left: 0; margin: 0; }
+  #TOC > ul > li { margin: 0 0 6px; }
+  #TOC ul ul { padding-left: 12px; margin-top: 4px; }
+  #TOC a {
+    display: block; color: var(--muted); font-size: 12.5px; line-height: 1.4;
+    padding: 4px 8px; border-radius: 8px; text-decoration: none;
+  }
+  #TOC a:hover { background: var(--accent-soft); color: var(--text); text-decoration: none; }
+  .content {
+    min-width: 0;
+    background: linear-gradient(180deg, rgba(22,30,46,.95), rgba(18,24,41,.98));
+    border: 1px solid var(--border); border-radius: 18px;
+    padding: 28px 28px 48px; box-shadow: var(--shadow);
+  }
+  .hero-note {
+    margin: 0 0 24px; padding: 16px 18px; border-radius: 12px;
+    border: 1px solid rgba(107,124,255,.3); background: var(--accent-soft);
+    color: var(--text); font-size: 14px;
+  }
+  .hero-note strong { color: #c7d2fe; }
+  h1,h2,h3,h4 { line-height: 1.25; letter-spacing: -0.02em; scroll-margin-top: 80px; }
+  h1 {
+    font-size: 1.85rem; margin: 0.4rem 0 12px;
+    background: linear-gradient(90deg, #fff, #a5b4fc);
+    -webkit-background-clip: text; background-clip: text; color: transparent;
+  }
+  header#title-block-header { display: none; }
+  h2 {
+    font-size: 1.35rem; margin: 2.2rem 0 0.9rem; padding-top: 0.6rem;
+    border-top: 1px solid var(--border); color: #f1f5f9;
+  }
+  h3 { font-size: 1.08rem; margin: 1.5rem 0 0.6rem; color: #e2e8f0; }
+  h4 { font-size: 0.98rem; margin: 1.2rem 0 0.5rem; color: #cbd5e1; }
+  p { margin: 0.7rem 0; color: #dbe3f0; }
+  strong { color: #f8fafc; }
+  blockquote {
+    margin: 1rem 0; padding: 12px 16px; border-left: 3px solid var(--accent);
+    background: rgba(107,124,255,0.08); border-radius: 0 12px 12px 0; color: #d7def0;
+  }
+  blockquote p { margin: 0.35rem 0; }
+  ul, ol { padding-left: 1.3rem; color: #dbe3f0; }
+  li { margin: 0.3rem 0; }
+  hr { border: 0; border-top: 1px solid var(--border); margin: 1.8rem 0; }
+  code {
+    font-family: var(--mono); font-size: 0.86em;
+    background: rgba(148,163,184,0.12); padding: 0.12em 0.4em; border-radius: 6px; color: #e2e8f0;
+  }
+  pre {
+    background: var(--code-bg); border: 1px solid var(--border); border-radius: 12px;
+    padding: 14px 16px; overflow-x: auto; font-size: 12.5px; line-height: 1.5;
+  }
+  pre code { background: none; padding: 0; color: #d1e0ff; }
+  table {
+    width: 100%; border-collapse: collapse; margin: 1rem 0 1.4rem; font-size: 13.5px;
+    display: block; overflow-x: auto; border: 1px solid var(--border);
+    border-radius: 12px; background: rgba(10, 14, 23, 0.45);
+  }
+  thead { background: rgba(107, 124, 255, 0.12); }
+  th, td {
+    padding: 10px 12px; text-align: left; border-bottom: 1px solid var(--border);
+    vertical-align: top; min-width: 90px;
+  }
+  th { color: #c7d2fe; font-weight: 600; white-space: nowrap; }
+  tr:last-child td { border-bottom: 0; }
+  tbody tr:hover td { background: rgba(107,124,255,0.05); }
+  .footer {
+    margin-top: 40px; padding-top: 18px; border-top: 1px solid var(--border);
+    color: var(--muted); font-size: 13px; display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap;
+  }
+  .toc-mobile-toggle { display: none; }
+  @media (max-width: 960px) {
+    .layout { grid-template-columns: 1fr; padding-top: 16px; }
+    .toc-wrap { position: relative; top: 0; max-height: none; display: none; }
+    .toc-wrap.open { display: block; margin-bottom: 8px; }
+    .toc-mobile-toggle { display: inline-flex; }
+    .content { padding: 20px 16px 36px; }
+    h1 { font-size: 1.5rem; }
+  }
+  @media print {
+    body { background: white; color: #111; font-size: 11pt; }
+    .topbar, .toc-wrap, .actions, .toc-mobile-toggle, .hero-note { display: none !important; }
+    .layout { display: block; max-width: none; padding: 0; }
+    .content { border: 0; box-shadow: none; padding: 0; background: white; color: #111; }
+    h1,h2,h3,p,li,td,th { color: #111 !important; background: none !important; }
+    a { color: #111; text-decoration: underline; }
+    table { border: 1px solid #ccc; }
+    th, td { border-bottom: 1px solid #ddd; }
+    pre, code { background: #f5f5f5 !important; color: #111 !important; }
+    blockquote { border-left-color: #666; background: #f7f7f7; }
+  }
+</style>
+</head>
+<body>
+  <header class="topbar">
+    <div class="topbar-inner">
+      <div class="brand">
+        <div class="brand-badge">S</div>
+        <div>SID Research Pack</div>
+      </div>
+      <div class="meta-pills">
+        <span class="pill"><strong>SID-full</strong> · 7 bước</span>
+        <span class="pill">Teardown · X · Discovery · Keywords · Price</span>
+        <span class="pill">2026-07-15</span>
+      </div>
+      <div class="actions">
+        <button class="btn toc-mobile-toggle" type="button" onclick="document.getElementById('tocPanel').classList.toggle('open')">Mục lục</button>
+        <button class="btn" type="button" onclick="window.print()">In / PDF</button>
+        <button class="btn btn-primary" type="button" onclick="shareFile()">Cách gửi file</button>
+      </div>
+    </div>
+  </header>
+  <div class="layout">
+    <aside class="toc-wrap" id="tocPanel">
+      <h2>Mục lục</h2>
+      <nav id="TOC" role="doc-toc">
+<ul>
+<li><a href="#research-grok-thị-trường-bài-toán-sid"
+id="toc-research-grok-thị-trường-bài-toán-sid">Research Grok — Thị
+trường bài toán SID</a>
+<ul>
+<li><a href="#executive-summary-12-dòng"
+id="toc-executive-summary-12-dòng">Executive summary (12 dòng)</a></li>
+</ul></li>
+<li><a href="#phần-a-sid-full-market-research"
+id="toc-phần-a-sid-full-market-research">PHẦN A — SID-FULL MARKET
+RESEARCH</a>
+<ul>
+<li><a href="#a1.-frame-framing-brief"
+id="toc-a1.-frame-framing-brief">A1. Frame — Framing Brief</a></li>
+<li><a href="#a2.-architect-decomposition-tree"
+id="toc-a2.-architect-decomposition-tree">A2. Architect — Decomposition
+Tree</a></li>
+<li><a href="#a3.-explore-exploration-map-facts"
+id="toc-a3.-explore-exploration-map-facts">A3. Explore — Exploration Map
++ Facts</a></li>
+<li><a href="#a4.-reason-reasoning-pack"
+id="toc-a4.-reason-reasoning-pack">A4. Reason — Reasoning Pack</a></li>
+<li><a href="#a5.-validate-validation-report"
+id="toc-a5.-validate-validation-report">A5. Validate — Validation
+Report</a></li>
+<li><a href="#a6.-synthesize" id="toc-a6.-synthesize">A6.
+Synthesize</a></li>
+<li><a href="#a7.-transfer-assets" id="toc-a7.-transfer-assets">A7.
+Transfer — Assets</a></li>
+</ul></li>
+<li><a href="#phần-b-competitor-teardown-hướng-2"
+id="toc-phần-b-competitor-teardown-hướng-2">PHẦN B — COMPETITOR TEARDOWN
+(Hướng 2)</a>
+<ul>
+<li><a href="#b0.-khung-so-sánh-criteria"
+id="toc-b0.-khung-so-sánh-criteria">B0. Khung so sánh
+(criteria)</a></li>
+<li><a href="#b1.-việt-nam-8-đối-thủ-thay-thế-teardown"
+id="toc-b1.-việt-nam-8-đối-thủ-thay-thế-teardown">B1. Việt Nam — 8 đối
+thủ / thay thế (teardown)</a></li>
+<li><a href="#b2.-global-4-benchmark"
+id="toc-b2.-global-4-benchmark">B2. Global — 4 benchmark</a></li>
+<li><a href="#b3.-positioning-map-22"
+id="toc-b3.-positioning-map-22">B3. Positioning map (2×2)</a></li>
+<li><a href="#b4.-feature-promise-gap-matrix-sid-vs-top-substitutes"
+id="toc-b4.-feature-promise-gap-matrix-sid-vs-top-substitutes">B4.
+Feature / Promise gap matrix (SID vs top substitutes)</a></li>
+<li><a href="#b5.-price-ladder-context-vn-global-anchors"
+id="toc-b5.-price-ladder-context-vn-global-anchors">B5. Price ladder
+context (VN + global anchors)</a></li>
+<li><a href="#b6.-strategic-implications-từ-teardown"
+id="toc-b6.-strategic-implications-từ-teardown">B6. Strategic
+implications (từ teardown)</a></li>
+<li><a href="#b7.-rubric-chấm-mức-độ-thay-thế-sid-v1"
+id="toc-b7.-rubric-chấm-mức-độ-thay-thế-sid-v1">B7. Rubric chấm “mức độ
+thay thế SID” (v1)</a></li>
+<li><a href="#b8.-objection-handling-từ-teardown-salescopy"
+id="toc-b8.-objection-handling-từ-teardown-salescopy">B8. Objection
+handling (từ teardown → sales/copy)</a></li>
+</ul></li>
+<li><a href="#phần-c-packaging-chuẩn-sid"
+id="toc-phần-c-packaging-chuẩn-sid">PHẦN C — PACKAGING (chuẩn
+SID)</a></li>
+<li><a href="#phần-d-next-actions" id="toc-phần-d-next-actions">PHẦN D —
+NEXT ACTIONS</a></li>
+<li><a
+href="#phần-e-case-thật-từ-xtwitter-sid-bán-được-cho-người-nước-ngoài"
+id="toc-phần-e-case-thật-từ-xtwitter-sid-bán-được-cho-người-nước-ngoài">PHẦN
+E — CASE THẬT TỪ X/TWITTER → SID BÁN ĐƯỢC CHO NGƯỜI NƯỚC NGOÀI</a>
+<ul>
+<li><a href="#e1.-thesis-quốc-tế-1-đoạn"
+id="toc-e1.-thesis-quốc-tế-1-đoạn">E1. Thesis quốc tế (1 đoạn)</a></li>
+<li><a href="#e2.-case-library-nhóm-theo-tín-hiệu-sid"
+id="toc-e2.-case-library-nhóm-theo-tín-hiệu-sid">E2. Case library — nhóm
+theo tín hiệu SID</a></li>
+<li><a href="#e3.-tổng-hợp-pattern-từ-x-pattern-implication-sid"
+id="toc-e3.-tổng-hợp-pattern-từ-x-pattern-implication-sid">E3. Tổng hợp
+pattern từ X (Pattern → Implication SID)</a></li>
+<li><a
+href="#e4.-argument-sid-hoàn-toàn-có-thể-bán-cho-người-nước-ngoài"
+id="toc-e4.-argument-sid-hoàn-toàn-có-thể-bán-cho-người-nước-ngoài">E4.
+Argument: “SID hoàn toàn có thể bán cho người nước ngoài”</a></li>
+<li><a href="#e5.-gtm-quốc-tế-30-ngày-asset"
+id="toc-e5.-gtm-quốc-tế-30-ngày-asset">E5. GTM quốc tế 30 ngày
+(asset)</a></li>
+<li><a href="#e6.-objection-handling-international"
+id="toc-e6.-objection-handling-international">E6. Objection handling
+(international)</a></li>
+<li><a href="#e7.-epistemic-summary-phần-e"
+id="toc-e7.-epistemic-summary-phần-e">E7. Epistemic summary — Phần
+E</a></li>
+</ul></li>
+<li><a href="#phần-f-pha-b-customer-discovery-script-icp-scoring"
+id="toc-phần-f-pha-b-customer-discovery-script-icp-scoring">PHẦN F — PHA
+B: CUSTOMER DISCOVERY SCRIPT + ICP SCORING</a>
+<ul>
+<li><a href="#f0.-framing-discovery-cho-interviewer"
+id="toc-f0.-framing-discovery-cho-interviewer">F0. Framing discovery
+(cho interviewer)</a></li>
+<li><a href="#f1.-quy-trình-1-cuộc-gọi-sop"
+id="toc-f1.-quy-trình-1-cuộc-gọi-sop">F1. Quy trình 1 cuộc gọi
+(SOP)</a></li>
+<li><a href="#f2.-script-15-câu-hỏi" id="toc-f2.-script-15-câu-hỏi">F2.
+Script 15 câu hỏi</a></li>
+<li><a href="#f3.-icp-scoring-model" id="toc-f3.-icp-scoring-model">F3.
+ICP Scoring model</a></li>
+<li><a href="#f4.-scorecard-1-trang-copy-mỗi-interviewee"
+id="toc-f4.-scorecard-1-trang-copy-mỗi-interviewee">F4. Scorecard 1
+trang (copy mỗi interviewee)</a></li>
+<li><a href="#f5.-tổng-hợp-sau-12-interviews-meta-sheet"
+id="toc-f5.-tổng-hợp-sau-12-interviews-meta-sheet">F5. Tổng hợp sau 12+
+interviews (meta-sheet)</a></li>
+<li><a href="#f6.-mẫu-tin-nhắn-mời-phỏng-vấn"
+id="toc-f6.-mẫu-tin-nhắn-mời-phỏng-vấn">F6. Mẫu tin nhắn mời phỏng
+vấn</a></li>
+<li><a href="#f7.-rubric-chất-lượng-cuộc-gọi-interviewer-qa"
+id="toc-f7.-rubric-chất-lượng-cuộc-gọi-interviewer-qa">F7. Rubric chất
+lượng cuộc gọi (interviewer QA)</a></li>
+<li><a href="#f8.-mapping-15-câu-research-hypotheses"
+id="toc-f8.-mapping-15-câu-research-hypotheses">F8. Mapping 15 câu →
+research hypotheses</a></li>
+<li><a href="#f9.-artifact-checklist-pha-b"
+id="toc-f9.-artifact-checklist-pha-b">F9. Artifact checklist Pha
+B</a></li>
+</ul></li>
+<li><a href="#phần-g-pha-d-keyword-intent-vi-pricing-experiment"
+id="toc-phần-g-pha-d-keyword-intent-vi-pricing-experiment">PHẦN G — PHA
+D: KEYWORD INTENT VI + PRICING EXPERIMENT</a>
+<ul>
+<li><a href="#g1.-intent-model-4-tầng"
+id="toc-g1.-intent-model-4-tầng">G1. Intent model (4 tầng)</a></li>
+<li><a href="#g2.-keyword-clusters-vi"
+id="toc-g2.-keyword-clusters-vi">G2. Keyword clusters (VI)</a></li>
+<li><a href="#g3.-master-keyword-list-paste-keyword-planner"
+id="toc-g3.-master-keyword-list-paste-keyword-planner">G3. Master
+keyword list (paste Keyword Planner)</a></li>
+<li><a href="#g4.-intent-asset-map-sid"
+id="toc-g4.-intent-asset-map-sid">G4. Intent → asset map (SID)</a></li>
+<li><a href="#g5.-sem-ads-rules-vi" id="toc-g5.-sem-ads-rules-vi">G5.
+SEM / ads rules (VI)</a></li>
+<li><a href="#g6.-pricing-experiment-design"
+id="toc-g6.-pricing-experiment-design">G6. Pricing experiment
+design</a></li>
+<li><a
+href="#g7.-packaging-giá-đề-xuất-khi-experiment-không-phải-kết-luận-cuối"
+id="toc-g7.-packaging-giá-đề-xuất-khi-experiment-không-phải-kết-luận-cuối">G7.
+Packaging giá đề xuất khi experiment (không phải kết luận cuối)</a></li>
+<li><a href="#g8.-14-day-runbook-keyword-price-cùng-lúc"
+id="toc-g8.-14-day-runbook-keyword-price-cùng-lúc">G8. 14-day runbook
+(Keyword + Price cùng lúc)</a></li>
+<li><a href="#g9.-on-page-seo-checklist-landing-index.html"
+id="toc-g9.-on-page-seo-checklist-landing-index.html">G9. On-page SEO
+checklist (landing <code>index.html</code>)</a></li>
+<li><a href="#g10.-hypotheses-passfail-pha-d"
+id="toc-g10.-hypotheses-passfail-pha-d">G10. Hypotheses + pass/fail (Pha
+D)</a></li>
+<li><a href="#g11.-artifact-checklist-pha-d"
+id="toc-g11.-artifact-checklist-pha-d">G11. Artifact checklist Pha
+D</a></li>
+<li><a href="#appendix-epistemic-legend"
+id="toc-appendix-epistemic-legend">Appendix — Epistemic legend</a></li>
+<li><a href="#appendix-nguồn-chính-web-x-desktop-2026-07"
+id="toc-appendix-nguồn-chính-web-x-desktop-2026-07">Appendix — Nguồn
+chính (web + X, desktop 2026-07)</a></li>
+</ul></li>
+</ul>
+</nav>
+    </aside>
+    <main class="content" id="main">
+      <div class="hero-note">
+        <strong>Gửi / xem offline:</strong> đây là <em>một file HTML độc lập</em> (~160KB).
+        Mở bằng Chrome/Safari/Edge · bấm <em>In / PDF</em> để xuất PDF · gửi nguyên file qua Zalo/Email/Drive/Slack.
+        Nguồn Markdown đồng bộ: <code>research-grok.md</code>.
+      </div>
+      
+
+<h1 id="research-grok-thị-trường-bài-toán-sid">Research Grok — Thị
+trường bài toán SID</h1>
+<blockquote>
+<p><strong>SID Research Pack</strong><br />
+Chủ đề: Nghiên cứu thị trường cho bài toán mà khóa học SID
+(<code>index.html</code>) đang giải quyết<br />
+Ngày: 2026-07-15 (cập nhật case X/Twitter + GTM quốc tế)<br />
+Chế độ: SID-full (Frame → Architect → Explore → Reason → Validate →
+Synthesize → Transfer)<br />
+Pha mở rộng: Teardown · X cases · Discovery script · <strong>Keyword
+intent VI + pricing experiment</strong><br />
+Nguồn product: <code>index.html</code>,
+<code>sid-curriculumn.html</code> (landing SID)</p>
+</blockquote>
+<hr />
+<h2 id="executive-summary-12-dòng">Executive summary (12 dòng)</h2>
+<ol type="1">
+<li>SID không bán “học ChatGPT”, mà bán <strong>năng lực kiến trúc tri
+thức + đóng gói trợ lý AI</strong> cho non-IT.</li>
+<li>Pain thật: adoption AI cao, capability architecture thấp → ROI cá
+nhân/tổ chức thấp.</li>
+<li>Thị trường AI skill training / prompt-related services tăng mạnh
+(CAGR ~30%+ theo nhiều report), nhưng <strong>định nghĩa category phân
+mảnh</strong>.</li>
+<li>Supply VN chủ yếu: (a) Unica-style rẻ self-serve, (b) workshop ngắn
+“mẹo ChatGPT”, (c) academy AI kỹ thuật/career, (d) corporate free
+reskilling.</li>
+<li>White space hợp lý: <strong>VI + non-IT + full method loop
+Frame→Transfer + project assistant + mentor</strong>.</li>
+<li>Giá SID Basic 5tr / Pro 15tr / Advance 25tr nằm <strong>trên mass
+market</strong>, <strong>dưới/bằng boutique mentor + gần CDI-cert
+path</strong> (nếu quy đổi USD).</li>
+<li>Cạnh tranh nguy hiểm nhất không phải CDI, mà <strong>free content +
+commoditize tips + model tự cải thiện</strong>.</li>
+<li>Beachhead 12 tháng: knowledge workers &amp; freelancers đã dùng AI
+3–6 tháng — không phải “mọi người bị bỏ quên”.</li>
+<li>Moat: curriculum IP + portfolio project + mentor judgment +
+community outcomes.</li>
+<li><strong>Signal X/Twitter (global):</strong> pain “dùng AI như search
+bar”, demand “systems not prompts”, course free→$500→high-ticket
+coaching, no-code build, package expertise — <strong>khớp core promise
+SID</strong>.</li>
+<li><strong>SID hoàn toàn có thể bán cho người nước ngoài</strong> nếu
+có EN landing + timezone/cohort design + price USD; method
+language-agnostic (Frame→Transfer).</li>
+<li>Next: EN one-pager + discovery EN ICP + X content engine song song
+VI; gallery assistants đa domain.</li>
+</ol>
+<hr />
+<h1 id="phần-a-sid-full-market-research">PHẦN A — SID-FULL MARKET
+RESEARCH</h1>
+<h2 id="a1.-frame-framing-brief">A1. Frame — Framing Brief</h2>
+<table style="width:100%;">
+<colgroup>
+<col style="width: 14%" />
+<col style="width: 38%" />
+<col style="width: 47%" />
+</colgroup>
+<thead>
+<tr>
+<th>#</th>
+<th>Trường</th>
+<th>Nội dung</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td><strong>Topic</strong></td>
+<td>Thị trường giải pháp <em>AI literacy nâng cao + knowledge
+architecture + no-code AI assistant design</em> (trọng tâm VN, tham
+chiếu global)</td>
+</tr>
+<tr>
+<td>2</td>
+<td><strong>Problem</strong></td>
+<td>Knowledge worker đã “biết dùng ChatGPT” nhưng <strong>không hệ thống
+hóa tri thức / không tái lập kết quả / không đóng gói thành trợ lý
+nghiệp vụ</strong> → ROI AI thấp. Mục đích nghiên cứu: định vị, ICP,
+GTM, pricing fit, cạnh tranh.</td>
+</tr>
+<tr>
+<td>3</td>
+<td><strong>Audience</strong></td>
+<td>Founder/trainer SID, marketer, partner B2B (HR/L&amp;D)</td>
+</tr>
+<tr>
+<td>4</td>
+<td><strong>Scope In</strong></td>
+<td>Pain/JTBD, size &amp; growth proxy, segment, competitor map, pricing
+band, wedge, risks</td>
+</tr>
+<tr>
+<td>4b</td>
+<td><strong>Scope Out</strong></td>
+<td>Chi tiết kỹ thuật LLM, full P&amp;L, legal AI compliance sâu</td>
+</tr>
+<tr>
+<td>5</td>
+<td><strong>Output</strong></td>
+<td>Decision-grade market map + framework GTM + checklist + rubric +
+competitor teardown</td>
+</tr>
+<tr>
+<td>6</td>
+<td><strong>Rủi ro framing sai</strong></td>
+<td>Nhầm SID = “khóa prompt engineering” → so sánh sai cạnh tranh, chọn
+kênh mass-market rẻ</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Tiêu chí đạt:</strong> Problem = <em>gap giữa adoption tool
+và capability kiến trúc tri thức</em>.<br />
+<strong>Confidence Frame:</strong> Cao (bám copy
+<code>index.html</code>).</p>
+<h3 id="bài-toán-product-từ-landing">Bài toán product (từ landing)</h3>
+<table>
+<colgroup>
+<col style="width: 22%" />
+<col style="width: 77%" />
+</colgroup>
+<thead>
+<tr>
+<th>Layer</th>
+<th>Nội dung <code>index.html</code></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Hero</td>
+<td>Biến tư duy mạch lạc thành trợ lý AI của riêng bạn; không đòi hỏi kỹ
+thuật</td>
+</tr>
+<tr>
+<td>Pain 01</td>
+<td>Giá trị AI chưa khai thác; thiếu trợ lý chuyên biệt; nhóm non-IT bị
+bỏ quên</td>
+</tr>
+<tr>
+<td>Pain 02</td>
+<td>Dùng AI chỉ để hỏi–đáp; thiếu hệ thống tư duy; tri thức không
+lưu/tái sử dụng</td>
+</tr>
+<tr>
+<td>Shift</td>
+<td>Từ “dùng AI để hỏi” → “dùng AI để kiến trúc &amp; chuyển giao tri
+thức”</td>
+</tr>
+<tr>
+<td>Offer</td>
+<td>SID 7 bước; prompt/stack; đóng gói trợ lý; thinking techniques 4
+tầng</td>
+</tr>
+<tr>
+<td>Path</td>
+<td>Basic → Pro → Advance; 19+ buổi; 6 dự án</td>
+</tr>
+<tr>
+<td>Price</td>
+<td>5.000.000 / 15.000.000 / 25.000.000 ₫</td>
+</tr>
+<tr>
+<td>ICP declared</td>
+<td>Non-IT; đã quen AI 3–6 tháng; 30–45’/ngày; nói mạch lạc</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="a2.-architect-decomposition-tree">A2. Architect — Decomposition
+Tree</h2>
+<pre><code>[Root] Thị trường bài toán SID
+├── 1. Demand
+│   ├── 1.1 Pain cá nhân (productivity, quality, career FOMO)
+│   ├── 1.2 Pain tổ chức (skills gap, inconsistent output, knowledge loss)
+│   ├── 1.3 JTBD
+│   └── 1.4 Willingness to pay / budget owner
+├── 2. Supply (thay thế)
+│   ├── 2.1 Free content (YouTube, blog, prompt packs)
+│   ├── 2.2 Mass MOOC / Unica / Udemy / Coursera
+│   ├── 2.3 Local short courses “ChatGPT 1–5 buổi”
+│   ├── 2.4 Prompt engineering / AI tools catalogs
+│   ├── 2.5 Conversation Design (CDI, UX/CxD) — EN, pro track
+│   ├── 2.6 No-code agent platforms (tool, không methodology)
+│   └── 2.7 Internal L&amp;D / vendor corporate training
+├── 3. Segments
+│   ├── 3.1 B2C knowledge workers non-IT (primary)
+│   ├── 3.2 B2C educators / parents / civil servants (underserved claim)
+│   ├── 3.3 B2B SME team upskill
+│   └── 3.4 B2B enterprise L&amp;D
+├── 4. Value chain
+│   ├── 4.1 Awareness → Trust → Trial → Paid → Portfolio → Referral
+│   └── 4.2 Channels: organic, community, partner, corporate, content
+├── 5. Economics
+│   ├── 5.1 Price ladder 5–15–25tr
+│   ├── 5.2 Unit economics (cohort, mentor load)
+│   └── 5.3 Expansion Basic→Pro→Advance, B2B
+└── 6. Forces
+    ├── 6.1 Tech (models better → tip commoditize)
+    ├── 6.2 Policy (VN AI education, national upskill)
+    └── 6.3 Culture (mẹo nhanh vs hệ thống dài)</code></pre>
+<h3 id="taxonomy-cạnh-tranh-4-lớp">Taxonomy cạnh tranh (4 lớp)</h3>
+<table>
+<colgroup>
+<col style="width: 18%" />
+<col style="width: 29%" />
+<col style="width: 51%" />
+</colgroup>
+<thead>
+<tr>
+<th>Lớp</th>
+<th>Ví dụ</th>
+<th>Thay thế SID</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Tip layer</td>
+<td>Prompt list, reels</td>
+<td>Thấp</td>
+</tr>
+<tr>
+<td>Tool literacy</td>
+<td>“10 công cụ AI”, ChatGPT basic</td>
+<td>Trung bình</td>
+</tr>
+<tr>
+<td>Method / design</td>
+<td>Prompt eng deep, CDI</td>
+<td>Cao</td>
+</tr>
+<tr>
+<td>Platform / build</td>
+<td>Custom GPT builders, no-code agents</td>
+<td>Outcome tool cao; method thấp</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Confidence Architect:</strong> Cao.</p>
+<hr />
+<h2 id="a3.-explore-exploration-map-facts">A3. Explore — Exploration Map
++ Facts</h2>
+<h3 id="lớp-từ-khóa">4 lớp từ khóa</h3>
+<ol type="1">
+<li><strong>Core:</strong> AI literacy training, prompt engineering
+market, custom GPT education, conversation design course<br />
+</li>
+<li><strong>Outcome:</strong> build AI assistant no-code, knowledge
+management AI, enterprise AI upskilling<br />
+</li>
+<li><strong>Geo:</strong> Vietnam e-learning, Vietnam AI in education,
+corporate training VN<br />
+</li>
+<li><strong>Adjacent:</strong> no-code AI agent builders, AI skills gap
+cost, genAI job postings non-IT</li>
+</ol>
+<h3 id="fact-table-có-nguồn-directional">Fact table (có nguồn;
+directional)</h3>
+<table>
+<colgroup>
+<col style="width: 12%" />
+<col style="width: 19%" />
+<col style="width: 38%" />
+<col style="width: 29%" />
+</colgroup>
+<thead>
+<tr>
+<th>ID</th>
+<th>Fact</th>
+<th>Confidence</th>
+<th>Ghi chú</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>F1</td>
+<td>Prompt engineering market ~USD 505M (2025) → ~USD 7.9B (2035), CAGR
+~31–33% (Precedence Research band)</td>
+<td>TB–Cao</td>
+<td>Category services/tools, không = “khóa học”</td>
+</tr>
+<tr>
+<td>F2</td>
+<td>Grand View: PE ~$222M (2023) → ~$2.06B (2030), CAGR ~32.8%</td>
+<td>TB</td>
+<td>Số tuyệt đối khác F1 → dùng hướng</td>
+</tr>
+<tr>
+<td>F3</td>
+<td>AI skills gap: ~90% enterprise thiếu skill quan trọng; narrative chi
+phí cơ hội rất lớn (IDC-type 2026)</td>
+<td>TB</td>
+<td>Ủng hộ B2B demand</td>
+</tr>
+<tr>
+<td>F4</td>
+<td>GenAI skill demand mở rộng ngoài IT (Lightcast-type)</td>
+<td>Cao</td>
+<td>Ủng hộ ICP non-IT</td>
+</tr>
+<tr>
+<td>F5</td>
+<td>Vietnam AI in Education ~USD 32.6M (2025) → 532.4M (2034), CAGR ~35%
+(IMARC)</td>
+<td>TB</td>
+<td>Tailwinds education policy</td>
+</tr>
+<tr>
+<td>F6</td>
+<td>Vietnam e-learning band: từ ~$0.4B online education (Statista-type)
+đến ~$3.9B e-learning broader (PS/Ken)</td>
+<td>Thấp–TB</td>
+<td>Định nghĩa khác nhau</td>
+</tr>
+<tr>
+<td>F7</td>
+<td>CDI = chuẩn quốc tế conversational AI training/cert</td>
+<td>Cao</td>
+<td>Benchmark Advance</td>
+</tr>
+<tr>
+<td>F8</td>
+<td>No-code AI agent builders + “custom GPT as product” narrative
+mạnh</td>
+<td>Cao</td>
+<td>Outcome mong muốn của SID</td>
+</tr>
+<tr>
+<td>F9</td>
+<td>Basic prompt engineering đang commoditize; skill bền = judgment,
+systems, evaluation</td>
+<td>Cao (interpretation có consensus)</td>
+<td>Ủng hộ định vị SID</td>
+</tr>
+</tbody>
+</table>
+<h3 id="node-prioritization">Node prioritization</h3>
+<table>
+<thead>
+<tr>
+<th>Node</th>
+<th>Ưu tiên</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Gap adoption vs architecture</td>
+<td>P0</td>
+</tr>
+<tr>
+<td>ICP non-IT + WTP 5–15tr VN</td>
+<td>P0</td>
+</tr>
+<tr>
+<td>Competitive white space VN</td>
+<td>P0 ← <strong>Pha này</strong></td>
+</tr>
+<tr>
+<td>B2B L&amp;D wedge</td>
+<td>P1</td>
+</tr>
+<tr>
+<td>Conversation design career track</td>
+<td>P1</td>
+</tr>
+<tr>
+<td>Exact TAM VN</td>
+<td>P2</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Research Path</strong></p>
+<table>
+<colgroup>
+<col style="width: 21%" />
+<col style="width: 43%" />
+<col style="width: 34%" />
+</colgroup>
+<thead>
+<tr>
+<th>Pha</th>
+<th>Nội dung</th>
+<th>Status</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>A</td>
+<td>Market structure &amp; positioning</td>
+<td>Done (Phần A)</td>
+</tr>
+<tr>
+<td>B</td>
+<td>Competitor teardown 8 VN + 4 global</td>
+<td><strong>Done (Phần B)</strong></td>
+</tr>
+<tr>
+<td>C</td>
+<td>Customer discovery 15–20 ICP</td>
+<td><strong>Script ready (Phần F)</strong> · interviews Pending</td>
+</tr>
+<tr>
+<td>D</td>
+<td>Keyword intent VI + pricing experiment</td>
+<td><strong>Done (Phần G)</strong> · volume exact = pending GKP</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="a4.-reason-reasoning-pack">A4. Reason — Reasoning Pack</h2>
+<h3 id="causal-chain">Causal chain</h3>
+<pre><code>Tool AI rẻ &amp; dễ
+  → Adoption cao
+    → Kỳ vọng ROI tăng
+      → Thực tế: output rời rạc, không tái lập, không chuyển giao
+        → Root causes: misframing; thiếu knowledge architecture;
+          thiếu conversation/workflow design; thiếu validation
+        → Demand: method + portfolio + reusable assistants</code></pre>
+<h3 id="hypotheses">Hypotheses</h3>
+<table style="width:100%;">
+<colgroup>
+<col style="width: 7%" />
+<col style="width: 22%" />
+<col style="width: 14%" />
+<col style="width: 33%" />
+<col style="width: 22%" />
+</colgroup>
+<thead>
+<tr>
+<th>ID</th>
+<th>Hypothesis</th>
+<th>Ủng hộ</th>
+<th>Phản bác / rủi ro</th>
+<th>Confidence</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>H1</td>
+<td>Demand dịch sang systems + judgment + build</td>
+<td>Commoditize tips; enterprise gap</td>
+<td>Buyer VN vẫn mua khóa 2 buổi rẻ</td>
+<td>TB–Cao</td>
+</tr>
+<tr>
+<td>H2</td>
+<td>White space: VI + non-IT + full SID loop + project</td>
+<td>Local = tips/tools; global = EN/career</td>
+<td>Competitor copy; brand non-scale</td>
+<td>TB–Cao</td>
+</tr>
+<tr>
+<td>H3</td>
+<td>WTP 5–15tr nếu proof = portfolio + mentor</td>
+<td>Mid-premium; project path</td>
+<td>Chưa public conversion data</td>
+<td>TB</td>
+</tr>
+<tr>
+<td>H4</td>
+<td>B2B = scale; B2C = brand &amp; lab</td>
+<td>Skills gap org</td>
+<td>Sales cycle dài</td>
+<td>TB–Cao</td>
+</tr>
+<tr>
+<td>H5</td>
+<td>Segment 40+/công chức lớn về số, khó convert</td>
+<td>Underserved claim đúng</td>
+<td>CAC cao, tech anxiety</td>
+<td>TB</td>
+</tr>
+</tbody>
+</table>
+<h3 id="positioning-options">Positioning options</h3>
+<table>
+<thead>
+<tr>
+<th>Option</th>
+<th>Verdict</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>A. “Khóa ChatGPT / Prompt”</td>
+<td>Tránh làm core</td>
+</tr>
+<tr>
+<td>B. “AI tools for work”</td>
+<td>Secondary</td>
+</tr>
+<tr>
+<td>C. <strong>“SID — kiến trúc tri thức → trợ lý AI”</strong></td>
+<td><strong>Core (giữ)</strong></td>
+</tr>
+<tr>
+<td>D. “Conversation Designer career (CDI-like)”</td>
+<td>Layer Advance</td>
+</tr>
+</tbody>
+</table>
+<h3 id="tam-sam-som-proxy-không-audited">TAM / SAM / SOM (proxy — không
+audited)</h3>
+<table>
+<colgroup>
+<col style="width: 13%" />
+<col style="width: 27%" />
+<col style="width: 31%" />
+<col style="width: 27%" />
+</colgroup>
+<thead>
+<tr>
+<th>Tầng</th>
+<th>Định nghĩa</th>
+<th>Ước làm việc</th>
+<th>Confidence</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>TAM</td>
+<td>Global AI literacy + PE services + CxD training + no-code
+enablement</td>
+<td>$0.5B–few $B band</td>
+<td>Thấp–TB</td>
+</tr>
+<tr>
+<td>SAM</td>
+<td>VN spend AI work skills (B2C mid + B2B L&amp;D)</td>
+<td>Hàng chục–vài trăm triệu USD/năm (proxy)</td>
+<td>Thấp</td>
+</tr>
+<tr>
+<td>SOM 12–24m</td>
+<td>Cohort premium VI</td>
+<td>Vài trăm–vài nghìn HV hoặc vài–vài chục B2B cohort</td>
+<td>Logic TB, số thấp</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Interpretation:</strong> ASP 5–15tr → 100–300 HV/năm đã
+meaningful cho boutique; scale cần B2B/partner.</p>
+<h3 id="icp-ranking">ICP ranking</h3>
+<table>
+<thead>
+<tr>
+<th>Rank</th>
+<th>ICP</th>
+<th>Fit</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>KW non-IT 25–45, AI 3–6 tháng</td>
+<td>Primary</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Freelancer / solopreneur / consultant</td>
+<td>High</td>
+</tr>
+<tr>
+<td>3</td>
+<td>Team lead / SME owner (5–20)</td>
+<td>High (B2B light)</td>
+</tr>
+<tr>
+<td>4</td>
+<td>Teachers (cá nhân)</td>
+<td>Medium</td>
+</tr>
+<tr>
+<td>5</td>
+<td>40+ / công chức</td>
+<td>Medium long-term</td>
+</tr>
+<tr>
+<td>6</td>
+<td>Enterprise L&amp;D</td>
+<td>High later</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="a5.-validate-validation-report">A5. Validate — Validation
+Report</h2>
+<table>
+<thead>
+<tr>
+<th>Claim</th>
+<th>Lớp</th>
+<th>Confidence</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>SID giải bài “hỏi–đáp nhưng thiếu hệ thống”</td>
+<td>Interpretation</td>
+<td>Cao</td>
+</tr>
+<tr>
+<td>AI skill training tăng mạnh (directional)</td>
+<td>Fact</td>
+<td>Cao</td>
+</tr>
+<tr>
+<td>Exact market size VN SID-like</td>
+<td>Assumption nếu chốt số cứng</td>
+<td>Thấp</td>
+</tr>
+<tr>
+<td>White space VI + non-IT + full loop</td>
+<td>Hypothesis</td>
+<td>TB–Cao</td>
+</tr>
+<tr>
+<td>Giá 5–15tr premium-fit</td>
+<td>Hypothesis</td>
+<td>TB</td>
+</tr>
+<tr>
+<td>Ưu tiên B2C KW trước enterprise</td>
+<td>Recommendation</td>
+<td>TB–Cao</td>
+</tr>
+<tr>
+<td>Basic prompt courses bão hòa</td>
+<td>Interpretation</td>
+<td>Cao</td>
+</tr>
+</tbody>
+</table>
+<h3 id="gaps">Gaps</h3>
+<table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 66%" />
+</colgroup>
+<thead>
+<tr>
+<th>Gap</th>
+<th>Severity</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Không có public cohort metrics SID</td>
+<td>Cao (investor) / TB (iterate)</td>
+</tr>
+<tr>
+<td>Competitor matrix → đã làm qualitative teardown</td>
+<td>Giảm (Phần B); vẫn thiếu primary mystery shop</td>
+</tr>
+<tr>
+<td>B2B packaging chưa có</td>
+<td>TB</td>
+</tr>
+<tr>
+<td>Advance waitlist ≠ demand proof</td>
+<td>TB</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Verdict:</strong> Đủ tin cho định vị &amp; GTM ưu tiên; chưa
+đủ cho TAM/SOM tài chính cứng.<br />
+<strong>Confidence pack:</strong> TB–Cao (strategy) / Thấp (số tuyệt đối
+VN).</p>
+<hr />
+<h2 id="a6.-synthesize">A6. Synthesize</h2>
+<h3 id="patterns">Patterns</h3>
+<ol type="1">
+<li>Adoption ≠ Ability<br />
+</li>
+<li>Tips commoditize; systems premiumize<br />
+</li>
+<li>Buyer muốn assistant/portfolio, không slide<br />
+</li>
+<li>Underserved mass ≠ easiest monetization<br />
+</li>
+<li>B2C builds IP; B2B multiplies revenue</li>
+</ol>
+<h3 id="principles">Principles</h3>
+<ol type="1">
+<li>Bán capability + artifact, không “biết dùng ChatGPT”<br />
+</li>
+<li>Category: Structured Intelligence Design<br />
+</li>
+<li>Ladder: Mindset → Method → Production assistant → Conversation
+systems<br />
+</li>
+<li>Moat = curriculum IP + projects + mentor<br />
+</li>
+<li>Success metric = deployed assistant + reusable KB</li>
+</ol>
+<h3 id="framework-market-fit-sid-loop-6-bước">Framework: MARKET-FIT SID
+Loop (6 bước)</h3>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>Tên</th>
+<th>Output</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>Name the Gap</td>
+<td>Category problem sentence</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Pick the Beachhead</td>
+<td>ICP card</td>
+</tr>
+<tr>
+<td>3</td>
+<td>Own the Method</td>
+<td>Curriculum-as-IP</td>
+</tr>
+<tr>
+<td>4</td>
+<td>Prove with Portfolio</td>
+<td>Proof library</td>
+</tr>
+<tr>
+<td>5</td>
+<td>Price the Transformation</td>
+<td>Ladder 5–15–25tr</td>
+</tr>
+<tr>
+<td>6</td>
+<td>Expand the Buyer</td>
+<td>B2B wedge</td>
+</tr>
+</tbody>
+</table>
+<h3 id="gtm-90-ngày-tóm-tắt">GTM 90 ngày (tóm tắt)</h3>
+<ol type="1">
+<li>W1–2: 15 discovery calls<br />
+</li>
+<li>W3–4: 3 case study assistants<br />
+</li>
+<li>W5–6: Content “prompt dài vẫn sai”<br />
+</li>
+<li>W7–8: Cohort Basic + Pro waitlist<br />
+</li>
+<li>W9–10: 2 SME / 1 edu pilot<br />
+</li>
+<li>W11–12: Review conversion, friction</li>
+</ol>
+<hr />
+<h2 id="a7.-transfer-assets">A7. Transfer — Assets</h2>
+<h3 id="one-liner">One-liner</h3>
+<blockquote>
+<p>Hầu hết người đã dùng AI, nhưng vẫn chỉ “hỏi–đáp”. SID dạy bạn kiến
+trúc tri thức và đóng gói thành trợ lý AI nghiệp vụ — không cần biết
+code.</p>
+</blockquote>
+<h3 id="battlecard-tóm-tắt">Battlecard (tóm tắt)</h3>
+<table>
+<colgroup>
+<col style="width: 12%" />
+<col style="width: 45%" />
+<col style="width: 42%" />
+</colgroup>
+<thead>
+<tr>
+<th>vs</th>
+<th>SID thắng khi</th>
+<th>SID thua khi</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Free YouTube</td>
+<td>Cần hệ thống + mentor + project</td>
+<td>Chỉ muốn trick 5 phút</td>
+</tr>
+<tr>
+<td>Unica/Udemy</td>
+<td>Accountability + VI depth + projects</td>
+<td>Budget tối thiểu</td>
+</tr>
+<tr>
+<td>Workshop ChatGPT local</td>
+<td>Depth + reusable assistant</td>
+<td>Chỉ cần awareness</td>
+</tr>
+<tr>
+<td>CDI / global CxD</td>
+<td>Non-IT VN, full knowledge loop, VI</td>
+<td>Cần cert quốc tế EN</td>
+</tr>
+<tr>
+<td>No-code agent tools</td>
+<td>Learner thiếu <em>what to put inside</em></td>
+<td>Đã có method, chỉ cần tool</td>
+</tr>
+</tbody>
+</table>
+<h3 id="icp-card-primary">ICP Card (Primary)</h3>
+<pre><code>Who: Nhân sự tri thức non-IT, 25–45, VN
+Trigger: Dùng ChatGPT/Gemini 3–6 tháng, output may rủi
+Job: Biến kinh nghiệm/tài liệu → trợ lý AI dùng lại được
+Success: 1 assistant + 1 knowledge map + 1 prompt stack ổn định
+Budget: 5–15tr nếu thấy portfolio path
+Anti-ICP: Chỉ muốn prompt list free; không 30’/ngày; tìm AI engineer thuần code</code></pre>
+<h3 id="pricing-logic">Pricing logic</h3>
+<table>
+<colgroup>
+<col style="width: 25%" />
+<col style="width: 45%" />
+<col style="width: 30%" />
+</colgroup>
+<thead>
+<tr>
+<th>Gói</th>
+<th>Vai trò</th>
+<th>Nhấn</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Basic 5tr</td>
+<td>Acquisition + foundation</td>
+<td>Framing + first useful bots</td>
+</tr>
+<tr>
+<td>Pro 15tr</td>
+<td><strong>Core revenue</strong></td>
+<td>Business-grade assistant + reasoning/validation</td>
+</tr>
+<tr>
+<td>Advance 25tr</td>
+<td>Prestige + depth</td>
+<td>Conversation systems, governance — sau Pro proof</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Recommendation:</strong> Không phá giá Pro; giảm ma sát bằng
+workshop low-ticket / diagnostic 1:1 / scholarship có điều kiện.</p>
+<h3 id="rubric-v1-market-fit">Rubric v1 — Market fit</h3>
+<table>
+<colgroup>
+<col style="width: 52%" />
+<col style="width: 15%" />
+<col style="width: 15%" />
+<col style="width: 15%" />
+</colgroup>
+<thead>
+<tr>
+<th>Tiêu chí</th>
+<th>1</th>
+<th>3</th>
+<th>5</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Pain adoption–architecture</td>
+<td>Mơ hồ</td>
+<td>Có</td>
+<td>ICP tự nói đúng language</td>
+</tr>
+<tr>
+<td>Differentiation</td>
+<td>Trùng prompt course</td>
+<td>Có method riêng</td>
+<td>Category language độc quyền</td>
+</tr>
+<tr>
+<td>Proof</td>
+<td>Không demo</td>
+<td>1–2 project</td>
+<td>6+ public assistants + testimonials</td>
+</tr>
+<tr>
+<td>WTP</td>
+<td>Chỉ free</td>
+<td>1–3tr</td>
+<td>5–15tr convert ổn</td>
+</tr>
+<tr>
+<td>Channel</td>
+<td>Ads lạnh</td>
+<td>Content + community</td>
+<td>Partner + B2B pipeline</td>
+</tr>
+<tr>
+<td>Moat</td>
+<td>Prompt list</td>
+<td>Curriculum</td>
+<td>IP + mentor + community outcomes</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Điểm ước từ landing (không sales data): ~18–22 /
+30</strong><br />
+→ Fit chiến lược tốt; fit vận hành/proof cần số cohort.</p>
+<h3 id="recommendations-confidence">Recommendations (confidence)</h3>
+<ol type="1">
+<li>Giữ định vị hiện tại — <strong>Cao</strong><br />
+</li>
+<li>Beachhead: KW + freelancers; 40+/công chức = awareness trước —
+<strong>TB–Cao</strong><br />
+</li>
+<li>Pro = hero product — <strong>Cao</strong><br />
+</li>
+<li>Moat: project gallery + handbook/plugin + alumni —
+<strong>Cao</strong><br />
+</li>
+<li>B2B pilot sau 2–3 cohort B2C — <strong>TB–Cao</strong><br />
+</li>
+<li>Không price war với khóa ChatGPT rẻ — <strong>Cao</strong><br />
+</li>
+<li>Sau teardown: discovery + SEO intent — <strong>Bắt buộc trước scale
+ads</strong></li>
+</ol>
+<hr />
+<h1 id="phần-b-competitor-teardown-hướng-2">PHẦN B — COMPETITOR TEARDOWN
+(Hướng 2)</h1>
+<blockquote>
+<p><strong>Mục tiêu:</strong> Map promise / price / format / ICP / gap
+so với SID.<br />
+<strong>Phương pháp:</strong> Desktop research + public pricing/pages
+(2026-07).<br />
+<strong>Giới hạn:</strong> Giá VN thay đổi theo flash sale; một số khóa
+boutique không public full syllabus → nhãn <strong>TB
+confidence</strong>.<br />
+<strong>Không phải mystery shop</strong> (chưa ghi danh / audit
+video).</p>
+</blockquote>
+<h2 id="b0.-khung-so-sánh-criteria">B0. Khung so sánh (criteria)</h2>
+<table>
+<thead>
+<tr>
+<th>Tiêu chí</th>
+<th>Ý nghĩa với SID</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Promise</td>
+<td>Claim outcome trên landing</td>
+</tr>
+<tr>
+<td>Price band</td>
+<td>Entry cost; so với 5–15–25tr</td>
+</tr>
+<tr>
+<td>Format</td>
+<td>Self-serve / live / cohort / mentor</td>
+</tr>
+<tr>
+<td>Depth</td>
+<td>Tips → tools → method → systems/build</td>
+</tr>
+<tr>
+<td>Non-IT fit</td>
+<td>Có học được không cần code?</td>
+</tr>
+<tr>
+<td>Artifact</td>
+<td>Prompt list / cert / project / assistant</td>
+</tr>
+<tr>
+<td>Language</td>
+<td>VI / EN</td>
+</tr>
+<tr>
+<td>Closest substitute for SID?</td>
+<td>High / Med / Low</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Thang Depth (dùng xuyên file)</strong></p>
+<table>
+<colgroup>
+<col style="width: 46%" />
+<col style="width: 53%" />
+</colgroup>
+<thead>
+<tr>
+<th>Level</th>
+<th>Mô tả</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>L1 Tips</td>
+<td>Prompt templates, “câu lệnh hay”</td>
+</tr>
+<tr>
+<td>L2 Tools</td>
+<td>Tour ChatGPT/Gemini/plugins/automation</td>
+</tr>
+<tr>
+<td>L3 Method</td>
+<td>Framework prompting, workflow, evaluation</td>
+</tr>
+<tr>
+<td>L4 Systems/Build</td>
+<td>Knowledge architecture + assistant/conversation design
+production</td>
+</tr>
+</tbody>
+</table>
+<p>SID target: <strong>L3–L4</strong>, non-IT, VI.</p>
+<hr />
+<h2 id="b1.-việt-nam-8-đối-thủ-thay-thế-teardown">B1. Việt Nam — 8 đối
+thủ / thay thế (teardown)</h2>
+<h3 id="vn-01-unica-marketplace-khóa-chatgpt-ai-self-serve">VN-01 ·
+Unica marketplace — khóa ChatGPT / AI self-serve</h3>
+<table>
+<colgroup>
+<col style="width: 46%" />
+<col style="width: 53%" />
+</colgroup>
+<thead>
+<tr>
+<th>Field</th>
+<th>Detail</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Type</strong></td>
+<td>Marketplace self-paced (nhiều instructor)</td>
+</tr>
+<tr>
+<td><strong>Ví dụ public</strong></td>
+<td>“ChatGPT và AI…”, “Làm chủ ChatGPT…”, course AI office
+automation</td>
+</tr>
+<tr>
+<td><strong>Promise</strong></td>
+<td>Làm chủ ChatGPT nhanh; tăng hiệu suất văn phòng; biết dùng AI</td>
+</tr>
+<tr>
+<td><strong>Price (public band)</strong></td>
+<td>~<strong>79.000 – 999.000 ₫</strong> (thường sale từ list 1–3.5tr);
+một số gói “đỉnh cao / super” list cao hơn, sale mạnh</td>
+</tr>
+<tr>
+<td><strong>Format</strong></td>
+<td>Video on-demand; ít mentor 1:1</td>
+</tr>
+<tr>
+<td><strong>Depth</strong></td>
+<td>L1–L2 (đôi khóa chạm L3 nhẹ)</td>
+</tr>
+<tr>
+<td><strong>Non-IT fit</strong></td>
+<td>Cao</td>
+</tr>
+<tr>
+<td><strong>Artifact</strong></td>
+<td>Video access; đôi khi template prompt; <strong>hiếm</strong>
+assistant production có method</td>
+</tr>
+<tr>
+<td><strong>Strength</strong></td>
+<td>Giá rẻ, discovery cao, social proof số HV lớn</td>
+</tr>
+<tr>
+<td><strong>Weakness</strong></td>
+<td>Commoditized; cập nhật nhanh lỗi thời; không accountability; tri
+thức rời</td>
+</tr>
+<tr>
+<td><strong>Threat to SID</strong></td>
+<td><strong>High</strong> ở top-of-funnel (“tôi học ChatGPT rồi”)</td>
+</tr>
+<tr>
+<td><strong>SID wins when</strong></td>
+<td>Learner muốn hệ thống + project + mentor, không chỉ “đã xem
+video”</td>
+</tr>
+<tr>
+<td><strong>Confidence</strong></td>
+<td>Cao (giá marketplace public)</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3
+id="vn-02-workshop-lớp-bổ-túc-chatgpt-ngắn-15-buổi-boutique-ads">VN-02 ·
+Workshop / lớp bổ túc ChatGPT ngắn (1–5 buổi, boutique ads)</h3>
+<table>
+<colgroup>
+<col style="width: 46%" />
+<col style="width: 53%" />
+</colgroup>
+<thead>
+<tr>
+<th>Field</th>
+<th>Detail</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Type</strong></td>
+<td>Live short course / offline-online hybrid, brand cá nhân hoặc trung
+tâm nhỏ</td>
+</tr>
+<tr>
+<td><strong>Promise</strong></td>
+<td>“Thành thạo ChatGPT sau X buổi”; “10x productivity”; prompt
+secrets</td>
+</tr>
+<tr>
+<td><strong>Price (reported band)</strong></td>
+<td><strong>~2–10+ triệu ₫</strong> cho khóa ngắn; media từng phản ánh
+khóa ~10tr bị chỉ trích “như lùa gà” (quality variance cao)</td>
+</tr>
+<tr>
+<td><strong>Format</strong></td>
+<td>Live cohort ngắn; ít follow-up dài hạn</td>
+</tr>
+<tr>
+<td><strong>Depth</strong></td>
+<td>L1–L2</td>
+</tr>
+<tr>
+<td><strong>Non-IT fit</strong></td>
+<td>Cao</td>
+</tr>
+<tr>
+<td><strong>Artifact</strong></td>
+<td>Slide + prompt pack; hiếm portfolio assistant có kiến trúc</td>
+</tr>
+<tr>
+<td><strong>Strength</strong></td>
+<td>FOMO, dễ convert ads, quick dopamine win</td>
+</tr>
+<tr>
+<td><strong>Weakness</strong></td>
+<td>Quality không chuẩn hóa; reputational risk ngành; không method
+bền</td>
+</tr>
+<tr>
+<td><strong>Threat to SID</strong></td>
+<td><strong>Med–High</strong> (cùng budget band entry; cạnh tranh
+attention)</td>
+</tr>
+<tr>
+<td><strong>SID wins when</strong></td>
+<td>Nhấn <em>reusability + transfer + multi-project path</em> vs “1 buổi
+xong”</td>
+</tr>
+<tr>
+<td><strong>Confidence</strong></td>
+<td>TB (phân mảnh, giá ads thay đổi)</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3 id="vn-03-mindx-ai-data-career-tech-paths">VN-03 · MindX — AI / Data
+/ career tech paths</h3>
+<table>
+<colgroup>
+<col style="width: 46%" />
+<col style="width: 53%" />
+</colgroup>
+<thead>
+<tr>
+<th>Field</th>
+<th>Detail</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Type</strong></td>
+<td>Brand giáo dục công nghệ, career-oriented</td>
+</tr>
+<tr>
+<td><strong>Promise</strong></td>
+<td>Lộ trình nghề AI/Data/Dev; portfolio tech; việc làm</td>
+</tr>
+<tr>
+<td><strong>Price</strong></td>
+<td>Mid–high career course band (thường <strong>nhiều tháng</strong>,
+<strong>chục triệu+</strong> tùy path; <strong>không gộp 1 số cố
+định</strong> — verify theo kỳ)</td>
+</tr>
+<tr>
+<td><strong>Format</strong></td>
+<td>Live/hybrid dài hạn; project career</td>
+</tr>
+<tr>
+<td><strong>Depth</strong></td>
+<td>L2–L4 nhưng <strong>thiên technical/career coding</strong></td>
+</tr>
+<tr>
+<td><strong>Non-IT fit</strong></td>
+<td>Thấp–TB (vẫn “học công nghệ”)</td>
+</tr>
+<tr>
+<td><strong>Artifact</strong></td>
+<td>Project tech, cert/brand career</td>
+</tr>
+<tr>
+<td><strong>Strength</strong></td>
+<td>Brand trust, placement narrative, infrastructure</td>
+</tr>
+<tr>
+<td><strong>Weakness</strong></td>
+<td>Không phải “knowledge architecture for knowledge workers”; rào kỹ
+thuật</td>
+</tr>
+<tr>
+<td><strong>Threat to SID</strong></td>
+<td><strong>Low–Med</strong> (khác ICP cốt lõi)</td>
+</tr>
+<tr>
+<td><strong>SID wins when</strong></td>
+<td>Learner <em>không muốn trở thành dev/AI engineer</em>, muốn
+assistant cho nghiệp vụ hiện tại</td>
+</tr>
+<tr>
+<td><strong>Confidence</strong></td>
+<td>TB (pricing path biến động)</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3 id="vn-04-funix-đại-họcacademy-online-ai-modules">VN-04 · FUNiX /
+đại học–academy online AI modules</h3>
+<table>
+<colgroup>
+<col style="width: 46%" />
+<col style="width: 53%" />
+</colgroup>
+<thead>
+<tr>
+<th>Field</th>
+<th>Detail</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Type</strong></td>
+<td>Self-paced online education, academic-flavored</td>
+</tr>
+<tr>
+<td><strong>Promise</strong></td>
+<td>Học AI/CS theo module; bằng cấp/chứng chỉ theo chương trình</td>
+</tr>
+<tr>
+<td><strong>Price</strong></td>
+<td>Theo tín chỉ/module (thường <strong>rẻ hơn bootcamp full</strong>
+nếu học lẻ; total degree path cao hơn)</td>
+</tr>
+<tr>
+<td><strong>Format</strong></td>
+<td>Self-paced + mentor/Q&amp;A model FUNiX-style</td>
+</tr>
+<tr>
+<td><strong>Depth</strong></td>
+<td>L2–L4 technical foundations</td>
+</tr>
+<tr>
+<td><strong>Non-IT fit</strong></td>
+<td>Thấp–TB</td>
+</tr>
+<tr>
+<td><strong>Artifact</strong></td>
+<td>Module completion, academic progress</td>
+</tr>
+<tr>
+<td><strong>Strength</strong></td>
+<td>Structured curriculum, brand education</td>
+</tr>
+<tr>
+<td><strong>Weakness</strong></td>
+<td>Không conversation/knowledge design cho nghiệp vụ non-IT; dài;
+motivational friction</td>
+</tr>
+<tr>
+<td><strong>Threat to SID</strong></td>
+<td><strong>Low</strong> cho ICP SID primary</td>
+</tr>
+<tr>
+<td><strong>SID wins when</strong></td>
+<td>“Tôi cần dùng AI trong công việc tuần này”, không “học CS/AI
+foundation”</td>
+</tr>
+<tr>
+<td><strong>Confidence</strong></td>
+<td>TB</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3 id="vn-05-fpt-software-ai-reskilling-corporate-ai-academies">VN-05 ·
+FPT Software AI Reskilling / corporate AI academies</h3>
+<table>
+<colgroup>
+<col style="width: 46%" />
+<col style="width: 53%" />
+</colgroup>
+<thead>
+<tr>
+<th>Field</th>
+<th>Detail</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Type</strong></td>
+<td>Corporate / free-or-sponsored reskilling (thường cho staff hoặc
+chương trình mở có điều kiện)</td>
+</tr>
+<tr>
+<td><strong>Promise</strong></td>
+<td>Reskill AI cho lực lượng lao động; readiness doanh nghiệp</td>
+</tr>
+<tr>
+<td><strong>Price</strong></td>
+<td><strong>Free / subsidized</strong> cho đối tượng đủ điều kiện;
+corporate contract cho org</td>
+</tr>
+<tr>
+<td><strong>Format</strong></td>
+<td>Structured program, cohort company-scale</td>
+</tr>
+<tr>
+<td><strong>Depth</strong></td>
+<td>L2–L3 (đôi khi L4 tech tracks)</td>
+</tr>
+<tr>
+<td><strong>Non-IT fit</strong></td>
+<td>TB–Cao tùy track</td>
+</tr>
+<tr>
+<td><strong>Artifact</strong></td>
+<td>Internal cert, org compliance training</td>
+</tr>
+<tr>
+<td><strong>Strength</strong></td>
+<td>Scale, brand FPT, cost ≈ 0 cho learner đủ điều kiện</td>
+</tr>
+<tr>
+<td><strong>Weakness</strong></td>
+<td>Không personal brand assistant journey; ít “kiến trúc tri thức cá
+nhân”; access gated</td>
+</tr>
+<tr>
+<td><strong>Threat to SID</strong></td>
+<td><strong>Med</strong> với employee segment (opportunity cost =
+free)</td>
+</tr>
+<tr>
+<td><strong>SID wins when</strong></td>
+<td>Cá nhân/SME ngoài FPT ecosystem; cần depth method + personal
+portfolio commercializable</td>
+</tr>
+<tr>
+<td><strong>Confidence</strong></td>
+<td>TB</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3
+id="vn-06-minai-minai.com.vn-generative-ai-personal-ai-assistant">VN-06
+· MinAI (minai.com.vn) — Generative AI + Personal AI Assistant</h3>
+<table>
+<colgroup>
+<col style="width: 46%" />
+<col style="width: 53%" />
+</colgroup>
+<thead>
+<tr>
+<th>Field</th>
+<th>Detail</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Type</strong></td>
+<td>Learning platform GenAI VN</td>
+</tr>
+<tr>
+<td><strong>Promise (public)</strong></td>
+<td>Hiểu LLM; prompt cơ bản→nâng cao; <strong>xây Personal AI
+Assistant</strong> (có đề cập Streamlit)</td>
+</tr>
+<tr>
+<td><strong>Price</strong></td>
+<td>Cần verify kỳ hiện tại (platform course listing)</td>
+</tr>
+<tr>
+<td><strong>Format</strong></td>
+<td>Online courses platform</td>
+</tr>
+<tr>
+<td><strong>Depth</strong></td>
+<td>L2–L4 <strong>build</strong>, có technical implementation
+(Streamlit)</td>
+</tr>
+<tr>
+<td><strong>Non-IT fit</strong></td>
+<td>TB — assistant path tốt nhưng có thể lệch code-lite/code</td>
+</tr>
+<tr>
+<td><strong>Artifact</strong></td>
+<td>Personal AI Assistant project</td>
+</tr>
+<tr>
+<td><strong>Strength</strong></td>
+<td><strong>Gần SID nhất về outcome “assistant”</strong> trong VN public
+scan</td>
+</tr>
+<tr>
+<td><strong>Weakness</strong></td>
+<td>Có thể thiên tool/build hơn <strong>knowledge architecture / framing
+/ transfer pedagogy</strong>; ít evidence “SID-like 7-step cognitive
+design”</td>
+</tr>
+<tr>
+<td><strong>Threat to SID</strong></td>
+<td><strong>High</strong> (outcome overlap)</td>
+</tr>
+<tr>
+<td><strong>SID wins when</strong></td>
+<td>Nhấn <em>non-code</em>, <em>cognitive framing</em>,
+<em>validate/synthesize/transfer</em>, multi-tier conversation design;
+mentor 1:1 + business projects</td>
+</tr>
+<tr>
+<td><strong>Confidence</strong></td>
+<td>TB–Cao (promise public); giá TB</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3
+id="vn-07-unica-personal-brand-super-ai-instructors-vd.-hệ-sinh-thái-chuyên-gia-ai-trên-marketplace">VN-07
+· Unica / personal-brand “Super AI” instructors (vd. hệ sinh thái chuyên
+gia AI trên marketplace)</h3>
+<table>
+<colgroup>
+<col style="width: 46%" />
+<col style="width: 53%" />
+</colgroup>
+<thead>
+<tr>
+<th>Field</th>
+<th>Detail</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Type</strong></td>
+<td>Creator-led AI mastery courses (self-serve hoặc hybrid)</td>
+</tr>
+<tr>
+<td><strong>Promise</strong></td>
+<td>“Bậc thầy AI”; phát triển bản thân với AI; productivity
+life/work</td>
+</tr>
+<tr>
+<td><strong>Price</strong></td>
+<td>Thường <strong>vài trăm nghìn – vài triệu</strong> (sale); một số
+gói mentorship riêng cao hơn (không luôn public)</td>
+</tr>
+<tr>
+<td><strong>Format</strong></td>
+<td>Video + community/Facebook group đôi khi</td>
+</tr>
+<tr>
+<td><strong>Depth</strong></td>
+<td>L1–L3 tùy khóa</td>
+</tr>
+<tr>
+<td><strong>Non-IT fit</strong></td>
+<td>Cao</td>
+</tr>
+<tr>
+<td><strong>Artifact</strong></td>
+<td>Prompt systems cá nhân; mindset packs</td>
+</tr>
+<tr>
+<td><strong>Strength</strong></td>
+<td>Storytelling, parasocial trust, conversion funnels mạnh</td>
+</tr>
+<tr>
+<td><strong>Weakness</strong></td>
+<td>IP method ít chuẩn hóa; khó audit quality; overlapping hype</td>
+</tr>
+<tr>
+<td><strong>Threat to SID</strong></td>
+<td><strong>Med–High</strong> (cùng non-IT, cùng “làm chủ AI”)</td>
+</tr>
+<tr>
+<td><strong>SID wins when</strong></td>
+<td>Differentiator rõ: <em>Structured Intelligence Design</em> có
+artifact chuẩn (framing brief, decomposition tree, rubric, assistant as
+software) — không chỉ “mindset + prompts”</td>
+</tr>
+<tr>
+<td><strong>Confidence</strong></td>
+<td>TB</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3
+id="vn-08-gitiho-corporate-digital-skills-platforms-ai-modules-for-office">VN-08
+· Gitiho / corporate digital skills platforms (AI modules for
+office)</h3>
+<table>
+<colgroup>
+<col style="width: 46%" />
+<col style="width: 53%" />
+</colgroup>
+<thead>
+<tr>
+<th>Field</th>
+<th>Detail</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Type</strong></td>
+<td>Skills marketplace / corporate e-learning VN</td>
+</tr>
+<tr>
+<td><strong>Promise</strong></td>
+<td>Kỹ năng số cho nhân viên; Excel + AI + office productivity</td>
+</tr>
+<tr>
+<td><strong>Price</strong></td>
+<td>Low–mid per course hoặc subscription/corp license</td>
+</tr>
+<tr>
+<td><strong>Format</strong></td>
+<td>Self-paced catalog; B2B LMS</td>
+</tr>
+<tr>
+<td><strong>Depth</strong></td>
+<td>L1–L2</td>
+</tr>
+<tr>
+<td><strong>Non-IT fit</strong></td>
+<td>Cao</td>
+</tr>
+<tr>
+<td><strong>Artifact</strong></td>
+<td>Course completion; skill checklist</td>
+</tr>
+<tr>
+<td><strong>Strength</strong></td>
+<td>B2B procurement ready; catalog breadth</td>
+</tr>
+<tr>
+<td><strong>Weakness</strong></td>
+<td>Không deep method; không conversation/knowledge architecture</td>
+</tr>
+<tr>
+<td><strong>Threat to SID</strong></td>
+<td><strong>Med</strong> ở B2B “checkbox training”</td>
+</tr>
+<tr>
+<td><strong>SID wins when</strong></td>
+<td>Bán <em>capability transformation + team assistant standards</em>,
+không bán seat video catalog</td>
+</tr>
+<tr>
+<td><strong>Confidence</strong></td>
+<td>TB</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3 id="bảng-tổng-hợp-vn-at-a-glance">Bảng tổng hợp VN
+(at-a-glance)</h3>
+<table style="width:100%;">
+<colgroup>
+<col style="width: 5%" />
+<col style="width: 11%" />
+<col style="width: 26%" />
+<col style="width: 9%" />
+<col style="width: 11%" />
+<col style="width: 11%" />
+<col style="width: 23%" />
+</colgroup>
+<thead>
+<tr>
+<th>ID</th>
+<th>Player</th>
+<th>Price band (proxy)</th>
+<th>Depth</th>
+<th>Non-IT</th>
+<th>Threat</th>
+<th>Closest to SID?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>VN-01</td>
+<td>Unica ChatGPT mass</td>
+<td>79k–1tr</td>
+<td>L1–2</td>
+<td>Cao</td>
+<td>High (TOF)</td>
+<td>Low</td>
+</tr>
+<tr>
+<td>VN-02</td>
+<td>Workshop ngắn boutique</td>
+<td>2–10tr+</td>
+<td>L1–2</td>
+<td>Cao</td>
+<td>Med–High</td>
+<td>Low–Med</td>
+</tr>
+<tr>
+<td>VN-03</td>
+<td>MindX AI career</td>
+<td>chục tr+ / path</td>
+<td>L2–4 tech</td>
+<td>Thấp–TB</td>
+<td>Low–Med</td>
+<td>Low</td>
+</tr>
+<tr>
+<td>VN-04</td>
+<td>FUNiX/AI modules</td>
+<td>theo module</td>
+<td>L2–4 tech</td>
+<td>Thấp–TB</td>
+<td>Low</td>
+<td>Low</td>
+</tr>
+<tr>
+<td>VN-05</td>
+<td>FPT AI reskill</td>
+<td>free/subsidized</td>
+<td>L2–3</td>
+<td>TB–Cao</td>
+<td>Med</td>
+<td>Low–Med</td>
+</tr>
+<tr>
+<td>VN-06</td>
+<td>MinAI assistant track</td>
+<td>verify</td>
+<td>L2–4 build</td>
+<td>TB</td>
+<td><strong>High</strong></td>
+<td><strong>Med–High</strong></td>
+</tr>
+<tr>
+<td>VN-07</td>
+<td>Creator “Super AI”</td>
+<td>0.3–vài tr (+mentor)</td>
+<td>L1–3</td>
+<td>Cao</td>
+<td>Med–High</td>
+<td>Med</td>
+</tr>
+<tr>
+<td>VN-08</td>
+<td>Gitiho-like corp skills</td>
+<td>low–mid / seat</td>
+<td>L1–2</td>
+<td>Cao</td>
+<td>Med (B2B)</td>
+<td>Low</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="b2.-global-4-benchmark">B2. Global — 4 benchmark</h2>
+<h3
+id="gl-01-deeplearning.ai-chatgpt-prompt-engineering-for-developers">GL-01
+· DeepLearning.AI — ChatGPT Prompt Engineering for Developers</h3>
+<table>
+<colgroup>
+<col style="width: 46%" />
+<col style="width: 53%" />
+</colgroup>
+<thead>
+<tr>
+<th>Field</th>
+<th>Detail</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Promise</strong></td>
+<td>Best practices prompting với LLM; hiểu cách model hoạt động; short
+practical course (Andrew Ng + OpenAI instructor lineage)</td>
+</tr>
+<tr>
+<td><strong>Price</strong></td>
+<td><strong>Free</strong> (short course model phổ biến)</td>
+</tr>
+<tr>
+<td><strong>Format</strong></td>
+<td>Self-paced short (~1.5–2h)</td>
+</tr>
+<tr>
+<td><strong>Depth</strong></td>
+<td>L2–L3 (developer-leaning examples)</td>
+</tr>
+<tr>
+<td><strong>Non-IT fit</strong></td>
+<td>TB (tên “for developers”; nội dung vẫn tiếp cận được)</td>
+</tr>
+<tr>
+<td><strong>Artifact</strong></td>
+<td>Techniques (iterative prompting, etc.), không full assistant product
+design</td>
+</tr>
+<tr>
+<td><strong>Strength</strong></td>
+<td>Brand cực mạnh, free, quality pedagogy</td>
+</tr>
+<tr>
+<td><strong>Weakness</strong></td>
+<td>Không VI; không knowledge architecture career path; không mentor
+cohort</td>
+</tr>
+<tr>
+<td><strong>Threat</strong></td>
+<td><strong>High</strong> ở expectation “prompt eng = free &amp;
+đủ”</td>
+</tr>
+<tr>
+<td><strong>SID response</strong></td>
+<td>Acknowledge free PE basics → upsell <em>systems, framing, transfer,
+portfolio</em></td>
+</tr>
+<tr>
+<td><strong>Confidence</strong></td>
+<td>Cao</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3
+id="gl-02-google-prompting-essentials-coursera-pe-specializations-vanderbilt-ibm-genai-certs">GL-02
+· Google Prompting Essentials / Coursera PE specializations (Vanderbilt,
+IBM GenAI certs…)</h3>
+<table>
+<colgroup>
+<col style="width: 46%" />
+<col style="width: 53%" />
+</colgroup>
+<thead>
+<tr>
+<th>Field</th>
+<th>Detail</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Promise</strong></td>
+<td>Prompting essentials; professional certificates;
+employer-recognizable badges</td>
+</tr>
+<tr>
+<td><strong>Price</strong></td>
+<td>~<strong>$39–79/tháng</strong> Coursera hoặc ~<strong>$49</strong>
+one-time-ish cert narratives; audit free đôi khóa</td>
+</tr>
+<tr>
+<td><strong>Format</strong></td>
+<td>Self-paced MOOC</td>
+</tr>
+<tr>
+<td><strong>Depth</strong></td>
+<td>L2–L3</td>
+</tr>
+<tr>
+<td><strong>Non-IT fit</strong></td>
+<td>Cao–TB</td>
+</tr>
+<tr>
+<td><strong>Artifact</strong></td>
+<td>Certificate / specialization</td>
+</tr>
+<tr>
+<td><strong>Strength</strong></td>
+<td>Brand Google/IBM/university; giá thấp; portable cert</td>
+</tr>
+<tr>
+<td><strong>Weakness</strong></td>
+<td>Generic; ít local context VN; ít build assistant nghiệp vụ có
+mentor</td>
+</tr>
+<tr>
+<td><strong>Threat</strong></td>
+<td><strong>Med–High</strong> (alternative “học bài bản rẻ”)</td>
+</tr>
+<tr>
+<td><strong>SID response</strong></td>
+<td>Cert ≠ deployed assistant; SID = working system + Vietnamese
+business context</td>
+</tr>
+<tr>
+<td><strong>Confidence</strong></td>
+<td>Cao</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3 id="gl-03-conversation-design-institute-cdi">GL-03 · Conversation
+Design Institute (CDI)</h3>
+<table>
+<colgroup>
+<col style="width: 46%" />
+<col style="width: 53%" />
+</colgroup>
+<thead>
+<tr>
+<th>Field</th>
+<th>Detail</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Promise</strong></td>
+<td>Leading training/cert for conversational &amp; agentic AI; design
+high-performing AI assistants at scale</td>
+</tr>
+<tr>
+<td><strong>Price (public 2026)</strong></td>
+<td>Course plan <strong>$49.95/mo</strong> or <strong>~$37.46/mo yearly
+(~$449.55/year)</strong>; <strong>Certificate exam $499 each</strong>;
+Enterprise custom; free intro tier</td>
+</tr>
+<tr>
+<td><strong>Format</strong></td>
+<td>Self-paced library + expert classes; cert exams; enterprise
+programs</td>
+</tr>
+<tr>
+<td><strong>Depth</strong></td>
+<td><strong>L4 conversation design</strong> (industry standard)</td>
+</tr>
+<tr>
+<td><strong>Non-IT fit</strong></td>
+<td>TB–Cao cho writers/designers/BA; EN professional</td>
+</tr>
+<tr>
+<td><strong>Artifact</strong></td>
+<td>Industry-recognized certificates; workflow standards</td>
+</tr>
+<tr>
+<td><strong>Strength</strong></td>
+<td>Category authority; enterprise logos; depth CxD</td>
+</tr>
+<tr>
+<td><strong>Weakness</strong></td>
+<td>English; career CxD tilt; <strong>không</strong> full “knowledge
+architecture / SID cognitive loop” cho non-IT VN; subscription +
+multi-cert cost stack</td>
+</tr>
+<tr>
+<td><strong>Threat</strong></td>
+<td><strong>Med</strong> overall; <strong>High</strong> nếu SID Advance
+pretends to be CDI-clone without differentiator</td>
+</tr>
+<tr>
+<td><strong>SID response</strong></td>
+<td>Position Advance as <em>knowledge systems + conversation</em> for VN
+practitioners; optional “CDI-aware” not CDI-substitute; keep VI non-IT
+on-ramp Basic/Pro</td>
+</tr>
+<tr>
+<td><strong>Confidence</strong></td>
+<td><strong>Cao</strong> (pricing page official)</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Quy đổi thô (minh họa, không FX cố định):</strong><br />
+~$450/năm course ≈ <strong>~11–12 triệu ₫/năm</strong> access; 1 cert
+$499 ≈ <strong>~12–13 triệu ₫</strong>.<br />
+→ SID Pro <strong>15tr</strong> (live mentor + projects) <strong>cạnh
+tranh được về value</strong> nếu delivery mạnh; không so “self-serve
+library only”.</p>
+<hr />
+<h3 id="gl-04-udemy-prompt-engineering-bootcamps">GL-04 · Udemy Prompt
+Engineering Bootcamps</h3>
+<table>
+<colgroup>
+<col style="width: 46%" />
+<col style="width: 53%" />
+</colgroup>
+<thead>
+<tr>
+<th>Field</th>
+<th>Detail</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Promise</strong></td>
+<td>Complete PE bootcamp; ChatGPT/Claude/agents sometimes; career-ish
+claims vary by instructor</td>
+</tr>
+<tr>
+<td><strong>Price</strong></td>
+<td><strong>~$15–85</strong> sale; list cao hơn</td>
+</tr>
+<tr>
+<td><strong>Format</strong></td>
+<td>Video self-paced</td>
+</tr>
+<tr>
+<td><strong>Depth</strong></td>
+<td>L1–L3 (quality variance lớn)</td>
+</tr>
+<tr>
+<td><strong>Non-IT fit</strong></td>
+<td>Cao</td>
+</tr>
+<tr>
+<td><strong>Artifact</strong></td>
+<td>Course + resources download</td>
+</tr>
+<tr>
+<td><strong>Strength</strong></td>
+<td>Rẻ, nhiều lựa chọn, review count</td>
+</tr>
+<tr>
+<td><strong>Weakness</strong></td>
+<td>Hit-or-miss; outdated risk; no cohort accountability</td>
+</tr>
+<tr>
+<td><strong>Threat</strong></td>
+<td><strong>High</strong> TOF price anchor (“tôi học Udemy 200k
+rồi”)</td>
+</tr>
+<tr>
+<td><strong>SID response</strong></td>
+<td>Never compete on hour-price; compete on <em>transformation +
+reviewable artifacts</em></td>
+</tr>
+<tr>
+<td><strong>Confidence</strong></td>
+<td>Cao</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3 id="bảng-tổng-hợp-global">Bảng tổng hợp Global</h3>
+<table>
+<colgroup>
+<col style="width: 7%" />
+<col style="width: 15%" />
+<col style="width: 13%" />
+<col style="width: 13%" />
+<col style="width: 15%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr>
+<th>ID</th>
+<th>Player</th>
+<th>Price</th>
+<th>Depth</th>
+<th>Threat</th>
+<th>Closest to SID?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>GL-01</td>
+<td>DeepLearning.AI PE short</td>
+<td>Free</td>
+<td>L2–3</td>
+<td>High (expectation)</td>
+<td>Low–Med method</td>
+</tr>
+<tr>
+<td>GL-02</td>
+<td>Coursera/Google PE certs</td>
+<td>~$49/mo band</td>
+<td>L2–3</td>
+<td>Med–High</td>
+<td>Low–Med</td>
+</tr>
+<tr>
+<td>GL-03</td>
+<td>CDI</td>
+<td>~$50/mo + $499 cert</td>
+<td>L4 CxD</td>
+<td>Med (Advance)</td>
+<td><strong>High on conversation layer</strong></td>
+</tr>
+<tr>
+<td>GL-04</td>
+<td>Udemy PE bootcamp</td>
+<td>$15–85</td>
+<td>L1–3</td>
+<td>High TOF</td>
+<td>Low</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="b3.-positioning-map-22">B3. Positioning map (2×2)</h2>
+<p>Trục X: <strong>Depth</strong> (Tips → Systems)<br />
+Trục Y: <strong>Human guidance</strong> (Self-serve → Mentor/cohort)</p>
+<pre><code>Mentor/cohort high
+        │
+        │  [VN-02 workshops]     ★ SID Basic/Pro/Advance
+        │  [MindX career live]
+        │
+        │  [FPT reskill cohorts]
+        │
+────────┼──────────────────────────────── Depth →
+ Self   │  [Unica] [Udemy] [Gitiho]
+ serve  │  [DeepLearning free] [Coursera]
+        │  [Creator Super AI]
+        │                         [MinAI build]
+        │                              [CDI library+cert]
+        │</code></pre>
+<p><strong>Insight:</strong> SID chiếm ô <strong>Mentor +
+Systems</strong> — ít player VN lấp đầy; global CDI gần về systems
+conversation nhưng EN + cert path khác ICP.</p>
+<hr />
+<h2 id="b4.-feature-promise-gap-matrix-sid-vs-top-substitutes">B4.
+Feature / Promise gap matrix (SID vs top substitutes)</h2>
+<table>
+<colgroup>
+<col style="width: 18%" />
+<col style="width: 19%" />
+<col style="width: 22%" />
+<col style="width: 18%" />
+<col style="width: 7%" />
+<col style="width: 13%" />
+</colgroup>
+<thead>
+<tr>
+<th>Capability</th>
+<th>Unica/Udemy</th>
+<th>Workshop ngắn</th>
+<th>MinAI-like</th>
+<th>CDI</th>
+<th><strong>SID</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>VI language</td>
+<td>✓</td>
+<td>✓</td>
+<td>✓</td>
+<td>✗</td>
+<td>✓</td>
+</tr>
+<tr>
+<td>Non-IT first</td>
+<td>✓</td>
+<td>✓</td>
+<td>~</td>
+<td>~</td>
+<td>✓</td>
+</tr>
+<tr>
+<td>Prompt tips</td>
+<td>✓</td>
+<td>✓</td>
+<td>✓</td>
+<td>~</td>
+<td>✓ (but not core)</td>
+</tr>
+<tr>
+<td>Framing / cognitive control</td>
+<td>✗</td>
+<td>✗</td>
+<td>?</td>
+<td>~</td>
+<td><strong>✓ core</strong></td>
+</tr>
+<tr>
+<td>Decomposition / IA knowledge</td>
+<td>✗</td>
+<td>✗</td>
+<td>?</td>
+<td>partial (dialog)</td>
+<td><strong>✓ core</strong></td>
+</tr>
+<tr>
+<td>Reasoning + validation design</td>
+<td>✗</td>
+<td>✗</td>
+<td>partial</td>
+<td>partial</td>
+<td><strong>✓ Pro</strong></td>
+</tr>
+<tr>
+<td>Build reusable AI assistant</td>
+<td>rare</td>
+<td>rare</td>
+<td><strong>✓</strong></td>
+<td><strong>✓ CxD</strong></td>
+<td><strong>✓</strong></td>
+</tr>
+<tr>
+<td>Conversation design deep</td>
+<td>✗</td>
+<td>✗</td>
+<td>?</td>
+<td><strong>✓</strong></td>
+<td><strong>✓ Advance</strong></td>
+</tr>
+<tr>
+<td>Live mentor / 1:1</td>
+<td>✗</td>
+<td>short</td>
+<td>?</td>
+<td>webinars</td>
+<td><strong>✓</strong></td>
+</tr>
+<tr>
+<td>Project portfolio graded</td>
+<td>✗</td>
+<td>weak</td>
+<td>some</td>
+<td>exams</td>
+<td><strong>✓</strong></td>
+</tr>
+<tr>
+<td>Price entry</td>
+<td>rất rẻ</td>
+<td>mid</td>
+<td>?</td>
+<td>sub + cert</td>
+<td>5tr+</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Gap SID còn phải đóng (từ teardown):</strong></p>
+<ol type="1">
+<li><strong>Proof public</strong> — competitors marketplace có review
+count; SID cần gallery assistants + testimonials.<br />
+</li>
+<li><strong>TOF content</strong> — Unica/Udemy/free set price anchor;
+SID cần free lead magnet method-lite (Framing Brief mini).<br />
+</li>
+<li><strong>Category education</strong> — “SID” chưa là từ khóa search;
+phải win bằng pain language.<br />
+</li>
+<li><strong>MinAI-like builders</strong> — nếu họ non-code hóa assistant
+path, overlap tăng → SID phải sở hữu <em>method pedagogy</em>.<br />
+</li>
+<li><strong>CDI</strong> — đừng claim “chuẩn quốc tế CDI” nếu chưa
+align; có thể <em>complement</em> (map SID Advance ↔︎ CxD concepts).</li>
+</ol>
+<hr />
+<h2 id="b5.-price-ladder-context-vn-global-anchors">B5. Price ladder
+context (VN + global anchors)</h2>
+<table>
+<colgroup>
+<col style="width: 13%" />
+<col style="width: 27%" />
+<col style="width: 20%" />
+<col style="width: 38%" />
+</colgroup>
+<thead>
+<tr>
+<th>Band</th>
+<th>₫ (approx)</th>
+<th>Players</th>
+<th>SID implication</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Free</td>
+<td>0</td>
+<td>DL.AI, YouTube, FPT-eligible, CDI free tier</td>
+<td>Must differentiate after free PE</td>
+</tr>
+<tr>
+<td>Impulse</td>
+<td>79k–1tr</td>
+<td>Unica, Udemy sale</td>
+<td>TOF education, not competitors for Pro</td>
+</tr>
+<tr>
+<td>Low boutique</td>
+<td>1–5tr</td>
+<td>Creator courses, short workshops</td>
+<td>SID Basic competes here on <strong>depth density</strong></td>
+</tr>
+<tr>
+<td>Mid premium</td>
+<td>5–15tr</td>
+<td>Longer workshops, some bootcamp modules</td>
+<td><strong>SID Basic–Pro home</strong></td>
+</tr>
+<tr>
+<td>High / career</td>
+<td>15–50tr+</td>
+<td>Career academies, multi-month</td>
+<td>SID Advance + multi-tier stack</td>
+</tr>
+<tr>
+<td>Global sub</td>
+<td>~1–1.2tr/tháng CDI; ~1tr/tháng Coursera</td>
+<td>CDI, Coursera</td>
+<td>Compare <strong>annualized + cert</strong> vs cohort intensity</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Interpretation:</strong> Giá SID <strong>không “đắt vô
+lý”</strong> trong band mentor-led premium; chỉ <strong>đắt so với
+self-serve</strong>. Marketing phải shift reference class: <em>từ Unica
+→ mentor cohort / CDI-year equivalent</em>.</p>
+<hr />
+<h2 id="b6.-strategic-implications-từ-teardown">B6. Strategic
+implications (từ teardown)</h2>
+<h3 id="do-now">Do now</h3>
+<table>
+<colgroup>
+<col style="width: 18%" />
+<col style="width: 50%" />
+<col style="width: 31%" />
+</colgroup>
+<thead>
+<tr>
+<th>#</th>
+<th>Action</th>
+<th>Why</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td><strong>Battlecard sales 1-pager</strong> theo 5 substitute
+classes</td>
+<td>Close “học Unica rồi” objections</td>
+</tr>
+<tr>
+<td>2</td>
+<td><strong>Public project gallery</strong> (6 project từ
+curriculum)</td>
+<td>Win vs self-serve</td>
+</tr>
+<tr>
+<td>3</td>
+<td><strong>Lead magnet Framing Brief</strong> (free)</td>
+<td>Compete free PE without becoming tips brand</td>
+</tr>
+<tr>
+<td>4</td>
+<td><strong>Messaging:</strong> “Không phải khóa ChatGPT” above
+fold</td>
+<td>Category separation</td>
+</tr>
+<tr>
+<td>5</td>
+<td><strong>Watch MinAI + creator Super-AI</strong> quarterly</td>
+<td>Highest product overlap risk</td>
+</tr>
+<tr>
+<td>6</td>
+<td><strong>Advance curriculum map vs CDI concepts</strong> (honest
+complement)</td>
+<td>Avoid false equivalence; raise quality bar</td>
+</tr>
+</tbody>
+</table>
+<h3 id="dont">Don’t</h3>
+<table>
+<colgroup>
+<col style="width: 58%" />
+<col style="width: 41%" />
+</colgroup>
+<thead>
+<tr>
+<th>Don’t</th>
+<th>Why</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Price-war xuống &lt;2tr cho core Pro</td>
+<td>Destroy mentor model; join commoditized tier</td>
+</tr>
+<tr>
+<td>Claim “cert quốc tế” nếu chưa có</td>
+<td>Trust risk</td>
+</tr>
+<tr>
+<td>Attack free courses</td>
+<td>Use them as pre-req (align landing: AI 3–6 tháng)</td>
+</tr>
+<tr>
+<td>Dilute into pure tool tour</td>
+<td>Lose only durable wedge</td>
+</tr>
+</tbody>
+</table>
+<h3 id="competitive-wedge-statement-dùng-nội-bộ">Competitive wedge
+statement (dùng nội bộ)</h3>
+<blockquote>
+<p>SID là cohort method-led duy nhất (trong scan hiện tại) kết hợp
+<strong>cognitive framing + knowledge architecture + validation +
+transfer</strong> để non-IT VN <strong>đóng gói trợ lý AI</strong>, thay
+vì dừng ở prompt tips (Unica/Udemy) hay career/CxD English tracks
+(MindX/CDI).</p>
+</blockquote>
+<p><strong>Confidence wedge:</strong> TB–Cao (desktop); nâng Cao sau
+mystery shop MinAI + 3 workshop landing pages.</p>
+<hr />
+<h2 id="b7.-rubric-chấm-mức-độ-thay-thế-sid-v1">B7. Rubric chấm “mức độ
+thay thế SID” (v1)</h2>
+<p>Dùng khi phát hiện competitor mới:</p>
+<table>
+<thead>
+<tr>
+<th>Tiêu chí (1–5)</th>
+<th>Trọng số</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Cùng ICP non-IT VI</td>
+<td>20%</td>
+</tr>
+<tr>
+<td>Cùng outcome “assistant/knowledge system”</td>
+<td>25%</td>
+</tr>
+<tr>
+<td>Có method framework (không chỉ tips)</td>
+<td>20%</td>
+</tr>
+<tr>
+<td>Mentor/cohort quality</td>
+<td>15%</td>
+</tr>
+<tr>
+<td>Price overlap 5–25tr</td>
+<td>10%</td>
+</tr>
+<tr>
+<td>Brand/distribution strength</td>
+<td>10%</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Score ≥ 4.0</strong> → treat as <strong>direct
+competitor</strong> (war room).<br />
+<strong>2.5–3.9</strong> → <strong>adjacent</strong>
+(positioning).<br />
+<strong>&lt; 2.5</strong> → <strong>TOF substitute</strong> only.</p>
+<h3 id="chấm-nhanh-ước-lượng-desktop">Chấm nhanh (ước lượng
+desktop)</h3>
+<table>
+<thead>
+<tr>
+<th>Player</th>
+<th>Score ước</th>
+<th>Class</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Unica mass</td>
+<td>~2.0</td>
+<td>TOF</td>
+</tr>
+<tr>
+<td>Workshop ngắn</td>
+<td>~2.6</td>
+<td>Adjacent attention</td>
+</tr>
+<tr>
+<td>MindX</td>
+<td>~2.2</td>
+<td>Different ICP</td>
+</tr>
+<tr>
+<td>FUNiX</td>
+<td>~1.8</td>
+<td>Different ICP</td>
+</tr>
+<tr>
+<td>FPT reskill</td>
+<td>~2.4</td>
+<td>Free substitute</td>
+</tr>
+<tr>
+<td><strong>MinAI</strong></td>
+<td><strong>~3.6</strong></td>
+<td><strong>Adjacent → watch direct</strong></td>
+</tr>
+<tr>
+<td>Creator Super AI</td>
+<td>~3.0</td>
+<td>Adjacent</td>
+</tr>
+<tr>
+<td>Gitiho-like</td>
+<td>~2.1</td>
+<td>B2B checkbox</td>
+</tr>
+<tr>
+<td>DL.AI free</td>
+<td>~2.3</td>
+<td>TOF method lite</td>
+</tr>
+<tr>
+<td>Coursera PE</td>
+<td>~2.5</td>
+<td>TOF cert</td>
+</tr>
+<tr>
+<td><strong>CDI</strong></td>
+<td><strong>~3.4</strong></td>
+<td>Adjacent Advance</td>
+</tr>
+<tr>
+<td>Udemy</td>
+<td>~2.0</td>
+<td>TOF</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="b8.-objection-handling-từ-teardown-salescopy">B8. Objection
+handling (từ teardown → sales/copy)</h2>
+<table>
+<colgroup>
+<col style="width: 40%" />
+<col style="width: 59%" />
+</colgroup>
+<thead>
+<tr>
+<th>Objection</th>
+<th>Response frame</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>“Tôi học Unica/Udemy rồi”</td>
+<td>Đó là L1–L2. SID bắt đầu từ chỗ tips hết tác dụng: framing,
+architecture, validation, transfer.</td>
+</tr>
+<tr>
+<td>“Free Andrew Ng đủ rồi”</td>
+<td>Free PE dạy <em>cách hỏi model</em>. SID dạy <em>cách xây hệ tri
+thức &amp; trợ lý nghiệp vụ</em>.</td>
+</tr>
+<tr>
+<td>“10tr workshop 3 buổi rẻ hơn / nhanh hơn”</td>
+<td>So output sau 90 ngày: prompt pack vs 2–6 assistants + method tái
+dùng.</td>
+</tr>
+<tr>
+<td>“CDI chuẩn quốc tế hơn”</td>
+<td>CDI giỏi conversation design career EN. SID là đường non-IT VI từ tư
+duy → assistant; Advance có thể bổ sung tư duy CxD, không thay CDI cert
+nếu bạn cần badge global.</td>
+</tr>
+<tr>
+<td>“15tr đắt”</td>
+<td>So reference: CDI ~450 USD/năm library + 499 USD/cert, không mentor
+project VN; hoặc career bootcamp chục triệu. SID Pro = guided
+transformation + artifacts.</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h1 id="phần-c-packaging-chuẩn-sid">PHẦN C — PACKAGING (chuẩn SID)</h1>
+<table>
+<colgroup>
+<col style="width: 37%" />
+<col style="width: 62%" />
+</colgroup>
+<thead>
+<tr>
+<th>Tầng</th>
+<th>Nội dung</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Pattern</strong></td>
+<td>Adoption AI cao + architecture capability thấp = premium education;
+supply VN kẹt L1–L2</td>
+</tr>
+<tr>
+<td><strong>Principles</strong></td>
+<td>Method &gt; tips; Portfolio &gt; certificate; Beachhead &gt;
+everyone; B2C IP → B2B scale; Compete on reference class not
+hour-price</td>
+</tr>
+<tr>
+<td><strong>Framework</strong></td>
+<td>MARKET-FIT SID Loop (6) + Competitor Depth L1–L4</td>
+</tr>
+<tr>
+<td><strong>Workflow</strong></td>
+<td>GTM 90 ngày + teardown quarterly refresh</td>
+</tr>
+<tr>
+<td><strong>Assets</strong></td>
+<td>Battlecard, ICP card, price ladder, objection scripts, substitute
+scoring rubric</td>
+</tr>
+<tr>
+<td><strong>Rubric</strong></td>
+<td>Market fit 6 tiêu chí + competitor substitute score</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h1 id="phần-d-next-actions">PHẦN D — NEXT ACTIONS</h1>
+<table>
+<colgroup>
+<col style="width: 9%" />
+<col style="width: 30%" />
+<col style="width: 39%" />
+<col style="width: 21%" />
+</colgroup>
+<thead>
+<tr>
+<th>#</th>
+<th>Hạng mục</th>
+<th>Owner gợi ý</th>
+<th>Done?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>Lưu research file</td>
+<td>✅ <code>research-grok.md</code></td>
+<td>Done</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Competitor teardown 8+4</td>
+<td>✅ Phần B</td>
+<td>Done</td>
+</tr>
+<tr>
+<td>3</td>
+<td><strong>X/Twitter real cases + international sell
+thesis</strong></td>
+<td>✅ Phần E</td>
+<td>Done</td>
+</tr>
+<tr>
+<td>4</td>
+<td>Mystery shop: MinAI + 2 Unica top + 1 workshop landing</td>
+<td>Marketing</td>
+<td>Pending</td>
+</tr>
+<tr>
+<td>5</td>
+<td>15–20 ICP interviews VI + <strong>5–10 EN</strong> — script +
+scoring</td>
+<td>✅ Script <strong>Phần F</strong> · interviews Pending</td>
+<td></td>
+</tr>
+<tr>
+<td>6</td>
+<td>SEO/SEM intent VI + pricing experiment</td>
+<td>✅ <strong>Phần G</strong> · GKP numbers + D1–D3 live ⬜</td>
+<td></td>
+</tr>
+<tr>
+<td>7</td>
+<td>Public gallery 3 assistants demo (EN captions)</td>
+<td>Curriculum</td>
+<td>Pending</td>
+</tr>
+<tr>
+<td>8</td>
+<td>Sales battlecard 1-page PDF từ B4–B8</td>
+<td>Sales</td>
+<td>Pending</td>
+</tr>
+<tr>
+<td>9</td>
+<td><strong>EN landing one-pager + USD price ladder</strong></td>
+<td>Product/Marketing</td>
+<td>Pending</td>
+</tr>
+<tr>
+<td>10</td>
+<td><strong>X content calendar</strong> (pain hooks từ E2) song song
+VI</td>
+<td>Growth</td>
+<td>Pending</td>
+</tr>
+<tr>
+<td>11</td>
+<td>Paste G3 list → Keyword Planner VN; điền vol</td>
+<td>Growth</td>
+<td>Pending</td>
+</tr>
+<tr>
+<td>12</td>
+<td>Chạy pricing D1 (VW) trên waitlist</td>
+<td>Founder</td>
+<td>Pending</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h1
+id="phần-e-case-thật-từ-xtwitter-sid-bán-được-cho-người-nước-ngoài">PHẦN
+E — CASE THẬT TỪ X/TWITTER → SID BÁN ĐƯỢC CHO NGƯỜI NƯỚC NGOÀI</h1>
+<blockquote>
+<p><strong>Mục tiêu:</strong> Chứng minh demand <strong>global</strong>
+(không chỉ VN) cho đúng bài toán SID đang giải; rút GTM quốc tế.<br />
+<strong>Phương pháp:</strong> Semantic + keyword search trên X (desktop
+2026-07-15).<br />
+<strong>Lớp nhận thức:</strong> Mỗi case = <strong>Fact</strong> (nội
+dung post public). Mapping sang SID = <strong>Interpretation</strong>.
+Khả năng convert EN = <strong>Hypothesis</strong> (cần test bán).<br />
+<strong>Lưu ý:</strong> Engagement là snapshot; không = sales proof.
+Nhiều post là marketing — ta tách <strong>demand signal</strong> vs
+<strong>seller noise</strong>.</p>
+</blockquote>
+<hr />
+<h2 id="e1.-thesis-quốc-tế-1-đoạn">E1. Thesis quốc tế (1 đoạn)</h2>
+<p>Trên X (thị trường conversation AI global bằng tiếng Anh), lặp lại
+cùng 4 tín hiệu mà landing SID đã nêu bằng tiếng Việt:</p>
+<ol type="1">
+<li><strong>Mass dùng AI nông</strong> (“search bar”, “one-line
+prompts”, “10% of what models can do”).<br />
+</li>
+<li><strong>Demand dịch sang systems / structure / memory / reusable
+assistants</strong> — không còn chỉ prompt list.<br />
+</li>
+<li><strong>No-code / non-coder path</strong> được validate bởi brand
+lớn (Andrew Ng) và creator economy.<br />
+</li>
+<li><strong>Willingness to pay</strong> tồn tại từ free → ~$100 → ~$500
+course → mentorship $500+ → agency/integrator high-ticket; đồng thời
+free content cạnh tranh mạnh → <strong>premium chỉ thắng bằng proof +
+method + mentor</strong>.</li>
+</ol>
+<p>→ <strong>SID method (Frame→Transfer + build assistant) là
+language-agnostic.</strong><br />
+→ <strong>Rào cản bán nước ngoài không phải “bài toán không global”, mà
+packaging: EN, timezone, payment, social proof EN.</strong></p>
+<p><strong>Confidence thesis:</strong> <strong>Cao</strong> (demand
+pattern); <strong>TB</strong> (SID cụ thể convert EN chưa test).</p>
+<hr />
+<h2 id="e2.-case-library-nhóm-theo-tín-hiệu-sid">E2. Case library — nhóm
+theo tín hiệu SID</h2>
+<h3 id="nhóm-a-pain-dùng-ai-hỏiđáp-search-bar-bỏ-lỡ-giá-trị">Nhóm A —
+Pain: “Dùng AI hỏi–đáp / search bar, bỏ lỡ giá trị”</h3>
+<table>
+<colgroup>
+<col style="width: 5%" />
+<col style="width: 13%" />
+<col style="width: 13%" />
+<col style="width: 36%" />
+<col style="width: 10%" />
+<col style="width: 21%" />
+</colgroup>
+<thead>
+<tr>
+<th>#</th>
+<th>Author</th>
+<th>Signal</th>
+<th>Engagement (snapshot)</th>
+<th>Link</th>
+<th>Mapping SID</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>A1</td>
+<td><strong><span class="citation"
+data-cites="RhysSullivan">@RhysSullivan</span></strong></td>
+<td>“the average person has only ever used ChatGPT 3.5 Instant and has
+no idea what the models can do”</td>
+<td>~6.2k likes, ~734k views</td>
+<td>https://x.com/RhysSullivan/status/2056087712273424797</td>
+<td>Pain 01 landing — adoption ≠ capability</td>
+</tr>
+<tr>
+<td>A2</td>
+<td><strong><span class="citation"
+data-cites="TheFallenMerc">@TheFallenMerc</span></strong></td>
+<td>“most people are still using chatgpt like a search bar… gap between
+casual use and knowing how to prompt, iterate, and hook it into your
+workflow is huge”</td>
+<td>low (reply)</td>
+<td>https://x.com/TheFallenMerc/status/2075276923689988497</td>
+<td>Pain 02 đúng language ICP</td>
+</tr>
+<tr>
+<td>A3</td>
+<td><strong><span class="citation"
+data-cites="mercer70638">@mercer70638</span></strong> (Daniel
+Valiquette)</td>
+<td>“Most solopreneurs use ChatGPT like a search engine… The ones
+pulling real value use it as a <strong>system</strong>. Same input every
+time, structured output…”</td>
+<td>low</td>
+<td>https://x.com/mercer70638/status/2076818961639846371</td>
+<td>Core shift SID: system vs chat</td>
+</tr>
+<tr>
+<td>A4</td>
+<td><strong><span class="citation"
+data-cites="signulll">@signulll</span></strong></td>
+<td>Chat-first UX fails for ongoing life systems; “real consumer leap…
+replacing the need to ask”</td>
+<td>~593 likes, ~123k views</td>
+<td>https://x.com/signulll/status/2055767986322178494</td>
+<td>Trợ lý chuyên biệt &gt; hỏi rời</td>
+</tr>
+<tr>
+<td>A5</td>
+<td><strong><span class="citation"
+data-cites="WenHop21505">@WenHop21505</span></strong></td>
+<td>Even engineering coworkers using AI daily “don’t know as much…”</td>
+<td>low</td>
+<td>https://x.com/WenHop21505/status/2076164445554835833</td>
+<td>Underserved “đã dùng AI” vẫn nông</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Interpretation:</strong> Pain language EN <strong>trùng
+1:1</strong> với section Problem của <code>index.html</code>. Copy EN
+gần như có sẵn từ discourse X.</p>
+<hr />
+<h3 id="nhóm-b-insight-prompts-systems-structure-wins">Nhóm B — Insight:
+“Prompts ≠ systems; structure wins”</h3>
+<table>
+<colgroup>
+<col style="width: 6%" />
+<col style="width: 16%" />
+<col style="width: 16%" />
+<col style="width: 24%" />
+<col style="width: 12%" />
+<col style="width: 26%" />
+</colgroup>
+<thead>
+<tr>
+<th>#</th>
+<th>Author</th>
+<th>Signal</th>
+<th>Engagement</th>
+<th>Link</th>
+<th>Mapping SID</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>B1</td>
+<td><strong><span class="citation"
+data-cites="shabnam_774">@shabnam_774</span></strong></td>
+<td>Stanford-type content “quietly outperforming every… prompting
+thread… <strong>This isn’t about prompts… build reliable AI
+systems</strong>… Prompts might give you outputs… <strong>systems give
+you results</strong>”</td>
+<td>~530 likes, ~68k views</td>
+<td>https://x.com/shabnam_774/status/2043629724006781396</td>
+<td>Positioning SID: systems/method</td>
+</tr>
+<tr>
+<td>B2</td>
+<td><strong><span class="citation"
+data-cites="undefinedKi">@undefinedKi</span></strong> (quoting
+viral)</td>
+<td>“This 18-minute video beats every paid AI course… from one-line
+prompts to <strong>building systems</strong>… master prompts, system
+prompts”</td>
+<td>~50 likes; quoted post ~546 likes / ~679k views</td>
+<td>https://x.com/undefinedKi/status/2075549315641082336</td>
+<td>Demand “system prompts” path</td>
+</tr>
+<tr>
+<td>B3</td>
+<td><strong><span class="citation"
+data-cites="paonx_eth">@paonx_eth</span></strong></td>
+<td>$100k/mo AI operator: “<strong>no $500 course</strong>… one folder
+of notes… <strong>You need structure and instructions</strong>… winning
+with AI aren’t using better models… <strong>organize what it
+remembers</strong>”</td>
+<td>~262 likes, ~13k views</td>
+<td>https://x.com/paonx_eth/status/2077075630223429656</td>
+<td>Knowledge architecture / KB = moat SID</td>
+</tr>
+<tr>
+<td>B4</td>
+<td><strong><span class="citation"
+data-cites="Veltrxai">@Veltrxai</span></strong></td>
+<td>MIT Patrick Winston: “If you get the <strong>representation</strong>
+right, you’re often almost done” &gt; most $500 PE courses</td>
+<td>~17 likes; quoted high-view article</td>
+<td>https://x.com/Veltrxai/status/2077043247969349893</td>
+<td>Framing / representation = Buổi 1 SID</td>
+</tr>
+<tr>
+<td>B5</td>
+<td><strong><span class="citation"
+data-cites="aditya_ffca">@aditya_ffca</span></strong></td>
+<td>“A well-built <strong>custom GPT with proven playbooks</strong> will
+outperform generic prompting every time”</td>
+<td>low</td>
+<td>https://x.com/aditya_ffca/status/2077283431948685312</td>
+<td>Outcome = specialized assistant</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Interpretation:</strong> Narrative X 2025–26 đã <strong>bão
+hòa tips</strong> và <strong>thưởng structure</strong>. SID không cần
+“tạo category từ zero” — cần <strong>own method name +
+proof</strong>.</p>
+<hr />
+<h3 id="nhóm-c-demand-product-no-code-non-coder-build-ai">Nhóm C —
+Demand product: No-code / non-coder build AI</h3>
+<table>
+<colgroup>
+<col style="width: 6%" />
+<col style="width: 16%" />
+<col style="width: 16%" />
+<col style="width: 24%" />
+<col style="width: 12%" />
+<col style="width: 26%" />
+</colgroup>
+<thead>
+<tr>
+<th>#</th>
+<th>Author</th>
+<th>Signal</th>
+<th>Engagement</th>
+<th>Link</th>
+<th>Mapping SID</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>C1</td>
+<td><strong><span class="citation"
+data-cites="AndrewYNg">@AndrewYNg</span></strong></td>
+<td>“If you’ve <strong>never written code</strong> before, this is for
+you… build a working web application… zero coding… vendor neutral
+(ChatGPT, Gemini, Claude…)”</td>
+<td><strong>~5.7k likes, ~636k views</strong>, 7k+ bookmarks</td>
+<td>https://x.com/AndrewYNg/status/2008956639894786402</td>
+<td><strong>Validate non-IT beachhead ở scale global</strong></td>
+</tr>
+<tr>
+<td>C2</td>
+<td><strong><span class="citation"
+data-cites="sethjkramer">@sethjkramer</span></strong> / No Code MBA
+era</td>
+<td>“AI enables SO many new app ideas. Yet most people can’t code… No
+Code MBA’s course… beginners. No code required.”</td>
+<td><strong>~16.8k likes, ~14.3M views</strong> (2023, still
+archetype)</td>
+<td>https://x.com/sethjkramer/status/1651699688679014400</td>
+<td>Mass appetite no-code AI education</td>
+</tr>
+<tr>
+<td>C3</td>
+<td><strong><span class="citation"
+data-cites="yimup">@yimup</span></strong></td>
+<td>“Claude Code for Non-Coders (6 Hour Course)… teaches beginners how
+to <strong>build an AI assistant</strong>… skill that will matter for
+every profession”</td>
+<td>low</td>
+<td>https://x.com/yimup/status/2077047249696121105</td>
+<td>Exact outcome language SID</td>
+</tr>
+<tr>
+<td>C4</td>
+<td><strong><span class="citation"
+data-cites="ArchitectHappy_">@ArchitectHappy_</span></strong></td>
+<td>Liam Ottley free course: no-code AI systems, sellable automations,
+high-ticket clients — “course automation agencies would rather sell
+you”</td>
+<td>low–mid; viral-style packaging</td>
+<td>https://x.com/ArchitectHappy_/status/2076375806062801108</td>
+<td>B2B / monetize assistant skills</td>
+</tr>
+<tr>
+<td>C5</td>
+<td><strong><span class="citation"
+data-cites="PrinceIsraelsw1">@PrinceIsraelsw1</span></strong></td>
+<td>Skills list must-have: “AI tool proficiency (prompting, building
+with AI agents, <strong>no-code AI apps</strong>)”</td>
+<td>~13 likes</td>
+<td>https://x.com/PrinceIsraelsw1/status/2076870112678690839</td>
+<td>Skill category mainstream</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Interpretation:</strong> “Non-coder → build with AI” là
+<strong>mainstream narrative</strong>, không niche VN. SID “không cần
+IT, chỉ cần nói mạch lạc” <strong>exportable</strong>.</p>
+<hr />
+<h3 id="nhóm-d-willingness-to-pay-course-market-global">Nhóm D —
+Willingness to pay &amp; course market (global)</h3>
+<table>
+<colgroup>
+<col style="width: 6%" />
+<col style="width: 16%" />
+<col style="width: 16%" />
+<col style="width: 24%" />
+<col style="width: 12%" />
+<col style="width: 26%" />
+</colgroup>
+<thead>
+<tr>
+<th>#</th>
+<th>Author</th>
+<th>Signal</th>
+<th>Engagement</th>
+<th>Link</th>
+<th>Mapping SID</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>D1</td>
+<td><strong><span class="citation"
+data-cites="rowancheung">@rowancheung</span></strong> (The Rundown
+AI)</td>
+<td>Launch personalized AI education: industry certs, 300+ use cases,
+live workshops — “beyond ChatGPT prompts and expensive AI
+consultants”</td>
+<td>~644 likes, ~289k views</td>
+<td>https://x.com/rowancheung/status/1928126690066411794</td>
+<td>Category: career-specific AI literacy <strong>at scale</strong></td>
+</tr>
+<tr>
+<td>D2</td>
+<td><strong><span class="citation"
+data-cites="Mike_Scully_">@Mike_Scully_</span></strong></td>
+<td>“$1M+ selling AI services… free training… become an AI Integrator
+(<strong>no tech background</strong>)… coached 300+ entrepreneurs”</td>
+<td>mid engagement lead-gen</td>
+<td>https://x.com/Mike_Scully_/status/2077015522236145877</td>
+<td>Non-tech → sell AI capability business model</td>
+</tr>
+<tr>
+<td>D3</td>
+<td><strong><span class="citation"
+data-cites="drsakintayo">@drsakintayo</span></strong></td>
+<td>4-week AI course, dual timezone <strong>5PM WAT and 11AM
+CST</strong>, cert + practical — <strong>Nigeria + US call
+numbers</strong></td>
+<td>low</td>
+<td>https://x.com/drsakintayo/status/2075324232054010209</td>
+<td><strong>Proof pattern: Africa→US dual market course</strong></td>
+</tr>
+<tr>
+<td>D4</td>
+<td><strong><span class="citation"
+data-cites="iksly2">@iksly2</span></strong> (Kemi)</td>
+<td>AI Income Masterclass: nurses, accountants package <strong>existing
+expertise</strong> into sellable products — “professionals… valuable
+knowledge… package that knowledge”</td>
+<td>~52 likes</td>
+<td>https://x.com/iksly2/status/2075116168055079298</td>
+<td>Gần Transfer + commercialise project SID</td>
+</tr>
+<tr>
+<td>D5</td>
+<td><strong><span class="citation"
+data-cites="code_kartik">@code_kartik</span></strong></td>
+<td>Negative review AI eng course (India): surface-level, short lessons;
+warns on <strong>₹1 lakh+</strong> spend; free YouTube deeper</td>
+<td>~213 likes, ~29k views</td>
+<td>https://x.com/code_kartik/status/2021622687848956019</td>
+<td>Buyer sophisticated: <strong>pay only for depth</strong></td>
+</tr>
+<tr>
+<td>D6</td>
+<td><strong><span class="citation"
+data-cites="Word213414">@Word213414</span></strong> (Ryze)</td>
+<td>Defends paid course $100 + mentorship <strong>$547</strong>; “Most
+courses useless” unless real system + proof; multi-country student
+results (German, French)</td>
+<td>low</td>
+<td>https://x.com/Word213414/status/2076466283156304143</td>
+<td>Mentorship premium + international students</td>
+</tr>
+<tr>
+<td>D7</td>
+<td>Market chatter</td>
+<td>Free Anthropic/Google courses framed as “<strong>No $500 course
+needed</strong>” (many viral reposts)</td>
+<td>high repost culture</td>
+<td>e.g. https://x.com/Revix_AI/status/2077229056760983842</td>
+<td>Free tier pressure; SID must not sell L1–L2</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Price anchors visible on X (Interpretation):</strong></p>
+<table>
+<colgroup>
+<col style="width: 26%" />
+<col style="width: 20%" />
+<col style="width: 53%" />
+</colgroup>
+<thead>
+<tr>
+<th>Anchor</th>
+<th>~USD</th>
+<th>SID equivalent</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Free PE / free agent courses</td>
+<td>$0</td>
+<td>Lead magnet Framing Brief</td>
+</tr>
+<tr>
+<td>Creator system course</td>
+<td>~$100</td>
+<td>Mini workshop / handbook bundle</td>
+</tr>
+<tr>
+<td>“$500 course” meme / cert-ish</td>
+<td>~$500</td>
+<td><strong>≈ SID Basic ~5tr</strong> (same order)</td>
+</tr>
+<tr>
+<td>1:1 mentorship</td>
+<td>~$547–2k+</td>
+<td>Pro 1:1 / consulting</td>
+</tr>
+<tr>
+<td>Agency AI stack license narrative</td>
+<td>multi-k / mo</td>
+<td>B2B later</td>
+</tr>
+</tbody>
+</table>
+<p><strong>→ Basic 5tr / Pro 15tr không “chỉ hợp VN”.</strong> Pro ~$600
+band cạnh tranh mentorship/course premium global nếu delivery EN +
+proof.</p>
+<hr />
+<h3 id="nhóm-e-outcome-custom-assistants-package-expertise-org-ai">Nhóm
+E — Outcome: Custom assistants / package expertise / org AI</h3>
+<table>
+<colgroup>
+<col style="width: 7%" />
+<col style="width: 21%" />
+<col style="width: 21%" />
+<col style="width: 15%" />
+<col style="width: 34%" />
+</colgroup>
+<thead>
+<tr>
+<th>#</th>
+<th>Author</th>
+<th>Signal</th>
+<th>Link</th>
+<th>Mapping SID</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>E1</td>
+<td><strong><span class="citation"
+data-cites="iamcamengland">@iamcamengland</span></strong></td>
+<td>Built full AI stack for agency; licensing to business owners;
+“custom agent trained on <strong>your processes</strong> (not generic
+GPT wrapper)”</td>
+<td>https://x.com/iamcamengland/status/2047672746293764342</td>
+<td>Pro/Advance: business-grade assistant</td>
+</tr>
+<tr>
+<td>E2</td>
+<td><strong><span class="citation"
+data-cites="cjzafir">@cjzafir</span></strong> (classic 2023 thread)</td>
+<td>“AI Consultant” remote; deploy specialized agents; companies pay
+setup + monthly — still archetypal career narrative</td>
+<td>https://x.com/cjzafir/status/1684993656099594241</td>
+<td>Career path after SID skills</td>
+</tr>
+<tr>
+<td>E3</td>
+<td><strong><span class="citation"
+data-cites="polsia">@polsia</span></strong></td>
+<td>“Enterprise AI courses assume team and months… Small business…
+<strong>no-code AI training</strong>… pace and actual problems”</td>
+<td>https://x.com/polsia/status/2074652169798910311</td>
+<td>SME wedge SID</td>
+</tr>
+<tr>
+<td>E4</td>
+<td>Demand Riyadh</td>
+<td><strong><span class="citation"
+data-cites="NoufKAlmuhanna">@NoufKAlmuhanna</span></strong>
+(dermatologist, Canada fellowship / Harvard research creds): “recommend
+a good AI course or program in riyadh?”</td>
+<td>https://x.com/NoufKAlmuhanna/status/2076643545453130180</td>
+<td>Professional non-IT, Gulf, <strong>active seeking</strong></td>
+</tr>
+<tr>
+<td>E5</td>
+<td><strong><span class="citation"
+data-cites="troyjustsays">@troyjustsays</span></strong></td>
+<td>Bought cheap AI course — “totally worth it”</td>
+<td>https://x.com/troyjustsays/status/2076961299670442265</td>
+<td>WTP even low-ticket; quality surprises</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="e3.-tổng-hợp-pattern-từ-x-pattern-implication-sid">E3. Tổng hợp
+pattern từ X (Pattern → Implication SID)</h2>
+<table>
+<colgroup>
+<col style="width: 61%" />
+<col style="width: 38%" />
+</colgroup>
+<thead>
+<tr>
+<th>Pattern quan sát (Fact clusters)</th>
+<th>Implication cho SID</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>P1. “Search bar ChatGPT” là meme lặp</td>
+<td>EN hook copy sẵn — dùng nguyên trên landing EN</td>
+</tr>
+<tr>
+<td>P2. “Systems &gt; prompts” trending</td>
+<td>Giữ định vị method; đừng rebrand thành prompt tips</td>
+</tr>
+<tr>
+<td>P3. Non-coder build validated by Ng-level brands</td>
+<td>Landing “no IT required” <strong>exportable</strong></td>
+</tr>
+<tr>
+<td>P4. Free $500-equivalent content tràn</td>
+<td>Sell <strong>cohort + mentor + portfolio</strong>, not video
+dump</td>
+</tr>
+<tr>
+<td>P5. Creator economy sells AI courses cross-border</td>
+<td>Distribution X/LinkedIn &gt; only VN Facebook</td>
+</tr>
+<tr>
+<td>P6. Pros (nurse, accountant, founder) want to <strong>package
+knowledge</strong></td>
+<td>Curriculum project “commercialise” khớp global JTBD</td>
+</tr>
+<tr>
+<td>P7. Dual-timezone courses đã tồn tại (WAT/CST)</td>
+<td>SID có thể chạy <strong>GMT+7 live + EN async</strong></td>
+</tr>
+<tr>
+<td>P8. Buyers punish shallow paid courses</td>
+<td>Rubric + artifacts + depth = defense</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="e4.-argument-sid-hoàn-toàn-có-thể-bán-cho-người-nước-ngoài">E4.
+Argument: “SID hoàn toàn có thể bán cho người nước ngoài”</h2>
+<h3 id="e4.1.-what-travels-language-agnostic">E4.1. What travels
+(language-agnostic)</h3>
+<table style="width:100%;">
+<colgroup>
+<col style="width: 45%" />
+<col style="width: 39%" />
+<col style="width: 15%" />
+</colgroup>
+<thead>
+<tr>
+<th>SID component</th>
+<th>Travels EN?</th>
+<th>Why</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Frame / Framing Brief</td>
+<td>✓</td>
+<td>Cognitive skill, domain-independent</td>
+</tr>
+<tr>
+<td>Prompt stack / RTC-COE</td>
+<td>✓</td>
+<td>Already EN-native concepts</td>
+</tr>
+<tr>
+<td>Decomposition / IA</td>
+<td>✓</td>
+<td>Knowledge work universal</td>
+</tr>
+<tr>
+<td>Reasoning + validation</td>
+<td>✓</td>
+<td>Global AI trust problem</td>
+</tr>
+<tr>
+<td>Synthesize / Transfer → assistant</td>
+<td>✓</td>
+<td>Custom GPT / Claude Project / Gemini Gem multi-vendor</td>
+</tr>
+<tr>
+<td>Conversation design Advance</td>
+<td>✓</td>
+<td>Aligns CDI global discourse</td>
+</tr>
+<tr>
+<td>Trainer story (22y PM, IxDF APAC, multi-country brands)</td>
+<td>✓</td>
+<td><strong>Credibility for EN buyers</strong></td>
+</tr>
+</tbody>
+</table>
+<h3 id="e4.2.-what-must-change-for-foreign-buyers">E4.2. What must
+change for foreign buyers</h3>
+<table>
+<colgroup>
+<col style="width: 64%" />
+<col style="width: 35%" />
+</colgroup>
+<thead>
+<tr>
+<th>Blocker</th>
+<th>Fix</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Landing / curriculum only VI</td>
+<td>EN landing + handbook EN (or bilingual)</td>
+</tr>
+<tr>
+<td>Price only VND</td>
+<td>USD list: e.g. Basic <strong>$199–249</strong>, Pro
+<strong>$499–699</strong>, Advance <strong>$999–1,200</strong> (tune
+after tests; Pro maps ~15tr)</td>
+</tr>
+<tr>
+<td>Live only VN evening</td>
+<td>Record + office hours 2 windows (Asia + EU/US) or async cohort</td>
+</tr>
+<tr>
+<td>Payment VN bank</td>
+<td>Stripe / PayPal / Lemon Squeezy</td>
+</tr>
+<tr>
+<td>Social proof VN-only</td>
+<td>EN testimonials, project gallery EN, X/LinkedIn case posts</td>
+</tr>
+<tr>
+<td>“SID” unknown brand EN</td>
+<td>Lead with <strong>pain language</strong>, SID as method name
+secondary</td>
+</tr>
+<tr>
+<td>Cert expectation</td>
+<td>Optional: “portfolio certificate” not fake “international cert”</td>
+</tr>
+</tbody>
+</table>
+<h3 id="e4.3.-icp-quốc-tế-ưu-tiên-beachhead-ngoài-vn">E4.3. ICP quốc tế
+ưu tiên (beachhead ngoài VN)</h3>
+<table>
+<colgroup>
+<col style="width: 14%" />
+<col style="width: 19%" />
+<col style="width: 43%" />
+<col style="width: 21%" />
+</colgroup>
+<thead>
+<tr>
+<th>Rank</th>
+<th>ICP EN</th>
+<th>Why buy SID-like</th>
+<th>Channel</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>Solopreneurs / consultants (EN)</td>
+<td>Package expertise → assistant product</td>
+<td>X, LinkedIn</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Knowledge workers 3–6 mo AI use (ops, marketing, edu)</td>
+<td>Escape search-bar use</td>
+<td>Communities, Rundown-like audiences</td>
+</tr>
+<tr>
+<td>3</td>
+<td>SME owners wanting process-trained agents</td>
+<td>Not generic GPT</td>
+<td>Skool/agency Twitter</td>
+</tr>
+<tr>
+<td>4</td>
+<td>Educators / coaches</td>
+<td>Tutor bots, curriculum design</td>
+<td>EdTech X</td>
+</tr>
+<tr>
+<td>5</td>
+<td>Diaspora / bilingual VN-EN</td>
+<td>Bridge; early EN beta</td>
+<td>Existing network</td>
+</tr>
+</tbody>
+</table>
+<h3 id="e4.4.-competitive-note-global">E4.4. Competitive note
+(global)</h3>
+<ul>
+<li>Free: Ng courses, Anthropic, Google agent courses → <strong>pre-req
+funnel</strong>, not enemy.<br />
+</li>
+<li>CDI → partner/complement for Advance, not first competitor for Basic
+non-IT.<br />
+</li>
+<li>High-ticket “AI integrator” coaches → SID can be <strong>method
+depth</strong> they lack, or partner curriculum.<br />
+</li>
+<li>SID edge for foreign market: <strong>full cognitive loop + knowledge
+architecture pedagogy</strong> (hiếm hơn tool tours trên X).</li>
+</ul>
+<h3 id="e4.5.-go-no-go-checklist-international">E4.5. Go / No-go
+checklist (international)</h3>
+<table>
+<colgroup>
+<col style="width: 46%" />
+<col style="width: 53%" />
+</colgroup>
+<thead>
+<tr>
+<th>Check</th>
+<th>Status</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Global pain matches product promise</td>
+<td><strong>Go</strong> (X evidence)</td>
+</tr>
+<tr>
+<td>Non-IT path validated internationally</td>
+<td><strong>Go</strong> (Ng + no-code market)</td>
+</tr>
+<tr>
+<td>Price band exists for premium method courses</td>
+<td><strong>Go</strong> ($100–$700 course/mentor)</td>
+</tr>
+<tr>
+<td>EN assets ready</td>
+<td><strong>No-go until built</strong></td>
+</tr>
+<tr>
+<td>Payment + timezone ops ready</td>
+<td><strong>No-go until built</strong></td>
+</tr>
+<tr>
+<td>EN proof/testimonials</td>
+<td><strong>Partial</strong> (trainer global CV helps)</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Verdict:</strong> <strong>Demand-side: Go. Supply/ops-side:
+build EN pack first, then sell.</strong><br />
+Không phải “thị trường nước ngoài không có”; mà “chưa bật kênh EN”.</p>
+<hr />
+<h2 id="e5.-gtm-quốc-tế-30-ngày-asset">E5. GTM quốc tế 30 ngày
+(asset)</h2>
+<h3 id="week-1-message">Week 1 — Message</h3>
+<ul>
+<li>EN one-liner (từ X pain):<br />
+&gt; <em>Most people use ChatGPT like a search bar. SID teaches
+knowledge workers to architect knowledge and ship reusable AI assistants
+— no coding required.</em></li>
+<li>5 X threads EN từ case A1–B3 (educate, not hard sell).</li>
+</ul>
+<h3 id="week-2-proof">Week 2 — Proof</h3>
+<ul>
+<li>3 project demos with EN UI + case writeup (IELTS coach, ops SOP bot,
+personal KB assistant).<br />
+</li>
+<li>Trainer credibility page EN (Microsoft, Marriott, IxDF APAC…).</li>
+</ul>
+<h3 id="week-3-offer">Week 3 — Offer</h3>
+<ul>
+<li><strong>SID International Pilot</strong> (async + 4 live office
+hours): waitlist 20 seats.<br />
+</li>
+<li>Price test: $249 Basic-equivalent OR $599 Pro-equivalent.<br />
+</li>
+<li>Payment Stripe; materials EN v0.9 (even if some deep docs still VI +
+live clarify).</li>
+</ul>
+<h3 id="week-4-channel">Week 4 — Channel</h3>
+<ul>
+<li>X + LinkedIn + 1 Skool/Discord partner.<br />
+</li>
+<li>Dual CTA: VN cohort (existing) | EN pilot.<br />
+</li>
+<li>Collect 5 discovery calls (US/EU/SEA English).</li>
+</ul>
+<h3 id="metrics">Metrics</h3>
+<table>
+<thead>
+<tr>
+<th>Metric</th>
+<th>Target pilot</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>EN landing visitors</td>
+<td>1,000</td>
+</tr>
+<tr>
+<td>Waitlist</td>
+<td>50</td>
+</tr>
+<tr>
+<td>Paid pilot</td>
+<td>8–15</td>
+</tr>
+<tr>
+<td>NPS / project completion</td>
+<td>&gt;70% finish 1 assistant</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="e6.-objection-handling-international">E6. Objection handling
+(international)</h2>
+<table>
+<colgroup>
+<col style="width: 40%" />
+<col style="width: 59%" />
+</colgroup>
+<thead>
+<tr>
+<th>Objection</th>
+<th>Response (EN)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>“There are free Anthropic/Google courses”</td>
+<td>Free courses teach tools. SID is a <strong>thinking &amp; packaging
+system</strong> with mentor review of your real assistant.</td>
+</tr>
+<tr>
+<td>“$500+ is expensive”</td>
+<td>One reusable assistant that saves 3–5 hrs/week pays back in a month
+for knowledge workers.</td>
+</tr>
+<tr>
+<td>“Why a Vietnam-based program?”</td>
+<td>Method is universal; trainer has 22y shipping digital products
+across 30+ countries. Pilot pricing reflects that.</td>
+</tr>
+<tr>
+<td>“I need CDI / conversation design cert”</td>
+<td>SID Advance covers conversation systems for practitioners; CDI
+remains the industry cert if you need that badge.</td>
+</tr>
+<tr>
+<td>“Is it only in Vietnamese?”</td>
+<td>International pilot is English-first (state honestly once EN pack
+exists).</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="e7.-epistemic-summary-phần-e">E7. Epistemic summary — Phần
+E</h2>
+<table>
+<colgroup>
+<col style="width: 26%" />
+<col style="width: 26%" />
+<col style="width: 46%" />
+</colgroup>
+<thead>
+<tr>
+<th>Claim</th>
+<th>Layer</th>
+<th>Confidence</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>X discourse shows mass shallow AI use</td>
+<td>Fact</td>
+<td>Cao</td>
+</tr>
+<tr>
+<td>X discourse rewards systems/structure over tips</td>
+<td>Interpretation</td>
+<td>Cao</td>
+</tr>
+<tr>
+<td>Non-coder AI education is mainstream global</td>
+<td>Fact</td>
+<td>Cao</td>
+</tr>
+<tr>
+<td>SID method can be sold EN without changing core pedagogy</td>
+<td>Interpretation</td>
+<td>Cao</td>
+</tr>
+<tr>
+<td>SID will convert EN buyers at Pro price without EN assets</td>
+<td>Hypothesis</td>
+<td>Thấp — <strong>must build</strong></td>
+</tr>
+<tr>
+<td>Foreign WTP matches 5–15tr band</td>
+<td>Hypothesis</td>
+<td>TB (anchors support; untested for SID brand)</td>
+</tr>
+<tr>
+<td>Dual-market (VN + EN) is viable ops model</td>
+<td>Recommendation</td>
+<td>TB–Cao</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h1 id="phần-f-pha-b-customer-discovery-script-icp-scoring">PHẦN F — PHA
+B: CUSTOMER DISCOVERY SCRIPT + ICP SCORING</h1>
+<blockquote>
+<p><strong>Mục tiêu:</strong> Kiểm chứng pain/JTBD/WTP/format trước khi
+scale ads; chấm từng interviewee theo ICP score.<br />
+<strong>Số mẫu đề xuất:</strong> 15–20 VI + 5–10 EN (tối thiểu 12 VI
+trước khi đổi messaging lớn).<br />
+<strong>Thời lượng:</strong> 25–35 phút / cuộc (max 40’).<br />
+<strong>Nguyên tắc Mom Test:</strong> hỏi hành vi quá khứ &amp; hiện tại
+trước; <strong>không</strong> pitch SID giữa chừng; không hỏi “Bạn có
+mua khóa của tôi không?” kiểu dẫn dắt.<br />
+<strong>Output mỗi call:</strong> 1 scorecard (F4) + 3 quote thô + 1
+insight.</p>
+</blockquote>
+<hr />
+<h2 id="f0.-framing-discovery-cho-interviewer">F0. Framing discovery
+(cho interviewer)</h2>
+<table>
+<colgroup>
+<col style="width: 44%" />
+<col style="width: 55%" />
+</colgroup>
+<thead>
+<tr>
+<th>Trường</th>
+<th>Nội dung</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Topic</strong></td>
+<td>Cách knowledge worker non-IT dùng AI và khoảng trống “hệ thống / trợ
+lý”</td>
+</tr>
+<tr>
+<td><strong>Problem</strong></td>
+<td>Biết adoption cao nhưng chưa biết <em>ai trả tiền cho method nào, ở
+mức giá nào</em></td>
+</tr>
+<tr>
+<td><strong>Audience của script</strong></td>
+<td>Founder/trainer SID, sales, research volunteer</td>
+</tr>
+<tr>
+<td><strong>In-scope</strong></td>
+<td>Pain, workflow, substitutes đã thử, WTP proxy, time budget,
+language, channel</td>
+</tr>
+<tr>
+<td><strong>Out-of-scope</strong></td>
+<td>Demo curriculum dài, close sale trong call discovery (có thể mời
+waitlist <em>sau</em> khi ghi điểm)</td>
+</tr>
+<tr>
+<td><strong>Success</strong></td>
+<td>≥12 scorecard đủ điểm + pattern lặp ≥3 lần trên
+pain/language/price</td>
+</tr>
+</tbody>
+</table>
+<h3 id="giả-thuyết-cần-test-map-từ-research">Giả thuyết cần test (map từ
+research)</h3>
+<table>
+<thead>
+<tr>
+<th>ID</th>
+<th>Hypothesis</th>
+<th>Câu hỏi chính test</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>H1</td>
+<td>Đã qua peak tips; muốn systems + build assistant</td>
+<td>Q6–Q9, Q12</td>
+</tr>
+<tr>
+<td>H2</td>
+<td>Beachhead = KW non-IT đã dùng AI 3–6 tháng</td>
+<td>Q1–Q4, scoring A</td>
+</tr>
+<tr>
+<td>H3</td>
+<td>WTP 5–15tr nếu proof = portfolio + mentor</td>
+<td>Q13–Q14</td>
+</tr>
+<tr>
+<td>H4</td>
+<td>30–45’/ngày realistic</td>
+<td>Q11</td>
+</tr>
+<tr>
+<td>H5</td>
+<td>EN buyers cùng pain (nếu phỏng vấn EN)</td>
+<td>Full script EN notes</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="f1.-quy-trình-1-cuộc-gọi-sop">F1. Quy trình 1 cuộc gọi
+(SOP)</h2>
+<h3 id="trước-call-5">Trước call (5’)</h3>
+<ol type="1">
+<li>Ghi: nguồn lead (FB/X/LinkedIn/bạn bè), ngôn ngữ VI/EN, role ước
+lượng.<br />
+</li>
+<li>Mở sheet scorecard trống (F4).<br />
+</li>
+<li>Tắt “mode bán”.</li>
+</ol>
+<h3 id="opening-90-giây-copy-vi">Opening (90 giây) — copy VI</h3>
+<blockquote>
+<p>Cảm ơn bạn đã dành thời gian. Mình đang nghiên cứu cách người đi làm
+/ freelancer dùng AI trong công việc thật — <strong>không phải bán hàng
+trong cuộc này</strong>.<br />
+Sẽ hỏi khoảng 15 câu, ~30 phút. Không có đáp án đúng/sai. Nếu được, mình
+ghi chú (không ghi âm trừ khi bạn đồng ý).<br />
+Bạn sẵn sàng chứ?</p>
+</blockquote>
+<h3 id="opening-en">Opening EN</h3>
+<blockquote>
+<p>Thanks for your time. I’m researching how knowledge workers actually
+use AI day-to-day — <strong>this isn’t a sales call</strong>. About 15
+questions, ~30 minutes. No right answers. OK to take notes?</p>
+</blockquote>
+<h3 id="trong-call">Trong call</h3>
+<ul>
+<li>70% nghe; 30% probe (“Ví dụ lần gần nhất…?”, “Rồi bạn làm gì
+tiếp?”).<br />
+</li>
+<li>Nếu họ hỏi “khóa của bạn thế nào?” →: “Mình trả lời cuối 3 phút nếu
+còn giờ; giờ mình muốn nghe story của bạn trước.”</li>
+</ul>
+<h3 id="kết-thúc-2">Kết thúc (2’)</h3>
+<ol type="1">
+<li>Tóm 1 câu pain của họ (để confirm).<br />
+</li>
+<li>Hỏi: “Có ai khác mình nên nói chuyện không?” (snowball).<br />
+</li>
+<li><em>Tuỳ chọn:</em> “Nếu sau này có chương trình pilot method +
+project assistant, bạn có muốn mình báo không?” → waitlist,
+<strong>không</strong> hard close.<br />
+</li>
+<li>Chấm scorecard <strong>ngay trong 10’ sau call</strong> (tránh
+memory fade).</li>
+</ol>
+<hr />
+<h2 id="f2.-script-15-câu-hỏi">F2. Script 15 câu hỏi</h2>
+<p><strong>Cách dùng:</strong> Hỏi theo thứ tự; skip nhẹ nếu đã trả lời
+ở câu trước; probe (*) khi câu trả lời mơ hồ.</p>
+<h3 id="block-1-context-segment-q1q4">Block 1 — Context &amp; segment
+(Q1–Q4)</h3>
+<table>
+<colgroup>
+<col style="width: 6%" />
+<col style="width: 32%" />
+<col style="width: 20%" />
+<col style="width: 16%" />
+<col style="width: 23%" />
+</colgroup>
+<thead>
+<tr>
+<th>#</th>
+<th>Câu hỏi (VI)</th>
+<th>English</th>
+<th>Probe</th>
+<th>Ghi nhận</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Q1</strong></td>
+<td>Bạn đang làm công việc / vai trò gì chính? (title + mô tả 1 câu việc
+tạo ra giá trị)</td>
+<td>What’s your main role, and in one sentence what value do you
+produce?</td>
+<td>Freelance / full-time / chủ DN? Team size?</td>
+<td>Role, industry, B2C vs B2B worker</td>
+</tr>
+<tr>
+<td><strong>Q2</strong></td>
+<td>Trong tuần làm việc điển hình, bạn dành bao nhiêu % thời gian cho
+việc “làm việc với thông tin/tri thức” (viết, phân tích, soạn, dạy, tư
+vấn, báo cáo…)?</td>
+<td>Roughly what % of your week is knowledge work (writing, analysis,
+teaching, advising, reporting)?</td>
+<td>Công việc lặp lại vs one-off?</td>
+<td>Knowledge-work intensity</td>
+</tr>
+<tr>
+<td><strong>Q3</strong></td>
+<td>Bạn đã dùng ChatGPT / Gemini / Claude (hoặc tương đương) được bao
+lâu, và tần suất hiện tại?</td>
+<td>How long have you used ChatGPT/Gemini/Claude, and how often
+now?</td>
+<td>Free vs paid plan? Tool nào chính?</td>
+<td>Tenure; <strong>3–6 tháng+</strong> = fit landing</td>
+</tr>
+<tr>
+<td><strong>Q4</strong></td>
+<td>Bạn tự đánh giá mức “kỹ thuật” của mình thế nào: non-IT / biết chút
+code / dev-heavy?</td>
+<td>How technical are you: non-IT / light code / developer?</td>
+<td>Đã từng “sợ” setup tool không?</td>
+<td>Non-IT fit SID</td>
+</tr>
+</tbody>
+</table>
+<h3 id="block-2-behavior-pain-q5q9-core">Block 2 — Behavior &amp; pain
+(Q5–Q9) ← <strong>core</strong></h3>
+<table>
+<colgroup>
+<col style="width: 6%" />
+<col style="width: 32%" />
+<col style="width: 20%" />
+<col style="width: 16%" />
+<col style="width: 23%" />
+</colgroup>
+<thead>
+<tr>
+<th>#</th>
+<th>Câu hỏi (VI)</th>
+<th>English</th>
+<th>Probe</th>
+<th>Ghi nhận</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Q5</strong></td>
+<td>Lần <strong>gần nhất</strong> bạn dùng AI cho việc thật (không phải
+chơi), bạn cần làm xong việc gì? Kể timeline 3–5 bước.</td>
+<td>Walk me through the last real work task you used AI for — 3–5
+steps.</td>
+<td>Mất bao lâu? Kết quả dùng được ngay không?</td>
+<td>JTBD thật; depth of use</td>
+</tr>
+<tr>
+<td><strong>Q6</strong></td>
+<td>Khi kết quả AI <strong>không ưng</strong>, bạn thường làm gì? (viết
+lại prompt / bỏ / hỏi người / copy chỗ khác…)</td>
+<td>When AI output disappoints you, what do you do next?</td>
+<td>Có lưu prompt “ngon” không? Có tái dùng được tuần sau không?</td>
+<td>Reproducibility gap</td>
+</tr>
+<tr>
+<td><strong>Q7</strong></td>
+<td>Bạn có cảm giác mình đang <strong>bỏ lỡ giá trị</strong> của AI
+không? Nếu có, bỏ lỡ ở chỗ nào <em>cụ thể</em>?</td>
+<td>Do you feel you’re leaving AI value on the table? Where
+exactly?</td>
+<td>“Biết tool nhưng chưa hệ thống” có đúng không?</td>
+<td>Pain language (quote!)</td>
+</tr>
+<tr>
+<td><strong>Q8</strong></td>
+<td>Bạn đã từng muốn có một <strong>trợ lý AI riêng</strong> cho việc
+lặp lại (soạn bài, sales, báo cáo, coaching… ) chưa? Đã thử build chưa?
+Chặn ở đâu?</td>
+<td>Have you wanted a specialized AI assistant for recurring work? Tried
+building one? What blocked you?</td>
+<td>Custom GPT / Gem / Project / chatbot platform?</td>
+<td>Build intent + friction</td>
+</tr>
+<tr>
+<td><strong>Q9</strong></td>
+<td>Nếu so “biết nhiều mẹo prompt” vs “có 1 hệ cách làm + 1 trợ lý dùng
+lại được”, bên nào quan trọng hơn với bạn <em>hiện nay</em>? Vì
+sao?</td>
+<td>Tips/library vs a reusable system + assistant — which matters more
+now, and why?</td>
+<td>Đã mua prompt pack / khóa tip chưa?</td>
+<td>H1 systems vs tips</td>
+</tr>
+</tbody>
+</table>
+<h3 id="block-3-substitutes-budget-history-q10q12">Block 3 — Substitutes
+&amp; budget history (Q10–Q12)</h3>
+<table>
+<colgroup>
+<col style="width: 6%" />
+<col style="width: 32%" />
+<col style="width: 20%" />
+<col style="width: 16%" />
+<col style="width: 23%" />
+</colgroup>
+<thead>
+<tr>
+<th>#</th>
+<th>Câu hỏi (VI)</th>
+<th>English</th>
+<th>Probe</th>
+<th>Ghi nhận</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Q10</strong></td>
+<td>12 tháng qua bạn đã học AI bằng cách nào? (YouTube free,
+Unica/Udemy, workshop, công ty train, tự mò…) Cái nào <strong>giúp
+thật</strong> / cái nào phí thời gian?</td>
+<td>How did you learn AI in the last 12 months? What actually helped vs
+wasted time?</td>
+<td>Đã trả bao nhiêu cho khóa/tool?</td>
+<td>Substitute map; quality bar</td>
+</tr>
+<tr>
+<td><strong>Q11</strong></td>
+<td>Bạn <strong>thực tế</strong> dành được bao nhiêu phút/ngày hoặc
+giờ/tuần để học + thực hành skill mới (không phải lý tưởng)?</td>
+<td>Realistically, how many minutes/day or hours/week can you practice a
+new skill?</td>
+<td>Buổi sáng/tối? Weekend batch?</td>
+<td>Fit 30–45’ SID; drop risk</td>
+</tr>
+<tr>
+<td><strong>Q12</strong></td>
+<td>Bạn đã từng trả tiền cho thứ gì liên quan AI / năng suất / khóa học
+online trong 12–24 tháng? Khoảng bao nhiêu và vì sao <em>lúc đó</em>
+quyết định mua?</td>
+<td>What have you paid for (AI/productivity/courses) in 12–24 months?
+How much, and what triggered the buy?</td>
+<td>Ai approve budget (tự / sếp / công ty)?</td>
+<td>WTP history; buyer = user?</td>
+</tr>
+</tbody>
+</table>
+<h3 id="block-4-value-price-proxy-channel-q13q15">Block 4 — Value, price
+proxy, channel (Q13–Q15)</h3>
+<table>
+<colgroup>
+<col style="width: 6%" />
+<col style="width: 32%" />
+<col style="width: 20%" />
+<col style="width: 16%" />
+<col style="width: 23%" />
+</colgroup>
+<thead>
+<tr>
+<th>#</th>
+<th>Câu hỏi (VI)</th>
+<th>English</th>
+<th>Probe</th>
+<th>Ghi nhận</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Q13</strong></td>
+<td>Giả sử có chương trình <strong>có mentor</strong>, 8–12 tuần, kết
+thúc bạn có: (1) khung làm việc với AI ổn định, (2) <strong>1–2 trợ lý
+AI</strong> cho việc thật của bạn. Điều đó đáng giá với công việc hiện
+tại ở mức nào — <em>không cần nói số tiền trước</em>?</td>
+<td>If a mentored 8–12 week program left you with a stable AI working
+system + 1–2 real assistants, how valuable would that be for your work
+(qualitative first)?</td>
+<td>Đo bằng giờ tiết kiệm / tiền / cơ hội / giảm stress?</td>
+<td>Value metric</td>
+</tr>
+<tr>
+<td><strong>Q14</strong></td>
+<td><strong>Chỉ khi</strong> họ đã mô tả value: “Người ta hay thấy các
+mức: ~1–3tr (self-serve), ~5tr (có mentor nhẹ), ~15tr (mentor + project
+sâu), hoặc free content. Với <strong>hoàn cảnh của bạn</strong>, mức nào
+<em>hợp lý nếu cam kết hoàn thành</em>? Mức nào <em>loại
+ngay</em>?”</td>
+<td>Price bands people see: ~$40–120 self-serve, ~$200 mentor-lite,
+~$500–700 deep mentor+projects, or free. Which is realistic if you’d
+finish? Which is a hard no?</td>
+<td>“Đắt nhưng cân nhắc” vs “không bao giờ”? Trả 1 lần hay theo
+tháng?</td>
+<td>WTP band; <strong>không</strong> anchor SID brand</td>
+</tr>
+<tr>
+<td><strong>Q15</strong></td>
+<td>Nếu sau này bạn tìm chương trình kiểu đó, bạn sẽ <strong>phát
+hiện</strong> từ đâu, và <strong>tin</strong> điều gì để dám đăng ký?
+(case study, demo bot, người giới thiệu, cert, live trial…)</td>
+<td>Where would you discover such a program, and what would make you
+trust it enough to enroll?</td>
+<td>Ngôn ngữ học VI hay EN? Live vs async?</td>
+<td>Channel + trust asset + format</td>
+</tr>
+</tbody>
+</table>
+<h3 id="câu-dự-phòng-nếu-còn-giờ-không-tính-vào-15">Câu dự phòng (nếu
+còn giờ — không tính vào 15)</h3>
+<table>
+<colgroup>
+<col style="width: 16%" />
+<col style="width: 27%" />
+<col style="width: 55%" />
+</colgroup>
+<thead>
+<tr>
+<th>#</th>
+<th>Câu</th>
+<th>Dùng khi</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Q16</td>
+<td>Ai trong team/công ty cũng loay hoay AI giống bạn? Họ trả tiền kiểu
+gì?</td>
+<td>Signal B2B</td>
+</tr>
+<tr>
+<td>Q17</td>
+<td>Bạn có đang kiếm thêm thu nhập từ chuyên môn không? Muốn “đóng gói”
+thành sản phẩm/AI không?</td>
+<td>Freelancer / transfer commercial</td>
+</tr>
+<tr>
+<td>Q18</td>
+<td>Điều gì khiến bạn <strong>bỏ dở</strong> khóa học online trước
+đây?</td>
+<td>Churn design</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="f3.-icp-scoring-model">F3. ICP Scoring model</h2>
+<h3 id="f3.1.-nguyên-tắc">F3.1. Nguyên tắc</h3>
+<ul>
+<li>Chấm <strong>sau call</strong>, dựa hành vi + câu trả lời, không dựa
+“cảm giác dễ chịu”.<br />
+</li>
+<li>Thang <strong>0–2</strong> mỗi tiêu chí (0 = anti-fit, 1 = partial,
+2 = strong fit).<br />
+</li>
+<li><strong>Tổng max = 24</strong> (12 tiêu chí).<br />
+</li>
+<li>Ghi <strong>quote</strong> cho tiêu chí Pain (B) và WTP (I) — bắt
+buộc.</li>
+</ul>
+<h3 id="f3.2.-bảng-tiêu-chí-12-criteria-02">F3.2. Bảng tiêu chí (12
+criteria × 0–2)</h3>
+<table>
+<colgroup>
+<col style="width: 11%" />
+<col style="width: 29%" />
+<col style="width: 8%" />
+<col style="width: 8%" />
+<col style="width: 8%" />
+<col style="width: 32%" />
+</colgroup>
+<thead>
+<tr>
+<th>ID</th>
+<th>Tiêu chí</th>
+<th>0</th>
+<th>1</th>
+<th>2</th>
+<th>Nguồn câu</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>A</strong></td>
+<td>Knowledge worker intensity</td>
+<td>&lt;30% tuần là tri thức</td>
+<td>30–60%</td>
+<td><strong>&gt;60%</strong> viết/phân tích/dạy/tư vấn/báo cáo</td>
+<td>Q1–Q2</td>
+</tr>
+<tr>
+<td><strong>B</strong></td>
+<td>AI tenure &amp; habit</td>
+<td>Chưa dùng / dùng chơi</td>
+<td>Dùng &lt;3 tháng hoặc rất thưa</td>
+<td><strong>≥3–6 tháng</strong>, ≥vài lần/tuần</td>
+<td>Q3</td>
+</tr>
+<tr>
+<td><strong>C</strong></td>
+<td>Non-IT fit</td>
+<td>Dev-heavy, muốn ML/eng</td>
+<td>Hybrid light-code</td>
+<td><strong>Non-IT</strong> hoặc no-code only</td>
+<td>Q4</td>
+</tr>
+<tr>
+<td><strong>D</strong></td>
+<td>Real task usage</td>
+<td>Chỉ demo/vui</td>
+<td>Thỉnh thoảng việc thật</td>
+<td><strong>Có task thật</strong> kể được 3–5 bước</td>
+<td>Q5</td>
+</tr>
+<tr>
+<td><strong>E</strong></td>
+<td>Feels value left on table</td>
+<td>Hài lòng hoàn toàn / phủ nhận</td>
+<td>Mơ hồ “có lẽ”</td>
+<td><strong>Nói rõ gap</strong> (tái lập, sâu, hệ thống…)</td>
+<td>Q7</td>
+</tr>
+<tr>
+<td><strong>F</strong></td>
+<td>Wants reusable assistant / system</td>
+<td>Chỉ muốn mẹo nhanh</td>
+<td>Tò mò assistant</td>
+<td><strong>Đã muốn/build</strong> hoặc ưu tiên system &gt; tips</td>
+<td>Q8–Q9</td>
+</tr>
+<tr>
+<td><strong>G</strong></td>
+<td>Failed or shallow substitutes</td>
+<td>Chưa thử gì</td>
+<td>Free only, OK với free</td>
+<td><strong>Đã thử</strong> free/khóa và thấy thiếu
+depth/mentor/project</td>
+<td>Q10</td>
+</tr>
+<tr>
+<td><strong>H</strong></td>
+<td>Time budget realistic</td>
+<td>&lt;1h/tuần hoặc “không có giờ”</td>
+<td>1–2h/tuần không ổn định</td>
+<td><strong>≥30’/ngày hoặc ≥3–4h/tuần</strong> cam kết được</td>
+<td>Q11</td>
+</tr>
+<tr>
+<td><strong>I</strong></td>
+<td>Paid learning history / WTP signal</td>
+<td>Không bao giờ trả skill online</td>
+<td>Đã trả thấp (&lt;1–2tr / &lt;$50)</td>
+<td><strong>Đã trả</strong> mid+ <strong>hoặc</strong> chấp nhận band
+≥5tr / ≥$200 <em>nếu</em> cam kết xong</td>
+<td>Q12–Q14</td>
+</tr>
+<tr>
+<td><strong>J</strong></td>
+<td>Buyer = user (or can buy)</td>
+<td>Cần procurement dài, không quyền</td>
+<td>Có thể xin sếp</td>
+<td><strong>Tự trả</strong> hoặc approve nhanh</td>
+<td>Q12, Q1</td>
+</tr>
+<tr>
+<td><strong>K</strong></td>
+<td>Outcome orientation</td>
+<td>Muốn “biết AI”, cert, hype</td>
+<td>Muốn skill chung</td>
+<td>Muốn <strong>artifact</strong>: assistant / workflow / gói tri
+thức</td>
+<td>Q8, Q13</td>
+</tr>
+<tr>
+<td><strong>L</strong></td>
+<td>Reachable &amp; coachable</td>
+<td>Khó follow, defensive, spam mindset</td>
+<td>Trung bình</td>
+<td><strong>Articulate</strong>, open, có thể referral</td>
+<td>Q throughout + Q15</td>
+</tr>
+</tbody>
+</table>
+<h3 id="f3.3.-trọng-số-optional-advanced">F3.3. Trọng số (optional
+advanced)</h3>
+<p>Nếu cần 1 điểm “commercial priority”, dùng weighted:</p>
+<table>
+<colgroup>
+<col style="width: 25%" />
+<col style="width: 41%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr>
+<th>Nhóm</th>
+<th>Criteria</th>
+<th>Weight</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Must-fit beachhead</td>
+<td>B, C, E, F</td>
+<td>×1.5 mỗi cái rồi normalize <em>hoặc</em> dùng gate F3.4</td>
+</tr>
+<tr>
+<td>Commercial</td>
+<td>I, J, K</td>
+<td>×1.25</td>
+</tr>
+<tr>
+<td>Delivery risk</td>
+<td>H, L</td>
+<td>×1.0</td>
+</tr>
+<tr>
+<td>Context</td>
+<td>A, D, G</td>
+<td>×1.0</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Khuyến nghị v1:</strong> dùng <strong>điểm thô /24 +
+gate</strong> cho đơn giản; weighted từ cohort #10 trở đi.</p>
+<h3 id="f3.4.-gate-loại-sớm-hard-filters">F3.4. Gate (loại sớm — hard
+filters)</h3>
+<p><strong>Loại (Disqualify)</strong> nếu <strong>bất kỳ</strong> điều
+sau đúng:</p>
+<ol type="1">
+<li>Không dùng AI và <strong>không</strong> có ý định dùng trong 3
+tháng.<br />
+</li>
+<li>Chỉ tìm free tip; tuyên bố không bao giờ trả cho học skill.<br />
+</li>
+<li>Muốn trở thành AI/ML engineer (sai sản phẩm) <em>và</em> từ chối
+non-code path.<br />
+</li>
+<li>Không có 1h/tuần cho thực hành <em>và</em> không đổi được.<br />
+</li>
+<li>Kỳ vọng “1 buổi xong giàu / 10x overnight” + từ chối project.</li>
+</ol>
+<p><strong>Fast-track (ưu tiên nurture/sales)</strong> nếu:</p>
+<ul>
+<li>Tổng ≥ <strong>18/24</strong>, <strong>và</strong><br />
+</li>
+<li>E ≥ 1, F ≥ 1, I ≥ 1, H ≥ 1.</li>
+</ul>
+<h3 id="f3.5.-band-phân-loại-icp">F3.5. Band phân loại ICP</h3>
+<table>
+<colgroup>
+<col style="width: 29%" />
+<col style="width: 16%" />
+<col style="width: 24%" />
+<col style="width: 29%" />
+</colgroup>
+<thead>
+<tr>
+<th>Tổng điểm</th>
+<th>Band</th>
+<th>Ý nghĩa</th>
+<th>Hành động</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>20–24</strong></td>
+<td><strong>ICP-A</strong> Primary</td>
+<td>Beachhead buyer</td>
+<td>Ưu tiên cohort, personal follow-up, case study invite</td>
+</tr>
+<tr>
+<td><strong>15–19</strong></td>
+<td><strong>ICP-B</strong> Secondary</td>
+<td>Fit có điều kiện</td>
+<td>Nurture content; có thể Basic; watch time/WTP</td>
+</tr>
+<tr>
+<td><strong>10–14</strong></td>
+<td><strong>ICP-C</strong> Adjacent</td>
+<td>Đúng hướng, sớm hoặc lệch 1–2 trục</td>
+<td>Lead magnet Framing; không hard sell Pro</td>
+</tr>
+<tr>
+<td><strong>0–9</strong></td>
+<td><strong>ICP-D</strong> Poor fit</td>
+<td>Sai segment hoặc chưa sẵn</td>
+<td>Ghi pattern anti-ICP; đừng tốn ads</td>
+</tr>
+<tr>
+<td>Gate fail</td>
+<td><strong>DQ</strong></td>
+<td>Hard filter</td>
+<td>Kết thúc lịch sự; không vào funnel paid</td>
+</tr>
+</tbody>
+</table>
+<h3 id="f3.6.-sub-score-tags-gắn-nhãn-không-cộng-điểm">F3.6. Sub-score
+tags (gắn nhãn, không cộng điểm)</h3>
+<p>Gắn 1–3 tag sau call:</p>
+<table>
+<thead>
+<tr>
+<th>Tag</th>
+<th>Khi nào</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>freelancer</code></td>
+<td>Tự sell chuyên môn</td>
+</tr>
+<tr>
+<td><code>corp-employee</code></td>
+<td>Full-time, có thể xin budget L&amp;D</td>
+</tr>
+<tr>
+<td><code>educator</code></td>
+<td>GV / trainer / coach</td>
+</tr>
+<tr>
+<td><code>founder-sme</code></td>
+<td>Chủ DN nhỏ / team lead</td>
+</tr>
+<tr>
+<td><code>en-international</code></td>
+<td>Phỏng vấn EN / sống nước ngoài</td>
+</tr>
+<tr>
+<td><code>40plus</code></td>
+<td>40+ (test claim underserved)</td>
+</tr>
+<tr>
+<td><code>already-paid-ai-course</code></td>
+<td>Đã trả khóa AI</td>
+</tr>
+<tr>
+<td><code>wants-monetize-assistant</code></td>
+<td>Muốn bán/gói assistant</td>
+</tr>
+<tr>
+<td><code>b2b-buyer</code></td>
+<td>Mua cho team</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="f4.-scorecard-1-trang-copy-mỗi-interviewee">F4. Scorecard 1
+trang (copy mỗi interviewee)</h2>
+<pre class="text"><code>═══════════════════════════════════════════════
+SID DISCOVERY SCORECARD
+═══════════════════════════════════════════════
+Date: ________  Lang: VI / EN  Source: ________
+Name/Code: ________  Role: ________  Industry: ________
+Interviewer: ________  Duration: ____ min
+
+--- PROFILE ---
+AI tools + tenure: ________
+Tech level: non-IT / light / dev
+Knowledge-work %: ________
+
+--- SCORES (0–2) ---
+A Knowledge intensity     __
+B AI tenure/habit         __
+C Non-IT fit              __
+D Real task usage         __
+E Value left on table     __
+F System/assistant desire __
+G Substitute experience   __
+H Time budget             __
+I WTP / paid history      __
+J Buyer power             __
+K Outcome orientation     __
+L Coachable/reachable     __
+TOTAL /24: ____   Band: A / B / C / D / DQ
+
+Gates fail? Y/N  Which: ________
+Tags: ________
+
+--- PRICE SIGNAL (Q14) ---
+Hard no above: ________
+Comfort band: ________
+Would need to enroll: ________
+
+--- QUOTES (bắt buộc ≥2) ---
+Pain: &quot;________________________________&quot;
+Desire: &quot;______________________________&quot;
+Other: &quot;_______________________________&quot;
+
+--- BEHAVIORAL NOTES ---
+Last real AI task: ________
+What they tried (subs): ________
+Build assistant? Y/N  Blocker: ________
+
+--- INSIGHT (1 câu) ---
+_______________________________________
+
+--- NEXT ---
+[ ] Waitlist  [ ] Send free Framing mini  [ ] No follow
+Referral names: ________
+═══════════════════════════════════════════════</code></pre>
+<hr />
+<h2 id="f5.-tổng-hợp-sau-12-interviews-meta-sheet">F5. Tổng hợp sau 12+
+interviews (meta-sheet)</h2>
+<table>
+<thead>
+<tr>
+<th>Cột</th>
+<th>Mục đích</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ID</td>
+<td>P01…</td>
+</tr>
+<tr>
+<td>Band A–D %</td>
+<td>Tỷ lệ beachhead</td>
+</tr>
+<tr>
+<td>Top 5 pain phrases</td>
+<td>Copy landing</td>
+</tr>
+<tr>
+<td>Median comfort price</td>
+<td>Pricing test</td>
+</tr>
+<tr>
+<td>% muốn assistant</td>
+<td>Validate H2/H1</td>
+</tr>
+<tr>
+<td>% time ≥30’/day</td>
+<td>Delivery design</td>
+</tr>
+<tr>
+<td>Top channels (Q15)</td>
+<td>GTM</td>
+</tr>
+<tr>
+<td>Top trust proofs</td>
+<td>Asset build order</td>
+</tr>
+<tr>
+<td>DQ reasons</td>
+<td>Anti-ICP ads exclusion</td>
+</tr>
+</tbody>
+</table>
+<h3 id="decision-rules-sau-12-call-đủ-chất-lượng">Decision rules (sau
+≥12 call đủ chất lượng)</h3>
+<table>
+<colgroup>
+<col style="width: 64%" />
+<col style="width: 35%" />
+</colgroup>
+<thead>
+<tr>
+<th>Nếu thấy…</th>
+<th>Thì…</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>≥40% band A–B + pain E/F lặp</td>
+<td>Giữ định vị systems+assistant; scale soft</td>
+</tr>
+<tr>
+<td>WTP median &lt;3tr và chối 5tr</td>
+<td>Thêm low-ticket workshop; giữ Pro cho A only</td>
+</tr>
+<tr>
+<td>WTP median ≥5tr với mentor proof</td>
+<td>Giữ ladder; đầu tư gallery</td>
+</tr>
+<tr>
+<td>Time budget yếu</td>
+<td>Rút micro-project; giảm buổi / tăng async</td>
+</tr>
+<tr>
+<td>EN sample cùng pain</td>
+<td>Bật pilot EN (Phần E)</td>
+</tr>
+<tr>
+<td>Pain ≠ architecture (chỉ tool FOMO)</td>
+<td>Messaging TOF khác; đừng overclaim SID depth</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="f6.-mẫu-tin-nhắn-mời-phỏng-vấn">F6. Mẫu tin nhắn mời phỏng
+vấn</h2>
+<h3 id="vi-chatemail">VI (chat/email)</h3>
+<blockquote>
+<p>Chào [Tên], mình đang nghiên cứu cách người đi làm dùng AI trong việc
+thật (không phải buổi bán hàng).<br />
+Bạn có ~25–30 phút tuần này gọi nhanh được không? Mình hỏi về trải
+nghiệm của bạn — không cần chuẩn bị.<br />
+Cảm ơn trước!</p>
+</blockquote>
+<h3 id="en">EN</h3>
+<blockquote>
+<p>Hi [Name] — I’m researching how knowledge workers actually use AI at
+work (not a sales call).<br />
+Would you have 25–30 minutes this week for a short chat about your
+experience? No prep needed. Thanks!</p>
+</blockquote>
+<h3 id="tiêu-chí-chọn-người-mời-recruit">Tiêu chí chọn người mời
+(recruit)</h3>
+<table>
+<colgroup>
+<col style="width: 59%" />
+<col style="width: 40%" />
+</colgroup>
+<thead>
+<tr>
+<th>Ưu tiên mời</th>
+<th>Hạn chế</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Đã dùng ChatGPT/Gemini ≥3 tháng</td>
+<td>Chưa từng mở AI</td>
+</tr>
+<tr>
+<td>Role tri thức (content, ops, sales, edu, consulting, PM
+non-dev)</td>
+<td>Chỉ tuyển dev ML</td>
+</tr>
+<tr>
+<td>Mix: freelancer + employee + 2–3 educator</td>
+<td>100% bạn bè “nể” (max 20% sample)</td>
+</tr>
+<tr>
+<td>3–5 người từng trả tiền khóa online</td>
+<td>Chỉ free-only forever</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="f7.-rubric-chất-lượng-cuộc-gọi-interviewer-qa">F7. Rubric chất
+lượng cuộc gọi (interviewer QA)</h2>
+<table>
+<colgroup>
+<col style="width: 52%" />
+<col style="width: 15%" />
+<col style="width: 15%" />
+<col style="width: 15%" />
+</colgroup>
+<thead>
+<tr>
+<th>Tiêu chí</th>
+<th>1</th>
+<th>3</th>
+<th>5</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Mom Test</td>
+<td>Pitch sớm, hỏi ý kiến sản phẩm</td>
+<td>Hỗn hợp</td>
+<td>Hành vi quá khứ trước, không pitch</td>
+</tr>
+<tr>
+<td>Depth</td>
+<td>Trả lời có/không</td>
+<td>Có ví dụ</td>
+<td>Có story task + emotion + next step</td>
+</tr>
+<tr>
+<td>Scorecard</td>
+<td>Thiếu điểm/quote</td>
+<td>Đủ điểm</td>
+<td>Đủ điểm + quote + insight + tags</td>
+</tr>
+<tr>
+<td>Bias</td>
+<td>Gợi ý đáp án SID</td>
+<td>Đôi lúc</td>
+<td>Trung lập, probe ngược</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Call chỉ tính vào sample quyết định khi QA ≥ 3/5 trung
+bình.</strong></p>
+<hr />
+<h2 id="f8.-mapping-15-câu-research-hypotheses">F8. Mapping 15 câu →
+research hypotheses</h2>
+<table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 30%" />
+<col style="width: 36%" />
+</colgroup>
+<thead>
+<tr>
+<th>Hypothesis</th>
+<th>Câu chính</th>
+<th>Pass signal</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>H1 systems &gt; tips</td>
+<td>Q9, Q10</td>
+<td>Chọn system/assistant; chê tip courses</td>
+</tr>
+<tr>
+<td>H2 beachhead KW non-IT 3–6m AI</td>
+<td>Q1–Q4, scores A–C</td>
+<td>Band A/B, C=2, B=2</td>
+</tr>
+<tr>
+<td>H3 WTP 5–15tr</td>
+<td>Q12–Q14</td>
+<td>Comfort ≥5tr / ≥$200 với mentor+project</td>
+</tr>
+<tr>
+<td>H4 30–45’/day</td>
+<td>Q11</td>
+<td>H=2</td>
+</tr>
+<tr>
+<td>H5 EN same pain</td>
+<td>EN calls Q5–Q9</td>
+<td>Quotes song song VI pain</td>
+</tr>
+<tr>
+<td>Substitute Unica/free</td>
+<td>Q10</td>
+<td>“Free không đủ sâu / không xong project”</td>
+</tr>
+<tr>
+<td>Trust = portfolio</td>
+<td>Q15</td>
+<td>Xin demo bot / case &gt; cert</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="f9.-artifact-checklist-pha-b">F9. Artifact checklist Pha B</h2>
+<table>
+<thead>
+<tr>
+<th>Artifact</th>
+<th>Done?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Script 15 câu VI+EN</td>
+<td>✅ (F2)</td>
+</tr>
+<tr>
+<td>ICP scoring 12 criteria + bands</td>
+<td>✅ (F3)</td>
+</tr>
+<tr>
+<td>Scorecard template</td>
+<td>✅ (F4)</td>
+</tr>
+<tr>
+<td>Invite copy</td>
+<td>✅ (F6)</td>
+</tr>
+<tr>
+<td>12+ filled scorecards</td>
+<td>⬜ interviews</td>
+</tr>
+<tr>
+<td>Meta synthesis 1-pager</td>
+<td>⬜ after N≥12</td>
+</tr>
+<tr>
+<td>Update landing copy từ top quotes</td>
+<td>⬜</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h1 id="phần-g-pha-d-keyword-intent-vi-pricing-experiment">PHẦN G — PHA
+D: KEYWORD INTENT VI + PRICING EXPERIMENT</h1>
+<blockquote>
+<p><strong>Mục tiêu:</strong> (1) Bản đồ intent tìm kiếm tiếng Việt →
+content/landing/SEM; (2) Thiết kế <strong>pricing experiment</strong> có
+thể chạy 2–4 tuần, đo WTP thật.<br />
+<strong>Nguồn keyword:</strong> Google Autocomplete
+<code>hl=vi&amp;gl=vn</code> (2026-07-15) + competitive language từ Phần
+B + pain language từ landing/X.<br />
+<strong>Giới hạn volume:</strong> Không có Keyword Planner API trong
+session → volume là <strong>band ước lượng (L/M/H)</strong> + hướng ưu
+tiên; <strong>bắt buộc</strong> paste list G3 vào Google Keyword Planner
+/ Semrush VN để chốt số trước khi scale ads.<br />
+<strong>Confidence keyword structure:</strong> Cao · <strong>Confidence
+volume tuyệt đối:</strong> Thấp–TB.</p>
+</blockquote>
+<hr />
+<h2 id="g1.-intent-model-4-tầng">G1. Intent model (4 tầng)</h2>
+<pre><code>TOF (Aware)     →  &quot;AI / ChatGPT là gì, cách dùng, free&quot;
+MOF (Consider)  →  &quot;học / khóa học / prompt / làm chủ&quot;
+BOF (Decide)    →  &quot;tạo GPT / chatbot riêng / trợ lý / mentor / giá&quot;
+RET (Retain)    →  &quot;nâng cao / agent / automation / team&quot;</code></pre>
+<table style="width:100%;">
+<colgroup>
+<col style="width: 13%" />
+<col style="width: 28%" />
+<col style="width: 36%" />
+<col style="width: 21%" />
+</colgroup>
+<thead>
+<tr>
+<th>Tầng</th>
+<th>Intent type</th>
+<th>Buyer readiness</th>
+<th>SID role</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>TOF</strong></td>
+<td>Informational</td>
+<td>Thấp</td>
+<td>Content SEO / YouTube; <strong>không</strong> hard-sell 15tr</td>
+</tr>
+<tr>
+<td><strong>MOF</strong></td>
+<td>Commercial investigation</td>
+<td>Trung bình</td>
+<td>Lead magnet + Basic story</td>
+</tr>
+<tr>
+<td><strong>BOF</strong></td>
+<td>Transactional / problem-solution</td>
+<td>Cao</td>
+<td>Landing Basic/Pro; proof gallery</td>
+</tr>
+<tr>
+<td><strong>RET</strong></td>
+<td>Advanced / B2B</td>
+<td>Cao (nhỏ)</td>
+<td>Pro→Advance, corporate</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Insight chiến lược:</strong><br />
+Volume lớn nằm <strong>TOF–MOF “ChatGPT / khóa học AI /
+prompt”</strong>.<br />
+Intent <strong>khớp SID nhất</strong> (“tạo GPT riêng”, “trợ lý AI cá
+nhân”, “xây chatbot cho riêng mình”) <strong>mỏng hơn nhưng gần
+conversion</strong>.<br />
+→ Funnel: <strong>hút bằng TOF ChatGPT → reframe systems → BOF
+assistant.</strong></p>
+<hr />
+<h2 id="g2.-keyword-clusters-vi">G2. Keyword clusters (VI)</h2>
+<h3 id="cluster-k1-chatgpt-cách-dùng-tof-volume-cao">Cluster K1 —
+ChatGPT / cách dùng (TOF, volume cao)</h3>
+<table>
+<colgroup>
+<col style="width: 19%" />
+<col style="width: 44%" />
+<col style="width: 9%" />
+<col style="width: 10%" />
+<col style="width: 15%" />
+</colgroup>
+<thead>
+<tr>
+<th>Keyword / seed</th>
+<th>Suggests quan sát (Autocomplete VN)</th>
+<th>Intent</th>
+<th>Fit SID</th>
+<th>Ưu tiên SEO</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>học ChatGPT</td>
+<td>học chatgpt online, ở đâu, cơ bản, miễn phí, cho người mới</td>
+<td>Info + course</td>
+<td>TOF only</td>
+<td><strong>P0 content</strong></td>
+</tr>
+<tr>
+<td>cách dùng ChatGPT</td>
+<td>free, excel, slide, điện thoại, đúng cách, tạo hình</td>
+<td>How-to</td>
+<td>TOF</td>
+<td>P0 content</td>
+</tr>
+<tr>
+<td>làm chủ ChatGPT</td>
+<td>từ cơ bản đến nâng cao, cách làm chủ, sách…</td>
+<td>Course-ish</td>
+<td>MOF bridge</td>
+<td>P1</td>
+</tr>
+<tr>
+<td>khóa học ChatGPT</td>
+<td>miễn phí, online, AI đỉnh cao, ứng dụng…</td>
+<td>Commercial</td>
+<td>MOF (cạnh Unica)</td>
+<td>P1 SEM test cẩn trọng</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Content angle SID (không bán tip list):</strong><br />
+“Cách dùng ChatGPT đúng — từ hỏi–đáp sang hệ thống” · “Làm chủ ChatGPT ≠
+thuộc prompt”.</p>
+<hr />
+<h3 id="cluster-k2-prompt-mof-cạnh-tranh-tips">Cluster K2 — Prompt (MOF,
+cạnh tranh tips)</h3>
+<table>
+<colgroup>
+<col style="width: 30%" />
+<col style="width: 19%" />
+<col style="width: 15%" />
+<col style="width: 17%" />
+<col style="width: 17%" />
+</colgroup>
+<thead>
+<tr>
+<th>Keyword / seed</th>
+<th>Suggests</th>
+<th>Intent</th>
+<th>Fit SID</th>
+<th>Ưu tiên</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>prompt / prompt AI</td>
+<td>prompt là gì, prompt chatgpt, prompt tiếng việt</td>
+<td>Info</td>
+<td>TOF–MOF</td>
+<td>P0 edu</td>
+</tr>
+<tr>
+<td>prompt engineering</td>
+<td>prompt engineering là gì, kỹ thuật…</td>
+<td>Info</td>
+<td>MOF</td>
+<td>P1 (EN loanword)</td>
+</tr>
+<tr>
+<td>học prompt / học prompt AI</td>
+<td>học prompt engineering</td>
+<td>Course</td>
+<td>MOF</td>
+<td>P1</td>
+</tr>
+<tr>
+<td>viết prompt</td>
+<td>viết prompt hiệu quả, cho gemini/chatgpt, tạo video</td>
+<td>How-to</td>
+<td>TOF–MOF</td>
+<td>P0 short content</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Angle SID:</strong> “Viết prompt hay vẫn fail vì framing sai”
+· series Framing Brief.</p>
+<hr />
+<h3 id="cluster-k3-khóa-học-ai-mof-mixed-icp">Cluster K3 — Khóa học AI
+(MOF, mixed ICP)</h3>
+<table>
+<colgroup>
+<col style="width: 30%" />
+<col style="width: 19%" />
+<col style="width: 15%" />
+<col style="width: 17%" />
+<col style="width: 17%" />
+</colgroup>
+<thead>
+<tr>
+<th>Keyword / seed</th>
+<th>Suggests</th>
+<th>Intent</th>
+<th>Fit SID</th>
+<th>Ưu tiên</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>khóa học AI</td>
+<td>AI engineer, agent, thực chiến, automation, FPT, marketing, cho trẻ
+em, testing…</td>
+<td>Commercial mixed</td>
+<td><strong>Filter hard</strong> — nhiều track tech/kids</td>
+<td>P1 selective</td>
+</tr>
+<tr>
+<td>AI cho người mới</td>
+<td>học AI cho người mới, khóa học AI cho người mới, agent cho người
+mới</td>
+<td>Beginner</td>
+<td>Good if non-IT</td>
+<td>P0</td>
+</tr>
+<tr>
+<td>AI marketing</td>
+<td>tools, course, automation, specialist</td>
+<td>Vertical</td>
+<td>Secondary vertical</td>
+<td>P2</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Cảnh báo:</strong> “khóa học AI engineer / testing / kiến
+trúc” = <strong>ICP-D</strong> cho SID Basic → đừng bid mù.</p>
+<hr />
+<h3 id="cluster-k4-build-assistant-chatbot-gpt-bof-high-fit">Cluster K4
+— Build assistant / chatbot / GPT (BOF, high fit)</h3>
+<table>
+<colgroup>
+<col style="width: 30%" />
+<col style="width: 19%" />
+<col style="width: 15%" />
+<col style="width: 17%" />
+<col style="width: 17%" />
+</colgroup>
+<thead>
+<tr>
+<th>Keyword / seed</th>
+<th>Suggests</th>
+<th>Intent</th>
+<th>Fit SID</th>
+<th>Ưu tiên</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>tạo GPT</td>
+<td>tạo gpt riêng, gpts, miễn phí, tùy chỉnh</td>
+<td>Build</td>
+<td><strong>P0 BOF</strong></td>
+<td><strong>P0</strong></td>
+</tr>
+<tr>
+<td>custom GPT</td>
+<td>custom gpt là gì, free, builder, vs projects</td>
+<td>Build/Info</td>
+<td><strong>P0</strong></td>
+<td>P0</td>
+</tr>
+<tr>
+<td>tạo chatbot</td>
+<td>trên chatgpt, zalo, coze, messenger, <strong>cho riêng
+mình</strong></td>
+<td>Build</td>
+<td><strong>P0</strong></td>
+<td>P0</td>
+</tr>
+<tr>
+<td>xây dựng trợ lý AI</td>
+<td>trợ lý AI cá nhân, AI agent, trợ lý ảo</td>
+<td>Build/Outcome</td>
+<td><strong>P0 hero</strong></td>
+<td><strong>P0</strong></td>
+</tr>
+<tr>
+<td>học làm chatbot</td>
+<td>(ít suggest)</td>
+<td>Learn</td>
+<td>P1 niche</td>
+<td>P2</td>
+</tr>
+<tr>
+<td>chatbot AI Việt Nam</td>
+<td>product/tool</td>
+<td>Mixed</td>
+<td>Competitor tools</td>
+<td>P2 watch</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Angle SID (hero message):</strong><br />
+“Tạo GPT / chatbot riêng chưa đủ — cần kiến trúc tri thức + kịch bản hội
+thoại.”<br />
+Landing section H2 có thể target cụm này.</p>
+<hr />
+<h3 id="cluster-k5-trợ-lý-ai-tools-mixed">Cluster K5 — Trợ lý AI / tools
+(mixed)</h3>
+<table>
+<colgroup>
+<col style="width: 37%" />
+<col style="width: 23%" />
+<col style="width: 18%" />
+<col style="width: 20%" />
+</colgroup>
+<thead>
+<tr>
+<th>Keyword / seed</th>
+<th>Suggests</th>
+<th>Intent</th>
+<th>Fit SID</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>trợ lý AI</td>
+<td>meta, google, copilot, claude, cá nhân hóa, pancake, oppo…</td>
+<td>Tool discovery</td>
+<td>Low–Med (so sánh tool)</td>
+</tr>
+<tr>
+<td>Claude AI</td>
+<td>là gì, miễn phí, pricing, tiếng việt…</td>
+<td>Tool</td>
+<td>TOF content “Claude cho non-IT”</td>
+</tr>
+<tr>
+<td>Gemini cách dùng</td>
+<td>pro free, tạo ảnh…</td>
+<td>How-to</td>
+<td>TOF multi-model</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Angle:</strong> So sánh tool ngắn → CTA “dù tool nào, cần
+method SID”.</p>
+<hr />
+<h3 id="cluster-k6-brand-method-gần-zero-volume-hiện-tại">Cluster K6 —
+Brand / method (gần zero volume hiện tại)</h3>
+<table>
+<colgroup>
+<col style="width: 29%" />
+<col style="width: 29%" />
+<col style="width: 16%" />
+<col style="width: 25%" />
+</colgroup>
+<thead>
+<tr>
+<th>Keyword</th>
+<th>Suggest</th>
+<th>Fit</th>
+<th>Action</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>SID / Structured Intelligence Design</td>
+<td>—</td>
+<td>Brand</td>
+<td>Chỉ brand SEM sau awareness</td>
+</tr>
+<tr>
+<td>kiến trúc tri thức</td>
+<td><strong>không có suggest</strong></td>
+<td>Category create</td>
+<td>Dùng trong body, không làm seed ads chính</td>
+</tr>
+<tr>
+<td>framing prompt / prompt stack</td>
+<td>ít/không</td>
+<td>Method</td>
+<td>Owned content, LinkedIn/X</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Implication:</strong> Category <strong>phải
+hitchhike</strong> K1–K4; không chờ search “SID”.</p>
+<hr />
+<h2 id="g3.-master-keyword-list-paste-keyword-planner">G3. Master
+keyword list (paste Keyword Planner)</h2>
+<p>Copy block dưới vào Google Ads Keyword Planner (location: Vietnam,
+language: Vietnamese):</p>
+<pre><code>học ChatGPT
+học ChatGPT online
+học ChatGPT miễn phí
+học ChatGPT cho người mới bắt đầu
+cách dùng ChatGPT
+cách dùng ChatGPT đúng cách
+làm chủ ChatGPT
+khóa học ChatGPT
+khóa học ChatGPT miễn phí
+khóa học AI
+khóa học AI cho người mới bắt đầu
+khóa học AI thực chiến
+AI cho người mới bắt đầu
+prompt AI
+prompt ChatGPT
+prompt engineering
+prompt engineering là gì
+học prompt
+học prompt engineering
+viết prompt
+viết prompt ChatGPT
+viết prompt hiệu quả
+tạo GPT
+tạo GPT riêng
+tạo GPTs
+custom GPT
+custom GPT là gì
+tạo chatbot
+tạo chatbot trên ChatGPT
+tạo chatbot cho riêng mình
+xây dựng trợ lý AI
+trợ lý AI cá nhân
+trợ lý AI
+chatbot AI
+học làm chatbot
+Claude AI
+cách dùng Gemini
+AI marketing khóa học
+prompt tiếng Việt</code></pre>
+<h3 id="sau-khi-có-volume-điền-bảng-này">Sau khi có volume — điền bảng
+này</h3>
+<table>
+<thead>
+<tr>
+<th>Keyword</th>
+<th>Vol/mo</th>
+<th>Comp</th>
+<th>CPC</th>
+<th>Intent</th>
+<th>SID page</th>
+<th>Bid?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>…</td>
+<td></td>
+<td></td>
+<td></td>
+<td>TOF/MOF/BOF</td>
+<td>/blog/… or /#</td>
+<td>Y/N</td>
+</tr>
+</tbody>
+</table>
+<h3 id="volume-band-tạm-trước-gkp-hypothesis">Volume band tạm (trước
+GKP) — <strong>Hypothesis</strong></h3>
+<table>
+<colgroup>
+<col style="width: 14%" />
+<col style="width: 42%" />
+<col style="width: 42%" />
+</colgroup>
+<thead>
+<tr>
+<th>Band</th>
+<th>Ý nghĩa vận hành</th>
+<th>Clusters dự kiến</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>H</strong></td>
+<td>Ưu tiên content bulk + cẩn thận SEM</td>
+<td>K1 ChatGPT, K2 prompt là gì</td>
+</tr>
+<tr>
+<td><strong>M</strong></td>
+<td>Landing + retargeting</td>
+<td>K3 khóa học AI selective, làm chủ ChatGPT</td>
+</tr>
+<tr>
+<td><strong>L nhưng high-intent</strong></td>
+<td><strong>Bid / SEO depth trước</strong></td>
+<td>K4 tạo GPT, chatbot riêng, trợ lý AI</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="g4.-intent-asset-map-sid">G4. Intent → asset map (SID)</h2>
+<table>
+<colgroup>
+<col style="width: 37%" />
+<col style="width: 25%" />
+<col style="width: 11%" />
+<col style="width: 25%" />
+</colgroup>
+<thead>
+<tr>
+<th>Intent cluster</th>
+<th>Asset tạo</th>
+<th>CTA</th>
+<th>Không làm</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>K1 cách dùng / học ChatGPT</td>
+<td>4–6 bài SEO + 3 short video</td>
+<td>Free Framing Brief PDF</td>
+<td>Promise “thành thạo sau 1 buổi”</td>
+</tr>
+<tr>
+<td>K2 prompt</td>
+<td>Thread + cheatsheet “5 lỗi framing”</td>
+<td>Mini workshop 0–499k</td>
+<td>Bán Pro trên blog tip</td>
+</tr>
+<tr>
+<td>K3 khóa học AI</td>
+<td>Comparison page “SID vs khóa ChatGPT tip”</td>
+<td>Basic 5tr</td>
+<td>Bid “AI engineer”</td>
+</tr>
+<tr>
+<td>K4 GPT/chatbot/trợ lý</td>
+<td><strong>Landing variant BOF</strong> + gallery 3 bots</td>
+<td>Basic/Pro</td>
+<td>Chỉ tutorial tool không method</td>
+</tr>
+<tr>
+<td>K5 tool Claude/Gemini</td>
+<td>“Multi-model non-IT” note</td>
+<td>Newsletter</td>
+<td>Lock-in 1 vendor</td>
+</tr>
+<tr>
+<td>K6 brand SID</td>
+<td>About + handbook</td>
+<td>Organic only</td>
+<td>Scale brand keyword ads sớm</td>
+</tr>
+</tbody>
+</table>
+<h3 id="funnel-content-30-ngày-keyword-led">Funnel content 30 ngày
+(keyword-led)</h3>
+<table>
+<colgroup>
+<col style="width: 18%" />
+<col style="width: 28%" />
+<col style="width: 34%" />
+<col style="width: 18%" />
+</colgroup>
+<thead>
+<tr>
+<th>Tuần</th>
+<th>Publish</th>
+<th>Target KW</th>
+<th>Goal</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>“Bạn dùng ChatGPT như thanh tìm kiếm”</td>
+<td>cách dùng ChatGPT, học ChatGPT</td>
+<td>TOF traffic + email</td>
+</tr>
+<tr>
+<td>2</td>
+<td>“Prompt dài vẫn sai: Framing Brief 1 trang”</td>
+<td>viết prompt, prompt engineering là gì</td>
+<td>Lead magnet</td>
+</tr>
+<tr>
+<td>3</td>
+<td>“Tạo GPT riêng: checklist 7 bước (và bước hay thiếu)”</td>
+<td>tạo GPT, custom GPT</td>
+<td>BOF interest</td>
+</tr>
+<tr>
+<td>4</td>
+<td>“Từ tri thức rời → trợ lý AI nghiệp vụ (case)”</td>
+<td>xây dựng trợ lý AI, tạo chatbot cho riêng mình</td>
+<td>Waitlist Basic/Pro</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="g5.-sem-ads-rules-vi">G5. SEM / ads rules (VI)</h2>
+<table>
+<colgroup>
+<col style="width: 37%" />
+<col style="width: 62%" />
+</colgroup>
+<thead>
+<tr>
+<th>Rule</th>
+<th>Chi tiết</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Exact/phrase BOF first</strong></td>
+<td>tạo GPT riêng, tạo chatbot cho riêng mình, xây dựng trợ lý AI,
+custom GPT</td>
+</tr>
+<tr>
+<td><strong>Broad TOF = content only</strong></td>
+<td>học ChatGPT miễn phí → organic; ads burn CAC</td>
+</tr>
+<tr>
+<td><strong>Negative keywords</strong></td>
+<td>miễn phí (nếu campaign paid premium), tuyển dụng, salary, python,
+machine learning, AI engineer job, cho trẻ em, trading bot, kiếm tiền 1
+ngày</td>
+</tr>
+<tr>
+<td><strong>Match messaging</strong></td>
+<td>Ad copy phải nói “hệ thống / trợ lý / non-IT” — không “1000
+prompt”</td>
+</tr>
+<tr>
+<td><strong>Landing match</strong></td>
+<td>BOF ads → section solution + pricing; TOF ads → article +
+magnet</td>
+</tr>
+<tr>
+<td><strong>Budget split v1</strong></td>
+<td>60% BOF search · 20% retarget · 20% MOF “khóa học” test</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="g6.-pricing-experiment-design">G6. Pricing experiment
+design</h2>
+<h3 id="g6.1.-current-price-anchors-product">G6.1. Current price anchors
+(product)</h3>
+<table>
+<thead>
+<tr>
+<th>Gói</th>
+<th>Giá niêm yết</th>
+<th>Vai trò</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Basic</td>
+<td><strong>5.000.000₫</strong></td>
+<td>Entry method + projects</td>
+</tr>
+<tr>
+<td>Pro</td>
+<td><strong>15.000.000₫</strong></td>
+<td>Core / hero</td>
+</tr>
+<tr>
+<td>Advance</td>
+<td><strong>25.000.000₫</strong></td>
+<td>Waitlist / prestige</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Đối chiếu market (từ Phần B + E):</strong><br />
+Self-serve 79k–1tr · workshop 2–10tr · global mentor ~$200–700 · CDI
+~$450/y + cert.<br />
+→ Ladder SID <strong>premium-fit</strong>; experiment để biết
+<strong>elastic điểm 5tr vs 15tr</strong>, không để “đoán”.</p>
+<h3 id="g6.2.-metrics-định-nghĩa-trước-khi-test">G6.2. Metrics (định
+nghĩa trước khi test)</h3>
+<table>
+<colgroup>
+<col style="width: 25%" />
+<col style="width: 37%" />
+<col style="width: 37%" />
+</colgroup>
+<thead>
+<tr>
+<th>Metric</th>
+<th>Định nghĩa</th>
+<th>Target học</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>CVR_page</strong></td>
+<td>Submit đăng ký / unique landing</td>
+<td>So sánh variant</td>
+</tr>
+<tr>
+<td><strong>CVR_pay</strong></td>
+<td>Thanh toán thành công / submit</td>
+<td>True WTP</td>
+</tr>
+<tr>
+<td><strong>AOV</strong></td>
+<td>Doanh thu / paid</td>
+<td>Mix Basic–Pro</td>
+</tr>
+<tr>
+<td><strong>Take rate Pro</strong></td>
+<td>Pro paid / (Basic+Pro paid)</td>
+<td>Hero health</td>
+</tr>
+<tr>
+<td><strong>Refund/ churn 14d</strong></td>
+<td>Hoàn hoặc bỏ sau 2 buổi</td>
+<td>Price–value mismatch</td>
+</tr>
+<tr>
+<td><strong>CAC</strong></td>
+<td>Ad spend / paid (nếu có ads)</td>
+<td>Chỉ khi có paid traffic</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Primary decision metric:</strong> <code>CVR_pay × AOV</code>
+(revenue per visitor) — không chỉ CVR cao giá rẻ.</p>
+<h3 id="g6.3.-ba-thí-nghiệm-chạy-tuần-tự-không-song-song-loạn">G6.3. Ba
+thí nghiệm (chạy tuần tự, không song song loạn)</h3>
+<hr />
+<h4
+id="experiment-d1-van-westendorp-purchase-intent-discovery-survey"><strong>Experiment
+D1 — Van Westendorp + purchase intent (discovery/ survey)</strong></h4>
+<p><em>Tuần 0–1 · n ≥ 40 ICP-ish (từ F band B+ hoặc waitlist)</em></p>
+<p><strong>4 câu VW (VI):</strong></p>
+<ol type="1">
+<li>Giá nào <strong>quá rẻ</strong> đến mức bạn nghi ngờ chất lượng khóa
+mentor + 2 dự án trợ lý AI?<br />
+</li>
+<li>Giá nào <strong>rẻ, là bargain</strong> nếu cam kết học xong?<br />
+</li>
+<li>Giá nào <strong>bắt đầu đắt</strong> nhưng vẫn cân nhắc nếu có
+mentor + portfolio?<br />
+</li>
+<li>Giá nào <strong>quá đắt</strong>, loại ngay?</li>
+</ol>
+<p><strong>Thêm 1 câu purchase intent (5-point):</strong><br />
+“Nếu khóa 10 buổi mentor + 2 trợ lý AI cho việc của bạn ở mức
+<strong>[X]₫</strong>, khả năng bạn đăng ký trong 30 ngày?”<br />
+(1 rất thấp … 5 rất cao) — rotate X ∈ {3tr, 5tr, 8tr, 12tr, 15tr}
+between-subjects.</p>
+<p><strong>Output:</strong><br />
+- Điểm PMC / PME / IPP / OPP (Van Westendorp classic).<br />
+- Intent score theo price point.<br />
+<strong>Quyết định:</strong> Chọn 2 mức để A/B live (thường quanh IPP
+±).</p>
+<p><strong>Pass criteria:</strong> n≥40 complete; ≥30% respondents
+knowledge worker AI≥3 tháng.</p>
+<hr />
+<h4 id="experiment-d2-landing-price-ab-basic-only"><strong>Experiment D2
+— Landing price A/B (Basic only)</strong></h4>
+<p><em>Tuần 2–3 · traffic organic + waitlist + light ads BOF</em></p>
+<table>
+<colgroup>
+<col style="width: 32%" />
+<col style="width: 46%" />
+<col style="width: 21%" />
+</colgroup>
+<thead>
+<tr>
+<th>Variant</th>
+<th>Basic price</th>
+<th>Note</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>A (control)</strong></td>
+<td><strong>5.000.000₫</strong></td>
+<td>Niêm yết hiện tại</td>
+</tr>
+<tr>
+<td><strong>B</strong></td>
+<td><strong>3.900.000₫</strong></td>
+<td>“Early cohort” — test elastic xuống</td>
+</tr>
+<tr>
+<td><strong>C</strong> (optional week 3)</td>
+<td><strong>6.900.000₫</strong></td>
+<td>Test premium entry nếu D1 ủng hộ</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Giữ nguyên:</strong> curriculum bullets, mentor, số buổi —
+<strong>chỉ đổi giá + badge</strong> (Early bird / Standard).<br />
+<strong>Không</strong> đổi Pro trong D2.</p>
+<p><strong>Sample size gợi ý:</strong><br />
+- Tối thiểu <strong>100 visitors/variant</strong> hoặc <strong>10
+submit/variant</strong> (chọn cái đến trước).<br />
+- Ideal: 300 UV/variant nếu có ads.</p>
+<p><strong>Win rule:</strong><br />
+1. Loại variant <code>CVR_pay = 0</code> sau ≥100 UV.<br />
+2. Thắng = <strong>max revenue per visitor</strong> = (paid × price) /
+UV.<br />
+3. Nếu B thắng rõ (RPV +25% vs A) → cân nhắc list 3.9–4.5tr
+<em>hoặc</em> giữ 5tr + strong guarantee.<br />
+4. Nếu C không chết CVR và RPV ≥ A → room tăng Basic.</p>
+<p><strong>Guardrail:</strong> Không chạy D2 trên audience “chỉ muốn
+free” (negative KW; pre-qual form “đã dùng AI ≥3 tháng”).</p>
+<hr />
+<h4
+id="experiment-d3-ladder-architecture-basicpro-path"><strong>Experiment
+D3 — Ladder architecture (Basic→Pro path)</strong></h4>
+<p><em>Tuần 3–5 · sau D2 có winner Basic</em></p>
+<table>
+<colgroup>
+<col style="width: 20%" />
+<col style="width: 28%" />
+<col style="width: 52%" />
+</colgroup>
+<thead>
+<tr>
+<th>Arm</th>
+<th>Offer</th>
+<th>Mục tiêu đo</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>L1</strong></td>
+<td>Basic 5tr (hoặc winner D2) only</td>
+<td>Baseline</td>
+</tr>
+<tr>
+<td><strong>L2</strong></td>
+<td>Basic + <strong>upgrade Pro trong 14 ngày: chỉ trả thêm 8tr</strong>
+(tổng 13tr vs 15tr full)</td>
+<td>Attachment rate</td>
+</tr>
+<tr>
+<td><strong>L3</strong></td>
+<td><strong>Pro-first</strong> 15tr (featured) + Basic secondary</td>
+<td>Take rate Pro</td>
+</tr>
+<tr>
+<td><strong>L4</strong> (optional)</td>
+<td><strong>Deposit 1tr</strong> giữ chỗ → full price 7 ngày</td>
+<td>Commitment + cashflow</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Metrics riêng D3:</strong><br />
+- <code>%</code> chọn Pro at checkout<br />
+- Upgrade rate Basic→Pro ≤14d<br />
+- Completion rate project 1 (proxy value delivery)</p>
+<p><strong>Win rule:</strong><br />
+- Nếu upgrade rate L2 ≥ <strong>25%</strong> → keep bridge
+pricing.<br />
+- Nếu L3 Pro take rate ≥ <strong>35%</strong> of paid → messaging “Pro
+hero” đúng.<br />
+- Nếu Pro take rate &lt; <strong>15%</strong> → Pro đắt/nhận thức thiếu;
+cần proof gallery trước khi push 15tr.</p>
+<hr />
+<h4 id="experiment-d4-decoy-payment-framing-micro"><strong>Experiment D4
+— Decoy &amp; payment framing (micro)</strong></h4>
+<p><em>Song song D3 nếu sample đủ</em></p>
+<table>
+<colgroup>
+<col style="width: 37%" />
+<col style="width: 62%" />
+</colgroup>
+<thead>
+<tr>
+<th>Test</th>
+<th>Variants</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Payment</td>
+<td>100% upfront vs 50/50 (2 đợt) vs 3 monthly (nếu ops cho phép)</td>
+</tr>
+<tr>
+<td>Framing</td>
+<td>“5.000.000₫ / khóa” vs “~500.000₫ / buổi (10 buổi)”</td>
+</tr>
+<tr>
+<td>Guarantee</td>
+<td>Không vs “Hoàn 50% nếu nộp đủ BTVN + không hài lòng buổi 2”</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Hypothesis:</strong><br />
+- Per-buổi framing tăng CVR TOF nhưng có thể hạ premium brand.<br />
+- Guarantee tăng CVR_pay ICP-A; theo dõi abuse.</p>
+<hr />
+<h3 id="g6.4.-price-experiment-tracker-sheet-columns">G6.4. Price
+experiment tracker (sheet columns)</h3>
+<pre><code>date | experiment | variant | channel | UV | submits | paid | revenue | refunds | notes</code></pre>
+<h3 id="g6.5.-decision-matrix-sau-experiments">G6.5. Decision matrix
+(sau experiments)</h3>
+<table>
+<colgroup>
+<col style="width: 36%" />
+<col style="width: 64%" />
+</colgroup>
+<thead>
+<tr>
+<th>Kết quả</th>
+<th>Hành động giá</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>VW IPP ≈ 4–6tr; D2 A≈B</td>
+<td><strong>Giữ Basic 5tr</strong>; đừng race 2tr</td>
+</tr>
+<tr>
+<td>VW IPP ≈ 2–3tr; D2 B RPV thắng</td>
+<td>Thêm <strong>Workshop 1.5–2.5tr</strong> on-ramp; Pro giữ 15tr cho
+ICP-A</td>
+</tr>
+<tr>
+<td>VW “too expensive” 15tr thấp; D3 Pro take cao</td>
+<td><strong>Giữ/ có thể raise Pro</strong> sau proof</td>
+</tr>
+<tr>
+<td>Pro take &lt;15% + objection “đắt” lặp</td>
+<td>Bundle proof + 1:1; hoặc Pro 12tr test 1 cohort</td>
+</tr>
+<tr>
+<td>Advance 25tr zero interest</td>
+<td>Giữ waitlist; đừng ads Advance</td>
+</tr>
+</tbody>
+</table>
+<h3 id="g6.6.-ethical-validity-rules">G6.6. Ethical / validity
+rules</h3>
+<ol type="1">
+<li>Không đổi giá <strong>giữa chừng</strong> cho người đã được quote
+variant khác trong cùng 48h (log email).<br />
+</li>
+<li>Ghi rõ “Early cohort” nếu giá thấp hơn list.<br />
+</li>
+<li>Tối thiểu 7 ngày/variant trước khi gọi thắng (tránh weekday
+bias).<br />
+</li>
+<li>Tách traffic <strong>VI ads</strong> vs <strong>referral bạn
+bè</strong> (bạn bè làm lệch WTP).<br />
+</li>
+<li>Sau F interviews: <strong>chỉ weight</strong> scorecard band A–B
+trong phân tích giá.</li>
+</ol>
+<hr />
+<h2
+id="g7.-packaging-giá-đề-xuất-khi-experiment-không-phải-kết-luận-cuối">G7.
+Packaging giá đề xuất khi experiment (không phải kết luận cuối)</h2>
+<table>
+<colgroup>
+<col style="width: 21%" />
+<col style="width: 46%" />
+<col style="width: 31%" />
+</colgroup>
+<thead>
+<tr>
+<th>Offer</th>
+<th>Giá test band</th>
+<th>Dùng khi</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Free Framing Brief</td>
+<td>0</td>
+<td>TOF K1–K2</td>
+</tr>
+<tr>
+<td>Live workshop 1 buổi (2.5–3h)</td>
+<td><strong>990k–1.9tr</strong></td>
+<td>On-ramp; D2 nếu Basic elastic xuống</td>
+</tr>
+<tr>
+<td>SID Basic</td>
+<td><strong>3.9–6.9tr</strong> (exp) · list <strong>5tr</strong></td>
+<td>Core entry</td>
+</tr>
+<tr>
+<td>SID Pro</td>
+<td><strong>12–15tr</strong> (exp bridge) · list
+<strong>15tr</strong></td>
+<td>Hero</td>
+</tr>
+<tr>
+<td>SID Advance</td>
+<td><strong>25tr</strong> waitlist</td>
+<td>Sau Pro alumni</td>
+</tr>
+<tr>
+<td>Team 5 seats</td>
+<td><strong>Pro × 5 − 15–20%</strong></td>
+<td>B2B light</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Recommendation tạm (trước data):</strong><br />
+Giữ list <strong>5 / 15 / 25</strong>; experiment <strong>xung
+quanh</strong>, không phá list public cho đến khi D2–D3 có winner.<br />
+<strong>Confidence:</strong> TB.</p>
+<hr />
+<h2 id="g8.-14-day-runbook-keyword-price-cùng-lúc">G8. 14-day runbook
+(Keyword + Price cùng lúc)</h2>
+<table>
+<colgroup>
+<col style="width: 17%" />
+<col style="width: 55%" />
+<col style="width: 26%" />
+</colgroup>
+<thead>
+<tr>
+<th>Ngày</th>
+<th>Keyword / content</th>
+<th>Pricing</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1–2</td>
+<td>G3 → Keyword Planner; điền vol</td>
+<td>Draft VW form</td>
+</tr>
+<tr>
+<td>3–4</td>
+<td>Publish bài TOF #1 (K1)</td>
+<td>Gửi VW + intent cho waitlist/F leads</td>
+</tr>
+<tr>
+<td>5–6</td>
+<td>BOF landing section KW K4 on-page SEO</td>
+<td>Đóng D1; chọn D2 prices</td>
+</tr>
+<tr>
+<td>7–10</td>
+<td>1 bài K4 + 3 short video</td>
+<td>D2 A/B Basic traffic</td>
+</tr>
+<tr>
+<td>11–12</td>
+<td>Negative KW + SEM BOF 200–500k test</td>
+<td>Mid-check RPV</td>
+</tr>
+<tr>
+<td>13–14</td>
+<td>Meta: top queries Search Console</td>
+<td>Gọi thắng D2 hoặc extend 7d</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="g9.-on-page-seo-checklist-landing-index.html">G9. On-page SEO
+checklist (landing <code>index.html</code>)</h2>
+<table>
+<colgroup>
+<col style="width: 27%" />
+<col style="width: 72%" />
+</colgroup>
+<thead>
+<tr>
+<th>Element</th>
+<th>Gợi ý VI (BOF-aligned)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Title</td>
+<td>Có thể A/B: giữ brand SID <strong>hoặc</strong> “Xây trợ lý AI không
+cần code | SID”</td>
+</tr>
+<tr>
+<td>H1</td>
+<td>Giữ tư duy mạch lạc → trợ lý AI (đã fit K4 outcome)</td>
+</tr>
+<tr>
+<td>H2 Problem</td>
+<td>Chèn ngôn ngữ search: “dùng ChatGPT mỗi ngày” (K1)</td>
+</tr>
+<tr>
+<td>H2 Solution</td>
+<td>“Từ prompt rời → GPT / chatbot / trợ lý AI có kiến trúc”
+(K2+K4)</td>
+</tr>
+<tr>
+<td>FAQ schema</td>
+<td>“SID khác khóa ChatGPT thế nào?”, “Có cần biết code?”, “Basic vs
+Pro?”</td>
+</tr>
+<tr>
+<td>Internal links</td>
+<td>Blog K1/K2 → #pricing / #path</td>
+</tr>
+<tr>
+<td>EN later</td>
+<td>Separate <code>/en</code> — đừng nhồi EN vào VI SERP</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="g10.-hypotheses-passfail-pha-d">G10. Hypotheses + pass/fail (Pha
+D)</h2>
+<table>
+<colgroup>
+<col style="width: 14%" />
+<col style="width: 42%" />
+<col style="width: 21%" />
+<col style="width: 21%" />
+</colgroup>
+<thead>
+<tr>
+<th>ID</th>
+<th>Hypothesis</th>
+<th>Test</th>
+<th>Pass</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>KD1</td>
+<td>TOF ChatGPT vol &gt;&gt; BOF assistant vol</td>
+<td>GKP numbers</td>
+<td>H vol K1 ≥ 3× K4</td>
+</tr>
+<tr>
+<td>KD2</td>
+<td>BOF K4 CVR &gt;&gt; TOF K1 CVR (same offer)</td>
+<td>SEM/content CTA</td>
+<td>BOF CVR ≥ 2× TOF</td>
+</tr>
+<tr>
+<td>KD3</td>
+<td>Message “trợ lý AI / GPT riêng” convert ICP-A tốt hơn “học
+ChatGPT”</td>
+<td>Ad copy A/B</td>
+<td>RPV message assistant thắng</td>
+</tr>
+<tr>
+<td>PD1</td>
+<td>Basic 5tr gần IPP</td>
+<td>VW D1</td>
+<td>IPP ∈ [4tr, 7tr]</td>
+</tr>
+<tr>
+<td>PD2</td>
+<td>Giảm Basic → 3.9tr tăng RPV</td>
+<td>D2</td>
+<td>B RPV &gt; A +25% <strong>hoặc</strong> fail → giữ 5tr</td>
+</tr>
+<tr>
+<td>PD3</td>
+<td>Bridge upgrade 8tr tăng attachment Pro</td>
+<td>D3 L2</td>
+<td>Upgrade ≥25%</td>
+</tr>
+<tr>
+<td>PD4</td>
+<td>Pro 15tr vẫn bán được với proof</td>
+<td>D3 L3</td>
+<td>Take rate ≥20% paid</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="g11.-artifact-checklist-pha-d">G11. Artifact checklist Pha
+D</h2>
+<table>
+<thead>
+<tr>
+<th>Artifact</th>
+<th>Status</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Intent model 4 tầng</td>
+<td>✅ G1</td>
+</tr>
+<tr>
+<td>6 keyword clusters + master list</td>
+<td>✅ G2–G3</td>
+</tr>
+<tr>
+<td>Asset / funnel map</td>
+<td>✅ G4</td>
+</tr>
+<tr>
+<td>SEM rules + negatives</td>
+<td>✅ G5</td>
+</tr>
+<tr>
+<td>Pricing experiments D1–D4</td>
+<td>✅ G6</td>
+</tr>
+<tr>
+<td>14-day runbook</td>
+<td>✅ G8</td>
+</tr>
+<tr>
+<td>On-page checklist</td>
+<td>✅ G9</td>
+</tr>
+<tr>
+<td>GKP volume filled</td>
+<td>⬜ user/tool</td>
+</tr>
+<tr>
+<td>D1 survey live results</td>
+<td>⬜</td>
+</tr>
+<tr>
+<td>D2/D3 winner</td>
+<td>⬜</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="appendix-epistemic-legend">Appendix — Epistemic legend</h2>
+<table>
+<thead>
+<tr>
+<th>Nhãn</th>
+<th>Nghĩa</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Fact</strong></td>
+<td>Dữ kiện có nguồn public</td>
+</tr>
+<tr>
+<td><strong>Interpretation</strong></td>
+<td>Diễn giải từ facts</td>
+</tr>
+<tr>
+<td><strong>Assumption</strong></td>
+<td>Giả định vận hành</td>
+</tr>
+<tr>
+<td><strong>Hypothesis</strong></td>
+<td>Cần test</td>
+</tr>
+<tr>
+<td><strong>Recommendation</strong></td>
+<td>Hành động đề xuất</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Confidence labels:</strong> Cao / Trung bình (TB) / Thấp + lý
+do trong từng bảng.</p>
+<hr />
+<h2 id="appendix-nguồn-chính-web-x-desktop-2026-07">Appendix — Nguồn
+chính (web + X, desktop 2026-07)</h2>
+<h3 id="web-reports">Web / reports</h3>
+<ul>
+<li>SID product: <code>index.html</code> (workspace)</li>
+<li>Precedence / Grand View style reports — prompt engineering market
+sizing (directional)</li>
+<li>IMARC — Vietnam AI in Education market</li>
+<li>PS Market / Ken Research / Statista-type — Vietnam e-learning
+(definitions differ)</li>
+<li>IDC / industry narratives — AI skills gap</li>
+<li>Lightcast-type — genAI skills in job postings</li>
+<li>CDI pricing page —
+https://www.conversationdesigninstitute.com/pricing</li>
+<li>DeepLearning.AI — ChatGPT Prompt Engineering for Developers</li>
+<li>Coursera / Google Prompting Essentials pricing narratives</li>
+<li>Unica marketplace course listings (ChatGPT/AI)</li>
+<li>Public media — VN ChatGPT short courses price/quality discourse</li>
+<li>MinAI courses page (GenAI + Personal AI Assistant)</li>
+<li>FPT Software AI Reskilling Academy announcements</li>
+</ul>
+<h3 id="x-twitter-case-library-phần-e">X / Twitter (case library — Phần
+E)</h3>
+<ul>
+<li>https://x.com/RhysSullivan/status/2056087712273424797</li>
+<li>https://x.com/TheFallenMerc/status/2075276923689988497</li>
+<li>https://x.com/mercer70638/status/2076818961639846371</li>
+<li>https://x.com/signulll/status/2055767986322178494</li>
+<li>https://x.com/shabnam_774/status/2043629724006781396</li>
+<li>https://x.com/undefinedKi/status/2075549315641082336</li>
+<li>https://x.com/paonx_eth/status/2077075630223429656</li>
+<li>https://x.com/Veltrxai/status/2077043247969349893</li>
+<li>https://x.com/AndrewYNg/status/2008956639894786402</li>
+<li>https://x.com/sethjkramer/status/1651699688679014400</li>
+<li>https://x.com/yimup/status/2077047249696121105</li>
+<li>https://x.com/ArchitectHappy_/status/2076375806062801108</li>
+<li>https://x.com/rowancheung/status/1928126690066411794</li>
+<li>https://x.com/Mike_Scully_/status/2077015522236145877</li>
+<li>https://x.com/drsakintayo/status/2075324232054010209</li>
+<li>https://x.com/iksly2/status/2075116168055079298</li>
+<li>https://x.com/code_kartik/status/2021622687848956019</li>
+<li>https://x.com/Word213414/status/2076466283156304143</li>
+<li>https://x.com/iamcamengland/status/2047672746293764342</li>
+<li>https://x.com/NoufKAlmuhanna/status/2076643545453130180</li>
+<li>https://x.com/aditya_ffca/status/2077283431948685312</li>
+<li>https://x.com/polsia/status/2074652169798910311</li>
+<li>https://x.com/Revix_AI/status/2077229056760983842 (free-course
+pressure narrative)</li>
+</ul>
+<p><em>Số liệu market size mang tính <strong>directional</strong>; case
+X là <strong>qualitative demand evidence</strong>, không audited
+financial TAM. Engagement là snapshot thời điểm crawl.</em></p>
+<hr />
+<h3 id="keyword-autocomplete-pha-d">Keyword / autocomplete (Pha D)</h3>
+<ul>
+<li>Google Suggest API <code>client=firefox&amp;hl=vi&amp;gl=vn</code>
+(2026-07-15) — seeds: học ChatGPT, khóa học AI, prompt, tạo GPT, trợ lý
+AI, làm chủ ChatGPT, custom GPT, tạo chatbot, xây dựng trợ lý AI,
+v.v.</li>
+<li>Volume tuyệt đối: <strong>chưa</strong> lấy Keyword Planner — dùng
+band L/M/H + list G3 để user đo tiếp.</li>
+</ul>
+<hr />
+<p><em>End of research-grok.md — v4: Market + Teardown + X + Discovery +
+Keyword Intent VI + Pricing Experiments</em></p>
+
+      <div class="footer">
+        <div>SID · Structured Intelligence Design · Research Grok v4</div>
+        <div>Internal research pack · Dễ share</div>
+      </div>
+    </main>
+  </div>
+<script>
+(function () {
+  const main = document.getElementById('main');
+  const panel = document.getElementById('tocPanel');
+  const toc = main.querySelector('nav#TOC');
+  if (toc) panel.appendChild(toc);
+})();
+function shareFile() {
+  alert('Cách gửi:\n1. Đính kèm file research-grok.html\n2. Hoặc upload Drive/Dropbox → share link\n3. In → Save as PDF nếu người nhận thích PDF\n\nFile mở được offline, không cần server.');
+}
+</script>
+</body>
+</html>
