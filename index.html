@@ -6,7 +6,6 @@
 <title>SID - Structured Intelligence Design</title>
 <!-- Google tag (gtag.js) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-9G4J7CJ0ZS"></script>
-<script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
 <script>
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
@@ -502,6 +501,8 @@
 
       <form id="regForm" action="https://api.web3forms.com/submit" method="POST">
         <input type="hidden" name="access_key" value="abc398c6-806d-4409-9fce-d56a0b1947ae">
+        <!-- Honeypot: web3forms drops the submission if a bot fills this hidden field -->
+        <input type="checkbox" name="botcheck" style="display:none" tabindex="-1" autocomplete="off" aria-hidden="true">
 
         <div class="form-group">
           <label for="f-name">Họ tên</label>
@@ -527,12 +528,8 @@
           <label for="f-msg">Lời nhắn</label>
           <textarea id="f-msg" name="Lời nhắn" placeholder="Bạn muốn nhắn gì thêm?" required></textarea>
         </div>
-        <div class="form-group">
-          <label>Xác minh bảo mật</label>
-          <div class="cf-turnstile" data-sitekey="0x4AAAAAADzLVrl6Ia2jj9n8" data-theme="light" data-callback="onTurnstileSuccess" data-error-callback="onTurnstileError" data-expired-callback="onTurnstileExpired"></div>
-          <p class="captcha-error" id="captchaError" role="alert" aria-live="polite"></p>
-        </div>
-        <button type="submit" class="form-submit" id="formSubmitBtn" disabled>Hoàn thành captcha để gửi</button>
+        <p class="captcha-error" id="formError" role="alert" aria-live="polite"></p>
+        <button type="submit" class="form-submit" id="formSubmitBtn">Gửi đăng ký</button>
       </form>
     </div>
 
@@ -569,67 +566,26 @@
   const successState = document.getElementById('successState');
   const submitBtn = document.getElementById('formSubmitBtn');
   const regForm = document.getElementById('regForm');
-  const captchaError = document.getElementById('captchaError');
+  const formError = document.getElementById('formError');
   const courseOptions = ['SID Basic', 'SID Pro', 'SID Advance'];
-  let hasCaptchaToken = false;
   let isSubmitting = false;
 
   function setSubmitState() {
-    if (isSubmitting) {
-      submitBtn.disabled = true;
-      submitBtn.textContent = 'Đang gửi…';
-      return;
-    }
-    if (hasCaptchaToken) {
-      submitBtn.disabled = false;
-      submitBtn.textContent = 'Gửi đăng ký';
-      return;
-    }
-    submitBtn.disabled = true;
-    submitBtn.textContent = 'Hoàn thành captcha để gửi';
+    submitBtn.disabled = isSubmitting;
+    submitBtn.textContent = isSubmitting ? 'Đang gửi…' : 'Gửi đăng ký';
   }
 
-  function setCaptchaError(message) {
-    captchaError.textContent = message || '';
+  function setFormError(message) {
+    formError.textContent = message || '';
   }
-
-  function resetTurnstile() {
-    if (window.turnstile && typeof window.turnstile.reset === 'function') {
-      try {
-        window.turnstile.reset();
-      } catch (err) {
-        console.warn('Turnstile reset failed', err);
-      }
-    }
-    hasCaptchaToken = false;
-    setSubmitState();
-  }
-
-  window.onTurnstileSuccess = function onTurnstileSuccess() {
-    hasCaptchaToken = true;
-    setCaptchaError('');
-    setSubmitState();
-  };
-
-  window.onTurnstileError = function onTurnstileError() {
-    hasCaptchaToken = false;
-    setCaptchaError('Captcha gặp lỗi kết nối. Vui lòng thử lại.');
-    setSubmitState();
-  };
-
-  window.onTurnstileExpired = function onTurnstileExpired() {
-    hasCaptchaToken = false;
-    setCaptchaError('Captcha đã hết hạn. Vui lòng xác minh lại.');
-    setSubmitState();
-  };
 
   function openModal(course) {
     courseInput.value = courseOptions.includes(course) ? course : 'SID Basic';
     formState.style.display = '';
     successState.style.display = 'none';
     isSubmitting = false;
-    setCaptchaError('');
-    resetTurnstile();
+    setFormError('');
+    setSubmitState();
     overlay.classList.add('open');
     document.body.style.overflow = 'hidden';
   }
@@ -645,19 +601,10 @@
   // Form submit via fetch (no page reload)
   regForm.addEventListener('submit', async (e) => {
     e.preventDefault();
-    setCaptchaError('');
+    setFormError('');
     isSubmitting = true;
     setSubmitState();
     const formData = new FormData(regForm);
-    const captchaToken = formData.get('cf-turnstile-response');
-
-    if (!captchaToken) {
-      setCaptchaError('Vui lòng hoàn thành xác minh bảo mật trước khi gửi.');
-      isSubmitting = false;
-      hasCaptchaToken = false;
-      setSubmitState();
-      return;
-    }
 
     try {
       const res = await fetch(regForm.action, { method: 'POST', body: formData });
@@ -668,20 +615,16 @@
         regForm.reset();
         courseInput.value = 'SID Basic';
         isSubmitting = false;
-        resetTurnstile();
+        setSubmitState();
       } else {
         isSubmitting = false;
-        hasCaptchaToken = false;
         setSubmitState();
-        setCaptchaError('Gửi form chưa thành công, vui lòng thử lại.');
-        resetTurnstile();
+        setFormError('Gửi form chưa thành công, vui lòng thử lại.');
       }
     } catch {
       isSubmitting = false;
-      hasCaptchaToken = false;
       setSubmitState();
-      setCaptchaError('Không thể gửi dữ liệu lúc này. Vui lòng thử lại sau.');
-      resetTurnstile();
+      setFormError('Không thể gửi dữ liệu lúc này. Vui lòng thử lại sau.');
     }
   });
 
