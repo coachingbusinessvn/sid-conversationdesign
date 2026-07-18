@@ -6,6 +6,8 @@
 <title>SID - Structured Intelligence Design</title>
 <!-- Google tag (gtag.js) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-9G4J7CJ0ZS"></script>
+<!-- web3forms client script: renders the free managed hCaptcha (data-captcha="true") -->
+<script src="https://web3forms.com/client/script.js" async defer></script>
 <script>
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
@@ -528,8 +530,12 @@
           <label for="f-msg">Lời nhắn</label>
           <textarea id="f-msg" name="Lời nhắn" placeholder="Bạn muốn nhắn gì thêm?" required></textarea>
         </div>
+        <div class="form-group">
+          <label>Xác minh bảo mật</label>
+          <div class="h-captcha" data-captcha="true" data-callback="onCaptchaSuccess" data-expired-callback="onCaptchaExpired" data-error-callback="onCaptchaError"></div>
+        </div>
         <p class="captcha-error" id="formError" role="alert" aria-live="polite"></p>
-        <button type="submit" class="form-submit" id="formSubmitBtn">Gửi đăng ký</button>
+        <button type="submit" class="form-submit" id="formSubmitBtn" disabled>Hoàn thành captcha để gửi</button>
       </form>
     </div>
 
@@ -569,15 +575,49 @@
   const formError = document.getElementById('formError');
   const courseOptions = ['SID Basic', 'SID Pro', 'SID Advance'];
   let isSubmitting = false;
+  let hasCaptcha = false;
 
   function setSubmitState() {
-    submitBtn.disabled = isSubmitting;
-    submitBtn.textContent = isSubmitting ? 'Đang gửi…' : 'Gửi đăng ký';
+    if (isSubmitting) {
+      submitBtn.disabled = true;
+      submitBtn.textContent = 'Đang gửi…';
+      return;
+    }
+    if (!hasCaptcha) {
+      submitBtn.disabled = true;
+      submitBtn.textContent = 'Hoàn thành captcha để gửi';
+      return;
+    }
+    submitBtn.disabled = false;
+    submitBtn.textContent = 'Gửi đăng ký';
   }
 
   function setFormError(message) {
     formError.textContent = message || '';
   }
+
+  function resetCaptcha() {
+    if (window.hcaptcha && typeof window.hcaptcha.reset === 'function') {
+      try { window.hcaptcha.reset(); } catch (err) { console.warn('hCaptcha reset failed', err); }
+    }
+    hasCaptcha = false;
+  }
+
+  window.onCaptchaSuccess = function onCaptchaSuccess() {
+    hasCaptcha = true;
+    setFormError('');
+    setSubmitState();
+  };
+  window.onCaptchaExpired = function onCaptchaExpired() {
+    hasCaptcha = false;
+    setFormError('Captcha đã hết hạn. Vui lòng xác minh lại.');
+    setSubmitState();
+  };
+  window.onCaptchaError = function onCaptchaError() {
+    hasCaptcha = false;
+    setFormError('Captcha gặp lỗi. Vui lòng thử lại.');
+    setSubmitState();
+  };
 
   function openModal(course) {
     courseInput.value = courseOptions.includes(course) ? course : 'SID Basic';
@@ -585,6 +625,7 @@
     successState.style.display = 'none';
     isSubmitting = false;
     setFormError('');
+    resetCaptcha();
     setSubmitState();
     overlay.classList.add('open');
     document.body.style.overflow = 'hidden';
@@ -615,14 +656,17 @@
         regForm.reset();
         courseInput.value = 'SID Basic';
         isSubmitting = false;
+        resetCaptcha();
         setSubmitState();
       } else {
         isSubmitting = false;
+        resetCaptcha();
         setSubmitState();
         setFormError('Gửi form chưa thành công, vui lòng thử lại.');
       }
     } catch {
       isSubmitting = false;
+      resetCaptcha();
       setSubmitState();
       setFormError('Không thể gửi dữ liệu lúc này. Vui lòng thử lại sau.');
     }
