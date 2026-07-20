@@ -434,56 +434,74 @@
 <div class="modal-overlay" id="regModal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
   <div class="modal-box">
     <button class="modal-close" id="modalClose" aria-label="Đóng">&#x2715;</button>
+    <div class="modal-layout">
+      <div class="modal-form-panel">
+        <div id="formState">
+          <span class="eyebrow">Đăng ký khoá học</span>
+          <h2 class="modal-title" id="modalTitle">Bắt đầu hành trình của bạn</h2>
+          <p class="modal-sub">Điền thông tin bên dưới - chúng tôi sẽ liên hệ xác nhận trong 24h.</p>
 
-    <!-- Form state -->
-    <div id="formState">
-      <span class="eyebrow">Đăng ký khoá học</span>
-      <h2 class="modal-title" id="modalTitle">Bắt đầu hành trình của bạn</h2>
-      <p class="modal-sub">Điền thông tin bên dưới - chúng tôi sẽ liên hệ xác nhận trong 24h.</p>
+          <form id="regForm" action="https://api.web3forms.com/submit" method="POST">
+            <input type="hidden" name="access_key" value="abc398c6-806d-4409-9fce-d56a0b1947ae">
 
-      <form id="regForm" action="https://api.web3forms.com/submit" method="POST">
-        <input type="hidden" name="access_key" value="abc398c6-806d-4409-9fce-d56a0b1947ae">
+            <div class="form-group">
+              <label for="f-name">Họ tên</label>
+              <input id="f-name" type="text" name="Họ tên" placeholder="Nguyễn Văn A" required>
+            </div>
+            <div class="form-group">
+              <label for="f-email">Email</label>
+              <input id="f-email" type="email" name="Email" placeholder="email@example.com" required>
+            </div>
+            <div class="form-group">
+              <label for="f-phone">Điện thoại</label>
+              <input id="f-phone" type="text" name="Điện thoại" placeholder="0912 345 678" required>
+            </div>
+            <div class="form-group">
+              <label for="f-course">Khoá học bạn chọn</label>
+              <select id="f-course" name="Khóa học bạn chọn" required>
+                <option value="SID Basic" selected>SID Basic</option>
+                <option value="SID Pro">SID Pro</option>
+                <option value="SID Advance">SID Advance</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="f-msg">Lời nhắn</label>
+              <textarea id="f-msg" name="Lời nhắn" placeholder="Bạn muốn nhắn gì thêm?" required></textarea>
+            </div>
+            <div class="form-group">
+              <label>Xác minh bảo mật</label>
+              <div class="cf-turnstile" data-sitekey="0x4AAAAAADzLVrl6Ia2jj9n8" data-theme="light" data-callback="onTurnstileSuccess" data-error-callback="onTurnstileError" data-expired-callback="onTurnstileExpired"></div>
+              <p class="captcha-error" id="captchaError" role="alert" aria-live="polite"></p>
+            </div>
+            <button type="submit" class="form-submit" id="formSubmitBtn" disabled>Hoàn thành captcha để gửi</button>
+          </form>
+        </div>
 
-        <div class="form-group">
-          <label for="f-name">Họ tên</label>
-          <input id="f-name" type="text" name="Họ tên" placeholder="Nguyễn Văn A" required>
+        <div class="modal-success" id="successState">
+          <div class="success-icon">
+            <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+          </div>
+          <h3>Đã gửi thành công!</h3>
+          <p>Cảm ơn bạn đã đăng ký. Chúng tôi sẽ liên hệ trong vòng 24 giờ để xác nhận thông tin.</p>
         </div>
-        <div class="form-group">
-          <label for="f-email">Email</label>
-          <input id="f-email" type="email" name="Email" placeholder="email@example.com" required>
-        </div>
-        <div class="form-group">
-          <label for="f-phone">Điện thoại</label>
-          <input id="f-phone" type="text" name="Điện thoại" placeholder="0912 345 678" required>
-        </div>
-        <div class="form-group">
-          <label for="f-course">Khoá học bạn chọn</label>
-          <select id="f-course" name="Khóa học bạn chọn" required>
-            <option value="SID Basic" selected>SID Basic</option>
-            <option value="SID Pro">SID Pro</option>
-            <option value="SID Advance">SID Advance</option>
-          </select>
-        </div>
-        <div class="form-group">
-          <label for="f-msg">Lời nhắn</label>
-          <textarea id="f-msg" name="Lời nhắn" placeholder="Bạn muốn nhắn gì thêm?" required></textarea>
-        </div>
-        <div class="form-group">
-          <label>Xác minh bảo mật</label>
-          <div class="cf-turnstile" data-sitekey="0x4AAAAAADzLVrl6Ia2jj9n8" data-theme="light" data-callback="onTurnstileSuccess" data-error-callback="onTurnstileError" data-expired-callback="onTurnstileExpired"></div>
-          <p class="captcha-error" id="captchaError" role="alert" aria-live="polite"></p>
-        </div>
-        <button type="submit" class="form-submit" id="formSubmitBtn" disabled>Hoàn thành captcha để gửi</button>
-      </form>
-    </div>
-
-    <!-- Success state -->
-    <div class="modal-success" id="successState">
-      <div class="success-icon">
-        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
       </div>
-      <h3>Đã gửi thành công!</h3>
-      <p>Cảm ơn bạn đã đăng ký. Chúng tôi sẽ liên hệ trong vòng 24 giờ để xác nhận thông tin.</p>
+
+      <aside class="modal-payment-panel" aria-label="Thông tin chuyển khoản">
+        <div>
+          <span class="eyebrow">Thanh toán học phí</span>
+          <h3 class="payment-title">Quét mã QR để chuyển khoản</h3>
+          <p class="payment-copy">Dùng mã QR bên dưới để thanh toán nhanh. Sau khi chuyển khoản, giữ lại biên lai để đội ngũ SID đối chiếu và xác nhận.</p>
+        </div>
+
+        <div class="payment-qr-card">
+          <img src="content/images/Binh-QR.jpg" alt="Mã QR chuyển khoản học phí SID">
+        </div>
+
+        <ul class="payment-meta">
+          <li><strong>Nội dung</strong><span>Họ tên + gói học bạn chọn</span></li>
+          <li><strong>Hỗ trợ</strong><span>Gửi ảnh chuyển khoản qua form đăng ký hoặc liên hệ đội ngũ SID để được xác nhận.</span></li>
+        </ul>
+      </aside>
     </div>
   </div>
 </div>
