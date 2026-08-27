@@ -1,0 +1,640 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hermes Agent — Bản vẽ kiến trúc</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#faf9f6;
+    --panel:#ffffff;
+    --panel-2:#f4f2ec;
+    --line:#e6e2d8;
+    --line-strong:#cfc9ba;
+    --ink:#1e1c16;
+    --ink-dim:#5c5748;
+    --ink-faint:#948d7b;
+    --amber:#a5620b;
+    --amber-bg:#faeeda;
+    --amber-line:#e6a94f;
+    --teal:#0f6e56;
+    --teal-bg:#e1f5ee;
+    --coral:#8a381a;
+    --coral-bg:#faece7;
+    --violet:#3c3489;
+    --violet-bg:#eeedfe;
+    --pink:#72243e;
+    --pink-bg:#fbeaf0;
+    --mono:'JetBrains Mono', monospace;
+    --sans:'Inter', sans-serif;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  html{scroll-behavior:smooth;}
+  body{
+    background:
+      radial-gradient(circle at 1px 1px, rgba(30,28,22,0.06) 1px, transparent 0) 0 0/26px 26px,
+      var(--bg);
+    color:var(--ink);
+    font-family:var(--sans);
+    font-size:18px;
+    line-height:1.65;
+    -webkit-font-smoothing:antialiased;
+  }
+  a{color:inherit;}
+  ::selection{background:var(--amber-bg);color:var(--amber);}
+
+  /* ---------- topbar ---------- */
+  .topbar{
+    position:sticky;top:0;z-index:40;
+    background:rgba(250,249,246,0.92);
+    backdrop-filter:blur(10px);
+    border-bottom:1px solid var(--line);
+    display:flex;align-items:center;gap:22px;
+    padding:16px 26px;overflow-x:auto;white-space:nowrap;
+  }
+  .topbar .brand{font-family:var(--mono);font-weight:600;font-size:15px;letter-spacing:0.04em;color:var(--amber);flex-shrink:0;}
+  .topbar nav{display:flex;gap:4px;}
+  .topbar nav a{
+    font-family:var(--mono);font-size:13.5px;color:var(--ink-dim);
+    padding:7px 12px;border-radius:6px;text-decoration:none;border:1px solid transparent;
+  }
+  .topbar nav a:hover{color:var(--ink);background:var(--panel-2);border-color:var(--line);}
+
+  /* ---------- layout ---------- */
+  .wrap{max-width:1080px;margin:0 auto;padding:0 26px;}
+  section{padding:96px 0;border-bottom:1px dashed var(--line);}
+  section:last-of-type{border-bottom:none;}
+  .sheet-tag{
+    font-family:var(--mono);font-size:14px;font-weight:600;color:var(--amber);
+    letter-spacing:0.08em;margin-bottom:16px;display:flex;align-items:center;gap:10px;
+  }
+  .sheet-tag::before{content:'';width:26px;height:2px;background:var(--amber-line);}
+  h2{
+    font-family:var(--mono);font-weight:700;font-size:clamp(26px,3.4vw,38px);
+    letter-spacing:-0.01em;margin-bottom:14px;
+  }
+  .lede{color:var(--ink-dim);max-width:680px;margin-bottom:48px;font-size:18px;}
+  .lede b{color:var(--ink);font-weight:600;}
+
+  /* ---------- hero ---------- */
+  .hero{padding-top:110px;padding-bottom:90px;}
+  .hero .kicker{font-family:var(--mono);font-size:14px;font-weight:600;color:var(--coral);letter-spacing:0.1em;margin-bottom:24px;}
+  .hero h1{
+    font-family:var(--mono);font-weight:700;
+    font-size:clamp(38px,6.6vw,68px);line-height:1.06;letter-spacing:-0.02em;
+    margin-bottom:28px;
+  }
+  .hero h1 span{color:var(--ink-faint);}
+  .hero p{max-width:640px;color:var(--ink-dim);font-size:19px;margin-bottom:38px;}
+  .hero .stats{display:flex;gap:40px;flex-wrap:wrap;border-top:1px solid var(--line);padding-top:26px;}
+  .hero .stat b{display:block;font-family:var(--mono);font-size:26px;color:var(--amber);}
+  .hero .stat span{font-size:14px;color:var(--ink-faint);}
+
+  /* ---------- generic card block (sheet 01 only) ---------- */
+  .block{
+    background:var(--panel);
+    border:1.5px solid var(--line-strong);
+    border-radius:12px;
+    padding:20px 22px;
+    cursor:pointer;
+    transition:border-color .15s, transform .1s, box-shadow .15s;
+    text-align:left;position:relative;
+    font-family:inherit;color:inherit;width:100%;
+  }
+  .block:hover{border-color:var(--ink-dim);transform:translateY(-2px);box-shadow:0 6px 16px rgba(30,28,22,0.06);}
+  .block:focus-visible{outline:2px solid var(--amber);outline-offset:2px;}
+  .block .k{font-family:var(--mono);font-size:12.5px;color:var(--ink-faint);letter-spacing:0.06em;display:block;margin-bottom:8px;}
+  .block .t{font-weight:700;font-size:18px;margin-bottom:6px;display:block;}
+  .block .s{font-size:14.5px;color:var(--ink-dim);}
+  .block.accent-teal{border-color:var(--teal);background:var(--teal-bg);}
+  .block.accent-amber{border-color:var(--amber-line);background:var(--amber-bg);}
+  .row2{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
+  @media(max-width:600px){.row2{grid-template-columns:1fr;}}
+
+  /* ---------- diagram wrapper ---------- */
+  .diagram-card{
+    background:var(--panel);border:1px solid var(--line-strong);
+    border-radius:16px;padding:22px;box-shadow:0 2px 10px rgba(30,28,22,0.04);
+  }
+  .diagram-card figcaption{
+    font-family:var(--mono);font-size:13px;color:var(--ink-faint);
+    text-align:center;margin-top:14px;letter-spacing:0.02em;
+  }
+  svg.diagram{width:100%;height:auto;display:block;}
+  .diagram text{font-family:var(--sans);}
+  .diagram text.t{font-size:16px;fill:var(--ink);}
+  .diagram text.ts{font-size:13.5px;fill:var(--ink-dim);}
+  .diagram text.th{font-size:16px;font-weight:600;fill:var(--ink);}
+  .diagram .box rect{fill:var(--panel-2);stroke:var(--line-strong);stroke-width:1;}
+  .diagram .node{cursor:pointer;}
+  .diagram .node rect{transition:stroke-width .1s;}
+  .diagram .node:hover rect{stroke-width:2.2;}
+  .diagram .leader{stroke:var(--line-strong);stroke-dasharray:3 3;fill:none;stroke-width:1;}
+  .diagram .arr{stroke:#9c9587;fill:none;}
+  .diagram .c-purple rect{fill:var(--violet-bg);stroke:var(--violet);}
+  .diagram .c-purple text.th{fill:var(--violet);} .diagram .c-purple text.ts{fill:#534ab7;}
+  .diagram .c-teal rect{fill:var(--teal-bg);stroke:var(--teal);}
+  .diagram .c-teal text.th{fill:#085041;} .diagram .c-teal text.ts{fill:var(--teal);}
+  .diagram .c-coral rect{fill:var(--coral-bg);stroke:var(--coral);}
+  .diagram .c-coral text.th{fill:#712b13;} .diagram .c-coral text.ts{fill:var(--coral);}
+  .diagram .c-amber rect{fill:var(--amber-bg);stroke:var(--amber-line);}
+  .diagram .c-amber text.th{fill:#633806;} .diagram .c-amber text.ts{fill:var(--amber);}
+  .diagram .c-pink rect{fill:var(--pink-bg);stroke:var(--pink);}
+  .diagram .c-pink text.th{fill:#4b1528;} .diagram .c-pink text.ts{fill:var(--pink);}
+  .diagram .c-gray rect{fill:var(--panel-2);stroke:#8b897f;}
+  .diagram .c-gray text.th{fill:#2c2c2a;} .diagram .c-gray text.ts{fill:#5c5748;}
+  .diagram .c-blue rect{fill:#e6f1fb;stroke:#0c447c;}
+  .diagram .c-blue text.th{fill:#042c53;} .diagram .c-blue text.ts{fill:#0c447c;}
+
+  /* ---------- footer ---------- */
+  footer{padding:64px 0 110px;text-align:center;color:var(--ink-faint);font-size:14.5px;font-family:var(--mono);}
+
+  /* ---------- modal ---------- */
+  .modal-backdrop{
+    position:fixed;inset:0;background:rgba(30,28,22,0.45);
+    backdrop-filter:blur(3px);
+    display:none;align-items:flex-start;justify-content:center;
+    z-index:100;overflow-y:auto;padding:48px 20px;
+  }
+  .modal-backdrop.open{display:flex;}
+  .modal{
+    background:var(--panel);border:1px solid var(--line-strong);
+    border-radius:18px;max-width:680px;width:100%;
+    padding:40px 40px 44px;position:relative;
+    box-shadow:0 20px 60px rgba(30,28,22,0.18);
+    animation:pop .18s ease;
+  }
+  @keyframes pop{from{opacity:0;transform:translateY(8px) scale(0.98);}to{opacity:1;transform:none;}}
+  .modal .close{
+    position:absolute;top:22px;right:22px;
+    width:38px;height:38px;border-radius:50%;
+    border:1.5px solid var(--line-strong);background:var(--panel);color:var(--ink-dim);
+    font-size:17px;cursor:pointer;display:flex;align-items:center;justify-content:center;
+  }
+  .modal .close:hover{color:var(--ink);border-color:var(--ink-dim);}
+  .modal .tag{font-family:var(--mono);font-size:13px;font-weight:600;letter-spacing:0.06em;color:var(--amber);margin-bottom:16px;}
+  .modal h3{font-family:var(--mono);font-size:26px;margin-bottom:20px;padding-right:34px;}
+  .modal .body p{color:var(--ink-dim);margin-bottom:16px;font-size:17px;}
+  .modal .body p:last-child{margin-bottom:0;}
+  .modal .body b{color:var(--ink);font-weight:600;}
+  .modal .body code{font-family:var(--mono);font-size:15px;background:var(--amber-bg);padding:2px 7px;border-radius:5px;color:var(--amber);}
+  @media(prefers-reduced-motion:reduce){.modal{animation:none;} .block{transition:none;}}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="brand">HERMES://ARCHITECTURE</div>
+  <nav>
+    <a href="#s01">01 · Harness</a>
+    <a href="#s02">02 · Toàn cảnh</a>
+    <a href="#s03">03 · Vòng đời turn</a>
+    <a href="#s04">04 · Tool dispatch</a>
+    <a href="#s05">05 · Sub-agent</a>
+    <a href="#s06">06 · Cha vs con</a>
+    <a href="#s07">07 · Profile</a>
+    <a href="#s08">08 · Lồng nhau</a>
+  </nav>
+</div>
+
+<div class="wrap">
+
+  <section class="hero">
+    <div class="kicker">BẢN VẼ KỸ THUẬT · DÙNG NGUYÊN SƠ ĐỒ ĐÃ GIẢNG</div>
+    <h1>Hermes Agent<br><span>không phải là một AI model.</span></h1>
+    <p>Nó là bộ khung điều phối bằng code Python — bọc quanh một LLM thuê ngoài. Bấm vào bất kỳ khối nào trong các sơ đồ bên dưới để xem giải thích chi tiết.</p>
+    <div class="stats">
+      <div class="stat"><b>1</b><span>điểm duy nhất gọi LLM</span></div>
+      <div class="stat"><b>4+1</b><span>điểm kích hoạt (CLI/Gateway/API/ACP + Cron)</span></div>
+      <div class="stat"><b>3</b><span>loại tool: backend / MCP / sub-agent</span></div>
+      <div class="stat"><b>2</b><span>bước sub-agent bỏ qua: Command &amp; Profile</span></div>
+    </div>
+  </section>
+
+  <!-- 01 HARNESS VS BRAIN -->
+  <section id="s01">
+    <div class="sheet-tag">SHEET 01 — HARNESS ≠ BRAIN</div>
+    <h2>Ai thực sự "nghĩ"?</h2>
+    <p class="lede">Tháo phần gọi model ra, Hermes chỉ còn là cỗ máy rỗng. <b>Toàn bộ trí tuệ nằm ở LLM bên ngoài</b> — Hermes chỉ lo ngữ cảnh, thực thi, và trí nhớ dài hạn.</p>
+    <div class="row2">
+      <button class="block accent-teal" data-key="harness">
+        <span class="k">KHỐI 01</span><span class="t">Hermes Agent — cái khung</span>
+        <span class="s">Code Python: vòng lặp, registry, session DB</span>
+      </button>
+      <button class="block accent-amber" data-key="brain">
+        <span class="k">KHỐI 02</span><span class="t">LLM bên ngoài — bộ não</span>
+        <span class="s">Claude / GPT / Gemini — gọi qua API</span>
+      </button>
+    </div>
+  </section>
+
+  <!-- 02 TOÀN CẢNH -->
+  <section id="s02">
+    <div class="sheet-tag">SHEET 02 — TOÀN CẢNH KIẾN TRÚC</div>
+    <h2>Mọi thành phần trong một bức tranh</h2>
+    <p class="lede">Từ điểm kích hoạt đến A→B→C→D, và ngay trong bước D là ba khả năng: chạy lệnh thật, gọi MCP, hoặc sinh sub-agent. <b>Nếu model không cần tool, nhánh phải là toàn bộ câu chuyện</b> — chỉ một agent chạy.</p>
+    <figure class="diagram-card">
+      <svg class="diagram" viewBox="0 0 680 780" role="img">
+      <title>Sơ đồ tổng hợp chi tiết kiến trúc Hermes Agent</title>
+      <defs><marker id="arrowMASTER" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M2 1L8 5L2 9" fill="none" stroke="context-stroke" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></marker></defs>
+      <text class="ts" x="60" y="16">Điểm kích hoạt (command / tin nhắn / lệnh)</text>
+      <g class="node c-purple" onclick="openModal('entry-cli')"><rect x="60" y="24" width="130" height="50" rx="10"/><text class="th" x="125" y="42" text-anchor="middle" dominant-baseline="central">CLI</text><text class="ts" x="125" y="60" text-anchor="middle" dominant-baseline="central">Người gõ lệnh</text></g>
+      <g class="node c-purple" onclick="openModal('entry-gateway')"><rect x="205" y="24" width="130" height="50" rx="10"/><text class="th" x="270" y="42" text-anchor="middle" dominant-baseline="central">Gateway</text><text class="ts" x="270" y="60" text-anchor="middle" dominant-baseline="central">Tin nhắn đến</text></g>
+      <g class="node c-purple" onclick="openModal('entry-api')"><rect x="350" y="24" width="130" height="50" rx="10"/><text class="th" x="415" y="42" text-anchor="middle" dominant-baseline="central">API server</text><text class="ts" x="415" y="60" text-anchor="middle" dominant-baseline="central">Request HTTP</text></g>
+      <g class="node c-purple" onclick="openModal('entry-acp')"><rect x="495" y="24" width="125" height="50" rx="10"/><text class="th" x="557" y="42" text-anchor="middle" dominant-baseline="central">ACP / IDE</text><text class="ts" x="557" y="60" text-anchor="middle" dominant-baseline="central">Lệnh từ editor</text></g>
+      <g class="node c-pink" onclick="openModal('entry-cron')"><rect x="500" y="86" width="120" height="40" rx="8" stroke-dasharray="3 2"/><text class="th" x="560" y="100" text-anchor="middle" dominant-baseline="central">Cron</text><text class="ts" x="560" y="116" text-anchor="middle" dominant-baseline="central">Tự chạy đúng giờ</text></g>
+      <line x1="125" y1="74" x2="330" y2="158" class="arr" opacity="0.4"/>
+      <line x1="270" y1="74" x2="335" y2="158" class="arr" opacity="0.4"/>
+      <line x1="415" y1="74" x2="345" y2="158" class="arr" opacity="0.4"/>
+      <line x1="557" y1="74" x2="350" y2="158" class="arr" opacity="0.4"/>
+      <line x1="560" y1="126" x2="355" y2="158" class="leader"/>
+      <g class="node box" onclick="openModal('master-a')"><rect x="200" y="160" width="280" height="56" rx="10"/><text class="th" x="340" y="178" text-anchor="middle" dominant-baseline="central">A. Nạp profile</text><text class="ts" x="340" y="196" text-anchor="middle" dominant-baseline="central">Config &amp; memory riêng</text></g>
+      <line x1="340" y1="216" x2="340" y2="236" class="arr" marker-end="url(#arrowMASTER)"/>
+      <g class="node box" onclick="openModal('master-b')"><rect x="200" y="236" width="280" height="56" rx="10"/><text class="th" x="340" y="254" text-anchor="middle" dominant-baseline="central">B. Build prompt + resolver</text><text class="ts" x="340" y="272" text-anchor="middle" dominant-baseline="central">Chạy đúng 1 lần mỗi turn</text></g>
+      <line x1="340" y1="292" x2="340" y2="312" class="arr" marker-end="url(#arrowMASTER)"/>
+      <g class="node c-amber" onclick="openModal('master-c')"><rect x="200" y="312" width="280" height="56" rx="10" stroke-width="2"/><text class="th" x="340" y="330" text-anchor="middle" dominant-baseline="central">C. Gọi LLM</text><text class="ts" x="340" y="348" text-anchor="middle" dominant-baseline="central">Có thể lặp lại nhiều lần</text></g>
+      <line x1="340" y1="368" x2="340" y2="388" class="arr" marker-end="url(#arrowMASTER)"/>
+      <g class="node box" onclick="openModal('master-decision')"><rect x="180" y="388" width="320" height="44" rx="8"/><text class="th" x="340" y="410" text-anchor="middle" dominant-baseline="central">Model có yêu cầu tool?</text></g>
+      <line x1="260" y1="432" x2="190" y2="496" class="arr"/><text class="ts" x="200" y="465" text-anchor="middle">Có</text>
+      <line x1="420" y1="432" x2="510" y2="496" class="arr"/><text class="ts" x="475" y="465" text-anchor="middle">Không</text>
+      <g class="node c-gray" onclick="openModal('master-d')"><rect x="60" y="496" width="260" height="56" rx="10"/><text class="th" x="190" y="514" text-anchor="middle" dominant-baseline="central">D. Gọi tool (registry)</text><text class="ts" x="190" y="532" text-anchor="middle" dominant-baseline="central">Xác định loại tool</text></g>
+      <g class="node c-purple" onclick="openModal('master-final')"><rect x="380" y="496" width="260" height="56" rx="10"/><text class="th" x="510" y="514" text-anchor="middle" dominant-baseline="central">Trả lời + lưu session</text><text class="ts" x="510" y="532" text-anchor="middle" dominant-baseline="central">Chỉ 1 agent duy nhất chạy</text></g>
+      <line x1="130" y1="552" x2="135" y2="580" class="arr"/>
+      <line x1="190" y1="552" x2="340" y2="580" class="arr"/>
+      <line x1="250" y1="552" x2="545" y2="580" class="arr"/>
+      <g class="node c-amber" onclick="openModal('branch-backend')"><rect x="40" y="580" width="190" height="56" rx="10"/><text class="th" x="135" y="598" text-anchor="middle" dominant-baseline="central">Execution backend</text><text class="ts" x="135" y="616" text-anchor="middle" dominant-baseline="central">Terminal: Local/Docker</text></g>
+      <g class="node c-blue" onclick="openModal('branch-mcp')"><rect x="245" y="580" width="190" height="56" rx="10"/><text class="th" x="340" y="598" text-anchor="middle" dominant-baseline="central">Gọi MCP server</text><text class="ts" x="340" y="616" text-anchor="middle" dominant-baseline="central">Kết nối tool ngoài</text></g>
+      <g class="node c-pink" onclick="openModal('branch-subagent')"><rect x="450" y="580" width="190" height="56" rx="10"/><text class="th" x="545" y="598" text-anchor="middle" dominant-baseline="central">delegate_task</text><text class="ts" x="545" y="616" text-anchor="middle" dominant-baseline="central">Spawn sub-agent (A→D)</text></g>
+      <path d="M135 636 V660" fill="none" stroke="#9c9587" stroke-width="1.5" opacity="0.6"/>
+      <path d="M340 636 V660" fill="none" stroke="#9c9587" stroke-width="1.5" opacity="0.6"/>
+      <path d="M545 636 V660" fill="none" stroke="#9c9587" stroke-width="1.5" opacity="0.6"/>
+      <path d="M135 660 H545" fill="none" stroke="#9c9587" stroke-width="1.5" opacity="0.6"/>
+      <path d="M340 660 V670" fill="none" stroke="#9c9587" stroke-width="1.5" marker-end="url(#arrowMASTER)" opacity="0.6"/>
+      <g class="node box" onclick="openModal('master-merge')"><rect x="200" y="670" width="280" height="56" rx="10"/><text class="th" x="340" y="688" text-anchor="middle" dominant-baseline="central">Nối kết quả vào hội thoại</text><text class="ts" x="340" y="706" text-anchor="middle" dominant-baseline="central">Quay lại bước C (Gọi LLM)</text></g>
+      <path d="M200 698 H20 V340 H198" fill="none" stroke="#9c9587" stroke-width="1.5" marker-end="url(#arrowMASTER)" opacity="0.6"/>
+      <text class="ts" x="25" y="500">Quay lại bước C</text>
+      <text class="ts" x="60" y="760">Cam = nơi duy nhất gọi LLM · Không tool → chỉ 1 agent, không rẽ nhánh nào bên dưới</text>
+      </svg>
+      <figcaption>Bấm vào từng khối để xem chi tiết vai trò</figcaption>
+    </figure>
+  </section>
+
+  <!-- 03 VÒNG ĐỜI TURN -->
+  <section id="s03">
+    <div class="sheet-tag">SHEET 03 — VÒNG ĐỜI MỘT TURN</div>
+    <h2>Thứ tự chạy thật, đánh số rõ ràng</h2>
+    <p class="lede">Bước 1-3 chỉ chạy một lần. <b>Bước 4 là nơi duy nhất gọi LLM</b>, và là bước duy nhất bị lặp lại khi cần thêm tool.</p>
+    <figure class="diagram-card">
+      <svg class="diagram" viewBox="0 0 680 600" role="img">
+      <title>Thứ tự chạy tuần tự của AIAgent core loop</title>
+      <defs><marker id="arrowTURN" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M2 1L8 5L2 9" fill="none" stroke="context-stroke" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></marker></defs>
+      <text class="ts" x="60" y="18">Chạy tuần tự từ trên xuống, đúng theo số thứ tự</text>
+      <g class="node box" onclick="openModal('turn-1')"><rect x="240" y="30" width="200" height="44" rx="8"/><text class="th" x="340" y="52" text-anchor="middle" dominant-baseline="central">1. Nhận tin nhắn</text></g>
+      <line x1="340" y1="74" x2="340" y2="94" class="arr" marker-end="url(#arrowTURN)"/>
+      <g class="node box" onclick="openModal('turn-2')"><rect x="210" y="94" width="260" height="56" rx="8"/><text class="th" x="340" y="112" text-anchor="middle" dominant-baseline="central">2. Build system prompt</text><text class="ts" x="340" y="130" text-anchor="middle" dominant-baseline="central">prompt_builder.py — code</text></g>
+      <line x1="340" y1="150" x2="340" y2="180" class="arr" marker-end="url(#arrowTURN)"/>
+      <g class="node box" onclick="openModal('turn-3')"><rect x="210" y="180" width="260" height="56" rx="8"/><text class="th" x="340" y="198" text-anchor="middle" dominant-baseline="central">3. Runtime resolver</text><text class="ts" x="340" y="216" text-anchor="middle" dominant-baseline="central">Chọn provider, key, url</text></g>
+      <line x1="340" y1="236" x2="340" y2="266" class="arr" marker-end="url(#arrowTURN)"/>
+      <line x1="345" y1="251" x2="480" y2="245" class="leader"/>
+      <text class="ts" x="486" y="240">Resolver xong</text>
+      <text class="ts" x="486" y="256">→ mới gọi model</text>
+      <g class="node c-amber" onclick="openModal('turn-4')"><rect x="200" y="270" width="280" height="56" rx="10"/><text class="th" x="340" y="288" text-anchor="middle" dominant-baseline="central">4. Gửi request tới model</text><text class="ts" x="340" y="306" text-anchor="middle" dominant-baseline="central">(LLM được gọi ở đây)</text></g>
+      <line x1="340" y1="326" x2="340" y2="356" class="arr" marker-end="url(#arrowTURN)"/>
+      <g class="node box" onclick="openModal('turn-5')"><rect x="200" y="356" width="280" height="44" rx="8"/><text class="th" x="340" y="378" text-anchor="middle" dominant-baseline="central">5. Model có yêu cầu tool?</text></g>
+      <line x1="260" y1="400" x2="180" y2="442" class="arr" marker-end="url(#arrowTURN)"/>
+      <text class="ts" x="195" y="426" text-anchor="middle">Có</text>
+      <line x1="420" y1="400" x2="510" y2="442" class="arr" marker-end="url(#arrowTURN)"/>
+      <text class="ts" x="470" y="426" text-anchor="middle">Không</text>
+      <g class="node c-gray" onclick="openModal('turn-5a')"><rect x="60" y="446" width="240" height="56" rx="8"/><text class="th" x="180" y="464" text-anchor="middle" dominant-baseline="central">5a. Thực thi tool</text><text class="ts" x="180" y="482" text-anchor="middle" dominant-baseline="central">Code — không gọi LLM</text></g>
+      <g class="node c-purple" onclick="openModal('turn-6')"><rect x="380" y="446" width="260" height="56" rx="8"/><text class="th" x="510" y="464" text-anchor="middle" dominant-baseline="central">6. Trả lời cuối</text><text class="ts" x="510" y="482" text-anchor="middle" dominant-baseline="central">Lưu session vào SQLite</text></g>
+      <path d="M60 474 H20 V298 H198" fill="none" stroke="#9c9587" stroke-width="1.5" marker-end="url(#arrowTURN)" opacity="0.7"/>
+      <text class="ts" x="45" y="319">Quay lại bước 4</text>
+      <text class="ts" x="60" y="570">Cam = bước 4, nơi duy nhất LLM được gọi · Xám/tím = code thuần</text>
+      </svg>
+      <figcaption>Bấm vào từng bước để xem giải thích</figcaption>
+    </figure>
+  </section>
+
+  <!-- 04 TOOL DISPATCH -->
+  <section id="s04">
+    <div class="sheet-tag">SHEET 04 — BÊN TRONG BƯỚC 5A</div>
+    <h2>Một tool, ba khả năng</h2>
+    <p class="lede">Registry là lớp điều phối trung tâm <b>duy nhất</b>. Backend, MCP, và sub-agent đều là "cấp dưới" được nó gọi tới.</p>
+    <figure class="diagram-card">
+      <svg class="diagram" viewBox="0 0 680 420" role="img">
+      <title>Ba loại tool có thể chạy trong bước thực thi tool</title>
+      <defs><marker id="arrowT3" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M2 1L8 5L2 9" fill="none" stroke="context-stroke" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></marker></defs>
+      <g class="node box" onclick="openModal('td-a')"><rect x="230" y="20" width="220" height="56" rx="10"/><text class="th" x="340" y="38" text-anchor="middle" dominant-baseline="central">a. Model yêu cầu tool</text><text class="ts" x="340" y="56" text-anchor="middle" dominant-baseline="central">Tên tool + tham số (JSON)</text></g>
+      <line x1="340" y1="76" x2="340" y2="106" class="arr" marker-end="url(#arrowT3)"/>
+      <g class="node box" onclick="openModal('branch-registry')"><rect x="190" y="110" width="300" height="56" rx="10"/><text class="th" x="340" y="128" text-anchor="middle" dominant-baseline="central">b. Tool registry tra handler</text><text class="ts" x="340" y="146" text-anchor="middle" dominant-baseline="central">Xem tên tool thuộc loại nào</text></g>
+      <line x1="260" y1="166" x2="135" y2="220" class="arr" marker-end="url(#arrowT3)"/><text class="ts" x="150" y="195" text-anchor="middle">Terminal</text>
+      <line x1="340" y1="166" x2="340" y2="220" class="arr" marker-end="url(#arrowT3)"/><text class="ts" x="365" y="195" text-anchor="middle">MCP</text>
+      <line x1="420" y1="166" x2="545" y2="220" class="arr" marker-end="url(#arrowT3)"/><text class="ts" x="530" y="195" text-anchor="middle">Delegate</text>
+      <g class="node c-amber" onclick="openModal('branch-backend')"><rect x="40" y="220" width="190" height="56" rx="10"/><text class="th" x="135" y="238" text-anchor="middle" dominant-baseline="central">c. Execution backend</text><text class="ts" x="135" y="256" text-anchor="middle" dominant-baseline="central">Terminal: Local/Docker</text></g>
+      <g class="node c-teal" onclick="openModal('branch-mcp')"><rect x="245" y="220" width="190" height="56" rx="10"/><text class="th" x="340" y="238" text-anchor="middle" dominant-baseline="central">c. Gọi MCP server</text><text class="ts" x="340" y="256" text-anchor="middle" dominant-baseline="central">Kết nối tool ngoài</text></g>
+      <g class="node c-pink" onclick="openModal('branch-subagent')"><rect x="450" y="220" width="190" height="56" rx="10"/><text class="th" x="545" y="238" text-anchor="middle" dominant-baseline="central">c. delegate_task</text><text class="ts" x="545" y="256" text-anchor="middle" dominant-baseline="central">Spawn sub-agent</text></g>
+      <path d="M135 276 V300" fill="none" stroke="#9c9587" stroke-width="1.5" opacity="0.6"/>
+      <path d="M340 276 V300" fill="none" stroke="#9c9587" stroke-width="1.5" opacity="0.6"/>
+      <path d="M545 276 V300" fill="none" stroke="#9c9587" stroke-width="1.5" opacity="0.6"/>
+      <path d="M135 300 H545" fill="none" stroke="#9c9587" stroke-width="1.5" opacity="0.6"/>
+      <path d="M340 300 V310" fill="none" stroke="#9c9587" stroke-width="1.5" marker-end="url(#arrowT3)" opacity="0.6"/>
+      <g class="node box" onclick="openModal('branch-merge')"><rect x="200" y="310" width="280" height="56" rx="10"/><text class="th" x="340" y="328" text-anchor="middle" dominant-baseline="central">d. Nối kết quả vào hội thoại</text><text class="ts" x="340" y="346" text-anchor="middle" dominant-baseline="central">Quay lại bước 4</text></g>
+      <text class="ts" x="60" y="400">Cả 3 nhánh đều thuộc bước 5a — chỉ khác loại tool ở bước b</text>
+      </svg>
+      <figcaption>Bấm vào từng khối để xem chi tiết từng nhánh</figcaption>
+    </figure>
+  </section>
+
+  <!-- 05 SUB-AGENT MECHANICS -->
+  <section id="s05">
+    <div class="sheet-tag">SHEET 05 — CƠ CHẾ SUB-AGENT</div>
+    <h2>delegate_task hoạt động ra sao</h2>
+    <p class="lede">Không phải một bước riêng — nó là <b>một loại tool</b>, chỉ khác ở chỗ "thực thi" là khởi tạo hẳn một AIAgent con.</p>
+    <figure class="diagram-card">
+      <svg class="diagram" viewBox="0 0 680 400" role="img">
+      <title>Cơ chế bên trong delegate_task</title>
+      <defs><marker id="arrowDEL" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M2 1L8 5L2 9" fill="none" stroke="context-stroke" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></marker></defs>
+      <g class="node c-pink" onclick="openModal('branch-subagent')"><rect x="230" y="20" width="220" height="56" rx="10"/><text class="th" x="340" y="38" text-anchor="middle" dominant-baseline="central">Gọi delegate_task</text><text class="ts" x="340" y="56" text-anchor="middle" dominant-baseline="central">1 hoặc nhiều task cùng lúc</text></g>
+      <path d="M340 76 V106" fill="none" stroke="#9c9587" stroke-width="1.5" opacity="0.6"/>
+      <path d="M140 106 H540" fill="none" stroke="#9c9587" stroke-width="1.5" opacity="0.6"/>
+      <path d="M140 106 V130" fill="none" stroke="#9c9587" stroke-width="1.5" marker-end="url(#arrowDEL)" opacity="0.6"/>
+      <path d="M340 106 V130" fill="none" stroke="#9c9587" stroke-width="1.5" marker-end="url(#arrowDEL)" opacity="0.6"/>
+      <path d="M540 106 V130" fill="none" stroke="#9c9587" stroke-width="1.5" marker-end="url(#arrowDEL)" opacity="0.6"/>
+      <g class="node c-coral" onclick="openModal('sub-spawn')"><rect x="50" y="130" width="180" height="56" rx="10"/><text class="th" x="140" y="148" text-anchor="middle" dominant-baseline="central">Task 1</text><text class="ts" x="140" y="166" text-anchor="middle" dominant-baseline="central">Context hoàn toàn rỗng</text></g>
+      <g class="node c-coral" onclick="openModal('sub-spawn')"><rect x="250" y="130" width="180" height="56" rx="10"/><text class="th" x="340" y="148" text-anchor="middle" dominant-baseline="central">Task 2</text><text class="ts" x="340" y="166" text-anchor="middle" dominant-baseline="central">Terminal session riêng</text></g>
+      <g class="node c-coral" onclick="openModal('sub-spawn')"><rect x="450" y="130" width="180" height="56" rx="10"/><text class="th" x="540" y="148" text-anchor="middle" dominant-baseline="central">Task 3</text><text class="ts" x="540" y="166" text-anchor="middle" dominant-baseline="central">Chạy lại B→C→D độc lập</text></g>
+      <line x1="600" y1="160" x2="640" y2="180" class="leader"/>
+      <g class="node c-amber" onclick="openModal('sub-budget')"><rect x="490" y="200" width="150" height="60" rx="10"/><text class="th" x="565" y="220" text-anchor="middle" dominant-baseline="central">Ngân sách riêng</text><text class="ts" x="565" y="238" text-anchor="middle" dominant-baseline="central">Tối đa 50 vòng/con</text></g>
+      <line x1="580" y1="186" x2="620" y2="280" class="leader"/>
+      <g class="node c-teal" onclick="openModal('sub-model')"><rect x="490" y="280" width="150" height="60" rx="10"/><text class="th" x="565" y="300" text-anchor="middle" dominant-baseline="central">Model riêng</text><text class="ts" x="565" y="318" text-anchor="middle" dominant-baseline="central">Cấu hình model rẻ</text></g>
+      <path d="M140 186 V210" fill="none" stroke="#9c9587" stroke-width="1.5" opacity="0.6"/>
+      <path d="M340 186 V210" fill="none" stroke="#9c9587" stroke-width="1.5" opacity="0.6"/>
+      <path d="M540 186 V210" fill="none" stroke="#9c9587" stroke-width="1.5" opacity="0.6"/>
+      <path d="M140 210 H540" fill="none" stroke="#9c9587" stroke-width="1.5" opacity="0.6"/>
+      <path d="M340 210 V220" fill="none" stroke="#9c9587" stroke-width="1.5" marker-end="url(#arrowDEL)" opacity="0.6"/>
+      <g class="node box" onclick="openModal('sub-order')"><rect x="200" y="220" width="280" height="56" rx="10"/><text class="th" x="340" y="238" text-anchor="middle" dominant-baseline="central">Trả tóm tắt theo task_index</text><text class="ts" x="340" y="256" text-anchor="middle" dominant-baseline="central">Không theo thứ tự hoàn thành</text></g>
+      <line x1="340" y1="276" x2="340" y2="296" class="arr" marker-end="url(#arrowDEL)"/>
+      <g class="node c-purple" onclick="openModal('sub-final')"><rect x="200" y="296" width="280" height="56" rx="10"/><text class="th" x="340" y="314" text-anchor="middle" dominant-baseline="central">Gộp thành 1 tool_result</text><text class="ts" x="340" y="332" text-anchor="middle" dominant-baseline="central">Agent cha nhận, quay lại bước 4</text></g>
+      </svg>
+      <figcaption>Bấm vào từng khối để xem chi tiết cơ chế</figcaption>
+    </figure>
+  </section>
+
+  <!-- 06 PARENT VS SUBAGENT -->
+  <section id="s06">
+    <div class="sheet-tag">SHEET 06 — VÒNG LẶP CHA VS CON</div>
+    <h2>Sub-agent không "vòng ra ngoài"</h2>
+    <p class="lede">Nó bỏ qua hẳn <b>Command</b> và <b>bước nạp profile</b> — vì cả hai đã có sẵn trong cùng tiến trình.</p>
+    <figure class="diagram-card">
+      <svg class="diagram" viewBox="0 0 680 440" role="img">
+      <title>So sánh điểm bắt đầu vòng lặp giữa agent cha và sub-agent</title>
+      <defs><marker id="arrowCMP" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M2 1L8 5L2 9" fill="none" stroke="context-stroke" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></marker></defs>
+      <text class="ts" x="60" y="18">Agent cha (từ entry point)</text>
+      <text class="ts" x="380" y="18">Sub-agent (từ delegate_task)</text>
+      <g class="node c-purple" onclick="openModal('compare-command')"><rect x="60" y="30" width="260" height="50" rx="10"/><text class="th" x="190" y="48" text-anchor="middle" dominant-baseline="central">Command</text><text class="ts" x="190" y="66" text-anchor="middle" dominant-baseline="central">CLI/Gateway/API/ACP/Cron</text></g>
+      <g class="node c-purple" onclick="openModal('compare-command-skip')"><rect x="380" y="30" width="260" height="50" rx="10"/><text class="th" x="510" y="48" text-anchor="middle" dominant-baseline="central">Nhận task từ delegate_task</text><text class="ts" x="510" y="66" text-anchor="middle" dominant-baseline="central">Không qua entry point nào</text></g>
+      <line x1="190" y1="80" x2="190" y2="100" class="arr" marker-end="url(#arrowCMP)"/>
+      <line x1="510" y1="80" x2="510" y2="100" class="arr" marker-end="url(#arrowCMP)"/>
+      <g class="node box" onclick="openModal('compare-profile')"><rect x="60" y="100" width="260" height="50" rx="10"/><text class="th" x="190" y="118" text-anchor="middle" dominant-baseline="central">A. Nạp profile</text><text class="ts" x="190" y="136" text-anchor="middle" dominant-baseline="central">Chọn config, memory</text></g>
+      <g class="node c-gray" onclick="openModal('compare-profile-skip')"><rect x="380" y="100" width="260" height="50" rx="10" stroke-dasharray="4 3"/><text class="th" x="510" y="118" text-anchor="middle" dominant-baseline="central">Kế thừa profile</text><text class="ts" x="510" y="136" text-anchor="middle" dominant-baseline="central">Không nạp lại — dùng chung</text></g>
+      <line x1="190" y1="150" x2="190" y2="170" class="arr" marker-end="url(#arrowCMP)"/>
+      <line x1="510" y1="150" x2="510" y2="170" class="arr" marker-end="url(#arrowCMP)" opacity="0.5"/>
+      <g class="node box" onclick="openModal('compare-prompt')"><rect x="60" y="170" width="260" height="50" rx="10"/><text class="th" x="190" y="188" text-anchor="middle" dominant-baseline="central">B. Build prompt</text><text class="ts" x="190" y="206" text-anchor="middle" dominant-baseline="central">Theo lịch sử hội thoại</text></g>
+      <g class="node c-teal" onclick="openModal('compare-prompt-sub')"><rect x="380" y="170" width="260" height="50" rx="10"/><text class="th" x="510" y="188" text-anchor="middle" dominant-baseline="central">B. Build prompt riêng</text><text class="ts" x="510" y="206" text-anchor="middle" dominant-baseline="central">Theo task được giao</text></g>
+      <line x1="190" y1="220" x2="190" y2="240" class="arr" marker-end="url(#arrowCMP)"/>
+      <line x1="510" y1="220" x2="510" y2="240" class="arr" marker-end="url(#arrowCMP)"/>
+      <g class="node c-amber" onclick="openModal('compare-llm')"><rect x="60" y="240" width="260" height="50" rx="10"/><text class="th" x="190" y="265" text-anchor="middle" dominant-baseline="central">C. Gọi LLM</text></g>
+      <g class="node c-amber" onclick="openModal('compare-llm-sub')"><rect x="380" y="240" width="260" height="50" rx="10"/><text class="th" x="510" y="265" text-anchor="middle" dominant-baseline="central">C. Gọi LLM (của sub-agent)</text></g>
+      <line x1="190" y1="290" x2="190" y2="310" class="arr" marker-end="url(#arrowCMP)"/>
+      <line x1="510" y1="290" x2="510" y2="310" class="arr" marker-end="url(#arrowCMP)"/>
+      <g class="node box" onclick="openModal('compare-tool')"><rect x="60" y="310" width="260" height="56" rx="10"/><text class="th" x="190" y="328" text-anchor="middle" dominant-baseline="central">D. Gọi tool nếu có</text><text class="ts" x="190" y="346" text-anchor="middle" dominant-baseline="central">Backend / MCP / sub-agent</text></g>
+      <g class="node box" onclick="openModal('compare-tool-sub')"><rect x="380" y="310" width="260" height="56" rx="10"/><text class="th" x="510" y="328" text-anchor="middle" dominant-baseline="central">D. Gọi tool nếu có</text><text class="ts" x="510" y="346" text-anchor="middle" dominant-baseline="central">Delegate tiếp nếu orchestrator</text></g>
+      <text class="ts" x="190" y="390" text-anchor="middle">↻ lặp lại C ↔ D</text>
+      <text class="ts" x="510" y="390" text-anchor="middle">↻ lặp lại C ↔ D</text>
+      <text class="ts" x="60" y="425">Nét đứt = bước bị bỏ qua, kế thừa sẵn có</text>
+      </svg>
+      <figcaption>Bấm vào từng khối để xem chi tiết đối chiếu</figcaption>
+    </figure>
+  </section>
+
+  <!-- 07 PROFILE -->
+  <section id="s07">
+    <div class="sheet-tag">SHEET 07 — QUẢN LÝ PROFILE</div>
+    <h2>Nhiều agent độc lập, một bản cài</h2>
+    <p class="lede">Profile là "nhiều nhân viên khác phòng ban" — mỗi cái có config, memory, gateway PID riêng.</p>
+    <figure class="diagram-card">
+      <svg class="diagram" viewBox="0 0 680 400" role="img">
+      <title>Quản lý nhiều profile trong Hermes Agent</title>
+      <defs><marker id="arrowPROF" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M2 1L8 5L2 9" fill="none" stroke="context-stroke" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></marker></defs>
+      <g class="node c-teal" onclick="openModal('profile-command')"><rect x="230" y="40" width="220" height="56" rx="10"/><text class="th" x="340" y="58" text-anchor="middle" dominant-baseline="central">hermes -p marketing</text><text class="ts" x="340" y="76" text-anchor="middle" dominant-baseline="central">Chạy lệnh riêng cho profile</text></g>
+      <line x1="340" y1="96" x2="340" y2="170" class="arr" marker-end="url(#arrowPROF)"/>
+      <g class="box"><rect x="40" y="110" width="600" height="250" rx="20"/><text class="th" x="60" y="138">Một bản cài Hermes (single install)</text></g>
+      <g class="node c-purple" onclick="openModal('profile-default')"><rect x="65" y="170" width="170" height="110" rx="10"/><text class="th" x="150" y="192" text-anchor="middle" dominant-baseline="central">default</text><text class="ts" x="150" y="212" text-anchor="middle" dominant-baseline="central">config + memory riêng</text><text class="ts" x="150" y="232" text-anchor="middle" dominant-baseline="central">gateway PID riêng</text></g>
+      <g class="node c-coral" onclick="openModal('profile-marketing')"><rect x="255" y="170" width="170" height="110" rx="10" stroke-width="2"/><text class="th" x="340" y="192" text-anchor="middle" dominant-baseline="central">marketing</text><text class="ts" x="340" y="212" text-anchor="middle" dominant-baseline="central">config + memory riêng</text><text class="ts" x="340" y="232" text-anchor="middle" dominant-baseline="central">gateway PID riêng</text></g>
+      <g class="node c-teal" onclick="openModal('profile-research')"><rect x="445" y="170" width="170" height="110" rx="10"/><text class="th" x="530" y="192" text-anchor="middle" dominant-baseline="central">research</text><text class="ts" x="530" y="212" text-anchor="middle" dominant-baseline="central">config + memory riêng</text><text class="ts" x="530" y="232" text-anchor="middle" dominant-baseline="central">gateway PID riêng</text></g>
+      <text class="ts" x="60" y="320">Token lock ngăn xung đột credential giữa các profile.</text>
+      </svg>
+      <figcaption>Bấm vào từng profile để xem chi tiết</figcaption>
+    </figure>
+  </section>
+
+  <!-- 08 NESTING -->
+  <section id="s08">
+    <div class="sheet-tag">SHEET 08 — GATEWAY → CHA → CON</div>
+    <h2>Gateway chưa từng thấy sub-agent</h2>
+    <p class="lede">Gateway chỉ biết đến <b>một</b> agent duy nhất. Toàn bộ chuyện sinh sub-agent diễn ra ẩn bên trong bước D của agent cha đó.</p>
+    <figure class="diagram-card">
+      <svg class="diagram" viewBox="0 0 680 570" role="img">
+      <title>Quan hệ lồng nhau giữa Gateway, agent cha, và sub-agent</title>
+      <defs><marker id="arrowNEST" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M2 1L8 5L2 9" fill="none" stroke="context-stroke" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></marker></defs>
+      <g class="node c-purple" onclick="openModal('nest-gateway')"><rect x="250" y="20" width="180" height="50" rx="10"/><text class="th" x="340" y="38" text-anchor="middle" dominant-baseline="central">Gateway</text><text class="ts" x="340" y="56" text-anchor="middle" dominant-baseline="central">Nhận tin nhắn</text></g>
+      <line x1="340" y1="70" x2="340" y2="100" class="arr" marker-end="url(#arrowNEST)"/>
+      <g class="c-teal"><rect x="60" y="100" width="560" height="370" rx="20"/><text class="th" x="80" y="128">Agent cha — chạy vòng lặp riêng của nó</text></g>
+      <g class="node box" onclick="openModal('nest-early')"><rect x="210" y="145" width="260" height="40" rx="8"/><text class="th" x="340" y="165" text-anchor="middle" dominant-baseline="central">Bước 1→3 (như trước)</text></g>
+      <line x1="340" y1="185" x2="340" y2="205" class="arr" marker-end="url(#arrowNEST)"/>
+      <g class="node c-amber" onclick="openModal('nest-delegate')"><rect x="230" y="205" width="220" height="44" rx="8"/><text class="th" x="340" y="227" text-anchor="middle" dominant-baseline="central">Bước 4: delegate_task</text></g>
+      <line x1="280" y1="249" x2="210" y2="280" class="arr" marker-end="url(#arrowNEST)"/>
+      <line x1="400" y1="249" x2="470" y2="280" class="arr" marker-end="url(#arrowNEST)"/>
+      <g class="node c-coral" onclick="openModal('nest-sub1')"><rect x="100" y="280" width="220" height="80" rx="10"/><text class="th" x="210" y="304" text-anchor="middle" dominant-baseline="central">Sub-agent 1</text><text class="ts" x="210" y="322" text-anchor="middle" dominant-baseline="central">Chạy lại vòng lặp riêng</text><text class="ts" x="210" y="340" text-anchor="middle" dominant-baseline="central">Context &amp; terminal riêng</text></g>
+      <g class="node c-coral" onclick="openModal('nest-sub2')"><rect x="360" y="280" width="220" height="80" rx="10"/><text class="th" x="470" y="304" text-anchor="middle" dominant-baseline="central">Sub-agent 2</text><text class="ts" x="470" y="322" text-anchor="middle" dominant-baseline="central">Chạy lại vòng lặp riêng</text><text class="ts" x="470" y="340" text-anchor="middle" dominant-baseline="central">Context &amp; terminal riêng</text></g>
+      <path d="M210 360 V380" fill="none" stroke="#9c9587" stroke-width="1.5" opacity="0.6"/>
+      <path d="M470 360 V380" fill="none" stroke="#9c9587" stroke-width="1.5" opacity="0.6"/>
+      <path d="M210 380 H470" fill="none" stroke="#9c9587" stroke-width="1.5" opacity="0.6"/>
+      <path d="M340 380 V390" fill="none" stroke="#9c9587" stroke-width="1.5" marker-end="url(#arrowNEST)" opacity="0.6"/>
+      <g class="node box" onclick="openModal('nest-merge')"><rect x="190" y="390" width="340" height="44" rx="8"/><text class="th" x="340" y="412" text-anchor="middle" dominant-baseline="central">Nhận tóm tắt → tiếp tục bước 4→5</text></g>
+      <line x1="340" y1="434" x2="340" y2="480" class="arr" marker-end="url(#arrowNEST)"/>
+      <g class="node c-purple" onclick="openModal('nest-reply')"><rect x="230" y="480" width="220" height="50" rx="10"/><text class="th" x="340" y="498" text-anchor="middle" dominant-baseline="central">Gateway trả lời user</text><text class="ts" x="340" y="516" text-anchor="middle" dominant-baseline="central">Cùng một Gateway lúc đầu</text></g>
+      </svg>
+      <figcaption>Bấm vào từng khối để xem chi tiết quan hệ lồng nhau</figcaption>
+    </figure>
+  </section>
+
+  <footer>HERMES://ARCHITECTURE — tài liệu giảng dạy nội bộ · bấm bất kỳ khối nào để xem chi tiết</footer>
+</div>
+
+<div class="modal-backdrop" id="modalBackdrop">
+  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+    <button class="close" id="modalClose" aria-label="Đóng">✕</button>
+    <div class="tag" id="modalTag"></div>
+    <h3 id="modalTitle"></h3>
+    <div class="body" id="modalBody"></div>
+  </div>
+</div>
+
+<script>
+const DETAILS = {
+  harness: { tag:"SHEET 01 · HARNESS", title:"Hermes Agent — cái khung", body:`
+    <p>Hermes tự nó <b>không biết gì cả</b>. Nó là code Python thuần: một vòng lặp, một tool registry, một database SQLite. Nếu tháo hết phần gọi API model ra, Hermes chỉ còn là một cái máy rỗng không biết trả lời câu nào.</p>
+    <p><b>Chạy ra sao:</b> toàn bộ được gói trong một class Python duy nhất tên <code>AIAgent</code> (file <code>run_agent.py</code>), dùng chung cho mọi giao diện — CLI, Gateway, API server, ACP. Class này chỉ lặp đi lặp lại đúng 4 việc: ghép prompt, gửi request ra ngoài, đọc kết quả trả về, thực thi tool nếu được yêu cầu — không có bước nào trong đó là "suy luận".</p>
+    <p>Nó đóng vai trò như "hệ thần kinh + cơ bắp": nhớ giúp model (vì model tự nó stateless, không nhớ gì giữa hai lần gọi), chuẩn bị đúng ngữ cảnh mỗi lần gọi, thực thi hộ những gì model yêu cầu, và lặp lại cho tới khi model nói xong.</p>`},
+  brain: { tag:"SHEET 01 · BRAIN", title:"LLM bên ngoài — bộ não thật sự", body:`
+    <p>Toàn bộ khả năng "hiểu" yêu cầu, phân tích, ra quyết định làm gì tiếp theo đều nằm ở model — Claude, GPT, Gemini... — chứ không phải ở code của Hermes.</p>
+    <p><b>Chạy ra sao:</b> mỗi lần được gọi, model nhận một request HTTP chứa toàn bộ lịch sử hội thoại + system prompt + danh sách tool khả dụng, rồi trả về JSON — hoặc là một đoạn text trả lời, hoặc một mảng <code>tool_calls</code> kèm tên tool và tham số cụ thể. Model hoàn toàn không giữ trạng thái gì giữa hai lần gọi (stateless) — mọi "trí nhớ" về cuộc hội thoại đều do Hermes tự gửi lại từ đầu mỗi lần.</p>
+    <p>Đổi model là đổi hẳn chất lượng suy nghĩ của agent, dù code Hermes không đổi một dòng nào. Model cũng là bên duy nhất quyết định có cần gọi tool hay không, gọi tool nào, với tham số gì.</p>`},
+  "entry-cli": { tag:"ĐIỂM KÍCH HOẠT", title:"CLI", body:`
+    <p>CLI giữ một instance <code>AIAgent</code> duy nhất, sống suốt phiên làm việc — mỗi lượt gõ là một turn trong cùng agent đó.</p>
+    <p><b>Chạy ra sao:</b> khi khởi động, CLI tạo đúng một object <code>AIAgent</code> trong bộ nhớ tiến trình. Mỗi lần gõ một câu, CLI gọi hàm <code>agent.chat("...")</code> — hàm này chạy toàn bộ vòng lặp A→D một lượt rồi trả về câu trả lời cuối để in ra terminal. Vì chỉ một agent sống suốt phiên nên lịch sử hội thoại được giữ thẳng trong bộ nhớ, không cần đọc/ghi session liên tục như Gateway.</p>`},
+  "entry-gateway": { tag:"ĐIỂM KÍCH HOẠT", title:"Gateway", body:`
+    <p>Tiến trình chạy nền dài hạn, orchestrate nhiều session đồng thời trên 20 nền tảng chat (Telegram, Discord, Slack, WhatsApp...).</p>
+    <p><b>Chạy ra sao:</b> mỗi tin nhắn đến được định danh bằng một khóa session dạng (platform, user, chat). Gateway tra SessionStore (SQLite) xem session này đã tồn tại chưa, nạp lại lịch sử nếu có, rồi mới tạo hoặc tái sử dụng một <code>AIAgent</code> để xử lý. Nhiều session được xử lý đồng thời trong cùng một tiến trình — khác hẳn CLI vốn chỉ có một agent sống suốt phiên.</p>`},
+  "entry-api": { tag:"ĐIỂM KÍCH HOẠT", title:"API server", body:`
+    <p>Expose endpoint <code>/v1/chat/completions</code> tương thích OpenAI, cộng thêm REST API để quản lý cron job.</p>
+    <p><b>Chạy ra sao:</b> mỗi request HTTP đến được map trực tiếp thành một lời gọi hàm <code>run_conversation()</code> bên trong AIAgent. Lịch sử hội thoại thường do client tự gửi kèm trong mỗi request (giống chuẩn OpenAI), thay vì Hermes tự nạp từ session lưu sẵn như Gateway.</p>`},
+  "entry-acp": { tag:"ĐIỂM KÍCH HOẠT", title:"ACP / IDE", body:`
+    <p>Expose Hermes như một editor-native agent qua stdio/JSON-RPC cho VS Code, Zed, JetBrains.</p>
+    <p><b>Chạy ra sao:</b> IDE gửi từng lệnh dạng JSON qua stdin theo giao thức JSON-RPC, Hermes xử lý và trả kết quả qua stdout. Vẫn dùng chung một class <code>AIAgent</code> core, chỉ khác lớp vỏ giao tiếp so với CLI hay Gateway.</p>`},
+  "entry-cron": { tag:"ĐIỂM KÍCH HOẠT", title:"Cron", body:`
+    <p>Không phải một bước trong chuỗi — là một <b>nguồn kích hoạt độc lập</b>, ngang hàng với CLI/Gateway.</p>
+    <p><b>Chạy ra sao:</b> một bộ đếm giờ (ticking) chạy ngay trong tiến trình Gateway. Khi đến đúng lịch đã cấu hình, nó tự tạo ra một "tin nhắn ảo" chứa nội dung công việc đã định nghĩa sẵn trong job, rồi đưa thẳng vào đúng luồng xử lý turn như thể một người dùng vừa gõ — nghĩa là vẫn đi qua toàn bộ vòng lặp A→D bình thường, chỉ khác ở chỗ ai/cái gì kích hoạt nó.</p>`},
+  "ov-core": { tag:"TOÀN CẢNH", title:"AIAgent core loop", body:`
+    <p>Bộ điều phối trung tâm — orchestrate mọi hoạt động của agent: prompt builder, context engine, gọi model, dispatch tool, lặp lại.</p>
+    <p><b>Chạy ra sao:</b> toàn bộ định nghĩa trong một file <code>run_agent.py</code> duy nhất, với hàm <code>run_conversation()</code> là nơi vòng lặp A→D thực sự chạy. Mọi entry point (CLI/Gateway/API/ACP/Cron) đều gọi vào cùng một hàm này — không có phiên bản logic riêng cho từng giao diện. Xem chi tiết từng bước ở Sheet 03.</p>`},
+  "ov-resolver": { tag:"TOÀN CẢNH", title:"Runtime resolver", body:`
+    <p>Tra bảng chọn provider/API key/base URL dựa trên model đã cấu hình, hỗ trợ 18+ nhà cung cấp (Anthropic, OpenAI, Gemini, OpenRouter...).</p>
+    <p><b>Chạy ra sao:</b> hàm resolver nhận đầu vào là cặp (provider, model) đã cấu hình, tra một bảng ánh xạ nội bộ, trả về bộ ba (api_mode, api_key, base_url). <code>api_mode</code> quyết định format request gửi đi — có 3 chế độ khác nhau (chat_completions, codex_responses, anthropic_messages) tuỳ nhà cung cấp. Thuần code, chạy trước khi gọi model, tự nó không hề gọi LLM.</p>`},
+  "ov-registry": { tag:"TOÀN CẢNH", title:"Tool registry", body:`
+    <p>70+ tool trong ~28 toolset. Mỗi tool tự đăng ký vào registry khi Hermes khởi động — kể cả tool do MCP server hay Plugin cung cấp.</p>
+    <p><b>Chạy ra sao:</b> lúc khởi động, một hàm quét toàn bộ file trong thư mục tools/ bằng AST parsing, tìm file nào có lời gọi <code>registry.register()</code> ở cấp top-level rồi mới import file đó. Nhờ vậy, thêm tool mới chỉ cần thả file vào đúng thư mục — không cần sửa danh sách thủ công ở đâu cả. Đây là lớp điều phối trung tâm duy nhất cho mọi tool call.</p>`},
+  "ov-backend": { tag:"TOÀN CẢNH", title:"Execution backend", body:`
+    <p>Nơi lệnh terminal thực sự được chạy: Local, Docker, SSH, Daytona, Modal, Singularity.</p>
+    <p><b>Chạy ra sao:</b> khi một tool loại terminal được gọi, Hermes chọn đúng backend đã cấu hình rồi gửi lệnh xuống đó thực thi — ví dụ backend Docker sẽ exec lệnh vào container đang chạy sẵn, backend SSH sẽ mở kết nối tới máy chủ từ xa. stdout/stderr được bắt lại, cắt bớt nếu quá dài, rồi trả về dưới dạng text cho model đọc ở lượt gọi kế tiếp.</p>`},
+  "ov-memory": { tag:"TOÀN CẢNH", title:"Memory &amp; session", body:`
+    <p>SQLite + FTS5 full-text search. Lưu lịch sử hội thoại, có lineage tracking qua các lần nén context.</p>
+    <p><b>Chạy ra sao:</b> mỗi lần lưu, Hermes ghi toàn bộ mảng message (gồm cả tool_call và tool_result) vào một bản ghi SQLite, đồng thời index nội dung text vào bảng FTS5 để có thể tìm lại sau này bằng từ khóa. Hai file user.md (bạn là ai) và memory.md (dự án, ngữ cảnh) được đọc và nạp vào đầu mỗi session.</p>`},
+  "ov-mcp": { tag:"TOÀN CẢNH", title:"MCP", body:`
+    <p>Model Context Protocol — cách Hermes kết nối với dịch vụ ngoài (Figma, Notion, API tuỳ chỉnh...) mà không cần viết code tool riêng cho từng dịch vụ.</p>
+    <p><b>Chạy ra sao:</b> lúc khởi động, Hermes đọc file cấu hình MCP server, kết nối tới từng server qua giao thức MCP, hỏi server đó "bạn có những tool gì", rồi tự động đăng ký các tool đó vào cùng một registry như tool nội bộ. Khi model gọi một tool loại MCP, Hermes gửi request JSON-RPC tới đúng server đó và chờ phản hồi.</p>`},
+  "ov-plugins": { tag:"TOÀN CẢNH", title:"Plugins", body:`
+    <p>Đăng ký thêm tool, hook, hoặc lệnh CLI mới mà không cần sửa core Hermes.</p>
+    <p><b>Chạy ra sao:</b> Hermes quét 3 nguồn theo thứ tự — <code>~/.hermes/plugins</code> (user), <code>.hermes/plugins</code> (project), rồi pip entry points — import từng plugin tìm thấy, và mỗi plugin tự gọi <code>registry.register()</code> y hệt một tool built-in. Vì vậy một tool do plugin cung cấp, khi được model gọi, vẫn đi qua đúng luồng registry → thực thi như mọi tool khác.</p>`},
+  "master-a": { tag:"TOÀN CẢNH · A", title:"A. Nạp profile", body:`
+    <p>Chọn config, memory, gateway PID của đúng profile đang chạy.</p>
+    <p><b>Chạy ra sao:</b> Hermes đọc biến <code>HERMES_HOME</code> tương ứng với tên profile, trỏ mọi đường dẫn con (config.yaml, memory, sessions, skills) vào đúng thư mục riêng của profile đó. Việc này chạy một lần khi tiến trình khởi động (<code>hermes -p tên</code>) — không lặp lại mỗi turn, dù A→D chạy hàng trăm lần bên trong cùng một tiến trình.</p>`},
+  "master-b": { tag:"TOÀN CẢNH · B", title:"B. Build prompt + resolver", body:`
+    <p>Gộp hai việc thuần code: build system prompt (identity, skill, memory, context) và runtime resolver (chọn provider/API key/base URL).</p>
+    <p><b>Chạy ra sao:</b> prompt_builder.py lắp ráp prompt theo thứ tự cố định — identity/tool guidance/skill metadata, rồi context file, rồi memory/timestamp — và giữ nguyên "byte-stable" suốt turn để tận dụng prompt caching phía provider. Resolver chạy song song về mặt logic, tra bảng chọn đúng endpoint sẽ gọi ở bước C. Cả hai chạy đúng 1 lần mỗi turn, không gọi LLM.</p>`},
+  "master-c": { tag:"TOÀN CẢNH · C · DUY NHẤT GỌI LLM", title:"C. Gọi LLM", body:`
+    <p>Điểm duy nhất trong toàn bộ turn thực sự gọi LLM.</p>
+    <p><b>Chạy ra sao:</b> request được format theo đúng api_mode đã xác định ở bước B, gửi qua HTTPS tới base_url tương ứng. Nếu provider chính lỗi (429 rate limit, 5xx server error, 401/403 auth), Hermes tự động chuyển sang provider dự phòng đã cấu hình sẵn — tối đa một lần mỗi session. Bước này có thể lặp lại nhiều lần trong một turn: mỗi khi có tool result mới, luồng quay thẳng về đây, không quay lại A hay B.</p>`},
+  "master-decision": { tag:"TOÀN CẢNH", title:"Model có yêu cầu tool?", body:`
+    <p>Thuần code — chỉ đọc JSON response của model để rẽ nhánh.</p>
+    <p><b>Chạy ra sao:</b> Hermes kiểm tra trường <code>tool_calls</code> trong response. Nếu rỗng/không có → coi như model đã trả lời xong, đi thẳng xuống nhánh "Không". Nếu có → với mỗi phần tử trong mảng đó, Hermes chuẩn bị dispatch sang registry ở nhánh "Có". Đây là điểm quyết định toàn bộ phần còn lại của turn có phức tạp hay không.</p>`},
+  "master-d": { tag:"TOÀN CẢNH · D", title:"D. Gọi tool (registry)", body:`
+    <p>Tool registry xác định tool được yêu cầu thuộc loại nào trong ba loại.</p>
+    <p><b>Chạy ra sao:</b> registry tra tên tool trong bảng nội bộ, kiểm tra <code>check_fn</code> xem tool có sẵn sàng không (ví dụ đủ API key chưa), rồi dispatch sang đúng handler — chạy lệnh thật (Execution backend), gọi ra ngoài (MCP), hay sinh thêm một agent con (delegate_task). Một số tool đặc biệt như delegate_task còn bị <code>run_agent.py</code> chặn (intercept) trước khi tới registry vì cần truy cập trực tiếp state của agent.</p>`},
+  "master-final": { tag:"TOÀN CẢNH · KẾT THÚC", title:"Trả lời + lưu session", body:`
+    <p>Khi model không yêu cầu tool nào, đây là điểm kết thúc turn.</p>
+    <p><b>Chạy ra sao:</b> câu trả lời text cuối cùng của model được gửi ngược qua đúng entry point đã nhận tin nhắn ban đầu, đồng thời toàn bộ mảng message của turn này được ghi vào SQLite, thay thế bản session cũ. <b>Đây là trường hợp chỉ một agent duy nhất chạy từ đầu đến cuối</b> — Execution backend, MCP, và sub-agent hoàn toàn không được chạm tới.</p>`},
+  "master-merge": { tag:"TOÀN CẢNH", title:"Nối kết quả vào hội thoại", body:`
+    <p>Dù kết quả đến từ backend, MCP, hay tóm tắt sub-agent, chúng đều được nối vào hội thoại theo cùng một cách.</p>
+    <p><b>Chạy ra sao:</b> kết quả (dạng text) được đóng gói thành một message có role <code>tool</code>, gắn đúng tool_call_id tương ứng, rồi append vào cuối mảng lịch sử hội thoại đang giữ trong bộ nhớ. Ngay sau đó luồng quay lại bước C với mảng lịch sử đã dài thêm một message — không bao giờ quay lại A hay B.</p>`},
+  "turn-1": { tag:"BƯỚC 1", title:"Nhận tin nhắn", body:`<p>Điểm bắt đầu turn — tin nhắn đến từ một trong các entry point (CLI/Gateway/API/ACP/Cron). Đây chưa phải lúc gọi LLM, chỉ là tiếp nhận input và xác định session nào sẽ xử lý nó.</p>`},
+  "turn-2": { tag:"BƯỚC 2", title:"Build system prompt", body:`
+    <p>prompt_builder.py ghép identity, tool guidance, skill metadata, memory, context files thành một prompt cố định cho cả turn.</p>
+    <p><b>Chạy ra sao:</b> prompt được lắp theo tầng cố định — tầng ổn định (identity, hướng dẫn dùng tool) trước, tầng context (file dự án) ở giữa, tầng biến động (memory, timestamp) sau cùng. Toàn bộ là ghép chuỗi string thuần, không có cuộc gọi mạng nào. Prompt này "byte-stable" — giữ nguyên y hệt suốt turn để tận dụng prompt caching phía provider, kể cả khi vòng lặp 4-5a lặp lại nhiều lần.</p>`},
+  "turn-3": { tag:"BƯỚC 3", title:"Runtime resolver", body:`<p>Tra bảng chọn provider, API key, base URL dựa trên model đã cấu hình. Chạy đúng một lần mỗi turn, ngay trước khi gọi model lần đầu — không chạy lại mỗi vòng lặp tool, vì provider đã xác định từ đầu turn không đổi giữa chừng.</p>`},
+  "turn-4": { tag:"BƯỚC 4 · DUY NHẤT GỌI LLM", title:"Gửi request tới model", body:`
+    <p>Đây là bước duy nhất trong toàn bộ hệ thống thực sự gọi LLM.</p>
+    <p><b>Chạy ra sao:</b> lịch sử hội thoại + system prompt + danh sách tool schema được format theo đúng api_mode (chat_completions/codex_responses/anthropic_messages) rồi gửi qua HTTPS request tới base_url mà resolver đã xác định. Response trả về được parse thành text hoặc mảng tool_calls. Nếu request lỗi do rate limit hay server error, Hermes có cơ chế fallback tự động sang provider khác đã cấu hình sẵn.</p>`},
+  "turn-5": { tag:"BƯỚC 5", title:"Model có yêu cầu tool?", body:`<p>Thuần code — chỉ đọc JSON response của model để biết có tool_call nào không. Rẽ nhánh: có tool → bước 5a; không → bước 6.</p>`},
+  "turn-5a": { tag:"BƯỚC 5A", title:"Thực thi tool", body:`
+    <p>tool_executor.py chạy tool thật — tuần tự hoặc song song. Thuần code, không gọi LLM.</p>
+    <p><b>Chạy ra sao:</b> nếu model yêu cầu nhiều tool cùng lúc trong một response, Hermes có thể chạy chúng song song tối đa 8 luồng thay vì tuần tự — tuỳ tool có an toàn để chạy đồng thời hay không (ví dụ hai lệnh ghi cùng một file thì không nên chạy song song). Sau khi mọi tool xong, kết quả nối vào hội thoại và quay lại bước 4.</p>`},
+  "turn-6": { tag:"BƯỚC 6", title:"Trả lời cuối", body:`<p>Khi model không còn yêu cầu tool, turn kết thúc: trả lời cuối cùng được gửi ngược qua entry point, session mới ghi đè vào SQLite.</p>`},
+  "td-a": { tag:"TOOL DISPATCH", title:"Model yêu cầu tool", body:`<p>Model trả về JSON có cấu trúc gồm tên tool và tham số cụ thể. Hermes không đoán — model đã quyết định sẵn muốn tool nào, với tham số gì, dựa trên schema đã được đưa vào prompt ở bước build.</p>`},
+  "branch-registry": { tag:"TOOL DISPATCH", title:"Tool registry tra handler", body:`
+    <p>Registry là lớp điều phối trung tâm duy nhất.</p>
+    <p><b>Chạy ra sao:</b> mỗi tool khi đăng ký có kèm một hàm <code>check_fn</code> — ví dụ tool cần API key riêng sẽ có check_fn trả về False nếu biến môi trường đó chưa được set. Registry gọi check_fn của mọi tool trước khi trả danh sách schema cho model — tool không đủ điều kiện bị ẩn hoàn toàn, model không hề biết nó tồn tại. Một số tool đặc biệt (todo, memory, session_search, <code>delegate_task</code>) cần truy cập trực tiếp state của agent nên bị <code>run_agent.py</code> chặn lại (intercept) trước khi tới registry — nhưng registry vẫn giữ schema của chúng.</p>`},
+  "branch-backend": { tag:"LOẠI TERMINAL", title:"Execution backend", body:`
+    <p>Khi tool thuộc loại chạy lệnh, registry chuyển sang một trong các backend: Local, Docker, SSH, Daytona, Modal, Singularity.</p>
+    <p><b>Chạy ra sao:</b> lệnh được đóng gói thành một subprocess (hoặc lệnh exec vào container/máy từ xa tuỳ backend), stdout/stderr được bắt lại, cắt bớt nếu quá dài, rồi trả về dưới dạng text cho model đọc ở lượt gọi kế tiếp.</p>`},
+  "branch-mcp": { tag:"LOẠI MCP", title:"Gọi MCP server", body:`
+    <p>Khi tool đến từ một MCP server ngoài, registry gọi sang server đó qua giao thức MCP.</p>
+    <p><b>Chạy ra sao:</b> Hermes gửi một request JSON-RPC (qua stdio hoặc SSE tuỳ cấu hình server) tới đúng MCP server, kèm tên tool và tham số, đợi phản hồi, rồi format lại kết quả giống hệt các tool nội bộ khác trước khi trả về cho model.</p>`},
+  "branch-subagent": { tag:"LOẠI DELEGATION", title:"delegate_task", body:`<p>Không chạy lệnh, không gọi ra ngoài — mà khởi tạo hẳn một AIAgent con mới ngay trong cùng tiến trình Python. Xem chi tiết đầy đủ cơ chế ở Sheet 05.</p>`},
+  "branch-merge": { tag:"TOOL DISPATCH", title:"Nối kết quả vào hội thoại", body:`<p>Dù kết quả đến từ backend, MCP, hay tóm tắt sub-agent, chúng đều format thành một <code>tool_result</code> giống hệt nhau rồi append vào mảng lịch sử hội thoại. Với bước gọi model, không có gì khác biệt giữa "tool chạy lệnh xong" và "sub-agent chạy xong". Luồng luôn quay về bước 4 sau bước này.</p>`},
+  "sub-spawn": { tag:"SUB-AGENT · 01", title:"Spawn AIAgent con", body:`
+    <p>Mỗi task trong lệnh gọi delegate_task khiến Hermes tạo một AIAgent con hoàn toàn mới.</p>
+    <p><b>Chạy ra sao:</b> Hermes khởi tạo trực tiếp một object <code>AIAgent</code> mới trong cùng tiến trình Python đang chạy (không mở subprocess hay tiến trình mới), gán cho nó một <code>task_id</code> riêng. Nếu tool con cần chạy lệnh, nó được cấp một terminal session mới, tách biệt hoàn toàn khỏi terminal của agent cha. Sub-agent bắt đầu với hội thoại hoàn toàn trống, không biết gì về lịch sử của agent cha.</p>`},
+  "sub-budget": { tag:"SUB-AGENT · 02", title:"Ngân sách riêng", body:`<p>Mỗi sub-agent có ngân sách vòng lặp độc lập, mặc định <code>delegation.max_iterations = 50</code>. Tổng vòng lặp của agent cha cộng các con có thể vượt ngân sách riêng của cha, vì mỗi bên đếm riêng — chạm giới hạn thì sub-agent tự dừng và trả về tóm tắt công việc đã làm được, thay vì lặp vô hạn.</p>`},
+  "sub-model": { tag:"SUB-AGENT · 03", title:"Model riêng (tuỳ chọn)", body:`<p>Có thể cấu hình model/provider khác cho sub-agent qua <code>delegation.model</code> trong config.yaml.</p><p><b>Chạy ra sao:</b> trước khi spawn, Hermes đọc key <code>delegation.model</code>/<code>delegation.provider</code> — nếu có, sub-agent dùng một lượt resolver riêng trỏ tới model đó thay vì kế thừa model của agent cha. Hữu ích để giao việc đơn giản (đọc/tóm tắt) cho model rẻ, nhanh hơn.</p>`},
+  "sub-order": { tag:"SUB-AGENT · 04", title:"Trả tóm tắt theo task_index", body:`
+    <p>Kết quả sắp lại theo chỉ số task ban đầu, bất kể task nào hoàn thành trước.</p>
+    <p><b>Chạy ra sao:</b> nhiều task chạy trong một thread pool (song song), mỗi task hoàn thành độc lập nhưng Hermes giữ lại chỉ số thứ tự ban đầu (task_index) của từng task. Khi tất cả xong, kết quả được sắp lại theo task_index trước khi trả về — giao 3 task A,B,C, dù C xong trước, kết quả vẫn theo đúng thứ tự A→B→C. Toàn bộ tool call trung gian của sub-agent không lọt vào context agent cha, chỉ có bản tóm tắt cuối.</p>`},
+  "sub-final": { tag:"SUB-AGENT · 05", title:"Gộp thành 1 tool_result", body:`<p>Agent cha nhận đúng một tool_result duy nhất (dù có bao nhiêu sub-agent chạy song song), rồi quay lại bước 4 — gọi model lần nữa với thông tin mới này. Nếu chạy ở chế độ nền (background), kết quả hoàn tất được lưu vào state.db trước khi đưa vào hàng đợi xử lý của agent cha, để không mất dữ liệu nếu Hermes khởi động lại đúng lúc đó.</p>`},
+  "compare-command": { tag:"CHA", title:"Command", body:`<p>Agent cha luôn bắt đầu từ một entry point thật: CLI, Gateway, API server, ACP, hoặc Cron — điểm mà tín hiệu bên ngoài thực sự đi vào hệ thống.</p>`},
+  "compare-command-skip": { tag:"CON", title:"Nhận task từ delegate_task", body:`<p>Sub-agent không bao giờ đi qua lớp Command. Nó được tạo bằng code, ngay bên trong hàm xử lý tool của agent cha — không có tin nhắn nào thực sự "đi vào" qua Gateway hay CLI cho nó cả. "Task" mà nó nhận chỉ là một chuỗi text tham số của lệnh gọi delegate_task.</p>`},
+  "compare-profile": { tag:"CHA", title:"A. Nạp profile", body:`<p>Tiến trình chọn config, memory, gateway PID của đúng profile đang chạy — xảy ra ở cấp tiến trình, trước khi bất kỳ turn nào bắt đầu.</p>`},
+  "compare-profile-skip": { tag:"CON", title:"Kế thừa profile", body:`<p>Sub-agent chỉ là một object AIAgent mới trong <b>cùng tiến trình</b> nên tự động dùng chung config, memory path, API key của profile đó — vì chúng nằm trong cùng vùng nhớ Python, không cần đọc lại từ đĩa. Không có bước "chọn lại profile" nào diễn ra.</p>`},
+  "compare-prompt": { tag:"CHA", title:"B. Build prompt", body:`<p>Prompt của agent cha ghép từ lịch sử hội thoại thật với người dùng, cộng skill/memory/context liên quan.</p>`},
+  "compare-prompt-sub": { tag:"CON", title:"B. Build prompt riêng", body:`<p>Sub-agent build một prompt hoàn toàn khác — không phải lịch sử hội thoại với người dùng, mà là mô tả nhiệm vụ cụ thể (một đoạn text) mà agent cha truyền vào lúc gọi delegate_task. Đây là "tin nhắn đầu tiên" trong hội thoại rỗng của nó.</p>`},
+  "compare-llm": { tag:"CHA", title:"C. Gọi LLM", body:`<p>Dùng model đã cấu hình cho profile hiện tại — giống mọi turn bình thường khác.</p>`},
+  "compare-llm-sub": { tag:"CON", title:"C. Gọi LLM (sub-agent)", body:`<p>Có thể dùng model khác agent cha nếu <code>delegation.model</code> được cấu hình — ví dụ model rẻ hơn cho việc đơn giản, trong khi agent cha vẫn đang dùng model mạnh cho phần chiến lược.</p>`},
+  "compare-tool": { tag:"CHA", title:"D. Gọi tool nếu có", body:`<p>Có thể rẽ vào Execution backend, MCP, hoặc chính delegate_task để sinh ra các sub-agent này.</p>`},
+  "compare-tool-sub": { tag:"CON", title:"D. Gọi tool nếu có (con)", body:`<p>Mặc định sub-agent KHÔNG được gọi tiếp delegate_task (registry chặn lại) — tránh đệ quy vô hạn. Chỉ khi nó được gán <code>role="orchestrator"</code> <b>và</b> <code>max_spawn_depth</code> được nâng lên trên 1 trong config, nó mới được phép tiếp tục phân việc xuống cấp thấp hơn.</p>`},
+  "profile-command": { tag:"PROFILE", title:"hermes -p &lt;tên&gt;", body:`<p>Chạy một lệnh riêng cho đúng profile được chỉ định.</p><p><b>Chạy ra sao:</b> Hermes đọc tên profile từ tham số dòng lệnh, resolve ra đường dẫn <code>HERMES_HOME</code> tương ứng, rồi trỏ mọi thao tác đọc/ghi (config, memory, session) vào đúng thư mục đó trước khi bất kỳ turn nào chạy. Có thể tạo profile mới bằng <code>hermes profile create</code>, hoặc đặt mặc định bằng <code>hermes profile use</code>.</p>`},
+  "profile-default": { tag:"PROFILE", title:"Profile: default", body:`<p>Config, memory, session, gateway PID hoàn toàn riêng.</p><p><b>Chạy ra sao:</b> mỗi profile giữ một file token-lock riêng để ngăn hai tiến trình vô tình dùng chung credential — nếu profile "marketing" đang chạy, một lệnh khác gọi nhầm cùng profile sẽ bị chặn thay vì ghi đè session đang hoạt động.</p>`},
+  "profile-marketing": { tag:"PROFILE", title:"Profile: marketing", body:`<p>Một agent độc lập hoàn toàn khác — có thể mang persona, skill, và bộ nhớ riêng cho công việc marketing, chạy song song mà không đụng dữ liệu profile khác vì mỗi profile có HERMES_HOME riêng biệt trên đĩa.</p>`},
+  "profile-research": { tag:"PROFILE", title:"Profile: research", body:`<p>Ví dụ thực tế: một profile riêng cho nghiên cứu thị trường, tách biệt hoàn toàn với các profile vận hành khác — mỗi profile có thể chạy 24/7 độc lập qua Gateway hoặc Cron riêng, dùng gateway PID khác nhau nên khởi động lại một profile không ảnh hưởng các profile còn lại.</p>`},
+  "nest-gateway": { tag:"LỒNG NHAU", title:"Gateway", body:`<p>Điểm duy nhất Gateway biết đến là "gửi tin nhắn vào → nhận câu trả lời ra". Nó không biết bên trong có bao nhiêu sub-agent đã chạy — với Gateway, toàn bộ nhánh delegate_task chỉ là "agent đang xử lý, chưa xong".</p>`},
+  "nest-early": { tag:"LỒNG NHAU", title:"Bước 1→3 (như trước)", body:`<p>Agent cha chạy đúng như Sheet 03 mô tả: nhận tin nhắn, build prompt, resolver — cho tới khi model quyết định cần gọi delegate_task ở bước gọi tool.</p>`},
+  "nest-delegate": { tag:"LỒNG NHAU", title:"Bước 4: delegate_task", body:`<p>Đây là điểm lồng nhau xảy ra — toàn bộ nhánh sub-agent nằm bên trong bước 4 của MỘT agent cha duy nhất, chạy hoàn toàn trong cùng tiến trình Python, không mở kết nối Gateway mới nào.</p>`},
+  "nest-sub1": { tag:"LỒNG NHAU", title:"Sub-agent 1", body:`<p>Chạy lại vòng lặp riêng độc lập, có thể mất nhiều vòng của chính nó (gọi model nhiều lần, dùng nhiều tool) trước khi trả tóm tắt về cho agent cha.</p>`},
+  "nest-sub2": { tag:"LỒNG NHAU", title:"Sub-agent 2", body:`<p>Chạy song song với Sub-agent 1 trong cùng thread pool, hoàn toàn không biết sự tồn tại của nhau — mỗi sub-agent có context và terminal session riêng biệt.</p>`},
+  "nest-merge": { tag:"LỒNG NHAU", title:"Nhận tóm tắt → tiếp tục bước 4→5", body:`<p>Agent cha đứng chờ (block) ở bước 4 suốt thời gian sub-agent chạy trong chế độ đồng bộ — tiến trình CLI hiển thị tree-view theo dõi tiến độ từng sub-agent theo thời gian thực, còn Gateway gộp tiến độ lại và báo theo lô. Sau khi nhận đủ tóm tắt, agent cha tiếp tục vòng lặp của chính nó.</p>`},
+  "nest-reply": { tag:"LỒNG NHAU", title:"Gateway trả lời user", body:`<p>Câu trả lời cuối cùng đi ra qua đúng Gateway đã nhận tin nhắn ban đầu — người dùng chỉ thấy một cuộc hội thoại duy nhất với "một agent", dù phía sau có thể đã có 5-10 sub-agent chạy song song.</p>`},
+};
+
+const backdrop = document.getElementById('modalBackdrop');
+const modalTag = document.getElementById('modalTag');
+const modalTitle = document.getElementById('modalTitle');
+const modalBody = document.getElementById('modalBody');
+let lastFocused = null;
+
+function openModal(key){
+  const d = DETAILS[key];
+  if(!d) return;
+  modalTag.textContent = d.tag || '';
+  modalTitle.innerHTML = d.title || '';
+  modalBody.innerHTML = d.body || '';
+  backdrop.classList.add('open');
+  document.body.style.overflow = 'hidden';
+  lastFocused = document.activeElement;
+  document.getElementById('modalClose').focus();
+}
+function closeModal(){
+  backdrop.classList.remove('open');
+  document.body.style.overflow = '';
+  if(lastFocused) lastFocused.focus();
+}
+document.querySelectorAll('.block[data-key]').forEach(el=>{
+  el.addEventListener('click', ()=>openModal(el.dataset.key));
+});
+document.getElementById('modalClose').addEventListener('click', closeModal);
+backdrop.addEventListener('click', (e)=>{ if(e.target === backdrop) closeModal(); });
+document.addEventListener('keydown', (e)=>{ if(e.key === 'Escape' && backdrop.classList.contains('open')) closeModal(); });
+</script>
+</body>
+</html>

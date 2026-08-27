@@ -1,0 +1,598 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>So sánh Agent, SOP, Skills, Plugins, Projects, Gems, GPTs</title>
+  <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg-gradient: linear-gradient(135deg, #0f0f1e 0%, #1a1a2e 100%);
+      --card-bg: rgba(255, 255, 255, 0.08);
+      --card-border: rgba(255, 255, 255, 0.12);
+      --text-primary: #f5f7fa;
+      --text-secondary: #b8c5d6;
+      --accent-1: #6366f1;
+      --accent-2: #38b2ac;
+      --accent-3: #ec4899;
+      --accent-4: #f59e0b;
+      --danger: #ef4444;
+      --success: #10b981;
+      --radius: 12px;
+    }
+
+    * {
+      box-sizing: border-box;
+      font-family: 'Be Vietnam Pro', system-ui, -apple-system, sans-serif;
+    }
+
+    html, body {
+      margin: 0;
+      padding: 0;
+      background: var(--bg-gradient);
+      color: var(--text-primary);
+      line-height: 1.6;
+      min-height: 100vh;
+    }
+
+    .page {
+      max-width: 1300px;
+      margin: 0 auto;
+      padding: 40px 20px 60px;
+    }
+
+    /* === HEADER === */
+    header {
+      text-align: center;
+      margin-bottom: 32px;
+      animation: fadeInDown 0.8s ease-out;
+    }
+
+    header h1 {
+      margin: 0 0 8px;
+      font-size: 2.2rem;
+      font-weight: 700;
+      background: linear-gradient(135deg, #6366f1 0%, #38b2ac 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    header p {
+      margin: 4px 0;
+      color: var(--text-secondary);
+      font-size: 0.95rem;
+    }
+
+    .tagline {
+      font-size: 0.85rem;
+      color: #8b94a5;
+      margin-top: 8px;
+    }
+
+    /* === CARDS === */
+    .grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1.4fr);
+      gap: 20px;
+      margin-bottom: 32px;
+    }
+
+    .card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: var(--radius);
+      padding: 20px 24px;
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+      transition: all 0.3s ease;
+    }
+
+    .card:hover {
+      border-color: rgba(99, 102, 241, 0.5);
+      background: rgba(255, 255, 255, 0.12);
+      box-shadow: 0 12px 48px rgba(99, 102, 241, 0.2);
+    }
+
+    .card h2 {
+      margin: 0 0 12px;
+      font-size: 1.25rem;
+      color: #6366f1;
+      font-weight: 600;
+    }
+
+    .card p {
+      margin: 6px 0;
+      font-size: 0.9rem;
+      color: var(--text-secondary);
+      line-height: 1.6;
+    }
+
+    .card ul {
+      margin: 8px 0;
+      padding-left: 20px;
+      color: var(--text-secondary);
+    }
+
+    .card li {
+      margin: 4px 0;
+      font-size: 0.9rem;
+    }
+
+    .card strong {
+      color: var(--text-primary);
+    }
+
+    .chip-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 12px;
+    }
+
+    .chip {
+      padding: 4px 10px;
+      border-radius: 99px;
+      font-size: 0.75rem;
+      font-weight: 500;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      background: rgba(255, 255, 255, 0.1);
+      color: var(--text-secondary);
+      white-space: nowrap;
+    }
+
+    .chip.primary { background: rgba(99, 102, 241, 0.2); color: #a5b4fc; border-color: rgba(99, 102, 241, 0.4); }
+    .chip.accent { background: rgba(56, 178, 172, 0.2); color: #5eead4; border-color: rgba(56, 178, 172, 0.4); }
+    .chip.danger { background: rgba(239, 68, 68, 0.2); color: #fca5a5; border-color: rgba(239, 68, 68, 0.4); }
+    .chip.success { background: rgba(16, 185, 129, 0.2); color: #6ee7b7; border-color: rgba(16, 185, 129, 0.4); }
+
+    /* === TABLE === */
+    .table-wrapper {
+      overflow-x: auto;
+      margin-bottom: 32px;
+      border-radius: var(--radius);
+      border: 1px solid var(--card-border);
+      background: var(--card-bg);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.85rem;
+    }
+
+    thead {
+      background: rgba(99, 102, 241, 0.15);
+    }
+
+    th, td {
+      padding: 12px 14px;
+      border-bottom: 1px solid var(--card-border);
+      text-align: left;
+      vertical-align: top;
+    }
+
+    th {
+      font-weight: 600;
+      color: #a5b4fc;
+      white-space: nowrap;
+    }
+
+    tbody tr {
+      transition: background 0.2s;
+    }
+
+    tbody tr:hover {
+      background: rgba(99, 102, 241, 0.1);
+    }
+
+    .label {
+      display: inline-block;
+      padding: 3px 8px;
+      border-radius: 6px;
+      font-size: 0.7rem;
+      font-weight: 600;
+      background: rgba(99, 102, 241, 0.3);
+      color: #a5b4fc;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    /* === DIAGRAM === */
+    .diagram-box {
+      background: rgba(0, 0, 0, 0.4);
+      border: 1px solid rgba(99, 102, 241, 0.3);
+      border-radius: var(--radius);
+      padding: 18px;
+      margin-top: 12px;
+      font-family: 'JetBrains Mono', 'Fira Code', Consolas, monospace;
+      font-size: 0.8rem;
+      color: #c0ccda;
+      overflow-x: auto;
+      white-space: pre;
+      line-height: 1.5;
+    }
+
+    .diagram-title {
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: #a5b4fc;
+      margin-bottom: 8px;
+    }
+
+    /* === COLUMNS === */
+    .columns-3 {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 14px;
+      margin-top: 12px;
+    }
+
+    .platform {
+      border-radius: var(--radius);
+      border: 1px solid var(--card-border);
+      padding: 14px 16px;
+      background: rgba(255, 255, 255, 0.06);
+      backdrop-filter: blur(5px);
+      transition: all 0.3s;
+    }
+
+    .platform:hover {
+      background: rgba(255, 255, 255, 0.1);
+      border-color: rgba(99, 102, 241, 0.4);
+    }
+
+    .platform h3 {
+      margin: 0 0 8px;
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: var(--text-primary);
+    }
+
+    .platform ul {
+      margin: 0;
+      padding-left: 18px;
+      font-size: 0.8rem;
+      color: var(--text-secondary);
+    }
+
+    .platform li {
+      margin: 3px 0;
+    }
+
+    /* === HIGHLIGHTS === */
+    .highlight-box {
+      background: rgba(56, 178, 172, 0.1);
+      border-left: 3px solid #38b2ac;
+      padding: 12px 16px;
+      border-radius: 6px;
+      margin: 12px 0;
+      font-size: 0.85rem;
+      color: var(--text-secondary);
+    }
+
+    .highlight-box strong {
+      color: #5eead4;
+    }
+
+    /* === FOOTER === */
+    footer {
+      margin-top: 40px;
+      padding-top: 20px;
+      border-top: 1px solid var(--card-border);
+      font-size: 0.75rem;
+      color: #8b94a5;
+      text-align: center;
+    }
+
+    /* === ANIMATIONS === */
+    @keyframes fadeInDown {
+      from {
+        opacity: 0;
+        transform: translateY(-20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* === RESPONSIVE === */
+    @media (max-width: 960px) {
+      .grid {
+        grid-template-columns: 1fr;
+      }
+      
+      header h1 {
+        font-size: 1.8rem;
+      }
+      
+      .page {
+        padding: 24px 16px 40px;
+      }
+    }
+
+    @media (max-width: 600px) {
+      .columns-3 {
+        grid-template-columns: 1fr;
+      }
+      
+      table {
+        font-size: 0.75rem;
+      }
+      
+      th, td {
+        padding: 8px 10px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <header>
+      <h1>So sánh Agent, SOP, Skills, Plugins, Projects, Gems, GPTs</h1>
+      <p>Kiến thức cập nhật 2026: OpenAI, Claude, Gemini & các nền tảng AI khác</p>
+      <p class="tagline">📍 Mục tiêu: cấu trúc khái niệm, khi nào dùng, ưu/nhược điểm, mapping thực tế</p>
+    </header>
+
+    <!-- TÓMS TẮT NHANH -->
+    <section class="grid">
+      <div class="card">
+        <h2>🎯 Khái niệm cốt lõi</h2>
+        <p><strong>Agent</strong> = Nhân viên ảo tự xử lý task, tự quyết định, lặp lại các bước (agentic loop).</p>
+        <p><strong>SOP</strong> = Quy trình chuẩn: từng bước, input–output, rule, kiểm soát chất lượng.</p>
+        <p><strong>Skills</strong> = Hướng dẫn best practice (SKILL.md) + function definitions mà Agent có thể gọi.</p>
+        <p><strong>Plugins/Tools</strong> = Kết nối AI với dịch vụ ngoài (API, DB, SaaS, MCP).</p>
+        <p><strong>Projects</strong> = Container giải pháp hoàn chỉnh (Agent + SOP + Skills + Plugins + file + dữ liệu).</p>
+        <p><strong>Gems (Gemini) / Custom GPT (OpenAI)</strong> = Mini-assistant cho user: vai trò, hướng dẫn, đôi khi gắn tools/file.</p>
+
+        <div class="highlight-box" style="margin-top: 12px;">
+          <strong>⚠️ Lưu ý:</strong> "Gems" là tên riêng của <strong>Google Gemini</strong>. Claude không có tính năng cùng tên — gần nhất là <strong>Custom Instructions trong Claude Project</strong>.
+        </div>
+
+        <div class="chip-row">
+          <span class="chip primary">Tác nhân</span>
+          <span class="chip accent">Quy trình</span>
+          <span class="chip success">Kỹ năng</span>
+          <span class="chip danger">Tích hợp</span>
+          <span class="chip primary">Giải pháp</span>
+          <span class="chip accent">Trợ lý</span>
+        </div>
+      </div>
+
+      <div class="card">
+        <h2>🔄 Quan hệ tổng thể</h2>
+        <ul>
+          <li><strong>Project</strong> = container cho 1 sản phẩm/use case hoàn chỉnh.</li>
+          <li><strong>Agent</strong> bên trong Project: tự xử lý workflow, có agentic loop.</li>
+          <li><strong>SOP</strong> định hướng Agent: "làm bước 1, 2, 3, khi nào dùng tool gì".</li>
+          <li><strong>Skills</strong> = best practice docs (.md) + hàm/API mà Agent gọi.</li>
+          <li><strong>Plugins/MCP</strong> = kết nối thực tế: Google Drive, Slack, DB, v.v.</li>
+          <li><strong>Gems/Custom GPT</strong> = "giao diện" nhẹ cho người dùng cuối.</li>
+        </ul>
+
+        <div class="highlight-box">
+          <strong>💡 Quy tắc vàng:</strong> Xây dựng từ Project → thiết kế Agent & SOP → xác định Skills & Plugins → cuối cùng đóng gói thành Gem/GPT.
+        </div>
+      </div>
+    </section>
+
+    <!-- BẢNG CHI TIẾT -->
+    <section class="table-wrapper">
+      <table>
+        <thead>
+          <tr>
+            <th>Khái niệm</th>
+            <th>Định nghĩa</th>
+            <th>Khi nào dùng</th>
+            <th>Mối liên hệ</th>
+            <th>Pros</th>
+            <th>Cons</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><span class="label">Agent</span></td>
+            <td>"Tác nhân" AI có mục tiêu, có <strong>agentic loop</strong> (tự quyết định, lặp lại, phản ánh), gọi tools, xử lý task đa bước.</td>
+            <td>Cần tự động hóa quy trình dài, phức tạp: phân tích → quyết định → hành động → kiểm tra → điều chỉnh.</td>
+            <td>Agent dùng <strong>Skills</strong> & <strong>Plugins</strong>; tuân theo <strong>SOP</strong>; thuộc <strong>Project</strong> hoặc export thành <strong>Gem/GPT</strong>.</td>
+            <td>✓ Linh hoạt, xử lý workflow dài, tái sử dụng được.</td>
+            <td>✗ Khó thiết kế & debug; phụ thuộc SOP chất lượng; có thể "lạc đề".</td>
+          </tr>
+
+          <tr>
+            <td><span class="label">SOP</span></td>
+            <td><strong>Standard Operating Procedure</strong>: tài liệu quy trình chuẩn, mô tả từng bước, input–output, rule, tiêu chí thành công.</td>
+            <td>Cần đảm bảo Agent làm việc nhất quán, có kiểm soát, dễ audit, tuân thủ quy định doanh nghiệp.</td>
+            <td><strong>Agent, Gem, GPT</strong> "đọc" SOP qua prompt/document; SOP mô tả khi nào dùng <strong>skill/plugin</strong> nào, theo trật tự gì.</td>
+            <td>✓ Rõ ràng, dễ review, dễ audit & training; tái sử dụng cho nhiều Agent.</td>
+            <td>✗ Viết & bảo trì tốn thời gian; quá cứng có thể làm Agent thiếu linh hoạt.</td>
+          </tr>
+
+          <tr>
+            <td><span class="label">Skills</span></td>
+            <td>Tập hợp: (1) <strong>SKILL.md</strong> = hướng dẫn best practice + (2) function definition mà AI gọi.</td>
+            <td>Muốn tách hành động thành module rõ ràng: "gửi email", "truy vấn DB", "tạo file Excel", "phân tích dữ liệu".</td>
+            <td><strong>Agent/Gem/GPT</strong> gọi skills; <strong>Plugins</strong> thường cung cấp thêm skills; thuộc <strong>Project</strong>.</td>
+            <td>✓ Modular, dễ test từng phần, chia team phát triển, tái sử dụng cao.</td>
+            <td>✗ Nếu quá nhiều skill, AI khó chọn đúng; cần thiết kế interface & mô tả rõ ràng.</td>
+          </tr>
+
+          <tr>
+            <td><span class="label">Plugins / MCP</span></td>
+            <td><strong>Plugin</strong> = lớp tích hợp (deprecated ở OpenAI, giờ là Actions); <strong>MCP</strong> = Model Context Protocol (chuẩn mới của Anthropic).</td>
+            <td>Cần AI đọc/ghi dữ liệu thật: Google Drive, Slack, Jira, CRM, database, API, hệ thống nội bộ.</td>
+            <td>Hiện thực thành <strong>skills</strong> mà Agent gọi; SOP quy định lúc nào dùng plugin/MCP nào trong <strong>Project</strong>.</td>
+            <td>✓ Mở rộng AI ra thế giới thực; tận dụng hạ tầng sẵn có; quyền truy cập chi tiết.</td>
+            <td>✗ Cần xử lý bảo mật, phân quyền, rate limit; sai cấu hình → rủi ro dữ liệu.</td>
+          </tr>
+
+          <tr>
+            <td><span class="label">Projects</span></td>
+            <td><strong>Container</strong> cho 1 giải pháp AI hoàn chỉnh: gom Agent, SOP, Skills, Plugins, file, dữ liệu, setting, version.</td>
+            <td>Xây dựng sản phẩm/use case hoàn chỉnh: chatbot CSKH, trợ lý nội bộ, hệ thống phân tích, tự động hóa nghiệp vụ.</td>
+            <td>Bao gồm 1+ <strong>Agent</strong>, tập <strong>SOP/Skills/Plugins</strong>; có thể export thành <strong>Gem/Custom GPT</strong> cho user.</td>
+            <td>✓ Cấu trúc rõ ràng, hỗ trợ teamwork & versioning, dễ mở rộng & monitor.</td>
+            <td>✗ Có thể overkill cho tác vụ đơn giản; cần platform hỗ trợ concept project.</td>
+          </tr>
+
+          <tr>
+            <td><span class="label">Gems (Gemini)</span></td>
+            <td>"Mini-assistant" của <strong>Google Gemini</strong>: cấu hình vai trò, hướng dẫn, context, đôi khi gắn tools/files/knowledge.</td>
+            <td>Tạo trợ lý chuyên biệt nhanh: code reviewer, coach viết, phân tích, pháp lý, v.v. trong hệ sinh thái Gemini/Workspace.</td>
+            <td>Tương tự <strong>Custom GPT</strong> (OpenAI); Claude <strong>không có</strong> khái niệm này riêng — gần nhất là <strong>Custom Instructions trong Claude Project</strong>.</td>
+            <td>✓ Dễ tạo, không cần code, tích hợp sâu Google Workspace (Docs, Gmail, Drive).</td>
+            <td>✗ Hạn chế logic phức tạp; khó quản lý version; gắn chặt hệ sinh thái Google.</td>
+          </tr>
+
+          <tr>
+            <td><span class="label">Custom GPT</span></td>
+            <td><strong>Custom GPT</strong> của OpenAI: prompt riêng, gắn file, tools (function calling), actions (API), phong cách riêng.</td>
+            <td>Tạo "ứng dụng nhỏ" hoặc trợ lý chuyên ngành trong ChatGPT Pro/Enterprise; dễ phân phối cho user.</td>
+            <td>Tương tự <strong>Gem</strong> của Claude; bên trong gọi <strong>tools/function calling</strong>; SOP viết trong prompt/docs.</td>
+            <td>✓ No-code setup, nhanh, phù hợp business user, dễ phân phối, có marketplace.</td>
+            <td>✗ Không linh hoạt bằng Agent/Project; quản lý version khó; logic dài tương đối phức tạp.</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <!-- SƠ ĐỒ QUAN HỆ -->
+    <section class="card">
+      <div class="diagram-title">📊 Sơ đồ quan hệ (mức khái niệm)</div>
+      <div class="diagram-box">
+┌─────────────────────────────────────────────────────┐
+│  PROJECT (Giải pháp AI hoàn chỉnh)                  │
+│                                                     │
+│  ├─ SOPs (Quy trình chuẩn)                          │
+│  │   └─ Mô tả: từng bước, khi nào dùng skill gì     │
+│  │                                                  │
+│  ├─ Agents (Tác nhân có agentic loop)               │
+│  │   ├─ Đọc SOP                                     │
+│  │   ├─ Gọi Skills                                  │
+│  │   └─ Dùng Plugins/MCP → thế giới thực            │
+│  │                                                  │
+│  ├─ Skills (Best practice + Functions)              │
+│  │   └─ Mỗi skill = hướng dẫn + hàm cụ thể          │
+│  │                                                  │
+│  ├─ Plugins/MCP (Tích hợp ngoài)                    │
+│  │   └─ Nối AI ↔ Google Drive, Slack, DB, API...    │
+│  │                                                  │
+│  └─ Trợ lý tuỳ biến cho end-user                    │
+│      ├─ Gem (Gemini) - tích hợp Google Workspace    │
+│      ├─ Custom GPT (OpenAI) - marketplace           │
+│      └─ Custom Instructions (Claude) - trong Project│
+└─────────────────────────────────────────────────────┘
+
+💡 Quy tắc nhớ:
+  • Project   = "sản phẩm / hệ thống"
+  • Agent     = "nhân viên ảo thông minh"
+  • SOP       = "quy trình bắt buộc"
+  • Skills    = "kỹ năng + hướng dẫn"
+  • Plugin    = "cầu nối ra ngoài (API, DB, SaaS)"
+  • Gem/GPT   = "giao diện cho người dùng cuối"
+    (mỗi platform gọi tên & implement khác nhau!)
+      </div>
+    </section>
+
+    <!-- MAPPING PLATFORM -->
+    <section class="card">
+      <h2>🌐 Mapping sang các nền tảng AI (2026)</h2>
+      
+      <div class="columns-3">
+        <div class="platform">
+          <h3>🔵 OpenAI (GPT)</h3>
+          <ul>
+            <li><strong>Agents:</strong> Assistants API (có tool use) hoặc custom agentic loop</li>
+            <li><strong>SOP:</strong> system prompt + tài liệu đính kèm</li>
+            <li><strong>Skills:</strong> function calling / tool definitions</li>
+            <li><strong>Plugins:</strong> ❌ Deprecated (2024) → dùng <strong>Actions</strong> trong Custom GPT</li>
+            <li><strong>Projects:</strong> ứng dụng bạn build bằng API + hạ tầng riêng</li>
+            <li><strong>Custom GPT:</strong> trong giao diện ChatGPT Pro/Enterprise</li>
+          </ul>
+        </div>
+
+        <div class="platform">
+          <h3>💜 Claude (Anthropic)</h3>
+          <ul>
+            <li><strong>Agents:</strong> build qua API + tool use + orchestration</li>
+            <li><strong>SOP:</strong> system prompt + guidelines + dữ liệu ngữ cảnh</li>
+            <li><strong>Skills:</strong> SKILL.md (best practice) + tool definitions</li>
+            <li><strong>Plugins/Tools:</strong> tool use + <strong>MCP</strong> (chuẩn mới)</li>
+            <li><strong>Projects:</strong> <strong>Claude Project</strong> = workspace + custom instructions + knowledge files + conversation history</li>
+            <li><strong>Mini-assistant:</strong> ❌ không có "Gem" riêng — dùng Custom Instructions trong Project</li>
+          </ul>
+        </div>
+
+        <div class="platform">
+          <h3>🟢 Gemini (Google)</h3>
+          <ul>
+            <li><strong>Agents:</strong> Vertex AI Agents / Google AI Studio</li>
+            <li><strong>SOP:</strong> prompt, instruction set, workflows</li>
+            <li><strong>Skills:</strong> function calling + Google Workspace integration</li>
+            <li><strong>Plugins/Tools:</strong> tích hợp Google & API bên ngoài</li>
+            <li><strong>Projects:</strong> GCP Project (Vertex AI)</li>
+            <li><strong>Gems:</strong> mini-assistant tùy biến, tích hợp sâu Workspace (Docs, Gmail, Drive)</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="highlight-box" style="margin-top: 16px;">
+        <strong>📌 MCP (Model Context Protocol):</strong> Chuẩn mới của Anthropic (2024+) cho phép kết nối an toàn, modular với các dịch vụ. Giống như "plugin" nhưng rõ ràng & bảo mật hơn. Claude + MCP = tương lai.
+      </div>
+    </section>
+
+    <!-- CHỌN CÔNG CỤ -->
+    <section class="card">
+      <h2>🎯 Chọn công cụ nào?</h2>
+      
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 14px; margin-top: 12px;">
+        
+        <div class="platform">
+          <h3>👤 Task đơn giản, một lần</h3>
+          <p style="font-size: 0.8rem; color: var(--text-secondary); margin: 8px 0;">Sử dụng <strong>Gem</strong> hoặc <strong>Custom GPT</strong> thẳng.</p>
+          <p style="font-size: 0.75rem; color: #8b94a5; margin: 0;">Ví dụ: viết email, dịch văn bản, giải thích code.</p>
+        </div>
+
+        <div class="platform">
+          <h3>🔄 Workflow lặp lại, có rule</h3>
+          <p style="font-size: 0.8rem; color: var(--text-secondary); margin: 8px 0;">Xây <strong>Project + SOP</strong>, thiết kế <strong>Agent</strong>.</p>
+          <p style="font-size: 0.75rem; color: #8b94a5; margin: 0;">Ví dụ: review code, tạo ticket, gửi report hàng ngày.</p>
+        </div>
+
+        <div class="platform">
+          <h3>🌐 Cần kết nối hệ thống</h3>
+          <p style="font-size: 0.8rem; color: var(--text-secondary); margin: 8px 0;">Thêm <strong>Plugins / MCP</strong> vào Project.</p>
+          <p style="font-size: 0.75rem; color: #8b94a5; margin: 0;">Ví dụ: Agent đọc Slack, update Jira, ghi Google Drive.</p>
+        </div>
+
+        <div class="platform">
+          <h3>👥 Chia sẻ với team</h3>
+          <p style="font-size: 0.8rem; color: var(--text-secondary); margin: 8px 0;">Xuất <strong>Gem (Gemini)</strong>, <strong>Custom GPT (OpenAI)</strong>, hoặc <strong>Claude Project</strong> chia sẻ team.</p>
+          <p style="font-size: 0.75rem; color: #8b94a5; margin: 0;">Ví dụ: trợ lý pháp lý, code reviewer, content writer.</p>
+        </div>
+
+        <div class="platform">
+          <h3>📊 Bản sản xuất / SLA</h3>
+          <p style="font-size: 0.8rem; color: var(--text-secondary); margin: 8px 0;">Full <strong>Project + SOP + Monitoring</strong>.</p>
+          <p style="font-size: 0.75rem; color: #8b94a5; margin: 0;">Ví dụ: CSKH bot, hệ thống phân tích tài chính, tự động hóa HR.</p>
+        </div>
+
+        <div class="platform">
+          <h3>🛠️ Cần debug / control</h3>
+          <p style="font-size: 0.8rem; color: var(--text-secondary); margin: 8px 0;">Build <strong>Agent + API</strong> tuỳ chỉnh.</p>
+          <p style="font-size: 0.75rem; color: #8b94a5; margin: 0;">Ví dụ: orchestration phức, custom logic, xử lý error.</p>
+        </div>
+
+      </div>
+    </section>
+
+    <footer>
+      ✏️ Cập nhật 2026 | Sửa & bổ sung: Plugins (deprecated) → Actions, thêm MCP, làm rõ Skills ≠ Function Calling, Gems thuộc về Gemini (không phải Claude), cơ cấu Project & Claude Workspace.
+    </footer>
+  </div>
+</body>
+</html>
