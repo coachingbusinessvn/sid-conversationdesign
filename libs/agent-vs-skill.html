@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Agent &amp; Skill — kiến trúc, cách gọi, quy tắc</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#faf9f6; --panel:#ffffff; --panel-2:#f4f2ec;
+    --line:#e6e2d8; --line-strong:#cfc9ba;
+    --ink:#1e1c16; --ink-dim:#5c5748; --ink-faint:#948d7b;
+    --amber:#a5620b; --amber-bg:#faeeda; --amber-line:#e6a94f;
+    --teal:#0f6e56; --teal-bg:#e1f5ee; --teal-line:#5dcaa5;
+    --coral:#8a381a; --coral-bg:#faece7; --coral-line:#f0997b;
+    --violet:#3c3489; --violet-bg:#eeedfe; --violet-line:#7f77dd;
+    --gray:#444441; --gray-bg:#f1efe8; --gray-line:#8b897f;
+    --green:#2f7d4f; --green-bg:#e7f5ec; --red:#a5300b; --red-bg:#faece7;
+    --mono:'JetBrains Mono', monospace; --sans:'Inter', sans-serif;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  html{scroll-behavior:smooth;}
+  body{
+    background: radial-gradient(circle at 1px 1px, rgba(30,28,22,0.06) 1px, transparent 0) 0 0/26px 26px, var(--bg);
+    color:var(--ink); font-family:var(--sans); font-size:18px; line-height:1.65; -webkit-font-smoothing:antialiased;
+  }
+  ::selection{background:var(--amber-bg);color:var(--amber);}
+  .wrap{max-width:1080px;margin:0 auto;padding:0 26px;}
+  section{padding:88px 0;border-bottom:1px dashed var(--line);}
+  section:last-of-type{border-bottom:none;}
+  .sheet-tag{font-family:var(--mono);font-size:14px;font-weight:600;color:var(--amber);letter-spacing:0.08em;margin-bottom:16px;display:flex;align-items:center;gap:10px;}
+  .sheet-tag::before{content:'';width:26px;height:2px;background:var(--amber-line);}
+  h2{font-family:var(--mono);font-weight:700;font-size:clamp(24px,3.2vw,34px);letter-spacing:-0.01em;margin-bottom:14px;}
+  .lede{color:var(--ink-dim);max-width:700px;margin-bottom:44px;font-size:18px;}
+  .lede b{color:var(--ink);font-weight:600;}
+  .hero{padding-top:110px;padding-bottom:80px;}
+  .hero .kicker{font-family:var(--mono);font-size:14px;font-weight:600;color:var(--coral);letter-spacing:0.1em;margin-bottom:22px;}
+  .hero h1{font-family:var(--mono);font-weight:700;font-size:clamp(32px,5.6vw,58px);line-height:1.08;letter-spacing:-0.02em;margin-bottom:26px;}
+  .hero h1 span{color:var(--ink-faint);}
+  .hero p{max-width:660px;color:var(--ink-dim);font-size:19px;}
+  .diagram-card{background:var(--panel);border:1px solid var(--line-strong);border-radius:16px;padding:24px;box-shadow:0 2px 10px rgba(30,28,22,0.04);}
+  .diagram-card figcaption{font-family:var(--mono);font-size:13px;color:var(--ink-faint);text-align:center;margin-top:14px;}
+  svg.diagram{width:100%;height:auto;display:block;}
+  .diagram text{font-family:var(--sans);}
+  .diagram text.t{font-size:16px;fill:var(--ink);}
+  .diagram text.ts{font-size:13.5px;fill:var(--ink-dim);}
+  .diagram text.th{font-size:16px;font-weight:600;fill:var(--ink);}
+  .diagram .ring{fill:none;stroke:var(--line-strong);stroke-width:1;}
+  .diagram .node{cursor:pointer;}
+  .diagram .node:hover text.th{text-decoration:underline;}
+  .legend-row{display:flex;flex-wrap:wrap;gap:10px 22px;margin-top:20px;justify-content:center;}
+  .legend-item{display:flex;align-items:center;gap:8px;font-size:14.5px;color:var(--ink-dim);}
+  .legend-dot{width:11px;height:11px;border-radius:50%;flex-shrink:0;}
+  table.cmp{width:100%;border-collapse:collapse;background:var(--panel);border:1px solid var(--line-strong);border-radius:14px;overflow:hidden;}
+  table.cmp th, table.cmp td{padding:16px 18px;text-align:left;border-bottom:1px solid var(--line);font-size:16px;}
+  table.cmp th{font-family:var(--mono);font-size:13.5px;color:var(--ink-faint);letter-spacing:0.04em;background:var(--panel-2);font-weight:600;}
+  table.cmp tr:last-child td{border-bottom:none;}
+  table.cmp td.label{font-weight:600;color:var(--ink);}
+  table.cmp td b{color:var(--ink);}
+  .row2{display:grid;grid-template-columns:1fr 1fr;gap:28px;}
+  @media(max-width:760px){.row2{grid-template-columns:1fr;}}
+  .full-bleed{width:100vw;margin-left:calc(50% - 50vw);margin-right:calc(50% - 50vw);padding:88px 0;border-bottom:1px dashed var(--line);}
+  .wrap-wide{max-width:1560px;margin:0 auto;padding:0 40px;}
+  @media(max-width:1000px){.full-bleed .row2{grid-template-columns:1fr;}}
+  footer{padding:60px 0 100px;text-align:center;color:var(--ink-faint);font-size:14.5px;font-family:var(--mono);}
+  .modal-backdrop{position:fixed;inset:0;background:rgba(30,28,22,0.45);backdrop-filter:blur(3px);display:none;align-items:flex-start;justify-content:center;z-index:100;overflow-y:auto;padding:48px 20px;}
+  .modal-backdrop.open{display:flex;}
+  .modal{background:var(--panel);border:1px solid var(--line-strong);border-radius:18px;max-width:700px;width:100%;padding:40px 40px 44px;position:relative;box-shadow:0 20px 60px rgba(30,28,22,0.18);animation:pop .18s ease;}
+  @keyframes pop{from{opacity:0;transform:translateY(8px) scale(0.98);}to{opacity:1;transform:none;}}
+  .modal .close{position:absolute;top:22px;right:22px;width:38px;height:38px;border-radius:50%;border:1.5px solid var(--line-strong);background:var(--panel);color:var(--ink-dim);font-size:17px;cursor:pointer;display:flex;align-items:center;justify-content:center;}
+  .modal .close:hover{color:var(--ink);border-color:var(--ink-dim);}
+  .modal .tag{font-family:var(--mono);font-size:13px;font-weight:600;letter-spacing:0.06em;color:var(--amber);margin-bottom:16px;}
+  .modal h3{font-family:var(--mono);font-size:26px;margin-bottom:20px;padding-right:34px;}
+  .modal .body p{color:var(--ink-dim);margin-bottom:16px;font-size:17px;}
+  .modal .body p:last-child{margin-bottom:0;}
+  .modal .body b{color:var(--ink);font-weight:600;}
+  .modal .body code{font-family:var(--mono);font-size:15px;background:var(--amber-bg);padding:2px 7px;border-radius:5px;color:var(--amber);}
+  .modal .body ul{margin:0 0 16px 20px;color:var(--ink-dim);font-size:17px;}
+  .modal .body li{margin-bottom:8px;}
+  /* --- bổ sung riêng cho trang này --- */
+  .rule-grid{display:grid;grid-template-columns:1fr 1fr;gap:22px;}
+  @media(max-width:760px){.rule-grid{grid-template-columns:1fr;}}
+  .rule-card{border-radius:14px;padding:24px 26px;border:1px solid var(--line-strong);}
+  .rule-card.ok{background:var(--green-bg);border-color:#a9d9bb;}
+  .rule-card.no{background:var(--red-bg);border-color:var(--coral-line);}
+  .rule-card .rh{font-family:var(--mono);font-weight:700;font-size:14px;letter-spacing:0.05em;margin-bottom:14px;}
+  .rule-card.ok .rh{color:var(--green);}
+  .rule-card.no .rh{color:var(--red);}
+  .rule-card ul{list-style:none;color:var(--ink-dim);font-size:15.5px;}
+  .rule-card li{margin-bottom:10px;padding-left:22px;position:relative;}
+  .rule-card.ok li::before{content:'✓';position:absolute;left:0;color:var(--green);font-weight:700;}
+  .rule-card.no li::before{content:'✕';position:absolute;left:0;color:var(--red);font-weight:700;}
+  .mode-row{display:flex;gap:20px;margin-top:18px;flex-wrap:wrap;}
+  .mode-box{flex:1;min-width:220px;border-radius:12px;padding:18px 20px;border:1.5px solid var(--line-strong);background:var(--panel-2);}
+  .mode-box.on{border-color:var(--teal-line);background:var(--teal-bg);}
+  .mode-box .mh{font-family:var(--mono);font-weight:700;font-size:14px;margin-bottom:8px;}
+  .mode-box.on .mh{color:var(--teal);}
+  .mode-box p{font-size:14.5px;color:var(--ink-dim);}
+  .flow{display:flex;align-items:center;gap:14px;flex-wrap:wrap;justify-content:center;margin:22px 0 6px;}
+  .flow .box{background:var(--panel-2);border:1px solid var(--line-strong);border-radius:12px;padding:16px 20px;text-align:center;min-width:150px;}
+  .flow .box .ft{font-family:var(--mono);font-weight:700;font-size:14px;color:var(--ink);margin-bottom:4px;}
+  .flow .box .fs{font-size:13.5px;color:var(--ink-dim);}
+  .flow .arrow{font-size:20px;color:var(--ink-faint);}
+  @media(max-width:700px){.flow{flex-direction:column;}.flow .arrow{transform:rotate(90deg);}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <section class="hero">
+    <div class="kicker">AGENT SPEC GENERATOR · KIẾN TRÚC</div>
+    <h1>Agent, Skill, và ranh giới<br><span>giữa "chịu trách nhiệm" và "làm được một việc".</span></h1>
+    <p>Năm khái niệm, một nguyên tắc: mỗi khái niệm chỉ nên gánh đúng phần việc của nó. Bấm vào từng phần bên dưới để xem định nghĩa, cách thiết kế, cách gọi, và quy tắc quan trọng nhất cần nhớ khi tạo agent hoặc skill mới.</p>
+  </section>
+
+  <section id="five">
+    <div class="sheet-tag">NĂM KHÁI NIỆM — KHÔNG RÚT GỌN THÀNH HAI</div>
+    <h2>Mỗi khái niệm gánh đúng một phần việc</h2>
+    <p class="lede">Lỗi phổ biến nhất khi thiết kế agent: nhồi domain knowledge dài, tool call, và quyết định điều phối vào chung 1 file "skill". <b>Tách 5 vai trò này ra trước khi viết bất kỳ dòng spec nào.</b> Bấm vào từng vòng để xem chi tiết.</p>
+    <figure class="diagram-card">
+      <svg class="diagram" viewBox="0 0 680 460" role="img">
+      <title>Năm khái niệm nền tảng của kiến trúc agent</title>
+      <circle class="ring" cx="340" cy="230" r="70"/>
+      <circle class="ring" cx="340" cy="230" r="140"/>
+      <g class="node" onclick="openModal('c-agent')">
+        <text class="th" x="340" y="222" text-anchor="middle" dominant-baseline="central">AGENT</text>
+        <text class="ts" x="340" y="244" text-anchor="middle" dominant-baseline="central">chịu trách nhiệm 1 mục tiêu</text>
+      </g>
+      <g class="node" onclick="openModal('c-skill')">
+        <circle cx="470" cy="150" r="5" fill="var(--amber)"/>
+        <text class="th" x="480" y="150" dominant-baseline="central">Skill</text>
+      </g>
+      <g class="node" onclick="openModal('c-orchestrator')">
+        <circle cx="220" cy="140" r="5" fill="var(--violet)"/>
+        <text class="th" x="230" y="140" dominant-baseline="central">Orchestrator</text>
+      </g>
+      <g class="node" onclick="openModal('c-knowledge')">
+        <circle cx="190" cy="330" r="5" fill="var(--teal)"/>
+        <text class="th" x="200" y="330" dominant-baseline="central">Knowledge</text>
+      </g>
+      <g class="node" onclick="openModal('c-tool')">
+        <circle cx="480" cy="330" r="5" fill="var(--gray)"/>
+        <text class="th" x="490" y="330" dominant-baseline="central">Tool</text>
+      </g>
+      <text class="ts" x="340" y="430" text-anchor="middle">Agent ở giữa vì nó là bên duy nhất "dùng" cả 4 khái niệm còn lại</text>
+      </svg>
+      <figcaption>Bấm vào từng tên để xem định nghĩa và ví dụ</figcaption>
+    </figure>
+  </section>
+
+  <section id="decision">
+    <div class="sheet-tag">BẢNG QUYẾT ĐỊNH</div>
+    <h2>Khi nào Skill, khi nào Agent?</h2>
+    <p class="lede">Câu hỏi đầu tiên trước khi viết bất kỳ spec nào. Nếu vẫn không chắc sau bảng này — mặc định KHÔNG tách thành khái niệm mới, giữ inline trong SOP của agent đang có.</p>
+    <div style="overflow-x:auto;">
+    <table class="cmp">
+      <tr><th>Tình huống</th><th>Dùng</th></tr>
+      <tr><td>Capability tái dùng được ở ≥2 agent khác nhau</td><td><b>Skill</b></td></tr>
+      <tr><td>Vai trò nghiệp vụ có identity, scope, quyền quyết định riêng</td><td><b>Agent</b></td></tr>
+      <tr><td>Cần context cô lập (tránh nhiễu context chính, chạy song song)</td><td><b>Agent (subagent)</b></td></tr>
+      <tr><td>Cần model / permission / tool-set riêng biệt</td><td><b>Agent</b></td></tr>
+      <tr><td>Procedure ngắn, chạy trong context hiện tại, không cần cô lập</td><td><b>Skill</b></td></tr>
+      <tr><td>Workflow nhiều nhánh, nhiều bước, cần tổng hợp từ nhiều nguồn</td><td><b>Agent / Orchestrator</b></td></tr>
+      <tr><td>Tài liệu tham khảo dài, ổn định, không có hành động</td><td><b>Knowledge</b> — không nhét vào Skill</td></tr>
+      <tr><td>Gọi API / browser / database cụ thể</td><td><b>Tool</b> — không gọi đó là "Skill"</td></tr>
+      <tr><td>Chỉ dùng bởi 1 agent duy nhất, luôn load cùng agent đó</td><td>Không tách — giữ inline ở SOP</td></tr>
+    </table>
+    </div>
+  </section>
+
+  </div>
+
+  <section id="anatomy" class="full-bleed">
+    <div class="wrap-wide">
+    <div class="sheet-tag">GIẢI PHẪU AGENT — TẦNG A–F</div>
+    <h2>Một agent spec gồm 6 tầng tách biệt</h2>
+    <p class="lede"><b>Tầng A là lõi, không đổi.</b> Các tầng còn lại thêm dần vào theo nhu cầu — tầng F (orchestration) chỉ điền nếu agent này thật sự gọi/được gọi bởi agent khác. Bấm vào từng tầng để xem field cần điền.</p>
+    <div class="row2">
+      <figure class="diagram-card">
+        <svg class="diagram" viewBox="0 0 680 460" role="img">
+        <title>Sáu tầng của một agent spec, tầng A là lõi identity</title>
+        <circle class="ring" cx="340" cy="230" r="70"/>
+        <circle class="ring" cx="340" cy="230" r="130"/>
+        <circle class="ring" cx="340" cy="230" r="190"/>
+        <g class="node" onclick="openModal('t-a')">
+          <text class="th" x="340" y="222" text-anchor="middle" dominant-baseline="central">A</text>
+          <text class="ts" x="340" y="244" text-anchor="middle" dominant-baseline="central">System Prompt</text>
+        </g>
+        <g class="node" onclick="openModal('t-b')">
+          <circle cx="491" cy="142" r="5" fill="var(--amber)"/>
+          <text class="th" x="500" y="142" dominant-baseline="central">B · SOP</text>
+        </g>
+        <g class="node" onclick="openModal('t-c')">
+          <circle cx="491" cy="317" r="5" fill="var(--teal)"/>
+          <text class="th" x="500" y="317" dominant-baseline="central">C · Tool Spec</text>
+        </g>
+        <g class="node" onclick="openModal('t-d')">
+          <circle cx="340" cy="405" r="5" fill="var(--coral)"/>
+          <text class="th" x="340" y="425" text-anchor="middle" dominant-baseline="central">D · Input/Output</text>
+        </g>
+        <g class="node" onclick="openModal('t-e')">
+          <circle cx="188" cy="317" r="5" fill="var(--violet)"/>
+          <text class="th" x="120" y="317" text-anchor="end" dominant-baseline="central">E · Examples</text>
+        </g>
+        <g class="node" onclick="openModal('t-f')">
+          <circle cx="188" cy="142" r="5" fill="var(--gray)"/>
+          <text class="th" x="120" y="142" text-anchor="end" dominant-baseline="central">F · Orchestration</text>
+        </g>
+        </svg>
+        <figcaption>Bấm vào từng tầng để xem field cụ thể</figcaption>
+      </figure>
+      <figure class="diagram-card">
+        <svg class="diagram" viewBox="0 0 680 460" role="img">
+        <title>Skill contract: input, procedure, output</title>
+        <text class="th" x="340" y="40" text-anchor="middle">SKILL CONTRACT</text>
+        <rect x="70" y="90" width="540" height="64" rx="12" fill="var(--amber-bg)" stroke="var(--amber-line)"/>
+        <text class="th" x="340" y="112" text-anchor="middle">when_to_use / when_NOT_to_use</text>
+        <text class="ts" x="340" y="134" text-anchor="middle">Trigger — quyết định có kích hoạt hay không</text>
+        <line x1="340" y1="154" x2="340" y2="180" stroke="var(--line-strong)"/>
+        <rect x="70" y="180" width="540" height="64" rx="12" fill="var(--panel-2)" stroke="var(--line-strong)"/>
+        <text class="th" x="340" y="202" text-anchor="middle">input_contract</text>
+        <text class="ts" x="340" y="224" text-anchor="middle">field · type · required — dữ liệu skill cần nhận</text>
+        <line x1="340" y1="244" x2="340" y2="270" stroke="var(--line-strong)"/>
+        <rect x="70" y="270" width="540" height="64" rx="12" fill="var(--teal-bg)" stroke="var(--teal-line)"/>
+        <text class="th" x="340" y="292" text-anchor="middle">procedure</text>
+        <text class="ts" x="340" y="314" text-anchor="middle">nhiều bước OK — chỉ cần thuộc 1 capability duy nhất</text>
+        <line x1="340" y1="334" x2="340" y2="360" stroke="var(--line-strong)"/>
+        <rect x="70" y="360" width="540" height="64" rx="12" fill="var(--coral-bg)" stroke="var(--coral-line)"/>
+        <text class="th" x="340" y="382" text-anchor="middle">output_contract</text>
+        <text class="ts" x="340" y="404" text-anchor="middle">chỉ 1 loại output chính — agent gọi biết chắc nhận lại gì</text>
+        </svg>
+        <figcaption>Dữ liệu vào/ra của 1 Skill, không phải của Agent</figcaption>
+      </figure>
+    </div>
+    </div>
+  </section>
+
+  <div class="wrap">
+
+  <section id="invoke">
+    <div class="sheet-tag">CÁCH GỌI — SKILL</div>
+    <h2>invocation_mode: một toggle, không phải hai hệ thống</h2>
+    <p class="lede">Từ Claude Code 2.1, Skill và Slash Command đã hợp nhất — mọi skill tự xuất hiện trong menu <code style="font-family:var(--mono);background:var(--amber-bg);color:var(--amber);padding:2px 7px;border-radius:5px;">/skill-name</code>. Khác biệt duy nhất còn lại là 1 field bật/tắt.</p>
+    <div class="mode-row">
+      <div class="mode-box on">
+        <div class="mh">invocation_mode: "auto"</div>
+        <p>Claude tự kích hoạt khi request khớp <code style="font-family:var(--mono);background:var(--amber-bg);color:var(--amber);padding:1px 5px;border-radius:4px;">when_to_use</code> — không cần gõ lệnh. Đồng thời vẫn gọi được tường minh bằng <code style="font-family:var(--mono);background:var(--amber-bg);color:var(--amber);padding:1px 5px;border-radius:4px;">/skill-name</code> khi muốn chắc chắn.</p>
+      </div>
+      <div class="mode-box">
+        <div class="mh">invocation_mode: "explicit_only"</div>
+        <p>KHÔNG bao giờ tự động kích hoạt — chỉ chạy khi gọi tường minh bằng <code style="font-family:var(--mono);background:var(--amber-bg);color:var(--amber);padding:1px 5px;border-radius:4px;">/skill-name</code>. Dùng cho skill có side-effect nhạy cảm: gửi email, deploy, xoá dữ liệu.</p>
+      </div>
+    </div>
+  </section>
+
+  </div>
+
+  <section id="orchestration" class="full-bleed">
+    <div class="wrap-wide">
+    <div class="sheet-tag">CÁCH GỌI — ĐA AGENT</div>
+    <h2>Orchestration: nền tảng cho cơ chế gọi, không cho chiến lược</h2>
+    <p class="lede">Không nền tảng nào tự thiết kế hộ <b>chiến lược</b> điều phối (ai gọi ai, khi nào dừng). Chúng chỉ khác nhau ở việc <b>cơ chế kỹ thuật</b> để gọi agent khác có sẵn hay phải tự dựng.</p>
+    <figure class="diagram-card">
+      <svg class="diagram" viewBox="0 0 940 300" role="img">
+      <title>Mức độ có sẵn cơ chế điều phối theo nền tảng</title>
+      <line x1="40" y1="200" x2="900" y2="200" stroke="var(--line-strong)" stroke-width="2"/>
+      <text class="ts" x="40" y="225" text-anchor="start">← không có, tự dựng bằng code</text>
+      <text class="ts" x="900" y="225" text-anchor="end">có sẵn built-in →</text>
+      <g class="node" onclick="openModal('o-hermes')"><rect x="30" y="60" width="170" height="56" rx="10" fill="var(--amber-bg)" stroke="var(--amber-line)"/><text class="th" x="115" y="78" text-anchor="middle" dominant-baseline="central">Hermes Agent</text><text class="ts" x="115" y="96" text-anchor="middle" dominant-baseline="central">không có, tự viết ngoài</text></g>
+      <line x1="115" y1="116" x2="115" y2="200" stroke="var(--line-strong)" stroke-dasharray="3 3"/>
+      <g class="node" onclick="openModal('o-api')"><rect x="255" y="60" width="170" height="56" rx="10" fill="var(--coral-bg)" stroke="var(--coral-line)"/><text class="th" x="340" y="78" text-anchor="middle" dominant-baseline="central">Claude API/SDK</text><text class="ts" x="340" y="96" text-anchor="middle" dominant-baseline="central">tự viết orchestrator</text></g>
+      <line x1="340" y1="116" x2="340" y2="200" stroke="var(--line-strong)" stroke-dasharray="3 3"/>
+      <g class="node" onclick="openModal('o-code')"><rect x="530" y="60" width="170" height="56" rx="10" fill="var(--gray-bg)" stroke="var(--gray-line)"/><text class="th" x="615" y="78" text-anchor="middle" dominant-baseline="central">Claude Code</text><text class="ts" x="615" y="96" text-anchor="middle" dominant-baseline="central">built-in, nested 5 tầng</text></g>
+      <line x1="615" y1="116" x2="615" y2="200" stroke="var(--line-strong)" stroke-dasharray="3 3"/>
+      <g class="node" onclick="openModal('o-antigravity')"><rect x="740" y="60" width="170" height="56" rx="10" fill="var(--teal-bg)" stroke="var(--teal-line)"/><text class="th" x="825" y="78" text-anchor="middle" dominant-baseline="central">Antigravity</text><text class="ts" x="825" y="96" text-anchor="middle" dominant-baseline="central">built-in, cấp quyền runtime</text></g>
+      <line x1="825" y1="116" x2="825" y2="200" stroke="var(--line-strong)" stroke-dasharray="3 3"/>
+      </svg>
+      <figcaption>Bấm vào từng nền tảng để xem cơ chế cụ thể</figcaption>
+    </figure>
+    </div>
+  </section>
+
+  <div class="wrap">
+
+  <section id="rules">
+    <div class="sheet-tag">QUY TẮC QUAN TRỌNG NHẤT</div>
+    <h2>Một Skill được phép gì, không được phép gì</h2>
+    <p class="lede">Nhiều bước là bình thường. Vấn đề không phải <b>số lượng bước</b>, mà là <b>loại quyết định</b> bên trong các bước đó.</p>
+    <div class="rule-grid">
+      <div class="rule-card ok">
+        <div class="rh">ĐƯỢC PHÉP</div>
+        <ul>
+          <li>Nhiều bước tuần tự, miễn cùng 1 capability (VD: đọc → chuẩn hóa → tính chỉ số)</li>
+          <li>Rẽ nhánh về <b>CÁCH LÀM</b> (HOW) — "nếu file là scan thì OCR trước"</li>
+          <li>Tự chuẩn hóa input đến từ nhiều dạng khác nhau (list/text/file)</li>
+          <li>Trỏ tới (không nhúng) Knowledge và Tool cụ thể qua <code>dependencies</code></li>
+        </ul>
+      </div>
+      <div class="rule-card no">
+        <div class="rh">KHÔNG ĐƯỢC PHÉP</div>
+        <ul>
+          <li>Rẽ nhánh về <b>CHỌN TIẾP THEO</b> (WHICH) — "nếu phức tạp thì gọi agent X"</li>
+          <li>Tự gọi agent khác (<code>may_call_agents: false</code>)</li>
+          <li>Tự quyết định thứ tự/điều kiện dừng của cả workflow (<code>may_orchestrate: false</code>)</li>
+          <li>Có hơn 1 loại output chính, hoặc nhồi domain knowledge dài vào chính file skill</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section id="final">
+    <div class="sheet-tag">TỔNG HỢP</div>
+    <h2>Năm khái niệm, cạnh nhau</h2>
+    <div style="overflow-x:auto;">
+    <table class="cmp">
+      <tr><th></th><th>Agent</th><th>Skill</th><th>Orchestrator</th><th>Knowledge</th><th>Tool</th></tr>
+      <tr><td class="label">Chịu trách nhiệm gì</td><td>1 mục tiêu nghiệp vụ</td><td>1 capability</td><td>Routing &amp; stop condition</td><td>Biết điều gì</td><td>1 hành động bên ngoài</td></tr>
+      <tr><td class="label">Có identity riêng?</td><td><b>Có</b></td><td>Không</td><td>Không (là 1 vai của Agent)</td><td>Không</td><td>Không</td></tr>
+      <tr><td class="label">Context cô lập?</td><td>Có thể (subagent)</td><td>Không — nạp inline</td><td>—</td><td>—</td><td>—</td></tr>
+      <tr><td class="label">Tự gọi cái khác?</td><td>Có (Tầng F)</td><td><b>Không</b></td><td>Có — đây là việc của nó</td><td>Không</td><td>Không</td></tr>
+      <tr><td class="label">Ví dụ</td><td>product-manager</td><td>prioritize-requirements</td><td>main Claude Code thread</td><td>product-strategy doc</td><td>web_search</td></tr>
+    </table>
+    </div>
+  </section>
+
+  <footer>AGENT SPEC GENERATOR — tài liệu tham chiếu nội bộ · bấm vào tên để xem chi tiết</footer>
+  </div>
+
+<div class="modal-backdrop" id="modalBackdrop">
+  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+    <button class="close" id="modalClose" aria-label="Đóng">✕</button>
+    <div class="tag" id="modalTag"></div>
+    <h3 id="modalTitle"></h3>
+    <div class="body" id="modalBody"></div>
+  </div>
+</div>
+
+<script>
+const DETAILS = {
+  "c-agent": { tag:"5 KHÁI NIỆM · AGENT", title:"Agent", body:`
+    <p>Chịu trách nhiệm về <b>một mục tiêu nghiệp vụ</b> — không chỉ "làm việc", mà có quyền quyết định, có ranh giới scope, và tồn tại xuyên nhiều loại task theo thời gian.</p>
+    <p><b>Cần có:</b></p>
+    <ul>
+      <li>Identity, purpose, role, tone (Tầng A)</li>
+      <li><code>scope_forbidden</code> — bắt buộc, không để trống</li>
+      <li>Danh sách <code>uses_skills</code> và <code>knowledge_references</code> nó được phép dùng</li>
+      <li>Orchestration contract (Tầng F) nếu tham gia hệ thống multi-agent</li>
+    </ul>
+    <p>Ví dụ: agent <code>product-manager</code> — biến insight và yêu cầu thành roadmap, dùng skill <code>prioritize-requirements</code> + <code>write-roadmap</code>.</p>`},
+  "c-skill": { tag:"5 KHÁI NIỆM · SKILL", title:"Skill", body:`
+    <p>Làm được <b>một việc</b> — capability tái dùng ở nhiều agent, có input/output contract ổn định, không sở hữu quyền quyết định workflow.</p>
+    <p><b>Đặc điểm:</b></p>
+    <ul>
+      <li>Có thể nhiều bước, chỉ cần cùng 1 capability</li>
+      <li>Không tự gọi agent khác, không tự orchestrate</li>
+      <li>Reusable ở ≥2 agent — nếu chỉ 1 agent dùng, không cần tách skill riêng</li>
+    </ul>
+    <p>Ví dụ: <code>prioritize-requirements</code> — nhận danh sách yêu cầu, trả về bản xếp hạng kèm lý do.</p>`},
+  "c-orchestrator": { tag:"5 KHÁI NIỆM · ORCHESTRATOR", title:"Orchestrator", body:`
+    <p>Quyết định <b>ai làm việc gì và khi nào kết thúc</b> — routing, state, stop condition. Không tự làm việc chi tiết, chỉ điều phối.</p>
+    <ul>
+      <li>Nguyên tắc hub-and-spoke: chỉ orchestrator gọi tiếp agent cấp dưới (kỷ luật thiết kế, không phải giới hạn kỹ thuật — platform có thể cho phép lồng sâu hơn)</li>
+      <li>Luôn khai báo <code>max_nesting_depth</code> — mỗi tầng lồng nhau nhân thêm token</li>
+      <li>Không phải 1 file riêng — thường là chính main thread hoặc 1 agent đóng vai điều phối</li>
+    </ul>`},
+  "c-knowledge": { tag:"5 KHÁI NIỆM · KNOWLEDGE", title:"Knowledge", body:`
+    <p>Biết <b>điều gì</b> — tài liệu/domain reference dài, ổn định theo thời gian, KHÔNG có procedure hành động.</p>
+    <ul>
+      <li>Agent/Skill chỉ nên <b>trỏ tới</b> Knowledge, không nhúng nội dung dài vào chính file spec</li>
+      <li>Tránh nhúng số liệu/link dễ đổi — Knowledge nên là "cẩm nang", không phải "bản tin"</li>
+    </ul>
+    <p>Ví dụ: product-strategy doc, customer-research repo.</p>`},
+  "c-tool": { tag:"5 KHÁI NIỆM · TOOL", title:"Tool", body:`
+    <p>Thực hiện <b>một hành động bên ngoài</b> — gọi API, browser, database. Không tự suy luận, chỉ execute theo input_schema.</p>
+    <ul>
+      <li>Khác Skill: Tool là cổng nối ra ngoài; Skill là hướng dẫn CHO model dùng Tool đúng lúc</li>
+      <li>Cần khai báo rõ <code>when_to_use</code> / <code>when_NOT_to_use</code> — đây là phần hay bị viết sơ sài nhất</li>
+    </ul>`},
+  "t-a": { tag:"TẦNG A · LÕI", title:"System Prompt", body:`
+    <p>Identity của agent — cố định, load 1 lần, hiếm đổi.</p>
+    <ul>
+      <li><code>purpose</code>, <code>role</code>, <code>tone_and_style</code>, <code>language</code></li>
+      <li><code>uses_skills</code>, <code>knowledge_references</code> — chỉ trỏ tên, không nhúng nội dung</li>
+      <li><code>scope_allowed</code> / <code>scope_forbidden</code> (bắt buộc, không để trống)</li>
+      <li><code>hard_constraints</code></li>
+    </ul>`},
+  "t-b": { tag:"TẦNG B", title:"SOP / Workflow", body:`
+    <p>Quy trình xử lý, có nhánh rẽ.</p>
+    <ul>
+      <li><code>required_inputs</code> (kèm <code>if_missing</code>) và <code>optional_inputs</code></li>
+      <li><code>steps</code> — có thể có <code>branch_if</code></li>
+      <li><code>self_check_before_output</code> — checklist đo được, không chung chung</li>
+      <li><code>revision_rule</code> — cách xử lý khi user yêu cầu sửa cục bộ</li>
+    </ul>`},
+  "t-c": { tag:"TẦNG C", title:"Tool Specification", body:`
+    <p>Chỉ điền nếu agent gọi tool ngoài — nếu không, ghi rõ "N/A".</p>
+    <ul>
+      <li>Mỗi tool: <code>name</code>, <code>description</code>, <code>when_to_use</code>, <code>when_NOT_to_use</code></li>
+      <li><code>input_schema</code>, <code>output_format</code></li>
+      <li>Mô tả CHỨC NĂNG, không mô tả cách hành xử ("dùng khôn ngoan" không phải spec)</li>
+    </ul>`},
+  "t-d": { tag:"TẦNG D", title:"Input/Output theo lượt", body:`
+    <p>KHÔNG cố định — mô tả cấu trúc dữ liệu mỗi lượt, không nhét nội dung thật.</p>
+    <ul>
+      <li><code>per_turn_input</code> — dạng dữ liệu nhận mỗi lượt</li>
+      <li><code>per_turn_output_structure</code> — các section output kỳ vọng</li>
+    </ul>`},
+  "t-e": { tag:"TẦNG E", title:"Examples", body:`
+    <p>Bắt buộc có ít nhất 1 ví dụ đúng VÀ 1 phản ví dụ.</p>
+    <ul>
+      <li><code>positive_example</code> — canh mức độ chi tiết kỳ vọng</li>
+      <li><code>negative_example</code> — kèm <code>why_wrong</code>, giúp agent học ranh giới</li>
+    </ul>`},
+  "t-f": { tag:"TẦNG F · TÙY CHỌN", title:"Orchestration", body:`
+    <p>Chỉ điền nếu agent này gọi/được gọi bởi agent khác — nếu không, ghi "N/A - agent độc lập".</p>
+    <ul>
+      <li><code>calls_agents</code> — kèm <code>call_trigger</code>, <code>pass_context</code>, <code>expects_back</code></li>
+      <li><code>called_by</code></li>
+      <li><code>max_nesting_depth</code> — khuyến nghị 2-3 tầng</li>
+      <li><code>isolation_level</code> — cô lập hoàn toàn hay chia sẻ context</li>
+    </ul>`},
+  "o-hermes": { tag:"ORCHESTRATION · HERMES", title:"Hermes Agent", body:`
+    <p>Không có khái niệm subagent/orchestrator native. Function calling dạng text, nhúng JSON schema ngay trong system prompt.</p>
+    <p>Muốn multi-agent, phải tự viết code ngoài để switch prompt và quản lý việc agent A gọi agent B — Hermes chỉ là model trả lời theo 1 prompt tại 1 thời điểm.</p>`},
+  "o-api": { tag:"ORCHESTRATION · CLAUDE API/SDK", title:"Claude API / Agent SDK", body:`
+    <p>Không có orchestration sẵn — tự viết trong code: agent gọi tool → tool trigger gọi API khác (subagent) → thu kết quả → quyết định bước kế.</p>
+    <p>Toàn quyền kiểm soát, nhưng toàn bộ logic recursive-call phải tự dựng từ đầu.</p>`},
+  "o-code": { tag:"ORCHESTRATION · CLAUDE CODE", title:"Claude Code", body:`
+    <p>Built-in — main thread là orchestrator, tự delegate dựa vào <code>description</code> của subagent.</p>
+    <ul>
+      <li>Subagent có thể spawn subagent khác, tối đa <b>5 tầng sâu</b></li>
+      <li>Có thể định nghĩa cách decompose task trong <code>CLAUDE.md</code></li>
+      <li><b>Agent Teams</b> (experimental) — nhiều session độc lập giao tiếp trực tiếp</li>
+      <li>Chi phí: workflow nhiều subagent có thể tốn ~7 lần token so với 1 thread duy nhất</li>
+    </ul>`},
+  "o-antigravity": { tag:"ORCHESTRATION · ANTIGRAVITY", title:"Google Antigravity", body:`
+    <p>Built-in — main agent chạy async subagent qua harness chung.</p>
+    <p>Khác Claude Code: main agent quyết định <b>động (runtime)</b> quyền/tool nào cấp cho từng subagent, thay vì khai báo tĩnh trong file như <code>tools:</code> của Claude Code.</p>`},
+};
+
+const backdrop = document.getElementById('modalBackdrop');
+const modalTag = document.getElementById('modalTag');
+const modalTitle = document.getElementById('modalTitle');
+const modalBody = document.getElementById('modalBody');
+let lastFocused = null;
+function openModal(key){
+  const d = DETAILS[key]; if(!d) return;
+  modalTag.textContent = d.tag || '';
+  modalTitle.innerHTML = d.title || '';
+  modalBody.innerHTML = d.body || '';
+  backdrop.classList.add('open');
+  document.body.style.overflow = 'hidden';
+  lastFocused = document.activeElement;
+  document.getElementById('modalClose').focus();
+}
+function closeModal(){
+  backdrop.classList.remove('open');
+  document.body.style.overflow = '';
+  if(lastFocused) lastFocused.focus();
+}
+document.getElementById('modalClose').addEventListener('click', closeModal);
+backdrop.addEventListener('click', (e)=>{ if(e.target === backdrop) closeModal(); });
+document.addEventListener('keydown', (e)=>{ if(e.key === 'Escape' && backdrop.classList.contains('open')) closeModal(); });
+</script>
+</body>
+</html>
