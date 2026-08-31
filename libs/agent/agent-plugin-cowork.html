@@ -1,0 +1,549 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Plugin &amp; Cowork — đóng gói agent Claude Code cho người non-IT</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#faf9f6; --panel:#ffffff; --panel-2:#f4f2ec;
+    --line:#e6e2d8; --line-strong:#cfc9ba;
+    --ink:#1e1c16; --ink-dim:#5c5748; --ink-faint:#948d7b;
+    --amber:#a5620b; --amber-bg:#faeeda; --amber-line:#e6a94f;
+    --teal:#0f6e56; --teal-bg:#e1f5ee; --teal-line:#5dcaa5;
+    --coral:#8a381a; --coral-bg:#faece7; --coral-line:#f0997b;
+    --violet:#3c3489; --violet-bg:#eeedfe; --violet-line:#7f77dd;
+    --gray:#444441; --gray-bg:#f1efe8; --gray-line:#8b897f;
+    --green:#2f7d4f; --green-bg:#e7f5ec; --red:#a5300b; --red-bg:#faece7;
+    --mono:'JetBrains Mono', monospace; --sans:'Inter', sans-serif;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  html{scroll-behavior:smooth;}
+  body{
+    background: radial-gradient(circle at 1px 1px, rgba(30,28,22,0.06) 1px, transparent 0) 0 0/26px 26px, var(--bg);
+    color:var(--ink); font-family:var(--sans); font-size:18px; line-height:1.65; -webkit-font-smoothing:antialiased;
+  }
+  ::selection{background:var(--amber-bg);color:var(--amber);}
+  .wrap{max-width:1080px;margin:0 auto;padding:0 26px;}
+  section{padding:88px 0;border-bottom:1px dashed var(--line);}
+  section:last-of-type{border-bottom:none;}
+  .sheet-tag{font-family:var(--mono);font-size:14px;font-weight:600;color:var(--amber);letter-spacing:0.08em;margin-bottom:16px;display:flex;align-items:center;gap:10px;}
+  .sheet-tag::before{content:'';width:26px;height:2px;background:var(--amber-line);}
+  h2{font-family:var(--mono);font-weight:700;font-size:clamp(24px,3.2vw,34px);letter-spacing:-0.01em;margin-bottom:14px;}
+  .lede{color:var(--ink-dim);max-width:720px;margin-bottom:44px;font-size:18px;}
+  .lede b{color:var(--ink);font-weight:600;}
+  .lede code{font-family:var(--mono);font-size:15px;background:var(--panel-2);padding:2px 7px;border-radius:5px;color:var(--ink);}
+  .hero{padding-top:110px;padding-bottom:80px;}
+  .hero .kicker{font-family:var(--mono);font-size:14px;font-weight:600;color:var(--coral);letter-spacing:0.1em;margin-bottom:22px;}
+  .hero h1{font-family:var(--mono);font-weight:700;font-size:clamp(32px,5.6vw,58px);line-height:1.08;letter-spacing:-0.02em;margin-bottom:26px;}
+  .hero h1 span{color:var(--ink-faint);}
+  .hero p{max-width:680px;color:var(--ink-dim);font-size:19px;}
+  .diagram-card{background:var(--panel);border:1px solid var(--line-strong);border-radius:16px;padding:24px;box-shadow:0 2px 10px rgba(30,28,22,0.04);}
+  .diagram-card figcaption{font-family:var(--mono);font-size:13px;color:var(--ink-faint);text-align:center;margin-top:14px;}
+  svg.diagram{width:100%;height:auto;display:block;}
+  .diagram text{font-family:var(--sans);}
+  .diagram text.t{font-size:16px;fill:var(--ink);}
+  .diagram text.ts{font-size:13.5px;fill:var(--ink-dim);}
+  .diagram text.th{font-size:16px;font-weight:600;fill:var(--ink);}
+  .diagram text.tm{font-family:var(--mono);font-size:13.5px;font-weight:600;fill:var(--ink);}
+  .diagram .node{cursor:pointer;}
+  .diagram .node:hover text.th{text-decoration:underline;}
+  .diagram .node:hover text.tm{text-decoration:underline;}
+  table.cmp{width:100%;border-collapse:collapse;background:var(--panel);border:1px solid var(--line-strong);border-radius:14px;overflow:hidden;}
+  table.cmp th, table.cmp td{padding:15px 18px;text-align:left;border-bottom:1px solid var(--line);font-size:16px;vertical-align:top;}
+  table.cmp th{font-family:var(--mono);font-size:13.5px;color:var(--ink-faint);letter-spacing:0.04em;background:var(--panel-2);font-weight:600;}
+  table.cmp tr:last-child td{border-bottom:none;}
+  table.cmp td.label{font-weight:600;color:var(--ink);}
+  table.cmp td b{color:var(--ink);}
+  table.cmp code{font-family:var(--mono);font-size:14px;background:var(--panel-2);padding:2px 6px;border-radius:5px;}
+  .yes{color:var(--green);font-weight:700;}
+  .no{color:var(--red);font-weight:700;}
+  .row2{display:grid;grid-template-columns:1fr 1fr;gap:28px;}
+  @media(max-width:760px){.row2{grid-template-columns:1fr;}}
+  .rule-grid{display:grid;grid-template-columns:1fr 1fr;gap:22px;}
+  @media(max-width:760px){.rule-grid{grid-template-columns:1fr;}}
+  .rule-card{border-radius:14px;padding:24px 26px;border:1px solid var(--line-strong);}
+  .rule-card.ok{background:var(--green-bg);border-color:#a9d9bb;}
+  .rule-card.no{background:var(--red-bg);border-color:var(--coral-line);}
+  .rule-card .rh{font-family:var(--mono);font-weight:700;font-size:14px;letter-spacing:0.05em;margin-bottom:14px;}
+  .rule-card.ok .rh{color:var(--green);}
+  .rule-card.no .rh{color:var(--red);}
+  .rule-card ul{list-style:none;color:var(--ink-dim);font-size:15.5px;}
+  .rule-card li{margin-bottom:12px;padding-left:22px;position:relative;}
+  .rule-card li:last-child{margin-bottom:0;}
+  .rule-card li b{color:var(--ink);font-weight:600;}
+  .rule-card.ok li::before{content:'✓';position:absolute;left:0;color:var(--green);font-weight:700;}
+  .rule-card.no li::before{content:'✕';position:absolute;left:0;color:var(--red);font-weight:700;}
+  .flow{display:flex;align-items:stretch;gap:14px;flex-wrap:wrap;justify-content:center;margin:22px 0 6px;}
+  .flow .box{background:var(--panel-2);border:1px solid var(--line-strong);border-radius:12px;padding:16px 20px;text-align:center;min-width:180px;flex:1;}
+  .flow .box.hi{background:var(--amber-bg);border-color:var(--amber-line);}
+  .flow .box .ft{font-family:var(--mono);font-weight:700;font-size:14px;color:var(--ink);margin-bottom:6px;}
+  .flow .box .fs{font-size:13.5px;color:var(--ink-dim);}
+  .codeblock{background:var(--panel);border:1px solid var(--line-strong);border-radius:14px;padding:22px 24px;font-family:var(--mono);font-size:14.5px;line-height:1.75;color:var(--ink-dim);overflow-x:auto;white-space:pre;box-shadow:0 2px 10px rgba(30,28,22,0.04);}
+  .codeblock b{color:var(--amber);font-weight:600;}
+  .codeblock i{color:var(--ink-faint);font-style:normal;}
+  .note{background:var(--panel-2);border:1px solid var(--line-strong);border-left:3px solid var(--amber-line);border-radius:12px;padding:20px 24px;margin-top:26px;color:var(--ink-dim);font-size:16px;}
+  .note b{color:var(--ink);font-weight:600;}
+  .note code{font-family:var(--mono);font-size:14px;background:var(--amber-bg);padding:2px 6px;border-radius:5px;color:var(--amber);}
+  .full-bleed{width:100vw;margin-left:calc(50% - 50vw);margin-right:calc(50% - 50vw);padding:88px 0;border-bottom:1px dashed var(--line);}
+  .wrap-wide{max-width:1560px;margin:0 auto;padding:0 40px;}
+  footer{padding:60px 0 100px;text-align:center;color:var(--ink-faint);font-size:14.5px;font-family:var(--mono);}
+  .modal-backdrop{position:fixed;inset:0;background:rgba(30,28,22,0.45);backdrop-filter:blur(3px);display:none;align-items:flex-start;justify-content:center;z-index:100;overflow-y:auto;padding:48px 20px;}
+  .modal-backdrop.open{display:flex;}
+  .modal{background:var(--panel);border:1px solid var(--line-strong);border-radius:18px;max-width:700px;width:100%;padding:40px 40px 44px;position:relative;box-shadow:0 20px 60px rgba(30,28,22,0.18);animation:pop .18s ease;}
+  @keyframes pop{from{opacity:0;transform:translateY(8px) scale(0.98);}to{opacity:1;transform:none;}}
+  .modal .close{position:absolute;top:22px;right:22px;width:38px;height:38px;border-radius:50%;border:1.5px solid var(--line-strong);background:var(--panel);color:var(--ink-dim);font-size:17px;cursor:pointer;display:flex;align-items:center;justify-content:center;}
+  .modal .close:hover{color:var(--ink);border-color:var(--ink-dim);}
+  .modal .tag{font-family:var(--mono);font-size:13px;font-weight:600;letter-spacing:0.06em;color:var(--amber);margin-bottom:16px;}
+  .modal h3{font-family:var(--mono);font-size:26px;margin-bottom:20px;padding-right:34px;}
+  .modal .body p{color:var(--ink-dim);margin-bottom:16px;font-size:17px;}
+  .modal .body p:last-child{margin-bottom:0;}
+  .modal .body b{color:var(--ink);font-weight:600;}
+  .modal .body code{font-family:var(--mono);font-size:15px;background:var(--amber-bg);padding:2px 7px;border-radius:5px;color:var(--amber);}
+  .modal .body ul{margin:0 0 16px 20px;color:var(--ink-dim);font-size:17px;}
+  .modal .body li{margin-bottom:8px;}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <section class="hero">
+    <div class="kicker">PLUGIN &amp; COWORK · ĐÓNG GÓI AGENT</div>
+    <h1>Plugin không phải harness,<br><span>nó là cách phát cho cả phòng ban dùng.</span></h1>
+    <p>Một plugin Claude không tạo ra năng lực mới — nó gói lại những năng lực đã có để người khác cài được. Trang này giải thích plugin nằm ở tầng nào, cách chuyển một hệ 9 sub-agent trong <code>.claude/</code> thành plugin chạy được trên Cowork, và cái giá phải trả khi làm vậy. Ví dụ xuyên suốt: pipeline nghiên cứu thị trường <b>bảo hiểm nhân thọ (BHNT)</b>.</p>
+  </section>
+
+  <section id="layers">
+    <div class="sheet-tag">SƠ ĐỒ 01 — XẾP ĐÚNG TẦNG</div>
+    <h2>Plugin và Hermes không cùng một trục</h2>
+    <p class="lede">Câu hỏi "plugin có thay thế Agent OS như Hermes không" sai ngay ở giả định: <b>chúng nằm ở hai tầng khác nhau</b>. Plugin là tầng đóng gói — tương đương npm/apt. Hermes là tầng runtime — tương đương chính Claude Code. Bấm vào từng tầng để xem nó gánh việc gì.</p>
+    <figure class="diagram-card">
+      <svg class="diagram" viewBox="0 0 680 430" role="img">
+        <title>Bốn tầng: phân phối, nội dung, runtime, model</title>
+
+        <g class="node" onclick="openModal('layer-dist')">
+          <rect x="50" y="20" width="580" height="84" rx="12" fill="var(--amber-bg)" stroke="var(--amber-line)" stroke-width="1.2"/>
+          <text class="tm" x="72" y="48" dominant-baseline="central">TẦNG PHÂN PHỐI · PACKAGING</text>
+          <text class="th" x="72" y="72" dominant-baseline="central">Plugin · Marketplace · Version</text>
+          <text class="ts" x="72" y="92" dominant-baseline="central">Giải bài toán: ai khác cài được và dùng lại được</text>
+          <text class="ts" x="608" y="60" text-anchor="end" dominant-baseline="central">≈ npm / apt</text>
+        </g>
+
+        <g class="node" onclick="openModal('layer-content')">
+          <rect x="50" y="118" width="580" height="84" rx="12" fill="var(--coral-bg)" stroke="var(--coral-line)" stroke-width="1.2"/>
+          <text class="tm" x="72" y="146" dominant-baseline="central">TẦNG NỘI DUNG · CAPABILITY</text>
+          <text class="th" x="72" y="170" dominant-baseline="central">Skills · Agents · Hooks · Commands · MCP</text>
+          <text class="ts" x="72" y="190" dominant-baseline="central">Đã tồn tại sẵn trong .claude/ — plugin chỉ gói lại, không thêm gì</text>
+        </g>
+
+        <g class="node" onclick="openModal('layer-runtime')">
+          <rect x="50" y="216" width="580" height="84" rx="12" fill="var(--violet-bg)" stroke="var(--violet-line)" stroke-width="1.2"/>
+          <text class="tm" x="72" y="244" dominant-baseline="central">TẦNG RUNTIME · HARNESS</text>
+          <text class="th" x="72" y="268" dominant-baseline="central">Claude Code · Cowork · Agent SDK · Hermes</text>
+          <text class="ts" x="72" y="288" dominant-baseline="central">Agent loop, tool dispatch, context/compaction, spawn sub-agent, permission</text>
+          <text class="ts" x="608" y="258" text-anchor="end" dominant-baseline="central">← Hermes ở đây</text>
+        </g>
+
+        <g class="node" onclick="openModal('layer-model')">
+          <rect x="50" y="314" width="580" height="72" rx="12" fill="var(--teal-bg)" stroke="var(--teal-line)" stroke-width="1.2"/>
+          <text class="tm" x="72" y="340" dominant-baseline="central">TẦNG MODEL</text>
+          <text class="th" x="72" y="364" dominant-baseline="central">Claude · GPT · Gemini · LLM chạy local</text>
+        </g>
+
+        <text class="ts" x="340" y="414" text-anchor="middle">Plugin ↔ package manager của harness · Hermes ↔ chính harness đó</text>
+      </svg>
+      <figcaption>Bấm vào từng tầng để xem tầng đó chịu trách nhiệm gì</figcaption>
+    </figure>
+
+    <div class="note">
+      <b>Hệ quả cho Agent Spec Generator:</b> plugin không phải khái niệm thứ sáu đứng cạnh Agent / Skill / Orchestrator / Knowledge / Tool. Nó là một <b>render target ở tầng packaging</b> — cùng một bộ spec xuất ra được thành plugin, thành Claude Project, hoặc thành profile Hermes. Hermes là render target ở tầng orchestration. Nếu schema đang gộp hai tầng này vào một trục thì đó là chỗ cần tách.
+    </div>
+  </section>
+
+  <section id="anatomy">
+    <div class="sheet-tag">SƠ ĐỒ 02 — GIẢI PHẪU MỘT PLUGIN</div>
+    <h2>Sáu thành phần, không cái nào là mới</h2>
+    <p class="lede">Một plugin chỉ là một thư mục có <code>.claude-plugin/plugin.json</code> cộng với các thành phần đã tồn tại sẵn. Mọi thứ plugin ship được thì bạn đều cấu hình standalone trong <code>.claude/</code> được. Bấm vào từng ô để xem nó ánh xạ từ đâu và có giới hạn gì.</p>
+    <figure class="diagram-card">
+      <svg class="diagram" viewBox="0 0 680 420" role="img">
+        <title>Các thành phần bên trong một plugin Claude</title>
+
+        <g class="node" onclick="openModal('c-manifest')">
+          <rect x="40" y="18" width="600" height="70" rx="12" fill="var(--panel-2)" stroke="var(--ink-dim)" stroke-width="1.4"/>
+          <text class="tm" x="60" y="44" dominant-baseline="central">.claude-plugin/plugin.json</text>
+          <text class="ts" x="60" y="66" dominant-baseline="central">Trường "name" quyết định namespace của mọi lệnh — bắt buộc, không bỏ được</text>
+        </g>
+
+        <g class="node" onclick="openModal('c-skills')">
+          <rect x="40" y="110" width="190" height="96" rx="12" fill="var(--teal-bg)" stroke="var(--teal-line)" stroke-width="1"/>
+          <text class="tm" x="58" y="136" dominant-baseline="central">skills/</text>
+          <text class="ts" x="58" y="160" dominant-baseline="central">Thư mục có SKILL.md</text>
+          <text class="ts" x="58" y="180" dominant-baseline="central">Chạy ở cả 3 bề mặt</text>
+        </g>
+
+        <g class="node" onclick="openModal('c-agents')">
+          <rect x="245" y="110" width="190" height="96" rx="12" fill="var(--violet-bg)" stroke="var(--violet-line)" stroke-width="1"/>
+          <text class="tm" x="263" y="136" dominant-baseline="central">agents/</text>
+          <text class="ts" x="263" y="160" dominant-baseline="central">9 sub-agent BHNT</text>
+          <text class="ts" x="263" y="180" dominant-baseline="central">Chỉ chạy trong Cowork</text>
+        </g>
+
+        <g class="node" onclick="openModal('c-commands')">
+          <rect x="450" y="110" width="190" height="96" rx="12" fill="var(--amber-bg)" stroke="var(--amber-line)" stroke-width="1"/>
+          <text class="tm" x="468" y="136" dominant-baseline="central">commands/</text>
+          <text class="ts" x="468" y="160" dominant-baseline="central">File .md phẳng</text>
+          <text class="ts" x="468" y="180" dominant-baseline="central">Vẫn hợp lệ, không phải viết lại</text>
+        </g>
+
+        <g class="node" onclick="openModal('c-hooks')">
+          <rect x="40" y="224" width="190" height="96" rx="12" fill="var(--coral-bg)" stroke="var(--coral-line)" stroke-width="1"/>
+          <text class="tm" x="58" y="250" dominant-baseline="central">hooks/</text>
+          <text class="ts" x="58" y="274" dominant-baseline="central">Chen vào điểm định sẵn</text>
+          <text class="ts" x="58" y="294" dominant-baseline="central">Chỉ chạy trong Cowork</text>
+        </g>
+
+        <g class="node" onclick="openModal('c-mcp')">
+          <rect x="245" y="224" width="190" height="96" rx="12" fill="var(--gray-bg)" stroke="var(--gray-line)" stroke-width="1"/>
+          <text class="tm" x="263" y="250" dominant-baseline="central">.mcp.json</text>
+          <text class="ts" x="263" y="274" dominant-baseline="central">Khai báo MCP server</text>
+          <text class="ts" x="263" y="294" dominant-baseline="central">+ LSP server, monitor</text>
+        </g>
+
+        <g class="node" onclick="openModal('c-rules')">
+          <rect x="450" y="224" width="190" height="96" rx="12" fill="#fff" stroke="var(--red)" stroke-width="1.4" stroke-dasharray="6 4"/>
+          <text class="tm" x="468" y="250" dominant-baseline="central">rules/ ✕</text>
+          <text class="ts" x="468" y="274" dominant-baseline="central">KHÔNG tồn tại trong plugin</text>
+          <text class="ts" x="468" y="294" dominant-baseline="central">Phải chuyển thành skill</text>
+        </g>
+
+        <text class="ts" x="340" y="356" text-anchor="middle">Plugin không tạo năng lực mới — nó giải bài toán phân phối, không phải bài toán điều phối</text>
+        <text class="ts" x="340" y="386" text-anchor="middle" fill="var(--red)">Ô viền đứt = chỗ vỡ thật sự khi migrate</text>
+      </svg>
+      <figcaption>Bấm vào từng thành phần để xem chi tiết và bẫy khi migrate</figcaption>
+    </figure>
+  </section>
+
+  </div>
+
+  <section id="surfaces" class="full-bleed">
+    <div class="wrap-wide">
+    <div class="sheet-tag">BẢNG 01 — BA BỀ MẶT, BA MỨC NĂNG LỰC</div>
+    <h2>Cùng một plugin, chạy ở đâu ra kết quả khác nhau</h2>
+    <p class="lede">Đây là chỗ dễ hứa nhầm với đội của bạn nhất. Plugin cài được ở cả ba nơi, nhưng <b>hooks và sub-agent chỉ chạy trong Cowork</b> — ở chat chúng bị làm mờ. Nếu phòng ban dùng Claude.ai bản web thuần, pipeline 9 sub-agent BHNT sẽ không chạy được, chỉ skills chạy.</p>
+    <div style="overflow-x:auto;">
+    <table class="cmp">
+      <tr><th>Thành phần</th><th>Chat trên web</th><th>Tab Chat của Claude Desktop</th><th>Claude Cowork</th><th>Claude Code (CLI/IDE)</th></tr>
+      <tr><td class="label">Skills</td><td><span class="yes">Có</span></td><td><span class="yes">Có</span></td><td><span class="yes">Có</span></td><td><span class="yes">Có</span></td></tr>
+      <tr><td class="label">Slash command</td><td><span class="yes">Có</span></td><td><span class="yes">Có</span></td><td><span class="yes">Có</span></td><td><span class="yes">Có</span></td></tr>
+      <tr><td class="label">Sub-agent</td><td><span class="no">Bị làm mờ</span></td><td><span class="no">Bị làm mờ</span></td><td><span class="yes">Có</span></td><td><span class="yes">Có</span></td></tr>
+      <tr><td class="label">Hooks</td><td><span class="no">Bị làm mờ</span></td><td><span class="no">Bị làm mờ</span></td><td><span class="yes">Có</span></td><td><span class="yes">Có</span></td></tr>
+      <tr><td class="label">Terminal &amp; filesystem tự do</td><td><span class="no">Không</span></td><td><span class="no">Không</span></td><td><span class="no">Không</span></td><td><span class="yes">Có</span></td></tr>
+      <tr><td class="label">Connector đi qua</td><td>Cloud Anthropic</td><td>Cloud Anthropic</td><td>Cloud Anthropic</td><td>Máy/mạng của bạn</td></tr>
+      <tr><td class="label">Người dùng mục tiêu</td><td>Bất kỳ ai</td><td>Bất kỳ ai</td><td><b>Knowledge worker non-IT</b></td><td>Developer</td></tr>
+    </table>
+    </div>
+    <div class="note">
+      <b>Kiểm tra trước khi hứa:</b> xác nhận plan và thiết bị của đội trước, không phải sau. Và với dữ liệu ngành bảo hiểm ở Việt Nam, việc connector trong Cowork đi qua cloud của Anthropic chứ không qua mạng nội bộ là điểm phải xác nhận với bộ phận pháp chế <b>trước khi</b> triển khai.
+    </div>
+    </div>
+  </section>
+
+  <div class="wrap">
+
+  <section id="migrate">
+    <div class="sheet-tag">BẢNG 02 — ÁNH XẠ TRỰC TIẾP</div>
+    <h2>Từ .claude/ sang plugin: cái gì đi được, cái gì phải viết lại</h2>
+    <p class="lede">Nhìn cấu trúc thật thì việc migrate nhẹ hơn nhiều người nghĩ. Docs ghi rõ: skill nằm ở <code>skills/</code> <b>hoặc</b> <code>commands/</code> trong plugin root — skill là thư mục có <code>SKILL.md</code>, command là file markdown phẳng, cả hai đều được tự động phát hiện khi cài. Nên <b>không cần viết lại commands/</b>.</p>
+    <div style="overflow-x:auto;">
+    <table class="cmp">
+      <tr><th>Hiện tại trong .claude/</th><th>Vị trí trong plugin</th><th>Kết quả sau khi cài</th></tr>
+      <tr><td><code>commands/pipeline-bhnt.md</code></td><td><code>commands/pipeline-bhnt.md</code></td><td><code>/research-bhnt:pipeline-bhnt</code></td></tr>
+      <tr><td><code>commands/board-review.md</code></td><td><code>commands/board-review.md</code></td><td><code>/research-bhnt:board-review</code></td></tr>
+      <tr><td><code>agents/*.md</code> (9 file)</td><td><code>agents/*.md</code></td><td><code>research-bhnt:market-researcher</code>, …</td></tr>
+      <tr><td><code>skills/*/SKILL.md</code></td><td><code>skills/*/SKILL.md</code></td><td>Giữ nguyên, thêm namespace</td></tr>
+      <tr><td><code>rules/insurance-fundamentals.md</code></td><td class="label"><span class="no">Không có chỗ</span></td><td>Phải chuyển thành <code>skills/insurance-fundamentals/SKILL.md</code></td></tr>
+      <tr><td><code>settings.local.json</code></td><td class="label"><span class="no">Không đi theo</span></td><td>Người cài tự cấu hình</td></tr>
+    </table>
+    </div>
+
+    <h2 style="margin-top:56px;font-size:20px;">Cấu trúc thư mục đích</h2>
+    <div class="codeblock">research-bhnt/
+├── <b>.claude-plugin/</b>
+│   └── plugin.json          <i># "name": "research-bhnt" → namespace</i>
+├── <b>commands/</b>
+│   ├── pipeline-bhnt.md     <i># → /research-bhnt:pipeline-bhnt</i>
+│   └── board-review.md
+├── <b>agents/</b>              <i># 9 sub-agent</i>
+│   ├── market-researcher.md
+│   ├── product-analyst.md
+│   └── …
+├── <b>skills/</b>
+│   └── insurance-fundamentals/
+│       └── SKILL.md         <i># rules/ cũ chuyển sang đây</i>
+└── <b>.mcp.json</b>            <i># nếu cần connector</i></div>
+    <div class="note">
+      <b>Đổi tên để tránh đọc lặp.</b> Namespace lấy từ trường <code>name</code> trong <code>plugin.json</code>. Nếu đặt <code>"name": "bhnt"</code> và giữ file <code>pipeline-bhnt.md</code>, lệnh thành <code>/bhnt:pipeline-bhnt</code> — đọc bị lặp. Hoặc đổi file thành <code>pipeline.md</code> để ra <code>/bhnt:pipeline</code>, hoặc đặt <code>"name": "bhnt-research"</code> → <code>/bhnt-research:pipeline</code>.
+    </div>
+  </section>
+
+  <section id="invoke">
+    <div class="sheet-tag">SƠ ĐỒ 03 — KÍCH HOẠT</div>
+    <h2>Namespace là bắt buộc — và description trở thành giao diện</h2>
+    <p class="lede">Mọi skill/command mà plugin ship đều được gọi theo dạng <code>/plugin-name:skill-name</code>. Đây là cái giá cố ý của tầng đóng gói — để hai plugin cùng ship <code>deploy</code> không đè lên nhau. Nhưng bắt một chuyên viên phân tích nhớ chuỗi đó là không thực tế, nên thực tế có <b>ba đường kích hoạt</b>.</p>
+    <div class="flow">
+      <div class="box">
+        <div class="ft">1 · GÕ THẲNG</div>
+        <div class="fs"><code>/research-bhnt:pipeline</code><br>Chính xác nhưng khó nhớ — chỉ hợp với người đã quen</div>
+      </div>
+      <div class="box hi">
+        <div class="ft">2 · NÓI TỰ NHIÊN</div>
+        <div class="fs">"chạy nghiên cứu thị trường BHNT quý này"<br>Claude tự chọn skill dựa trên <code>description</code> — <b>đây mới là đường dùng thật</b></div>
+      </div>
+      <div class="box">
+        <div class="ft">3 · CLAUDE TỰ GỌI</div>
+        <div class="fs">Trong lúc làm việc, nhận ra ngữ cảnh khớp thì tự kích hoạt</div>
+      </div>
+    </div>
+    <div class="note">
+      <b>Điểm mấu chốt:</b> khi đóng gói, <code>description</code> chuyển từ "ghi chú cho chính mình" thành <b>giao diện người dùng</b>. Nó là thứ quyết định người non-IT có kích hoạt được pipeline hay không. Hãy đầu tư viết description thật kỹ, coi nó là phần quan trọng nhất của skill chứ không phải metadata phụ.
+    </div>
+  </section>
+
+  <section id="pitfalls">
+    <div class="sheet-tag">BA ĐIỂM DỄ VỠ</div>
+    <h2>Chỗ hỏng không nằm ở nơi bạn tưởng</h2>
+    <p class="lede">Migrate cấu trúc thư mục thì dễ. Ba thứ dưới đây mới là chỗ pipeline chạy sai mà không báo lỗi rõ ràng.</p>
+    <figure class="diagram-card">
+      <svg class="diagram" viewBox="0 0 680 330" role="img">
+        <title>Ba điểm dễ vỡ khi migrate sang plugin</title>
+        <g class="node" onclick="openModal('p-rules')">
+          <rect x="30" y="30" width="192" height="230" rx="14" fill="var(--red-bg)" stroke="var(--coral-line)" stroke-width="1.2"/>
+          <text class="tm" x="50" y="62" dominant-baseline="central" fill="var(--red)">01 · RULES</text>
+          <text class="th" x="50" y="98" dominant-baseline="central">always-on</text>
+          <text class="th" x="50" y="122" dominant-baseline="central">→ on-demand</text>
+          <text class="ts" x="50" y="158" dominant-baseline="central">Kiến thức nền BHNT</text>
+          <text class="ts" x="50" y="178" dominant-baseline="central">không còn tự có mặt</text>
+          <text class="ts" x="50" y="198" dominant-baseline="central">trong mọi session</text>
+          <text class="ts" x="50" y="234" dominant-baseline="central" fill="var(--red)">Bấm để xem cách sửa</text>
+        </g>
+        <g class="node" onclick="openModal('p-frontmatter')">
+          <rect x="244" y="30" width="192" height="230" rx="14" fill="var(--amber-bg)" stroke="var(--amber-line)" stroke-width="1.2"/>
+          <text class="tm" x="264" y="62" dominant-baseline="central" fill="var(--amber)">02 · FRONTMATTER</text>
+          <text class="th" x="264" y="98" dominant-baseline="central">Agent bị siết</text>
+          <text class="th" x="264" y="122" dominant-baseline="central">3 field bỏ đi</text>
+          <text class="ts" x="264" y="158" dominant-baseline="central">hooks, mcpServers,</text>
+          <text class="ts" x="264" y="178" dominant-baseline="central">permissionMode</text>
+          <text class="ts" x="264" y="198" dominant-baseline="central">không được hỗ trợ</text>
+          <text class="ts" x="264" y="234" dominant-baseline="central" fill="var(--amber)">Bấm để xem cách sửa</text>
+        </g>
+        <g class="node" onclick="openModal('p-orchestration')">
+          <rect x="458" y="30" width="192" height="230" rx="14" fill="var(--violet-bg)" stroke="var(--violet-line)" stroke-width="1.2"/>
+          <text class="tm" x="478" y="62" dominant-baseline="central" fill="var(--violet)">03 · ĐIỀU PHỐI</text>
+          <text class="th" x="478" y="98" dominant-baseline="central">Orchestrator gọi</text>
+          <text class="th" x="478" y="122" dominant-baseline="central">tên trần → hỏng</text>
+          <text class="ts" x="478" y="158" dominant-baseline="central">Sau khi gói, agent là</text>
+          <text class="ts" x="478" y="178" dominant-baseline="central">research-bhnt:</text>
+          <text class="ts" x="478" y="198" dominant-baseline="central">market-researcher</text>
+          <text class="ts" x="478" y="234" dominant-baseline="central" fill="var(--violet)">Bấm để xem cách sửa</text>
+        </g>
+        <text class="ts" x="340" y="300" text-anchor="middle">Cả ba đều im lặng khi sai — không có lỗi biên dịch nào bắt được</text>
+      </svg>
+      <figcaption>Bấm vào từng thẻ để xem nguyên nhân và cách xử lý</figcaption>
+    </figure>
+  </section>
+
+  </div>
+
+  <section id="proscons" class="full-bleed">
+    <div class="wrap-wide">
+    <div class="sheet-tag">CÂN ĐO</div>
+    <h2>Được gì, mất gì khi đóng gói</h2>
+    <p class="lede">Tóm gọn: plugin không biến người non-IT thành agent architect, nhưng nó biến agent architecture của bạn thành thứ người non-IT dùng được. <b>Bạn thiết kế một lần, cả phòng ban chạy.</b> Đó là đòn bẩy đúng chỗ — miễn là biết rõ mình đánh đổi cái gì.</p>
+    <div class="rule-grid">
+      <div class="rule-card ok">
+        <div class="rh">ĐƯỢC</div>
+        <ul>
+          <li><b>Phân phối thật sự.</b> Hệ 9 sub-agent đang sống trong <code>.claude/</code> và chỉ mình bạn chạy được — đóng gói xong cả phòng cài rồi dùng ngay từ cuộc hội thoại đầu tiên.</li>
+          <li><b>Xoá rào cản sử dụng.</b> Chuyên viên không biết code chỉ cần gõ một lệnh, hoặc nói một câu tiếng Việt tự nhiên.</li>
+          <li><b>Không mất gì về năng lực.</b> Plugin gói lại đúng những thứ đã có: skills, agents, hooks, commands, MCP.</li>
+          <li><b>Không phải viết code.</b> Orchestration loop, sub-agent, hook lifecycle, MCP — có sẵn, cộng thêm cơ chế phân phối.</li>
+          <li><b>Version hoá được.</b> Có marketplace, có version — sửa một chỗ, cả team nhận cập nhật.</li>
+          <li><b>Không đụng namespace.</b> Hai plugin cùng ship <code>deploy</code> vẫn sống chung được.</li>
+        </ul>
+      </div>
+      <div class="rule-card no">
+        <div class="rh">MẤT</div>
+        <ul>
+          <li><b>Không xoá rào cản thiết kế.</b> Chia scope sub-agent, viết SOP, đặt checkpoint — vẫn là việc kiến trúc, vẫn là bạn làm.</li>
+          <li><b>Gắn với model Anthropic.</b> Không model-agnostic, không chạy local LLM — đây là khác biệt kiến trúc, không phải khác biệt tính năng.</li>
+          <li><b>Không sở hữu vòng lặp.</b> Không can thiệp được vào scheduling, retry policy, hay cách context bị cắt. Hook chỉ cho chen vào điểm định sẵn.</li>
+          <li><b>Không nhúng được vào sản phẩm riêng.</b> Agent phải sống trong UI của bạn, phục vụ người dùng cuối? Cần Agent SDK hoặc harness riêng — plugin không giúp gì.</li>
+          <li><b>Không có persistence dài hạn.</b> Vượt khỏi session thì tự lo.</li>
+          <li><b>Cowork ≠ Claude Code.</b> Không terminal, không filesystem tự do, permission model khác. Sub-agent nào dựa vào script hay git phải viết lại.</li>
+          <li><b>Chi phí token always-on.</b> Plugin cộng token vào <b>mọi</b> session. 9 agent + nhiều skill là con số đáng xem trước khi phát cho cả phòng.</li>
+        </ul>
+      </div>
+    </div>
+    </div>
+  </section>
+
+  <div class="wrap">
+
+  <section id="checklist">
+    <div class="sheet-tag">TRƯỚC KHI PHÁT CHO CẢ PHÒNG</div>
+    <h2>Thử tại chỗ, đo chi phí, rồi mới dựng marketplace</h2>
+    <p class="lede">Không cần dựng marketplace ngay. Có hai đường thử nhanh và hai lệnh nên chạy sau khi dựng xong.</p>
+    <div class="codeblock"><i># Thử tại chỗ — không cần bước cài</i>
+claude plugin init research-bhnt     <i># scaffold vào ~/.claude/skills/, session sau tự nạp</i>
+claude --plugin-dir ./research-bhnt  <i># nạp thử trong đúng một session</i>
+
+<i># Hai lệnh nên chạy trước khi phát</i>
+<b>claude plugin validate ./research-bhnt</b>   <i># bắt lỗi frontmatter</i>
+<b>claude plugin details research-bhnt</b>      <i># in chi phí token always-on cộng vào MỌI session</i></div>
+    <div class="note">
+      <b>Vì sao lệnh thứ hai quan trọng:</b> <code>plugin details</code> là chỗ duy nhất cho bạn thấy plugin này ngốn bao nhiêu token nền ở mỗi cuộc hội thoại — kể cả khi không ai gọi pipeline. Với 9 agent cộng nhiều skill, con số này quyết định plugin nên gói trọn gói hay tách làm hai.
+    </div>
+  </section>
+
+  <footer>PLUGIN &amp; COWORK — tài liệu giảng dạy nội bộ · bấm vào sơ đồ để xem giải thích chi tiết<br>dựa trên tư duy SID · by Binh Truong</footer>
+  </div>
+
+<div class="modal-backdrop" id="modalBackdrop">
+  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+    <button class="close" id="modalClose" aria-label="Đóng">✕</button>
+    <div class="tag" id="modalTag"></div>
+    <h3 id="modalTitle"></h3>
+    <div class="body" id="modalBody"></div>
+  </div>
+</div>
+
+<script>
+const DETAILS = {
+  "layer-dist": { tag:"TẦNG 1 · PACKAGING", title:"Plugin — tầng đóng gói", body:`
+    <p>Một plugin Claude Code chỉ là một thư mục có <code>.claude-plugin/plugin.json</code> cộng với các thành phần đã tồn tại sẵn: skills, agents (sub-agent), hooks, slash commands, và <code>.mcp.json</code> để khai báo MCP server. Bản mới còn thêm LSP server và monitor.</p>
+    <p><b>Điểm mấu chốt:</b> plugin không tạo ra năng lực mới. Mọi thứ plugin ship được thì bạn đều có thể cấu hình standalone trong thư mục <code>.claude/</code>.</p>
+    <ul>
+      <li>Giải bài toán <b>phân phối và tái sử dụng</b> giữa các project/team.</li>
+      <li><b>Không</b> giải bài toán điều phối — orchestration nằm ở tầng dưới.</li>
+      <li>Có marketplace, có version — đúng nghĩa một package manager.</li>
+    </ul>
+    <p>Đối chiếu cho đúng tầng: Plugin ↔ npm/apt của harness. Không phải ↔ Hermes.</p>`},
+
+  "layer-content": { tag:"TẦNG 2 · CAPABILITY", title:"Skills, Agents, Hooks, Commands", body:`
+    <p>Đây là tầng chứa năng lực thật. Nó tồn tại trước khi có khái niệm plugin, và tồn tại độc lập với plugin — bạn hoàn toàn có thể để nguyên trong <code>.claude/</code> và chạy một mình.</p>
+    <ul>
+      <li><b>Skills</b> — thư mục có <code>SKILL.md</code>, nạp on-demand khi khớp description.</li>
+      <li><b>Agents</b> — sub-agent có context riêng, được orchestrator spawn ra.</li>
+      <li><b>Hooks</b> — chen vào các điểm lifecycle định sẵn.</li>
+      <li><b>Commands</b> — file markdown phẳng, gọi bằng slash.</li>
+      <li><b>MCP</b> — connector ra hệ thống ngoài.</li>
+    </ul>
+    <p>Plugin chỉ làm một việc với tầng này: <b>bọc lại và gắn namespace</b>. Không thêm, không bớt năng lực.</p>`},
+
+  "layer-runtime": { tag:"TẦNG 3 · HARNESS", title:"Runtime — cái thật sự đối ứng với Hermes", body:`
+    <p>Cái đối ứng với Hermes / Agent OS <b>là bản thân Claude Code</b> (và Claude Agent SDK), không phải plugin. Đó mới là harness:</p>
+    <ul>
+      <li>Agent loop — vòng lặp gọi model, gọi tool, quay lại.</li>
+      <li>Tool dispatch — điều phối tool call về đúng backend.</li>
+      <li>Quản lý context và compaction.</li>
+      <li>Spawn và thu hoạch sub-agent.</li>
+      <li>Permission model, session state.</li>
+    </ul>
+    <p><b>Câu hỏi đúng hơn là:</b> "Claude Code + hệ sinh thái plugin có đủ để tôi khỏi phải tự dựng một Agent OS không?" Với phần lớn workflow dev-centric thì có — bạn được orchestration loop, sub-agent, hook lifecycle, MCP, cộng thêm cơ chế phân phối, mà không phải viết dòng code nào.</p>
+    <p><b>Chỗ nó không thay thế được:</b> model-agnostic và local LLM; quyền sở hữu vòng lặp (scheduling, retry, cắt context); nhúng agent vào UI sản phẩm riêng phục vụ người dùng cuối không phải dev; state và persistence dài hạn vượt khỏi session. Đó chính là lý do Hermes tồn tại.</p>`},
+
+  "layer-model": { tag:"TẦNG 4 · MODEL", title:"Model — nơi ràng buộc thật nằm", body:`
+    <p>Harness của Anthropic gắn với model Anthropic. Đây là ràng buộc <b>kiến trúc</b>, không phải thiếu tính năng — không có cách nào cấu hình vòng quanh.</p>
+    <p>Hermes ở tầng runtime có resolver đa provider nên chạy được Ollama và model local. Nếu yêu cầu của bạn là "dữ liệu không được rời khỏi hạ tầng nội bộ", quyết định nằm ở tầng này chứ không phải ở tầng plugin.</p>`},
+
+  "c-manifest": { tag:"BẮT BUỘC", title:"plugin.json — nơi namespace ra đời", body:`
+    <p>Trường <code>name</code> trong <code>plugin.json</code> quyết định tiền tố của mọi lệnh mà plugin ship. Skill standalone trong <code>.claude/skills/</code> giữ tên ngắn; skill trong plugin thì <b>luôn</b> có prefix.</p>
+    <p>Đây là cái giá cố ý của tầng đóng gói — để hai plugin cùng ship <code>deploy</code> không đè lên nhau.</p>
+    <p><b>Bẫy đặt tên:</b> <code>"name": "bhnt"</code> + file <code>pipeline-bhnt.md</code> → <code>/bhnt:pipeline-bhnt</code>, đọc bị lặp. Chọn một trong hai: đổi file thành <code>pipeline.md</code>, hoặc đổi name thành <code>bhnt-research</code>.</p>`},
+
+  "c-skills": { tag:"THÀNH PHẦN", title:"skills/ — hướng khuyến nghị", body:`
+    <p>Skill là một <b>thư mục</b> chứa <code>SKILL.md</code>. Đây là hướng khuyến nghị cho plugin viết mới, và là thành phần duy nhất chạy được ở cả ba bề mặt: chat web, tab Chat của Claude Desktop, và Cowork.</p>
+    <p><b>Tên invocation không lấy từ tên thư mục.</b> Claude Code lấy tên gọi của skill từ trường <code>name</code> trong frontmatter của <code>SKILL.md</code>; nếu không có mới fallback về tên thư mục. Hãy đặt <code>name:</code> tường minh để tên ổn định dù ai cài vào đâu.</p>
+    <p><b>Và quan trọng hơn:</b> trường <code>description</code> chính là thứ Claude dùng để chọn skill khi người dùng nói tự nhiên. Với người non-IT, description là giao diện — không phải metadata.</p>`},
+
+  "c-agents": { tag:"THÀNH PHẦN", title:"agents/ — 9 sub-agent BHNT", body:`
+    <p>Agent do plugin ship hỗ trợ các field: <code>name</code>, <code>description</code>, <code>model</code>, <code>effort</code>, <code>maxTurns</code>, <code>tools</code>, <code>disallowedTools</code>, <code>skills</code>, <code>memory</code>, <code>background</code>, <code>isolation</code>.</p>
+    <p><b>Nhưng vì lý do bảo mật, ba field không được hỗ trợ</b> cho agent trong plugin: <code>hooks</code>, <code>mcpServers</code>, <code>permissionMode</code>.</p>
+    <p>Nếu file nào trong 9 agent đang set <code>permissionMode</code> — khá thường gặp với pipeline có checkpoint — phải bỏ và chuyển logic đó lên tầng command.</p>
+    <p><b>Lưu ý bề mặt:</b> sub-agent chỉ chạy trong Cowork và Claude Code. Ở chat web chúng bị làm mờ.</p>`},
+
+  "c-commands": { tag:"THÀNH PHẦN", title:"commands/ — vẫn hợp lệ, đừng vội viết lại", body:`
+    <p>Docs ghi rõ: skill nằm ở <code>skills/</code> <b>hoặc</b> <code>commands/</code> trong plugin root. Skill là thư mục có <code>SKILL.md</code>, còn command là file markdown phẳng. <b>Cả hai đều được tự động phát hiện khi cài plugin.</b></p>
+    <p><code>skills/</code> chỉ là hướng khuyến nghị cho plugin viết mới. Nên nếu bạn đã có <code>.claude/commands/pipeline-bhnt.md</code>, cứ copy nguyên sang <code>commands/</code> — công sức migrate nhẹ hơn nhiều so với việc chuyển đổi format.</p>`},
+
+  "c-hooks": { tag:"THÀNH PHẦN", title:"hooks/ — chen vào điểm định sẵn", body:`
+    <p>Hook cho phép can thiệp vào lifecycle, nhưng chỉ ở những điểm harness đã định sẵn. Bạn không viết lại được scheduling hay retry policy bằng hook.</p>
+    <p><b>Giới hạn bề mặt:</b> hooks chỉ chạy trong Cowork và Claude Code — bị làm mờ ở chat.</p>
+    <p><b>Giới hạn tầng agent:</b> agent do plugin ship không được khai báo <code>hooks</code> trong frontmatter riêng của nó. Hook phải khai báo ở tầng plugin.</p>`},
+
+  "c-mcp": { tag:"THÀNH PHẦN", title:".mcp.json — connector ra ngoài", body:`
+    <p>Khai báo MCP server để agent chạm được vào hệ thống bên ngoài. Bản mới còn cho khai báo LSP server và monitor.</p>
+    <p><b>Điểm phải xác nhận với pháp chế trước:</b> trong Cowork, connector kết nối tới dịch vụ bên ngoài <b>qua cloud của Anthropic</b>, không qua mạng nội bộ của bạn. Với dữ liệu ngành bảo hiểm ở Việt Nam, đây là việc phải làm rõ trước khi triển khai, không phải sau.</p>
+    <p><b>Lưu ý:</b> agent trong plugin không được khai báo <code>mcpServers</code> riêng — phải khai báo ở tầng plugin.</p>`},
+
+  "c-rules": { tag:"CHỖ VỠ", title:"rules/ — không có chỗ trong plugin", body:`
+    <p>Plugin <b>không có</b> component <code>rules/</code>. Docs nói thẳng: file <code>CLAUDE.md</code> ở plugin root không được nạp làm project context. Plugin đóng góp context qua skills, agents và hooks — muốn ship chỉ dẫn vào context của Claude thì phải đặt trong một skill.</p>
+    <p>Nên <code>insurance-fundamentals.md</code> phải thành <code>skills/insurance-fundamentals/SKILL.md</code>.</p>
+    <p><b>Hệ quả kiến trúc — đây mới là phần nguy hiểm:</b> rule đang là <b>always-on</b> (nạp mọi session), skill là <b>on-demand</b> (nạp khi khớp description). Nếu 9 sub-agent của bạn đang ngầm giả định luôn có sẵn kiến thức nền về quy định BHNT, sau khi đóng gói giả định đó không còn đúng.</p>
+    <p><b>Cách sửa:</b> gọi tường minh — dùng field <code>skills</code> trong frontmatter của agent để khai báo phụ thuộc, hoặc viết thẳng trong SOP của pipeline là "đọc skill này trước".</p>`},
+
+  "p-rules": { tag:"ĐIỂM VỠ 01", title:"always-on trở thành on-demand", body:`
+    <p>Trong <code>.claude/</code>, file trong <code>rules/</code> được nạp vào <b>mọi</b> session. Sau khi đóng gói, nội dung đó nằm trong một skill và chỉ được nạp <b>khi khớp description</b>.</p>
+    <p>Đây là thay đổi ngữ nghĩa im lặng: pipeline vẫn chạy, sub-agent vẫn trả lời, nhưng thiếu kiến thức nền về quy định BHNT mà không ai nhận ra.</p>
+    <p><b>Hai cách xử lý:</b></p>
+    <ul>
+      <li>Khai báo tường minh bằng field <code>skills</code> trong frontmatter của từng agent cần nó.</li>
+      <li>Viết thẳng vào SOP của command pipeline: bước đầu tiên là đọc skill <code>insurance-fundamentals</code>.</li>
+    </ul>
+    <p>Cách thứ hai an toàn hơn khi pipeline có nhiều agent cùng phụ thuộc một nền kiến thức.</p>`},
+
+  "p-frontmatter": { tag:"ĐIỂM VỠ 02", title:"Agent frontmatter bị siết", body:`
+    <p>Agent do plugin ship hỗ trợ: <code>name</code>, <code>description</code>, <code>model</code>, <code>effort</code>, <code>maxTurns</code>, <code>tools</code>, <code>disallowedTools</code>, <code>skills</code>, <code>memory</code>, <code>background</code>, <code>isolation</code>.</p>
+    <p><b>Vì lý do bảo mật, không hỗ trợ:</b> <code>hooks</code>, <code>mcpServers</code>, <code>permissionMode</code>.</p>
+    <p><code>permissionMode</code> là chỗ hay vướng nhất, vì pipeline có human-in-the-loop checkpoint thường dùng nó. Sau khi đóng gói, phần checkpoint phải được diễn đạt lại:</p>
+    <ul>
+      <li>Chuyển logic quyền lên tầng command thay vì tầng agent.</li>
+      <li>Trong Cowork, checkpoint thường phải viết lại thành <b>chỉ dẫn trong skill</b> ("dừng lại, tóm tắt, chờ người dùng xác nhận") thay vì một cơ chế kỹ thuật.</li>
+    </ul>
+    <p><code>claude plugin validate</code> sẽ bắt được lỗi frontmatter loại này.</p>`},
+
+  "p-orchestration": { tag:"ĐIỂM VỠ 03", title:"Orchestrator gọi sub-agent bằng tên trần", body:`
+    <p>Đây là chỗ hay hỏng nhất. Trong <code>.claude/</code> hiện tại, command <code>pipeline-bhnt</code> của bạn gần như chắc chắn đang gọi sub-agent bằng tên trần — ví dụ <code>market-researcher</code>.</p>
+    <p>Sau khi đóng gói, agent xuất hiện dưới dạng <code>research-bhnt:market-researcher</code>. Lệnh gọi cũ không tìm thấy agent, và tuỳ ngữ cảnh nó có thể fail im lặng hoặc bị Claude "diễn giải" thành một thứ khác.</p>
+    <p><b>Việc phải làm:</b> rà lại toàn bộ phần điều phối trong file command và trong mọi <code>SKILL.md</code> có gọi delegate — thay tên trần bằng tên đã namespace.</p>
+    <p>Nếu bạn dự định vừa dùng standalone vừa dùng dạng plugin, chọn một trong hai chứ đừng duy trì song song — hai bộ tên khác nhau sẽ phân kỳ rất nhanh.</p>`},
+};
+
+const backdrop = document.getElementById('modalBackdrop');
+const modalTag = document.getElementById('modalTag');
+const modalTitle = document.getElementById('modalTitle');
+const modalBody = document.getElementById('modalBody');
+let lastFocused = null;
+function openModal(key){
+  const d = DETAILS[key]; if(!d) return;
+  modalTag.textContent = d.tag || '';
+  modalTitle.innerHTML = d.title || '';
+  modalBody.innerHTML = d.body || '';
+  backdrop.classList.add('open');
+  document.body.style.overflow = 'hidden';
+  lastFocused = document.activeElement;
+  document.getElementById('modalClose').focus();
+}
+function closeModal(){
+  backdrop.classList.remove('open');
+  document.body.style.overflow = '';
+  if(lastFocused) lastFocused.focus();
+}
+document.getElementById('modalClose').addEventListener('click', closeModal);
+backdrop.addEventListener('click', (e)=>{ if(e.target === backdrop) closeModal(); });
+document.addEventListener('keydown', (e)=>{ if(e.key === 'Escape' && backdrop.classList.contains('open')) closeModal(); });
+</script>
+</body>
+</html>

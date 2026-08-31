@@ -158,7 +158,7 @@
 
   <aside class="sidebar" id="sidebar">
     <div class="side-title">MỤC LỤC</div>
-    <p class="side-note">4 mục — bấm để mở nội dung ở cột bên phải.</p>
+    <p class="side-note">5 mục — bấm để mở nội dung ở cột bên phải.</p>
     <nav class="nav-group" id="navGroup"></nav>
   </aside>
 
@@ -175,9 +175,9 @@ const DOCS = [
     nav:"Tổng quan",
     navSub:"Bắt đầu từ đâu",
     kicker:"AGENT LIBRARY · MỤC LỤC",
-    title:'Ba bản vẽ,<br><span>một câu hỏi: agent thật sự là cái gì.</span>',
-    lede:'Thư viện này tách kiến trúc agent thành ba lớp câu hỏi khác nhau: <b>khái niệm</b> (agent khác skill ở đâu), <b>bên trong</b> (một harness chạy ra sao), và <b>bên ngoài</b> (các nền tảng khác nhau chỗ nào). Chọn một tài liệu ở cột trái để xem chi tiết.',
-    meta:[{t:"3 tài liệu",c:"amber"},{t:"Tiếng Việt",c:""},{t:"Sơ đồ tương tác",c:"teal"}],
+    title:'Bốn bản vẽ,<br><span>một câu hỏi: agent thật sự là cái gì.</span>',
+    lede:'Thư viện này tách kiến trúc agent thành bốn lớp câu hỏi khác nhau: <b>khái niệm</b> (agent khác skill ở đâu), <b>bên trong</b> (một harness chạy ra sao), <b>bên ngoài</b> (các nền tảng khác nhau chỗ nào), và <b>phân phối</b> (đóng gói cho người khác dùng thế nào). Chọn một tài liệu ở cột trái để xem chi tiết.',
+    meta:[{t:"4 tài liệu",c:"amber"},{t:"Tiếng Việt",c:""},{t:"Sơ đồ tương tác",c:"teal"}],
     overview:true,
     takeaway:{
       title:"Đọc theo thứ tự nào",
@@ -185,6 +185,7 @@ const DOCS = [
         "Chưa phân biệt được Agent / Skill / Tool → bắt đầu ở <code>Agent &amp; Skill</code>.",
         "Cần hiểu một agent chạy thật ra sao, từng bước một → <code>Hermes Architecture</code>.",
         "Đang chọn nền tảng để build → <code>Harness Comparison</code>.",
+        "Đã có hệ agent chạy được, giờ muốn cả phòng ban dùng → <code>Plugin &amp; Cowork</code>.",
         "Mọi sơ đồ trong các trang đều bấm được — mỗi khối mở một modal giải thích riêng."
       ]
     }
@@ -233,6 +234,23 @@ const DOCS = [
       {a:"table",t:"Từng trục một, cạnh nhau",d:"Bảng so sánh chi tiết 5 harness."},
       {a:"axes",t:"Hai câu hỏi khác nhau, hai bảng xếp hạng khác nhau",d:"Trục độ rộng tính năng vs trục ai vận hành hạ tầng."}
     ]
+  },
+  {
+    id:"agent-plugin-cowork",
+    file:"agent-plugin-cowork.html",
+    nav:"Plugin & Cowork",
+    navSub:"Đóng gói cho người non-IT",
+    kicker:"PLUGIN & COWORK · ĐÓNG GÓI AGENT",
+    sections:[
+      {a:"layers",t:"Plugin và Hermes không cùng một trục",d:"Sơ đồ 01 — bốn tầng: phân phối, nội dung, runtime, model."},
+      {a:"anatomy",t:"Sáu thành phần, không cái nào là mới",d:"Sơ đồ 02 — giải phẫu một plugin."},
+      {a:"surfaces",t:"Cùng một plugin, chạy ở đâu ra kết quả khác nhau",d:"Bảng 01 — chat vs Cowork vs Claude Code."},
+      {a:"migrate",t:"Từ .claude/ sang plugin: cái gì phải viết lại",d:"Bảng 02 — ánh xạ trực tiếp + cấu trúc thư mục đích."},
+      {a:"invoke",t:"Namespace bắt buộc, description thành giao diện",d:"Sơ đồ 03 — ba đường kích hoạt."},
+      {a:"pitfalls",t:"Chỗ hỏng không nằm ở nơi bạn tưởng",d:"Ba điểm dễ vỡ khi migrate."},
+      {a:"proscons",t:"Được gì, mất gì khi đóng gói",d:"Bảng cân đo pros and cons."},
+      {a:"checklist",t:"Thử tại chỗ, đo chi phí, rồi mới phát",d:"Lệnh validate và đo token always-on."}
+    ]
   }
 ];
 
@@ -279,7 +297,7 @@ function renderOverview(doc){
     <h2 class="blk">Tài liệu trong thư viện</h2>
     <div class="overview-grid">${cards}</div>
     ${takeaway}
-    <footer>SID · Agent Library — mọi sơ đồ trong tài liệu đều bấm được để mở giải thích chi tiết.</footer>
+    <footer>SID · Agent Library — mọi sơ đồ trong tài liệu đều bấm được để mở giải thích chi tiết.<br>dựa trên tư duy SID · by Binh Truong</footer>
   `;
   content.scrollTop = 0;
 }
