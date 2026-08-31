@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Agent Library — mục lục tài liệu kiến trúc agent</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#faf9f6; --panel:#ffffff; --panel-2:#f4f2ec;
+    --line:#e6e2d8; --line-strong:#cfc9ba;
+    --ink:#1e1c16; --ink-dim:#5c5748; --ink-faint:#948d7b;
+    --amber:#a5620b; --amber-bg:#faeeda; --amber-line:#e6a94f;
+    --teal:#0f6e56; --teal-bg:#e1f5ee; --teal-line:#5dcaa5;
+    --coral:#8a381a; --coral-bg:#faece7; --coral-line:#f0997b;
+    --violet:#3c3489; --violet-bg:#eeedfe; --violet-line:#7f77dd;
+    --gray:#444441; --gray-bg:#f1efe8; --gray-line:#8b897f;
+    --green:#2f7d4f; --green-bg:#e7f5ec; --red:#a5300b; --red-bg:#faece7;
+    --mono:'JetBrains Mono', monospace; --sans:'Inter', sans-serif;
+    --sidebar:300px; --top:72px;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  html{scroll-behavior:smooth;}
+  body{
+    background: radial-gradient(circle at 1px 1px, rgba(30,28,22,0.06) 1px, transparent 0) 0 0/26px 26px, var(--bg);
+    color:var(--ink); font-family:var(--sans); font-size:18px; line-height:1.65; -webkit-font-smoothing:antialiased;
+    height:100vh; height:100dvh; overflow:hidden;
+  }
+  ::selection{background:var(--amber-bg);color:var(--amber);}
+  a{color:inherit;}
+
+  /* ---------- layout kiểu github doc ---------- */
+  .topbar{
+    height:var(--top);background:rgba(250,249,246,0.92);backdrop-filter:blur(6px);
+    border-bottom:1px solid var(--line-strong);
+  }
+  .topbar .inner{max-width:1560px;margin:0 auto;height:100%;padding:0 32px;display:flex;align-items:center;gap:16px;}
+  .brand{font-family:var(--mono);font-weight:700;font-size:15px;letter-spacing:0.06em;}
+  .brand span{color:var(--amber);}
+  .crumb{font-family:var(--mono);font-size:13px;color:var(--ink-faint);margin-left:auto;}
+  .crumb a{text-decoration:none;border-bottom:1px dashed var(--line-strong);}
+  .crumb a:hover{color:var(--ink);}
+  .menu-btn{
+    display:inline-flex;align-items:center;gap:9px;font-family:var(--mono);font-size:13px;font-weight:600;
+    padding:8px 13px;border-radius:8px;border:1px solid var(--line-strong);background:var(--panel);color:var(--ink-dim);cursor:pointer;
+  }
+  .menu-btn:hover{color:var(--ink);border-color:var(--ink-dim);}
+  .menu-btn .bars{display:flex;flex-direction:column;gap:3px;}
+  .menu-btn .bars i{display:block;width:14px;height:2px;background:currentColor;border-radius:2px;}
+
+  .shell{
+    max-width:1560px;margin:0 auto;display:grid;grid-template-columns:var(--sidebar) 1fr;gap:0;
+    height:calc(100vh - var(--top));height:calc(100dvh - var(--top));transition:grid-template-columns .22s ease;
+  }
+  .shell.collapsed{grid-template-columns:0 1fr;}
+
+  /* ---------- cột trái: listing ---------- */
+  .sidebar{
+    height:100%;overflow-y:auto;padding:30px 24px 60px 32px;border-right:1px solid var(--line);
+    transition:opacity .18s ease;
+  }
+  .shell.collapsed .sidebar{opacity:0;pointer-events:none;overflow:hidden;padding-left:0;padding-right:0;border-right-color:transparent;}
+  .scrim{display:none;}
+  .side-title{font-family:var(--mono);font-size:12.5px;font-weight:600;letter-spacing:0.1em;color:var(--amber);margin-bottom:6px;display:flex;align-items:center;gap:9px;}
+  .side-title::before{content:'';width:20px;height:2px;background:var(--amber-line);}
+  .side-note{font-size:14px;color:var(--ink-faint);margin-bottom:26px;}
+  .nav-group{margin-bottom:26px;}
+  .nav-item{
+    display:block;width:100%;text-align:left;background:none;border:none;cursor:pointer;font-family:var(--mono);
+    font-size:14.5px;font-weight:600;color:var(--ink-dim);padding:9px 12px;border-radius:8px;line-height:1.35;
+    border-left:2px solid transparent;
+  }
+  .nav-item:hover{background:var(--panel-2);color:var(--ink);}
+  .nav-item.active{background:var(--amber-bg);color:var(--amber);border-left-color:var(--amber-line);}
+  .nav-item .n-sub{display:block;font-family:var(--sans);font-size:13px;font-weight:400;color:var(--ink-faint);margin-top:3px;}
+  .nav-item.active .n-sub{color:var(--amber);opacity:0.8;}
+  .nav-sub{list-style:none;margin:4px 0 0 14px;padding-left:12px;border-left:1px dashed var(--line-strong);display:none;}
+  .nav-item.active + .nav-sub{display:block;}
+  .nav-sub button{
+    display:block;width:100%;text-align:left;background:none;border:none;cursor:pointer;
+    font-family:var(--sans);font-size:14px;color:var(--ink-faint);padding:5px 8px;border-radius:6px;line-height:1.4;
+  }
+  .nav-sub button:hover{color:var(--ink);background:var(--panel-2);}
+  .nav-sub button.current{color:var(--amber);font-weight:600;}
+
+  /* ---------- cột phải: detail ---------- */
+  .content{min-width:0;height:100%;overflow-y:auto;padding:44px 40px 96px 46px;}
+  .content.doc{padding:0;overflow:hidden;display:flex;flex-direction:column;}
+  .doc-bar{
+    display:flex;align-items:center;gap:14px;flex-wrap:wrap;padding:14px 26px;
+    border-bottom:1px solid var(--line);background:var(--panel-2);
+  }
+  .doc-bar .dk{font-family:var(--mono);font-size:11.5px;font-weight:600;letter-spacing:0.08em;color:var(--coral);}
+  .doc-bar .dt{font-family:var(--mono);font-size:15px;font-weight:700;}
+  .doc-bar .spacer{margin-left:auto;}
+  .doc-bar a.mini{font-family:var(--mono);font-size:12.5px;font-weight:600;text-decoration:none;color:var(--ink-dim);border:1px solid var(--line-strong);background:var(--panel);padding:7px 12px;border-radius:8px;}
+  .doc-bar a.mini:hover{color:var(--ink);border-color:var(--ink-dim);}
+  .doc-frame{flex:1;width:100%;border:none;display:block;background:var(--bg);}
+  .doc-kicker{font-family:var(--mono);font-size:13px;font-weight:600;color:var(--coral);letter-spacing:0.1em;margin-bottom:18px;}
+  .content h1{font-family:var(--mono);font-weight:700;font-size:clamp(28px,3.6vw,42px);line-height:1.12;letter-spacing:-0.02em;margin-bottom:20px;}
+  .content h1 span{color:var(--ink-faint);}
+  .lede{color:var(--ink-dim);max-width:760px;margin-bottom:28px;font-size:18px;}
+  .lede b{color:var(--ink);font-weight:600;}
+  h2.blk{font-family:var(--mono);font-weight:700;font-size:20px;letter-spacing:-0.01em;margin-bottom:16px;}
+  .doc-meta{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:30px;}
+  .chip{font-family:var(--mono);font-size:12.5px;font-weight:600;letter-spacing:0.04em;padding:6px 12px;border-radius:999px;border:1px solid var(--line-strong);background:var(--panel);color:var(--ink-dim);}
+  .chip.amber{background:var(--amber-bg);border-color:var(--amber-line);color:var(--amber);}
+  .chip.teal{background:var(--teal-bg);border-color:var(--teal-line);color:var(--teal);}
+  .chip.violet{background:var(--violet-bg);border-color:var(--violet-line);color:var(--violet);}
+  .divider{border:none;border-top:1px dashed var(--line);margin:0 0 36px;}
+  .sec-card{
+    display:block;text-decoration:none;background:var(--panel);border:1px solid var(--line-strong);border-radius:14px;
+    padding:18px 22px;box-shadow:0 2px 10px rgba(30,28,22,0.04);
+  }
+  .sec-card:hover{border-color:var(--amber-line);box-shadow:0 4px 16px rgba(30,28,22,0.07);}
+  .sec-card .idx{font-family:var(--mono);font-size:12.5px;font-weight:600;color:var(--amber);letter-spacing:0.06em;margin-bottom:6px;}
+  .sec-card .st{font-family:var(--mono);font-weight:700;font-size:17px;margin-bottom:4px;}
+  .sec-card .sd{font-size:15px;color:var(--ink-dim);}
+  .takeaway{background:var(--panel-2);border:1px solid var(--line-strong);border-radius:14px;padding:22px 26px;margin-bottom:44px;}
+  .takeaway ul{list-style:none;color:var(--ink-dim);font-size:16px;}
+  .takeaway li{margin-bottom:10px;padding-left:22px;position:relative;}
+  .takeaway li:last-child{margin-bottom:0;}
+  .takeaway li::before{content:'→';position:absolute;left:0;color:var(--amber);font-weight:700;}
+  .takeaway code{font-family:var(--mono);font-size:14.5px;background:var(--amber-bg);padding:2px 7px;border-radius:5px;color:var(--amber);}
+  .overview-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-bottom:44px;}
+  @media(max-width:1100px){.overview-grid{grid-template-columns:1fr;}}
+  footer{padding:34px 0 60px;color:var(--ink-faint);font-size:14px;font-family:var(--mono);border-top:1px dashed var(--line);}
+
+  @media(max-width:960px){
+    .shell, .shell.collapsed{grid-template-columns:1fr;}
+    .sidebar{
+      position:fixed;top:var(--top);left:0;bottom:0;width:290px;z-index:50;background:var(--bg);
+      border-right:1px solid var(--line-strong);padding:26px 20px 60px 22px;
+      transform:translateX(0);transition:transform .22s ease, opacity .18s ease;
+      box-shadow:12px 0 34px rgba(30,28,22,0.12);
+    }
+    .shell.collapsed .sidebar{transform:translateX(-100%);padding:26px 20px 60px 22px;}
+    .scrim{display:block;position:fixed;inset:var(--top) 0 0;background:rgba(30,28,22,0.35);z-index:45;transition:opacity .2s ease;}
+    .shell.collapsed ~ .scrim{opacity:0;pointer-events:none;}
+    .content{padding:32px 22px 72px;}
+    .topbar .inner{padding:0 18px;gap:12px;}
+    .brand{display:none;}
+  }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="inner">
+    <button class="menu-btn" id="menuBtn" aria-controls="sidebar" aria-expanded="true" title="Ẩn/hiện mục lục"><span class="bars"><i></i><i></i><i></i></span><span id="menuLabel">Ẩn mục lục</span></button>
+    <div class="brand">SID <span>·</span> AGENT LIBRARY</div>
+    <div class="crumb"><a href="../index.html">SID Library</a> / agent</div>
+  </div>
+</div>
+
+<div class="shell" id="shell">
+
+  <aside class="sidebar" id="sidebar">
+    <div class="side-title">MỤC LỤC</div>
+    <p class="side-note">4 mục — bấm để mở nội dung ở cột bên phải.</p>
+    <nav class="nav-group" id="navGroup"></nav>
+  </aside>
+
+  <main class="content" id="content"></main>
+
+</div>
+<div class="scrim" id="scrim"></div>
+
+<script>
+const DOCS = [
+  {
+    id:"overview",
+    file:null,
+    nav:"Tổng quan",
+    navSub:"Bắt đầu từ đâu",
+    kicker:"AGENT LIBRARY · MỤC LỤC",
+    title:'Ba bản vẽ,<br><span>một câu hỏi: agent thật sự là cái gì.</span>',
+    lede:'Thư viện này tách kiến trúc agent thành ba lớp câu hỏi khác nhau: <b>khái niệm</b> (agent khác skill ở đâu), <b>bên trong</b> (một harness chạy ra sao), và <b>bên ngoài</b> (các nền tảng khác nhau chỗ nào). Chọn một tài liệu ở cột trái để xem chi tiết.',
+    meta:[{t:"3 tài liệu",c:"amber"},{t:"Tiếng Việt",c:""},{t:"Sơ đồ tương tác",c:"teal"}],
+    overview:true,
+    takeaway:{
+      title:"Đọc theo thứ tự nào",
+      items:[
+        "Chưa phân biệt được Agent / Skill / Tool → bắt đầu ở <code>Agent &amp; Skill</code>.",
+        "Cần hiểu một agent chạy thật ra sao, từng bước một → <code>Hermes Architecture</code>.",
+        "Đang chọn nền tảng để build → <code>Harness Comparison</code>.",
+        "Mọi sơ đồ trong các trang đều bấm được — mỗi khối mở một modal giải thích riêng."
+      ]
+    }
+  },
+  {
+    id:"agent-vs-skill",
+    file:"agent-vs-skill.html",
+    nav:"Agent & Skill",
+    navSub:"Kiến trúc, cách gọi, quy tắc",
+    kicker:"AGENT SPEC GENERATOR · KIẾN TRÚC",
+    sections:[
+      {a:"five",t:"Mỗi khái niệm gánh đúng một phần việc",d:"Năm khái niệm nền tảng — không rút gọn thành hai."},
+      {a:"decision",t:"Khi nào Skill, khi nào Agent?",d:"Bảng quyết định trước khi viết bất kỳ spec nào."},
+      {a:"anatomy",t:"Một agent spec gồm 6 tầng tách biệt",d:"Giải phẫu tầng A–F và skill contract."},
+      {a:"invoke",t:"invocation_mode: một toggle, không phải hai hệ thống",d:"auto vs explicit_only — cách gọi một Skill."},
+      {a:"orchestration",t:"Orchestration: nền tảng cho cơ chế, không cho chiến lược",d:"Mức độ có sẵn cơ chế điều phối theo từng nền tảng."},
+      {a:"rules",t:"Một Skill được phép gì, không được phép gì",d:"Quy tắc quan trọng nhất khi tách skill."},
+      {a:"final",t:"Năm khái niệm, cạnh nhau",d:"Bảng tổng hợp cuối trang."}
+    ]
+  },
+  {
+    id:"agent-hermes-architecture",
+    file:"agent-hermes-architecture.html",
+    nav:"Hermes Architecture",
+    navSub:"Bản vẽ kỹ thuật 8 sheet",
+    kicker:"BẢN VẼ KỸ THUẬT · 8 SHEET",
+    sections:[
+      {a:"s01",t:"Ai thực sự \"nghĩ\"?",d:"Sheet 01 — harness ≠ brain."},
+      {a:"s02",t:"Mọi thành phần trong một bức tranh",d:"Sheet 02 — toàn cảnh kiến trúc."},
+      {a:"s03",t:"Thứ tự chạy thật, đánh số rõ ràng",d:"Sheet 03 — vòng đời một turn."},
+      {a:"s04",t:"Một tool, ba khả năng",d:"Sheet 04 — bên trong bước 5A."},
+      {a:"s05",t:"delegate_task hoạt động ra sao",d:"Sheet 05 — cơ chế sub-agent."},
+      {a:"s06",t:"Sub-agent không \"vòng ra ngoài\"",d:"Sheet 06 — vòng lặp cha vs con."},
+      {a:"s07",t:"Nhiều agent độc lập, một bản cài",d:"Sheet 07 — quản lý profile."},
+      {a:"s08",t:"Gateway chưa từng thấy sub-agent",d:"Sheet 08 — Gateway → cha → con."}
+    ]
+  },
+  {
+    id:"agent-harness-comparison",
+    file:"agent-harness-comparison.html",
+    nav:"Harness Comparison",
+    navSub:"5 nền tảng, 2026",
+    kicker:"HARNESS COMPARISON · 2026",
+    sections:[
+      {a:"rings",t:"Mỗi vòng ngoài bao lấy vòng trong",d:"Sơ đồ chính — vòng tròn lồng ghép theo mức hạ tầng."},
+      {a:"table",t:"Từng trục một, cạnh nhau",d:"Bảng so sánh chi tiết 5 harness."},
+      {a:"axes",t:"Hai câu hỏi khác nhau, hai bảng xếp hạng khác nhau",d:"Trục độ rộng tính năng vs trục ai vận hành hạ tầng."}
+    ]
+  }
+];
+
+const navGroup = document.getElementById('navGroup');
+const content = document.getElementById('content');
+const shell = document.getElementById('shell');
+const scrim = document.getElementById('scrim');
+const menuBtn = document.getElementById('menuBtn');
+const menuLabel = document.getElementById('menuLabel');
+
+function buildNav(){
+  navGroup.innerHTML = DOCS.map(d => `
+    <button class="nav-item" data-id="${d.id}">${d.nav}<span class="n-sub">${d.navSub}</span></button>
+    ${d.sections ? `<ul class="nav-sub">${d.sections.map(s => `<li><button data-id="${d.id}" data-anchor="${s.a}" title="${s.d}">${s.t}</button></li>`).join('')}</ul>` : ''}
+  `).join('');
+  navGroup.querySelectorAll('.nav-item').forEach(btn => {
+    btn.addEventListener('click', () => { location.hash = btn.dataset.id; });
+  });
+  navGroup.querySelectorAll('.nav-sub button').forEach(btn => {
+    btn.addEventListener('click', () => { location.hash = `${btn.dataset.id}/${btn.dataset.anchor}`; });
+  });
+}
+
+function renderOverview(doc){
+  const meta = (doc.meta || []).map(m => `<span class="chip ${m.c}">${m.t}</span>`).join('');
+  const cards = DOCS.filter(d => d.file).map(d => `
+    <a class="sec-card" href="#${d.id}">
+      <div class="idx">${d.kicker}</div>
+      <div class="st">${d.nav}</div>
+      <div class="sd">${d.navSub} · ${d.sections.length} phần</div>
+    </a>`).join('');
+  const takeaway = `
+    <h2 class="blk">${doc.takeaway.title}</h2>
+    <div class="takeaway"><ul>${doc.takeaway.items.map(i => `<li>${i}</li>`).join('')}</ul></div>`;
+
+  content.className = 'content';
+  content.dataset.file = '';
+  content.innerHTML = `
+    <div class="doc-kicker">${doc.kicker}</div>
+    <h1>${doc.title}</h1>
+    <p class="lede">${doc.lede}</p>
+    <div class="doc-meta">${meta}</div>
+    <hr class="divider">
+    <h2 class="blk">Tài liệu trong thư viện</h2>
+    <div class="overview-grid">${cards}</div>
+    ${takeaway}
+    <footer>SID · Agent Library — mọi sơ đồ trong tài liệu đều bấm được để mở giải thích chi tiết.</footer>
+  `;
+  content.scrollTop = 0;
+}
+
+function renderFrame(doc, anchor){
+  const src = anchor ? `${doc.file}#${anchor}` : doc.file;
+
+  if (content.dataset.file === doc.file){
+    const frame = document.getElementById('docFrame');
+    if (!anchor) return;
+    try { frame.contentWindow.location.hash = anchor; }
+    catch (e) { frame.src = src; }
+    return;
+  }
+
+  content.className = 'content doc';
+  content.dataset.file = doc.file;
+  content.innerHTML = `
+    <div class="doc-bar">
+      <span class="dk">${doc.kicker}</span>
+      <span class="dt">${doc.nav}</span>
+      <span class="spacer"></span>
+      <a class="mini" href="${doc.file}" target="_blank" rel="noopener">Mở tab mới ↗</a>
+    </div>
+    <iframe class="doc-frame" id="docFrame" title="${doc.nav}" src="${src}" loading="lazy"></iframe>
+  `;
+}
+
+function route(){
+  const [id, anchor] = location.hash.replace('#','').split('/');
+  const doc = DOCS.find(d => d.id === id) || DOCS[0];
+  navGroup.querySelectorAll('.nav-item').forEach(b => b.classList.toggle('active', b.dataset.id === doc.id));
+  navGroup.querySelectorAll('.nav-sub button').forEach(b => b.classList.toggle('current', b.dataset.id === doc.id && b.dataset.anchor === anchor));
+  if (doc.file) renderFrame(doc, anchor); else renderOverview(doc);
+  if (isMobile()) setSidebar(false);
+}
+
+function isMobile(){ return window.matchMedia('(max-width:960px)').matches; }
+
+function setSidebar(open){
+  shell.classList.toggle('collapsed', !open);
+  menuBtn.setAttribute('aria-expanded', String(open));
+  menuLabel.textContent = open ? 'Ẩn mục lục' : 'Mục lục';
+  if (!isMobile()) localStorage.setItem('sid-agent-sidebar', open ? 'open' : 'closed');
+}
+
+menuBtn.addEventListener('click', () => setSidebar(shell.classList.contains('collapsed')));
+scrim.addEventListener('click', () => setSidebar(false));
+document.addEventListener('keydown', e => { if (e.key === 'Escape' && isMobile()) setSidebar(false); });
+
+buildNav();
+setSidebar(isMobile() ? false : localStorage.getItem('sid-agent-sidebar') !== 'closed');
+route();
+window.addEventListener('hashchange', route);
+</script>
+</body>
+</html>
