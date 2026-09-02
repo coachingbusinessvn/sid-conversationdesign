@@ -221,12 +221,12 @@
   <section class="hero">
     <div class="kicker">TỪ AUTOCOMPLETE ĐẾN AGENTIC AVALANCHE</div>
     <h1>"Dùng AI" không phải<br><span>một mức duy nhất.</span></h1>
-    <p>Gợi ý gõ dở trong IDE, một khung chat hiểu cả codebase, hay một agent tự mở pull request lúc bạn đang ngồi xe buýt — đều được gọi chung là "dùng AI". Nhưng đó là ba công việc khác nhau, với rủi ro và cách đo khác nhau. Bài này chia thành 5 cấp độ, dựa trên đúng một biến số: <b>agent tự làm bao nhiêu việc trước khi phải quay lại hỏi bạn.</b> Đây <i>không</i> phải là bài phân biệt "dùng cửa sổ chat của Claude/GPT/Gemini" với "tự xây agent chạy CLI/cronjob kiểu Hermes" — cả hai là <b>cách kích hoạt</b>; cấp độ 1-5 là <b>mức tự chủ</b> được trao. Sheet 01b bên dưới nói rõ hai trục này khớp nhau ở đâu, và lệch nhau ở đâu.</p>
+    <p>Một gợi ý gõ dở ngay trong IDE, một khung chat hiểu được cả codebase, và một agent tự mở pull request trong lúc bạn còn đang ngồi trên xe buýt — cả ba đều bị gọi chung bằng một cái tên là "dùng AI". Nhưng nếu nhìn kỹ, đó là ba công việc khác hẳn nhau, mang rủi ro khác nhau, và cần được đánh giá bằng những thước đo khác nhau. Bài viết này sẽ chia câu chuyện ra thành 5 cấp độ, xoay quanh đúng một câu hỏi gốc: <b>agent được để tự làm bao nhiêu việc, trước khi phải dừng lại hỏi ý bạn?</b> Cũng cần nói rõ ngay từ đầu: đây <i>không</i> phải là bài so sánh giữa việc gõ trực tiếp vào cửa sổ chat của Claude/GPT/Gemini và việc tự xây một agent chạy qua CLI hay cronjob kiểu Hermes — cả hai đều chỉ là <b>cách bạn kích hoạt AI</b> mà thôi. Năm cấp độ nói ở đây là một chuyện khác: <b>mức tự chủ</b> mà bạn sẵn lòng trao cho nó. Sheet 01b ngay sau sẽ chỉ rõ hai chuyện này trùng nhau ở đâu, và vì sao đôi lúc chúng lại tách ra làm hai hướng khác nhau.</p>
     <div class="stats">
       <div class="stat"><b>5</b><span>cấp độ tự chủ</span></div>
-      <div class="stat"><b>1</b><span>biến số duy nhất phân tầng</span></div>
-      <div class="stat"><b>2</b><span>vai trò: non-coder &amp; programmer</span></div>
-      <div class="stat"><b>0</b><span>cấp độ nào là "cao cấp nhất nên dùng"</span></div>
+      <div class="stat"><b>1</b><span>biến số duy nhất dùng để phân tầng</span></div>
+      <div class="stat"><b>2</b><span>vai trò được nói tới: non-coder &amp; programmer</span></div>
+      <div class="stat"><b>0</b><span>cấp độ nào được xem là "đáng hướng tới nhất"</span></div>
     </div>
   </section>
 
@@ -234,7 +234,7 @@
   <section id="s01">
     <div class="sheet-tag">SHEET 01 — BỨC TRANH TOÀN CẢNH</div>
     <h2>Không phải bảng xếp hạng</h2>
-    <p class="lede">Cao hơn không có nghĩa là tốt hơn. Hãy nghĩ như một quyết định nhân sự: <b>bắt một chuyên gia dày dạn làm việc như intern là lãng phí năng lực; đặt một học sinh cấp 2 vào ghế CEO là một thảm hoạ.</b> Việc của bạn là khớp đúng công việc với đúng cấp độ — không phải leo lên cấp cao nhất có thể.</p>
+    <p class="lede">Trước khi đi vào chi tiết, cần gạt bỏ một hiểu nhầm rất dễ mắc: cấp độ cao hơn không đồng nghĩa với tốt hơn. Hãy thử nghĩ theo cách một người quản lý nhân sự vẫn nghĩ: <b>giao cho một chuyên gia dày dạn những việc vụn vặt của một intern là phí phạm năng lực của họ; còn đặt một học sinh cấp hai vào ghế CEO thì chắc chắn là một thảm hoạ.</b> Công việc thật sự của bạn, vì vậy, là tìm cho đúng công việc một cấp độ phù hợp — không phải cố leo lên cấp cao nhất mà bạn có thể chạm tới.</p>
     <figure class="diagram-card">
       <svg class="diagram" viewBox="0 0 680 640" role="img">
       <title>5 cấp độ tự chủ khi dùng AI</title>
@@ -242,30 +242,30 @@
 
       <g class="node c-gray" onclick="openModal('lvl1')"><rect x="40" y="20" width="600" height="86" rx="12"/>
         <text class="th" x="64" y="52">CẤP 1 · TRỢ LÝ TẠI CHỖ (Assistive)</text>
-        <text class="ts" x="64" y="76">Bạn tự tay quản lý toàn bộ ngữ cảnh, mỗi lần một chỗ</text></g>
+        <text class="ts" x="64" y="76">Bạn vẫn là người tự tay quản lý toàn bộ ngữ cảnh, xử lý từng chỗ một</text></g>
       <line x1="340" y1="106" x2="340" y2="128" class="arr" marker-end="url(#arrowL)"/>
 
       <g class="node c-teal" onclick="openModal('lvl2')"><rect x="40" y="128" width="600" height="86" rx="12"/>
         <text class="th" x="64" y="160">CẤP 2 · HỘI THOẠI (Conversational)</text>
-        <text class="ts" x="64" y="184">Bạn nêu mục tiêu, agent đề xuất — bạn duyệt từng bước</text></g>
+        <text class="ts" x="64" y="184">Bạn nêu mục tiêu, agent đưa ra đề xuất, và bạn duyệt lại từng bước một</text></g>
       <line x1="340" y1="214" x2="340" y2="236" class="arr" marker-end="url(#arrowL)"/>
 
       <g class="node c-amber" onclick="openModal('lvl3')"><rect x="40" y="236" width="600" height="86" rx="12"/>
         <text class="th" x="64" y="268">CẤP 3 · TASK AGENT</text>
-        <text class="ts" x="64" y="292">Bạn giao việc, agent tự làm xong rồi mang kết quả về</text></g>
+        <text class="ts" x="64" y="292">Bạn giao hẳn một việc, agent tự hoàn tất rồi mang kết quả trở lại</text></g>
       <line x1="340" y1="322" x2="340" y2="344" class="arr" marker-end="url(#arrowL)"/>
 
       <g class="node c-coral" onclick="openModal('lvl4')"><rect x="40" y="344" width="600" height="86" rx="12"/>
         <text class="th" x="64" y="376">CẤP 4 · ĐỒNG NGHIỆP TỰ CHỦ (Autonomous teammate)</text>
-        <text class="ts" x="64" y="400">Agent tự chọn việc từ một backlog, không cần ai giao</text></g>
+        <text class="ts" x="64" y="400">Agent tự chọn việc từ một backlog có sẵn, không cần ai giao tay</text></g>
       <line x1="340" y1="430" x2="340" y2="452" class="arr" marker-end="url(#arrowL)"/>
 
       <g class="node c-violet" onclick="openModal('lvl5')"><rect x="40" y="452" width="600" height="86" rx="12"/>
         <text class="th" x="64" y="484">CẤP 5 · THÁC LŨ AGENT (Agentic avalanche)</text>
-        <text class="ts" x="64" y="508">Nhiều agent điều phối nhau, người chỉ giám sát ở tầng trên cùng</text></g>
+        <text class="ts" x="64" y="508">Nhiều agent cùng điều phối nhau, con người chỉ còn giám sát ở tầng trên cùng</text></g>
 
-      <text class="ts" x="64" y="580" font-style="italic">Biến số phân tầng: mức tự chủ trước khi quay lại xin phản hồi từ người.</text>
-      <text class="ts" x="64" y="606" font-style="italic">Không phải cấp nào cũng phù hợp — chọn theo việc, không chọn theo "cấp cao nhất mình có thể chạm tới".</text>
+      <text class="ts" x="64" y="580" font-style="italic">Biến số dùng để phân tầng: agent được tự chủ tới đâu trước khi phải quay lại xin ý kiến người.</text>
+      <text class="ts" x="64" y="606" font-style="italic">Không phải việc nào cũng hợp với cấp cao — hãy chọn theo đúng bản chất công việc, đừng chọn theo "cấp cao nhất mình có thể chạm tới".</text>
       </svg>
       <figcaption>Bấm vào từng cấp độ để xem tóm tắt nhanh</figcaption>
     </figure>
@@ -275,9 +275,9 @@
   <section id="s01b">
     <div class="sheet-tag">SHEET 01B — HAI TRỤC KHÁC NHAU, HAY BỊ GỘP LÀM MỘT</div>
     <h2>"Cấp độ" không phải là "cửa sổ chat" hay "agent"</h2>
-    <p class="lede">Câu hỏi rất đúng: bài này đang nói về việc <b>gõ trực tiếp vào cửa sổ chat</b> (claude.ai, ChatGPT, Gemini) hay về việc <b>tạo hẳn một agent rồi kích hoạt nó qua CLI/cronjob</b> kiểu Hermes? Câu trả lời là — cả hai đều tồn tại, và <b>cấp độ tự chủ (1-5) là một trục, giao diện kích hoạt là một trục khác.</b> Hai trục này tương quan chặt nhưng không phải là một.</p>
+    <p class="lede">Đến đây có một câu hỏi rất chính đáng cần được trả lời rõ: bài viết này đang nói về việc <b>gõ trực tiếp vào cửa sổ chat</b> (claude.ai, ChatGPT, Gemini), hay đang nói về việc <b>tự dựng hẳn một agent rồi kích hoạt nó qua CLI hoặc cronjob</b> kiểu Hermes? Câu trả lời là: cả hai đều tồn tại song song, và chúng nằm trên hai trục khác nhau. <b>Cấp độ tự chủ (1 đến 5) là một trục; còn giao diện mà bạn dùng để kích hoạt AI lại là một trục khác.</b> Hai trục này có liên hệ rất chặt với nhau, nhưng không phải là cùng một thứ.</p>
 
-    <div class="subhead">TRỤC THỨ HAI: BẠN CHẠM VÀO AI QUA ĐÂU</div>
+    <div class="subhead">TRỤC THỨ HAI: BẠN ĐANG CHẠM VÀO AI QUA CỬA NÀO</div>
     <table class="cmp-table">
       <tr>
         <th>Giao diện kích hoạt</th>
@@ -287,46 +287,46 @@
       </tr>
       <tr>
         <td><b>Cửa sổ chat</b><br>(chat window)</td>
-        <td>Bạn mở app, gõ, đọc trả lời, gõ tiếp — con người phải có mặt ở đó suốt phiên</td>
-        <td>claude.ai, ChatGPT, Gemini web/app — dùng trực tiếp, không gắn thêm gì</td>
+        <td>Bạn mở app, gõ một câu, đọc câu trả lời, rồi gõ tiếp — con người phải có mặt ở đó trong suốt cả phiên làm việc</td>
+        <td>claude.ai, ChatGPT, Gemini bản web hoặc app — dùng trực tiếp, không gắn thêm gì khác</td>
         <td class="l1">Cấp 1–2</td>
       </tr>
       <tr>
         <td><b>CLI / IDE agent</b><br>(tương tác, sống theo phiên)</td>
-        <td>Bạn gõ một lệnh hoặc mở một phiên, agent tự chạy vòng lặp nhiều bước — nhưng bạn vẫn ngồi đó duyệt từng phần</td>
-        <td>Claude Code, Cursor, Hermes CLI (<code>hermes -p ...</code>), agent trong IDE (Zed, VS Code)</td>
+        <td>Bạn gõ một lệnh hoặc mở một phiên làm việc, agent tự chạy một vòng lặp nhiều bước — nhưng bạn vẫn ngồi ngay đó để duyệt lại từng phần</td>
+        <td>Claude Code, Cursor, Hermes CLI (<code>hermes -p ...</code>), hay các agent tích hợp sẵn trong IDE như Zed, VS Code</td>
         <td class="l2">Cấp 2</td>
       </tr>
       <tr>
         <td><b>Agent bất đồng bộ</b><br>(giao rồi rời đi)</td>
-        <td>Bạn kích hoạt một lần — qua issue, PR comment, tag trong Slack — rồi đóng máy; agent tự làm xong trong môi trường riêng</td>
-        <td>Copilot coding agent, Claude Code GitHub Actions (@claude), Cursor background agent</td>
+        <td>Bạn kích hoạt đúng một lần — qua một issue, một PR comment, hay một dòng tag trong Slack — rồi đóng máy đi làm việc khác; agent sẽ tự hoàn tất công việc trong một môi trường riêng của nó</td>
+        <td>Copilot coding agent, Claude Code chạy qua GitHub Actions (gọi bằng @claude), Cursor background agent</td>
         <td class="l3">Cấp 3</td>
       </tr>
       <tr>
         <td><b>Agent nền / theo lịch</b><br>(gateway, cron)</td>
-        <td>Không ai kích hoạt — tiến trình chạy 24/7, tự đánh thức theo lịch hoặc theo sự kiện, tự quyết định có việc để làm hay không</td>
-        <td>Hermes Gateway + Cron, GitHub Agentic Workflows, Dependabot, Uber FlakyGuard</td>
+        <td>Không cần ai kích hoạt cả — một tiến trình chạy suốt 24/7, tự đánh thức theo lịch hoặc theo sự kiện, và tự quyết định xem có việc gì cần làm hay không</td>
+        <td>Hermes Gateway kết hợp Cron, GitHub Agentic Workflows, Dependabot, Uber FlakyGuard</td>
         <td class="l4">Cấp 4</td>
       </tr>
       <tr>
         <td><b>Nhiều agent + orchestrator</b></td>
-        <td>Một tiến trình orchestrator đứng trên, tự sinh và điều phối nhiều agent con chạy song song — con người chỉ giám sát ở tầng trên cùng</td>
-        <td>Cursor FastRender (Planner/Worker/Judge), Hermes <code>delegate_task</code> sinh sub-agent</td>
+        <td>Một tiến trình orchestrator đứng trên cùng, tự sinh ra và điều phối nhiều agent con chạy song song với nhau — con người lúc này chỉ còn giám sát ở tầng cao nhất</td>
+        <td>Cursor FastRender (mô hình Planner/Worker/Judge), hay Hermes dùng <code>delegate_task</code> để sinh sub-agent</td>
         <td class="l5">Cấp 5</td>
       </tr>
     </table>
 
-    <div class="callout">Vì sao hai trục không trùng khớp 100%: bạn hoàn toàn có thể ngồi trong <b>cửa sổ chat của Claude</b> và vẫn ở Cấp 2 thật (nêu mục tiêu, duyệt từng bước) — hoặc dùng <b>Hermes chạy qua CLI</b> mà vẫn chỉ đang ở Cấp 1 nếu bạn tự tay dán từng đoạn ngữ cảnh vào mỗi câu hỏi. <b>Cấp độ đo mức tự chủ agent được trao — không đo bạn đang mở app nào.</b> Nhưng có một ngưỡng thật: Cấp 3 trở lên <b>đòi hỏi một agent harness</b> — code chạy được ngoài phiên chat (CLI với chế độ nền, API server, hoặc một tiến trình như Hermes) — vì bản chất "giao rồi rời đi" không thể làm được chỉ bằng cửa sổ chat, nơi phiên làm việc chấm dứt khi bạn đóng tab.</div>
+    <div class="callout">Vì sao hai trục này không khớp nhau tuyệt đối: bạn hoàn toàn có thể ngồi ngay trong <b>cửa sổ chat của Claude</b> mà vẫn đang thực sự ở Cấp 2 (nêu mục tiêu, rồi duyệt lại từng bước) — hoặc ngược lại, dùng <b>Hermes chạy qua CLI</b> mà vẫn chỉ đang dừng ở Cấp 1, nếu việc bạn làm chỉ là tự tay dán từng đoạn ngữ cảnh vào mỗi câu hỏi. Nói cách khác, <b>cấp độ đo mức tự chủ mà agent được trao — không đo bạn đang mở ứng dụng nào.</b> Tuy vậy, vẫn có một ngưỡng thật sự tồn tại: từ Cấp 3 trở lên, bạn <b>bắt buộc cần một agent harness</b> — một đoạn code chạy được ngoài phiên chat, ví dụ một CLI có chế độ chạy nền, một API server, hoặc một tiến trình như Hermes. Lý do rất đơn giản: kiểu làm việc "giao rồi rời đi" không thể thực hiện được chỉ bằng cửa sổ chat, vì phiên làm việc ở đó luôn kết thúc ngay khi bạn đóng tab.</div>
 
     <div class="row2">
       <button class="block accent-gray" data-key="s1b-chatwindow">
-        <span class="k">KHỐI A</span><span class="t">Chỉ dùng cửa sổ chat — giới hạn ở đâu?</span>
-        <span class="s">Không có gì sai khi chỉ dùng claude.ai/ChatGPT — nhưng nó tự nhiên chặn bạn ở Cấp 1-2, không phải vì công cụ kém, mà vì kiến trúc "phiên chat" không sống được sau khi bạn đóng tab</span>
+        <span class="k">KHỐI A</span><span class="t">Chỉ dùng cửa sổ chat thôi — thì giới hạn nằm ở đâu?</span>
+        <span class="s">Chẳng có gì sai khi bạn chỉ dùng claude.ai hay ChatGPT — nhưng cách dùng đó tự nhiên chặn bạn lại ở Cấp 1-2, không phải vì công cụ kém, mà vì bản chất kiến trúc của một "phiên chat" là không sống được sau khi bạn đóng tab</span>
       </button>
       <button class="block accent-coral" data-key="s1b-harness">
-        <span class="k">KHỐI B</span><span class="t">Cần agent harness khi nào?</span>
-        <span class="s">Ngay khi bạn muốn "giao việc rồi rời đi" (Cấp 3) hoặc "không ai giao mà nó vẫn tự chạy" (Cấp 4) — đó là lúc cần một tiến trình sống ngoài phiên chat, như Hermes, GitHub Actions, hay Claude Code chạy nền</span>
+        <span class="k">KHỐI B</span><span class="t">Vậy khi nào thì cần một agent harness?</span>
+        <span class="s">Ngay khi bạn muốn kiểu "giao việc rồi rời đi" (Cấp 3), hoặc kiểu "không ai giao mà nó vẫn tự chạy" (Cấp 4) — đó chính là lúc cần một tiến trình sống được ngoài phiên chat, chẳng hạn Hermes, GitHub Actions, hay Claude Code chạy ở chế độ nền</span>
       </button>
     </div>
   </section>
@@ -334,8 +334,8 @@
   <!-- 01C SKILL vs AGENT -->
   <section id="s01c">
     <div class="sheet-tag">SHEET 01C — RANH GIỚI SKILL vs. AGENT, VÀ SỐ LƯỢNG</div>
-    <h2>Khi nào hết là "skill", bắt đầu là "agent"?</h2>
-    <p class="lede"><b>Skill</b> ở đây nghĩa là một năng lực/hướng dẫn được gọi ra dùng trong một lượt, do bạn kích hoạt và lái từng bước. <b>Agent</b> nghĩa là một tiến trình có vòng lặp riêng — tự quan sát kết quả, tự quyết bước kế tiếp, tự biết khi nào xong — mà không cần bạn bấm tiếp mỗi bước. <b>Ranh giới thật nằm giữa Cấp 2 và Cấp 3</b>: đúng như bài gốc gọi Cấp 3 là nơi "kỹ thuật agentic thực sự bắt đầu".</p>
+    <h2>Khi nào hết là "skill", và khi nào bắt đầu là "agent"?</h2>
+    <p class="lede">Ở đây, <b>skill</b> nên được hiểu là một năng lực hay một hướng dẫn được gọi ra dùng trong đúng một lượt, do chính bạn kích hoạt và dẫn dắt từng bước. Còn <b>agent</b> là một tiến trình có vòng lặp riêng của nó — tự quan sát kết quả, tự quyết định bước kế tiếp, tự biết khi nào là xong — mà không cần bạn phải bấm tiếp ở mỗi bước. <b>Ranh giới thật sự nằm ngay giữa Cấp 2 và Cấp 3</b>, và điều này khớp với cách bài viết gốc gọi Cấp 3 là nơi mà "kỹ thuật agentic" mới thực sự bắt đầu có ý nghĩa.</p>
 
     <table class="cmp-table">
       <tr>
@@ -345,69 +345,69 @@
       </tr>
       <tr>
         <td class="lvl l1">CẤP 1</td>
-        <td>Thuần <b>skill</b> — không có vòng lặp độc lập nào cả, chỉ một lần gọi rồi trả kết quả ngay</td>
-        <td><b>0</b> agent (0–0) — không có gì chạy tự động ngoài lượt gõ của bạn</td>
+        <td>Thuần túy là <b>skill</b> — hoàn toàn không có vòng lặp độc lập nào, chỉ có một lần gọi rồi trả kết quả ngay lập tức</td>
+        <td><b>0</b> agent (0–0) — không có gì tự chạy ngoài đúng lượt gõ của bạn</td>
       </tr>
       <tr>
         <td class="lvl l2">CẤP 2</td>
-        <td>Ranh giới mờ — <i>kỹ thuật</i> đã là agent (có vòng lặp gọi tool), nhưng <i>vận hành</i> như skill vì bạn lái từng bước, duyệt từng edit</td>
-        <td><b>1</b> agent (1–1) — luôn đúng một, sống theo phiên, tắt khi bạn rời đi</td>
+        <td>Ranh giới còn khá mờ — xét về <i>kỹ thuật</i> thì đây đã là agent thật (có vòng lặp gọi tool), nhưng xét về <i>cách vận hành</i> thì nó vẫn giống một skill, vì chính bạn là người dẫn dắt từng bước và duyệt từng chỗ sửa</td>
+        <td><b>1</b> agent (1–1) — luôn luôn đúng một, sống theo từng phiên làm việc, và tắt đi ngay khi bạn rời đi</td>
       </tr>
       <tr>
         <td class="lvl l3">CẤP 3</td>
-        <td><b>Chuyển hẳn sang agent</b> — đây là điểm không còn quay lại: agent tự chạy hết một task, không cần bạn ở đó để "kéo" nó qua từng bước</td>
-        <td><b>1</b> agent mỗi task (1 min) — có thể nhiều task chạy song song không giới hạn cứng, nhưng <i>mỗi agent độc lập, không phối hợp với agent khác</i></td>
+        <td><b>Chuyển hẳn sang agent</b> — đây là điểm không thể quay lại được nữa: agent tự chạy trọn vẹn một task, mà không cần bạn ngồi đó "kéo" nó đi qua từng bước</td>
+        <td><b>1</b> agent cho mỗi task (tối thiểu 1) — có thể có nhiều task chạy song song mà không bị chặn bởi giới hạn cứng nào, nhưng <i>mỗi agent hoạt động độc lập, không phối hợp gì với agent khác</i></td>
       </tr>
       <tr>
         <td class="lvl l4">CẤP 4</td>
-        <td><b>Agent</b> — chạy liên tục, tự khởi tạo việc, không ai bấm nút mỗi lần</td>
-        <td><b>1 đến khoảng 5–10</b> — thường một agent chuyên trách cho mỗi loại việc (flaky test, doc lỗi thời, dependency...), mỗi agent riêng biệt, không chung một orchestrator</td>
+        <td><b>Đã là agent thật</b> — chạy liên tục, tự khởi tạo việc cho chính nó, không cần ai bấm nút mỗi lần</td>
+        <td><b>Từ 1 đến khoảng 5–10</b> — thường thấy nhất là một agent chuyên trách riêng cho mỗi loại việc (flaky test, tài liệu lỗi thời, dependency...), mỗi agent hoạt động riêng biệt, không chung một orchestrator nào cả</td>
       </tr>
       <tr>
         <td class="lvl l5">CẤP 5</td>
-        <td><b>Nhiều agent + orchestrator</b> — không còn khái niệm "một agent", mà là một hệ agent điều phối nhau</td>
-        <td><b>Tối thiểu 2</b> (1 orchestrator + 1 worker), thực tế thường <b>3+</b> (Planner/Worker/Judge) — <b>tối đa</b> lên tới hàng nghìn (Cursor FastRender: tới 2.000 agent chạy song song)</td>
+        <td><b>Nhiều agent cộng với một orchestrator</b> — lúc này không còn khái niệm "một agent" nữa, mà là cả một hệ agent cùng điều phối nhau</td>
+        <td><b>Tối thiểu là 2</b> (một orchestrator và một worker), trên thực tế thường thấy <b>từ 3 trở lên</b> (mô hình Planner/Worker/Judge) — còn <b>mức tối đa</b> đã ghi nhận được lên tới hàng nghìn (Cursor FastRender từng cho tới 2.000 agent chạy song song)</td>
       </tr>
     </table>
 
-    <div class="callout">Dấu hiệu để tự nhận biết bạn đã qua ranh giới: nếu bạn <b>tắt máy, rời đi, và việc vẫn tiếp tục chạy</b> — đó là agent thật (Cấp 3+). Nếu việc dừng lại ngay khi bạn không gõ tiếp — bạn vẫn đang ở vùng skill/agent-được-lái (Cấp 1-2), dù giao diện có gắn mác "agent" trong tên sản phẩm.</div>
+    <div class="callout">Có một dấu hiệu rất dễ để tự nhận biết bạn đã bước qua ranh giới này hay chưa: nếu bạn <b>tắt máy, rời đi, mà công việc vẫn tiếp tục chạy</b> — thì đó đúng là một agent thật (Cấp 3 trở lên). Còn nếu công việc dừng lại ngay khi bạn không gõ tiếp — bạn vẫn đang ở vùng skill, hay agent-được-người-lái (Cấp 1-2), cho dù sản phẩm bạn đang dùng có gắn chữ "agent" ngay trong tên của nó.</div>
   </section>
 
   <!-- 02 CẤP 1 -->
   <section id="s02">
     <div class="sheet-tag">SHEET 02 — CẤP 1 · TRỢ LÝ TẠI CHỖ</div>
     <h2>Đây chưa thực sự là "tự chủ"</h2>
-    <p class="lede">Gợi ý gõ dở, sửa nhanh trong một file, hoặc copy-paste kết quả từ ChatGPT vào terminal. Agent chỉ thấy đúng cái bạn đang mở, không hơn, và không nhớ gì sau khi bạn tắt cửa sổ. <b>Bạn là người quản lý ngữ cảnh, mỗi lần một chỗ.</b></p>
+    <p class="lede">Hình dung những việc rất quen thuộc: một gợi ý gõ dở, một chỗ sửa nhanh trong một file, hay chỉ đơn giản là copy-paste kết quả từ ChatGPT vào terminal. Ở tất cả những việc đó, agent chỉ thấy đúng những gì bạn đang mở ra trước mắt, không hơn, và cũng không còn nhớ gì cả sau khi bạn tắt cửa sổ đi. Nói cách khác, <b>chính bạn vẫn là người quản lý toàn bộ ngữ cảnh, và phải làm điều đó ở từng chỗ một.</b></p>
 
     <div class="subhead">AI DÙNG RA SAO — THEO VAI TRÒ</div>
     <div class="row2">
       <button class="block accent-gray" data-key="l1-noncoder">
-        <span class="k">NON-CODER</span><span class="t">Gõ, dán, sửa câu — từng ô một</span>
-        <span class="s">Hỏi ChatGPT viết lại một đoạn email, sửa công thức Excel, chỉnh một slide</span>
+        <span class="k">NON-CODER</span><span class="t">Gõ, dán, sửa từng câu — từng ô một</span>
+        <span class="s">Nhờ ChatGPT viết lại một đoạn email cho lịch sự hơn, sửa lại một công thức Excel, hoặc chỉnh câu chữ trên một slide</span>
       </button>
       <button class="block accent-gray" data-key="l1-coder">
-        <span class="k">PROGRAMMER</span><span class="t">Autocomplete, sửa nhanh một file</span>
-        <span class="s">Copilot gợi ý dòng code kế tiếp, refactor một hàm đang mở</span>
+        <span class="k">PROGRAMMER</span><span class="t">Autocomplete, sửa nhanh trong một file</span>
+        <span class="s">Copilot gợi ý dòng code kế tiếp, hoặc giúp refactor lại một hàm đang mở ngay trước mắt</span>
       </button>
     </div>
     <div class="row2">
       <button class="block" data-key="l1-condition">
-        <span class="k">ĐIỀU KIỆN LÊN CẤP 2</span><span class="t">Khi ngữ cảnh vượt quá một cửa sổ</span>
-        <span class="s">Việc cần chạm nhiều file, nhiều bước, hoặc cần agent tự tìm hiểu thay vì bạn dán vào</span>
+        <span class="k">ĐIỀU KIỆN LÊN CẤP 2</span><span class="t">Khi ngữ cảnh cần dùng vượt ra ngoài một cửa sổ</span>
+        <span class="s">Việc bắt đầu cần chạm tới nhiều file, nhiều bước, hoặc cần agent tự tìm hiểu lấy, thay vì chờ bạn dán từng đoạn vào</span>
       </button>
       <button class="block" data-key="l1-usewhen">
-        <span class="k">DÙNG KHI / KHÔNG</span><span class="t">Tốt cho việc gọn trong 1 file</span>
-        <span class="s">Không dùng khi việc trải rộng nhiều file — Cấp 1 không mở rộng được tới đó, vì bản chất nó không thể</span>
+        <span class="k">DÙNG KHI / KHÔNG NÊN DÙNG KHI</span><span class="t">Phù hợp với việc gọn trong một file</span>
+        <span class="s">Đừng dùng khi việc đã trải rộng ra nhiều file — Cấp 1 không thể mở rộng tới đó được, vì bản chất kỹ thuật của nó không cho phép</span>
       </button>
     </div>
     <div class="row2">
       <button class="block accent-gray" data-key="l1-skillagent">
-        <span class="k">SKILL vs. AGENT</span><span class="t">Thuần skill — chưa có agent nào</span>
-        <span class="s">Một lượt gọi, một kết quả, không có vòng lặp nào tự chạy tiếp sau đó</span>
+        <span class="k">SKILL vs. AGENT</span><span class="t">Thuần túy là skill — chưa có agent nào cả</span>
+        <span class="s">Một lượt gọi, một kết quả trả về, không có vòng lặp nào tự tiếp tục chạy sau đó</span>
       </button>
       <button class="block accent-gray" data-key="l1-count">
         <span class="k">SỐ LƯỢNG AGENT</span><span class="t">0 (0–0)</span>
-        <span class="s">Không có tiến trình agent độc lập nào đang chạy ở cấp này</span>
+        <span class="s">Không có bất kỳ tiến trình agent độc lập nào đang chạy ở cấp độ này</span>
       </button>
     </div>
   </section>
@@ -415,38 +415,38 @@
   <!-- 03 CẤP 2 -->
   <section id="s03">
     <div class="sheet-tag">SHEET 03 — CẤP 2 · HỘI THOẠI</div>
-    <h2>Bạn luôn quyết định agent đi đâu</h2>
-    <p class="lede">Giống ngồi cặp đôi với người đã đọc hết tài liệu bạn đưa — nhưng chưa từng thấy codebase hay công việc thật trước đó. Agent điều hướng, chạy công cụ khi được yêu cầu, viết nhiều file — nhưng <b>bạn nêu mục tiêu, ràng buộc, và duyệt từng bước.</b> Đây vẫn là điểm rơi (sweet spot) của phần lớn người dùng hiện nay.</p>
+    <h2>Bạn vẫn luôn là người quyết định agent đi đâu tiếp</h2>
+    <p class="lede">Cảm giác ở cấp này giống như đang ngồi cặp đôi (pair) với một người đã đọc hết mọi tài liệu bạn đưa cho họ — nhưng lại chưa từng nhìn thấy codebase hay công việc thật trước đó bao giờ. Agent tự điều hướng, tự chạy công cụ khi được yêu cầu, thậm chí viết trên nhiều file cùng lúc — nhưng <b>chính bạn là người nêu mục tiêu, đặt ràng buộc, và duyệt lại từng bước một.</b> Đây vẫn đang là điểm rơi (sweet spot) mà phần lớn người dùng hiện nay đang đứng.</p>
 
     <div class="subhead">AI DÙNG RA SAO — THEO VAI TRÒ</div>
     <div class="row2">
       <button class="block accent-teal" data-key="l2-noncoder">
-        <span class="k">NON-CODER</span><span class="t">Lập kế hoạch cùng AI, duyệt từng phần</span>
-        <span class="s">Nhờ AI lên outline báo cáo, chia nhỏ một dự án marketing thành các bước, rồi duyệt/sửa từng bước</span>
+        <span class="k">NON-CODER</span><span class="t">Cùng AI lập kế hoạch, rồi duyệt lại từng phần</span>
+        <span class="s">Nhờ AI lên outline cho một báo cáo, chia nhỏ một dự án marketing thành từng bước, rồi duyệt và sửa lại mỗi bước</span>
       </button>
       <button class="block accent-teal" data-key="l2-coder">
-        <span class="k">PROGRAMMER</span><span class="t">Duyệt kế hoạch, chấp nhận/từ chối từng edit</span>
-        <span class="s">Yêu cầu agent lập plan trước, review plan, rồi để agent sửa nhiều file — chạy test qua agent, code phần khó nhất tự tay</span>
+        <span class="k">PROGRAMMER</span><span class="t">Duyệt kế hoạch trước, rồi chấp nhận hoặc từ chối từng chỗ sửa</span>
+        <span class="s">Yêu cầu agent lập plan trước, review kỹ plan đó, rồi mới để agent sửa trên nhiều file — chạy test qua agent, còn phần khó nhất thì tự tay viết</span>
       </button>
     </div>
     <div class="row2">
       <button class="block" data-key="l2-condition">
-        <span class="k">ĐIỀU KIỆN LÊN CẤP 3</span><span class="t">Khi "xong" mô tả được trong 1-2 câu</span>
-        <span class="s">Nếu việc đủ rõ để không cần bạn ngồi canh, giữ ở Cấp 2 là phí sự chú ý không cần phí</span>
+        <span class="k">ĐIỀU KIỆN LÊN CẤP 3</span><span class="t">Khi "xong" đã có thể mô tả trong một hai câu</span>
+        <span class="s">Nếu việc đã rõ đến mức không cần bạn ngồi canh nữa, thì việc tiếp tục giữ nó ở Cấp 2 chỉ đang phí đi sự chú ý không cần phải phí</span>
       </button>
       <button class="block" data-key="l2-metrics">
-        <span class="k">ĐO LƯỜNG</span><span class="t">Dùng có chủ đích hay chỉ vì được yêu cầu?</span>
-        <span class="s">Mức hài lòng qua khảo sát, tỉ lệ dùng hội thoại vs. agent, mảng codebase nào đang được AI đụng tới</span>
+        <span class="k">ĐO LƯỜNG</span><span class="t">Bạn dùng có chủ đích, hay chỉ vì được yêu cầu phải dùng?</span>
+        <span class="s">Có thể nhìn vào mức hài lòng qua khảo sát, tỉ lệ dùng chế độ hội thoại so với chế độ agent, và mảng nào trong codebase đang thực sự được AI đụng tới</span>
       </button>
     </div>
     <div class="row2">
       <button class="block accent-teal" data-key="l2-skillagent">
-        <span class="k">SKILL vs. AGENT</span><span class="t">Ranh giới mờ — kỹ thuật là agent, vận hành như skill</span>
-        <span class="s">Có vòng lặp gọi tool thật, nhưng bạn lái từng bước — chưa phải agent độc lập theo nghĩa "rời đi mà việc vẫn chạy"</span>
+        <span class="k">SKILL vs. AGENT</span><span class="t">Ranh giới còn mờ — kỹ thuật là agent, nhưng vận hành như skill</span>
+        <span class="s">Đã có một vòng lặp gọi tool thật, nhưng vì bạn vẫn dẫn dắt từng bước, nó chưa phải là một agent độc lập theo đúng nghĩa "rời đi mà việc vẫn tiếp tục chạy"</span>
       </button>
       <button class="block accent-teal" data-key="l2-count">
         <span class="k">SỐ LƯỢNG AGENT</span><span class="t">1 (1–1)</span>
-        <span class="s">Luôn đúng một agent, sống theo phiên — tắt khi bạn đóng cửa sổ/CLI</span>
+        <span class="s">Luôn luôn đúng một agent, sống theo từng phiên làm việc — và tắt đi ngay khi bạn đóng cửa sổ hoặc CLI</span>
       </button>
     </div>
   </section>
@@ -454,38 +454,38 @@
   <!-- 04 CẤP 3 -->
   <section id="s04">
     <div class="sheet-tag">SHEET 04 — CẤP 3 · TASK AGENT</div>
-    <h2>Giao việc, rồi nhận lại kết quả</h2>
-    <p class="lede">Đây là lúc "kỹ thuật agentic" thực sự bắt đầu: agent lập kế hoạch, sửa code, chạy test, mở PR, phản hồi review — không cần bạn ngồi nhìn. <b>Phép thử nhanh: bạn có thể tạo ra kết quả này từ điện thoại, không cần mở laptop, không?</b> Nếu có — đây là Cấp 3.</p>
+    <h2>Giao việc, rồi quay lại nhận kết quả</h2>
+    <p class="lede">Đây chính là lúc "kỹ thuật agentic" thực sự bắt đầu có ý nghĩa: agent tự lập kế hoạch, tự sửa code, tự chạy test, tự mở PR, và tự phản hồi những góp ý review — hoàn toàn không cần bạn ngồi nhìn theo dõi. Có một phép thử rất nhanh để nhận ra mình đang ở cấp này: <b>bạn có thể tạo ra kết quả này ngay từ điện thoại, mà không cần mở laptop lên, được không?</b> Nếu câu trả lời là được — thì đây chính là Cấp 3.</p>
 
     <div class="subhead">AI DÙNG RA SAO — THEO VAI TRÒ</div>
     <div class="row2">
       <button class="block accent-amber" data-key="l3-noncoder">
-        <span class="k">NON-CODER</span><span class="t">Giao hẳn một việc có "xong" rõ ràng</span>
-        <span class="s">Nhắn agent nghiên cứu thị trường, soạn hẳn một bản đề xuất theo template có sẵn, rồi quay lại nhận bản hoàn chỉnh để duyệt</span>
+        <span class="k">NON-CODER</span><span class="t">Giao hẳn một việc đã có "xong" được định nghĩa rõ ràng</span>
+        <span class="s">Nhắn agent tự nghiên cứu một thị trường, soạn hẳn một bản đề xuất theo đúng template có sẵn, rồi quay lại nhận bản gần hoàn chỉnh để duyệt</span>
       </button>
       <button class="block accent-amber" data-key="l3-coder">
-        <span class="k">PROGRAMMER</span><span class="t">Gán issue, nhận PR để review</span>
-        <span class="s">Gán GitHub issue cho Copilot coding agent, hoặc @claude trong PR comment — agent clone repo, chạy CI, mở draft PR</span>
+        <span class="k">PROGRAMMER</span><span class="t">Gán một issue, rồi chỉ cần nhận PR về để review</span>
+        <span class="s">Gán một GitHub issue cho Copilot coding agent, hoặc nhắc @claude trong một PR comment — agent sẽ tự clone repo, tự chạy CI, và tự mở một draft PR</span>
       </button>
     </div>
     <div class="row2">
       <button class="block" data-key="l3-condition">
-        <span class="k">ĐIỀU KIỆN LÊN CẤP 4</span><span class="t">Khi loại việc này lặp lại đều, không ai muốn làm</span>
-        <span class="s">Từ "một task tôi giao" thành "một danh mục việc luôn tồn tại" — đó là lúc đáng cấu hình để agent tự nhận, không cần người giao mỗi lần</span>
+        <span class="k">ĐIỀU KIỆN LÊN CẤP 4</span><span class="t">Khi loại việc này cứ lặp lại đều, mà không ai muốn làm</span>
+        <span class="s">Khi một việc không còn là "một task tôi giao hôm nay" nữa, mà trở thành "một danh mục việc luôn luôn tồn tại" — đó chính là lúc đáng cấu hình để agent tự nhận diện việc, không cần người giao mỗi lần</span>
       </button>
       <button class="block" data-key="l3-pipeline">
-        <span class="k">ĐIỀU KIỆN BẮT BUỘC</span><span class="t">Pipeline review phải đủ vững trước</span>
-        <span class="s">DORA Report 2025: AI là bộ khuếch đại, không phải thuốc chữa — pipeline yếu sẽ chỉ khuếch đại điểm nghẽn, không giải quyết nó</span>
+        <span class="k">ĐIỀU KIỆN BẮT BUỘC</span><span class="t">Pipeline review phải đủ vững trước khi thử</span>
+        <span class="s">Theo DORA Report 2025: AI đóng vai trò một bộ khuếch đại, không phải một thứ thuốc chữa bách bệnh — pipeline đang yếu sẽ chỉ bị khuếch đại điểm nghẽn lên, không tự nhiên được giải quyết</span>
       </button>
     </div>
     <div class="row2">
       <button class="block accent-amber" data-key="l3-skillagent">
-        <span class="k">SKILL vs. AGENT</span><span class="t">Chuyển hẳn sang agent — điểm không quay lại</span>
-        <span class="s">Agent tự chạy hết một task mà không cần bạn "kéo" nó qua từng bước — đây là ranh giới thật của bài này</span>
+        <span class="k">SKILL vs. AGENT</span><span class="t">Chuyển hẳn sang agent — điểm không còn quay lại</span>
+        <span class="s">Agent tự chạy trọn vẹn một task mà không cần bạn "kéo" nó đi qua từng bước — đây chính là ranh giới thật của toàn bộ bài viết này</span>
       </button>
       <button class="block accent-amber" data-key="l3-count">
-        <span class="k">SỐ LƯỢNG AGENT</span><span class="t">1 mỗi task (tối thiểu 1)</span>
-        <span class="s">Nhiều task có thể chạy song song không giới hạn cứng, nhưng mỗi agent độc lập — không phối hợp với agent khác</span>
+        <span class="k">SỐ LƯỢNG AGENT</span><span class="t">1 agent cho mỗi task (tối thiểu 1)</span>
+        <span class="s">Nhiều task có thể chạy song song mà không bị chặn bởi giới hạn cứng nào, nhưng mỗi agent vẫn hoạt động độc lập — không phối hợp gì với agent khác</span>
       </button>
     </div>
   </section>
@@ -493,38 +493,38 @@
   <!-- 05 CẤP 4 -->
   <section id="s05">
     <div class="sheet-tag">SHEET 05 — CẤP 4 · ĐỒNG NGHIỆP TỰ CHỦ</div>
-    <h2>Agent không đợi bạn giao việc nữa</h2>
-    <p class="lede">Agent có một backlog hoặc một mục tiêu, và <b>tự chọn việc để làm, liên tục, không cần ai bắt đầu từng task.</b> Dependabot là ví dụ mọi team đã quen: tự phát hiện dependency lỗi thời, tự mở PR. Khác biệt với agent LLM là Dependabot chạy theo luật cố định — agent LLM chạy theo phán đoán, vừa là cơ hội vừa là rủi ro.</p>
+    <h2>Đến đây, agent không còn chờ bạn giao việc nữa</h2>
+    <p class="lede">Ở cấp này, agent được giao một backlog hoặc một mục tiêu, và <b>tự chọn lấy việc để làm, cứ thế liên tục, không cần ai đứng ra bắt đầu từng task một.</b> Dependabot là ví dụ mà hầu như team nào cũng đã quen mặt: nó tự phát hiện những dependency đã lỗi thời, rồi tự mở PR mà không ai phải nhắc. Điểm khác biệt giữa Dependabot và một agent LLM ở cấp này là Dependabot chạy theo những luật cố định đã được viết sẵn, còn agent LLM lại chạy theo phán đoán của riêng nó — điều đó vừa mở ra cơ hội, vừa mang theo rủi ro.</p>
 
     <div class="subhead">AI DÙNG RA SAO — THEO VAI TRÒ</div>
     <div class="row2">
       <button class="block accent-coral" data-key="l4-noncoder">
-        <span class="k">NON-CODER</span><span class="t">Đặt mục tiêu định kỳ, không đặt từng việc</span>
-        <span class="s">Cấu hình agent tự rà soát nội dung marketing lỗi thời hàng tuần, tự soạn báo cáo tồn kho mỗi sáng — không ai bấm nút mỗi lần</span>
+        <span class="k">NON-CODER</span><span class="t">Đặt ra mục tiêu định kỳ, không đặt từng việc lẻ tẻ</span>
+        <span class="s">Cấu hình một agent để nó tự rà soát nội dung marketing đã lỗi thời mỗi tuần, hoặc tự soạn báo cáo tồn kho vào mỗi sáng — không ai phải bấm nút chạy mỗi lần</span>
       </button>
       <button class="block accent-coral" data-key="l4-coder">
-        <span class="k">PROGRAMMER</span><span class="t">Agent chuyên trách một mảng bảo trì</span>
-        <span class="s">Uber FlakyGuard tự xử lý test không ổn định hàng ngày; GitHub Daily Test Improver, Daily Documentation Updater tự vá test/doc theo lịch</span>
+        <span class="k">PROGRAMMER</span><span class="t">Một agent chuyên trách riêng cho một mảng bảo trì</span>
+        <span class="s">Uber dùng FlakyGuard để tự xử lý các test không ổn định mỗi ngày; GitHub cũng có sẵn Daily Test Improver và Daily Documentation Updater để tự vá test hay tài liệu theo lịch</span>
       </button>
     </div>
     <div class="row2">
       <button class="block" data-key="l4-condition">
-        <span class="k">ĐIỀU KIỆN LÊN CẤP 5</span><span class="t">Khi một agent không còn đủ, cần nhiều chuyên biệt</span>
-        <span class="s">Chỉ đáng thử khi việc đủ lớn, đủ chia nhỏ được, và bạn đã làm chủ Cấp 3 &amp; 4 trước đó — không phải vì "muốn dùng nhiều agent hơn"</span>
+        <span class="k">ĐIỀU KIỆN LÊN CẤP 5</span><span class="t">Khi một agent không còn đủ, cần thêm nhiều vai chuyên biệt</span>
+        <span class="s">Chỉ đáng thử khi công việc đủ lớn, đủ khả năng chia nhỏ, và bạn đã thật sự làm chủ được Cấp 3 và Cấp 4 trước đó — chứ không phải chỉ vì "muốn thử dùng nhiều agent hơn"</span>
       </button>
       <button class="block" data-key="l4-risk">
-        <span class="k">RỦI RO THẬT</span><span class="t">Review có thể trở thành gánh nặng mới</span>
-        <span class="s">Agent tự chủ có thể tạo ra việc review nhiều hơn công sức nó tiết kiệm — nếu mỗi PR đều cần soi kỹ, bạn chỉ chuyển việc sang chỗ khác</span>
+        <span class="k">RỦI RO THẬT</span><span class="t">Việc review có thể biến thành một gánh nặng mới</span>
+        <span class="s">Một agent tự chủ có thể tạo ra lượng việc review nhiều hơn cả công sức nó giúp bạn tiết kiệm — nếu mỗi PR vẫn cần được soi kỹ từng dòng, bạn chỉ đang dời việc sang một chỗ khác mà thôi</span>
       </button>
     </div>
     <div class="row2">
       <button class="block accent-coral" data-key="l4-skillagent">
-        <span class="k">SKILL vs. AGENT</span><span class="t">Agent — chạy liên tục, tự khởi tạo việc</span>
-        <span class="s">Không ai bấm nút mỗi lần — agent tự phát hiện việc cần làm và tự bắt đầu, theo lịch hoặc theo sự kiện</span>
+        <span class="k">SKILL vs. AGENT</span><span class="t">Đã là agent — chạy liên tục và tự khởi tạo việc cho mình</span>
+        <span class="s">Không cần ai bấm nút mỗi lần — agent tự phát hiện ra việc cần làm rồi tự bắt đầu, theo lịch định trước hoặc theo một sự kiện nào đó</span>
       </button>
       <button class="block accent-coral" data-key="l4-count">
-        <span class="k">SỐ LƯỢNG AGENT</span><span class="t">1 đến khoảng 5–10</span>
-        <span class="s">Thường một agent chuyên trách cho mỗi loại việc (flaky test, doc, dependency...) — mỗi agent riêng biệt, không chung orchestrator</span>
+        <span class="k">SỐ LƯỢNG AGENT</span><span class="t">Từ 1 đến khoảng 5–10</span>
+        <span class="s">Thường thấy nhất là một agent chuyên trách cho mỗi loại việc (flaky test, tài liệu, dependency...) — mỗi agent hoạt động riêng biệt, không chung một orchestrator nào cả</span>
       </button>
     </div>
   </section>
@@ -532,38 +532,38 @@
   <!-- 06 CẤP 5 -->
   <section id="s06">
     <div class="sheet-tag">SHEET 06 — CẤP 5 · THÁC LŨ AGENT</div>
-    <h2>Phần lớn team chưa ở đây — dù LinkedIn có nói gì</h2>
-    <p class="lede">Nhiều agent làm việc cùng nhau: orchestrator sinh ra sub-agent, các agent điều phối qua nhiều task, con người chỉ giám sát tối thiểu ở tầng trên cùng. <b>Khái niệm cốt lõi là orchestrator</b> — nơi giám sát của người thực sự nằm ở, dù sub-agent chạy tự do bên dưới.</p>
+    <h2>Phần lớn team vẫn chưa đứng ở đây — dù LinkedIn có nói gì</h2>
+    <p class="lede">Ở cấp này, nhiều agent cùng làm việc với nhau: một orchestrator sinh ra các sub-agent, các agent này điều phối qua lại giữa nhiều task, còn con người chỉ còn đứng ở tầng trên cùng để giám sát ở mức tối thiểu. <b>Khái niệm cốt lõi cần nắm ở đây là orchestrator</b> — chính là nơi sự giám sát của con người thực sự đặt vào, cho dù các sub-agent bên dưới vẫn được chạy khá tự do.</p>
 
     <div class="subhead">AI DÙNG RA SAO — THEO VAI TRÒ</div>
     <div class="row2">
       <button class="block accent-violet" data-key="l5-noncoder">
-        <span class="k">NON-CODER</span><span class="t">Hầu như chưa chạm tới ở quy mô cá nhân</span>
-        <span class="s">Ứng dụng gần nhất: một "dàn nhạc" agent content tự nghiên cứu, viết, kiểm duyệt, đăng bài — nhưng vẫn cần một người ở vai trò orchestrator</span>
+        <span class="k">NON-CODER</span><span class="t">Hầu như vẫn chưa chạm tới ở quy mô cá nhân</span>
+        <span class="s">Ứng dụng gần gũi nhất có thể gặp: một "dàn" agent content tự nghiên cứu chủ đề, tự viết, tự kiểm duyệt, rồi tự đăng bài — nhưng vẫn luôn cần một người đứng ở vai trò orchestrator để theo dõi cả hệ</span>
       </button>
       <button class="block accent-violet" data-key="l5-coder">
         <span class="k">PROGRAMMER</span><span class="t">Kiến trúc Planner → Worker → Judge</span>
-        <span class="s">Cursor FastRender: agent Planner chia mục tiêu, Worker thực thi độc lập, Judge đánh giá chất lượng — chạy tới 2.000 agent song song trong gần một tuần</span>
+        <span class="s">Trong dự án FastRender của Cursor: agent Planner chia nhỏ mục tiêu, Worker thực thi độc lập, còn Judge đánh giá chất lượng — toàn bộ hệ này chạy tới 2.000 agent song song trong gần một tuần liền</span>
       </button>
     </div>
     <div class="row2">
       <button class="block" data-key="l5-notyet">
-        <span class="k">KHI NÀO CHƯA NÊN THỬ</span><span class="t">Việc phức tạp nhưng tuần tự</span>
-        <span class="s">Nếu vấn đề không thể chia nhỏ để chạy song song, một agent duy nhất làm từng bước (kiểu Cấp 2) vẫn hiệu quả hơn — đa agent chỉ thêm phức tạp không cần thiết</span>
+        <span class="k">KHI NÀO THÌ CHƯA NÊN THỬ</span><span class="t">Khi việc phức tạp nhưng phải làm theo thứ tự</span>
+        <span class="s">Nếu vấn đề không thể chia nhỏ để chạy song song thật, một agent duy nhất đi từng bước (kiểu Cấp 2) vẫn hiệu quả hơn hẳn — việc dùng nhiều agent ở đây chỉ cộng thêm độ phức tạp không cần thiết mà thôi</span>
       </button>
       <button class="block" data-key="l5-debug">
-        <span class="k">CÁI GIÁ PHẢI TRẢ</span><span class="t">Debug đa-agent khó hơn hẳn</span>
-        <span class="s">Lỗi ở hệ nhiều agent khó chẩn đoán hơn nhiều so với một agent đơn — cần tính trước ranh giới tin cậy (trust boundary) và ai giám sát ở đâu</span>
+        <span class="k">CÁI GIÁ PHẢI TRẢ</span><span class="t">Debug một hệ nhiều agent khó hơn hẳn</span>
+        <span class="s">Lỗi trong một hệ nhiều agent khó chẩn đoán hơn nhiều so với lỗi ở một agent đơn — bạn cần tính trước ranh giới tin cậy (trust boundary), và xác định rõ ai giám sát ở đâu</span>
       </button>
     </div>
     <div class="row2">
       <button class="block accent-violet" data-key="l5-skillagent">
-        <span class="k">SKILL vs. AGENT</span><span class="t">Nhiều agent + orchestrator</span>
-        <span class="s">Không còn "một agent" — mà là một hệ agent điều phối nhau, orchestrator sinh và quản lý các agent con</span>
+        <span class="k">SKILL vs. AGENT</span><span class="t">Nhiều agent cộng với một orchestrator</span>
+        <span class="s">Không còn khái niệm "một agent" nữa — mà là cả một hệ agent điều phối nhau, trong đó orchestrator đứng ra sinh và quản lý các agent con</span>
       </button>
       <button class="block accent-violet" data-key="l5-count">
-        <span class="k">SỐ LƯỢNG AGENT</span><span class="t">Tối thiểu 2, thực tế thường 3+, tối đa hàng nghìn</span>
-        <span class="s">1 orchestrator + 1 worker là mức sàn; Planner/Worker/Judge là mô hình phổ biến; Cursor FastRender từng chạy tới 2.000 agent song song</span>
+        <span class="k">SỐ LƯỢNG AGENT</span><span class="t">Tối thiểu là 2, thực tế thường từ 3 trở lên, tối đa lên tới hàng nghìn</span>
+        <span class="s">Một orchestrator cộng một worker là mức sàn; mô hình Planner/Worker/Judge là kiểu phổ biến hơn trong thực tế; còn Cursor FastRender từng chạy tới 2.000 agent song song</span>
       </button>
     </div>
   </section>
@@ -571,8 +571,8 @@
   <!-- 07 SO SÁNH -->
   <section id="s07">
     <div class="sheet-tag">SHEET 07 — NON-CODER vs. PROGRAMMER</div>
-    <h2>Cùng một cấp độ, hai cách trải nghiệm khác nhau</h2>
-    <p class="lede">Biến số phân tầng (mức tự chủ) giống nhau cho cả hai vai trò. Nhưng <b>"đơn vị công việc" mà mỗi vai trò giao cho agent thì khác hẳn</b> — non-coder giao theo tài liệu/kết quả, programmer giao theo file/PR. Hiểu sự khác biệt này giúp bạn không áp sai kỳ vọng của một vai trò lên vai trò khác.</p>
+    <h2>Cùng một cấp độ, nhưng lại là hai cách trải nghiệm khác nhau</h2>
+    <p class="lede">Biến số dùng để phân tầng — tức mức tự chủ — vẫn giữ nguyên cho cả hai vai trò. Nhưng <b>"đơn vị công việc" mà mỗi vai trò giao cho agent lại khác hẳn nhau</b>: người không viết code thường giao theo tài liệu hay kết quả cuối, còn người viết code lại giao theo file hay PR. Hiểu được sự khác biệt này sẽ giúp bạn không đem nhầm kỳ vọng của một vai trò áp lên vai trò khác.</p>
 
     <table class="cmp-table">
       <tr>
@@ -582,52 +582,52 @@
       </tr>
       <tr>
         <td class="lvl l1">CẤP 1<span>Trợ lý tại chỗ</span></td>
-        <td>Một câu, một ô tính, một đoạn văn — sửa tại chỗ, dán kết quả vào chỗ khác bằng tay</td>
-        <td>Một dòng code, một hàm trong một file đang mở</td>
+        <td>Một câu, một ô tính, một đoạn văn — sửa ngay tại chỗ, rồi tự tay dán kết quả sang nơi khác</td>
+        <td>Một dòng code, một hàm nằm trong một file đang mở</td>
       </tr>
       <tr>
         <td class="lvl l2">CẤP 2<span>Hội thoại</span></td>
-        <td>Một tài liệu nhiều phần — outline trước, viết từng phần, duyệt tại mỗi bước</td>
-        <td>Một feature nhiều file — plan trước, duyệt từng edit, chạy test qua agent</td>
+        <td>Một tài liệu nhiều phần — lên outline trước, viết từng phần, duyệt lại ở mỗi bước</td>
+        <td>Một feature trải trên nhiều file — lập plan trước, duyệt từng chỗ sửa, chạy test qua agent</td>
       </tr>
       <tr>
         <td class="lvl l3">CẤP 3<span>Task agent</span></td>
-        <td>Một sản phẩm hoàn chỉnh có brief rõ — báo cáo, bản đề xuất, bộ slide — nhận lại để duyệt lần cuối</td>
-        <td>Một pull request hoàn chỉnh — bug có repro rõ, cập nhật dependency, feature có spec đủ</td>
+        <td>Một sản phẩm hoàn chỉnh với brief đã rõ ràng — một báo cáo, một bản đề xuất, một bộ slide — nhận về để duyệt lần cuối</td>
+        <td>Một pull request hoàn chỉnh — một lỗi có cách tái hiện rõ, một dependency cần cập nhật, hay một feature đã có spec đầy đủ</td>
       </tr>
       <tr>
         <td class="lvl l4">CẤP 4<span>Đồng nghiệp tự chủ</span></td>
-        <td>Một hạng mục việc định kỳ — rà soát nội dung, tổng hợp báo cáo — chạy nền, chỉ xem lại kết quả</td>
-        <td>Một mảng bảo trì — test không ổn định, doc lỗi thời, dependency — agent tự phát hiện &amp; tự sửa</td>
+        <td>Một hạng mục việc lặp lại theo định kỳ — rà soát nội dung, tổng hợp báo cáo — cứ để chạy nền, chỉ cần xem lại kết quả</td>
+        <td>Một mảng bảo trì riêng — test không ổn định, tài liệu lỗi thời, dependency — để agent tự phát hiện và tự sửa</td>
       </tr>
       <tr>
         <td class="lvl l5">CẤP 5<span>Thác lũ agent</span></td>
-        <td>Hiếm gặp ở quy mô cá nhân — cần một hệ vận hành đủ lớn để biện minh cho độ phức tạp</td>
-        <td>Một hệ thống lớn, chia nhỏ được — nhiều module chạy song song dưới một orchestrator</td>
+        <td>Rất hiếm gặp ở quy mô cá nhân — cần một hệ vận hành đủ lớn mới đáng để chấp nhận độ phức tạp này</td>
+        <td>Một hệ thống lớn, có thể chia nhỏ được — nhiều module chạy song song dưới một orchestrator chung</td>
       </tr>
     </table>
 
-    <div class="callout">Điểm chung ở mọi dòng: <b>độ tự chủ tăng theo mức độ "xong" được định nghĩa rõ tới đâu</b> — không theo việc bạn có biết code hay không. Một non-coder với brief rõ có thể vận hành ở Cấp 3-4 hiệu quả hơn một dev với yêu cầu mơ hồ đang mắc kẹt ở Cấp 2.</div>
+    <div class="callout">Có một điểm chung xuyên suốt mọi dòng trong bảng trên: <b>mức tự chủ tăng lên theo đúng mức độ mà "xong" được định nghĩa rõ ràng tới đâu</b> — không phải theo việc bạn có biết viết code hay không. Một người không biết code nhưng có một brief thật rõ có thể vận hành hiệu quả ở Cấp 3-4, tốt hơn hẳn một developer đang mắc kẹt ở Cấp 2 vì yêu cầu công việc vẫn còn mơ hồ.</div>
   </section>
 
   <!-- 08 QUAN TRỌNG HƠN LEVEL -->
   <section id="s08">
     <div class="sheet-tag">SHEET 08 — ĐIỀU QUAN TRỌNG HƠN "LÊN LEVEL"</div>
-    <h2>Mục tiêu không phải là chạm cấp cao nhất</h2>
-    <p class="lede">Phần lớn team mắc kẹt đâu đó giữa Cấp 2 và Cấp 3 — và nguyên nhân thường không phải công cụ, mà là <b>dùng có chủ đích hay chỉ dùng vì được yêu cầu.</b> Hỏi "cấp nào, cho loại việc nào" là điểm khởi đầu đúng hơn là hỏi "sao mình chưa lên Cấp 4".</p>
+    <h2>Mục tiêu không phải là chạm được cấp cao nhất</h2>
+    <p class="lede">Phần lớn các team hiện đang mắc kẹt đâu đó giữa Cấp 2 và Cấp 3 — và nguyên nhân của việc đó thường không nằm ở công cụ, mà nằm ở việc <b>dùng có chủ đích hay chỉ dùng vì bị yêu cầu phải dùng.</b> Câu hỏi nên đặt ra là "việc này hợp với cấp nào", chứ không phải "vì sao team mình chưa lên được Cấp 4" — đó mới là điểm khởi đầu đúng đắn hơn.</p>
 
     <div class="row3">
       <button class="block" data-key="s8-fit">
-        <span class="k">01</span><span class="t">Khớp việc với cấp, không leo cấp</span>
-        <span class="s">Ép một task mơ hồ lên Cấp 3 tạo ra rác cần dọn; giữ một task đã rõ ràng ở Cấp 2 là phí sự chú ý</span>
+        <span class="k">01</span><span class="t">Khớp việc với cấp phù hợp, thay vì cố leo cấp</span>
+        <span class="s">Ép một task còn mơ hồ lên hẳn Cấp 3 chỉ tạo ra một đống việc dọn dẹp về sau; còn giữ một task đã rất rõ ràng ở lại Cấp 2 thì lại đang phí đi sự chú ý không cần phí</span>
       </button>
       <button class="block" data-key="s8-pipeline">
-        <span class="k">02</span><span class="t">Pipeline/khả năng review là trần thật</span>
-        <span class="s">AI khuếch đại năng lực sẵn có của bạn — pipeline yếu, review chậm sẽ lộ rõ hơn, không tự nhiên biến mất</span>
+        <span class="k">02</span><span class="t">Pipeline và khả năng review chính là cái trần thật sự</span>
+        <span class="s">AI chỉ khuếch đại năng lực đã có sẵn của bạn — nếu pipeline đang yếu, review đang chậm, những điểm đó sẽ lộ ra rõ hơn, chứ không tự nhiên biến mất đi đâu</span>
       </button>
       <button class="block" data-key="s8-shift">
-        <span class="k">03</span><span class="t">Từ "người chỉ huy" thành "người thiết lập mục tiêu"</span>
-        <span class="s">Cấp 2 là chỉ huy thời gian thực; Cấp 3+ là đặt mục tiêu rồi soát kết quả — hai vai trò cần kỹ năng khác nhau, không phải cùng một việc "làm nhanh hơn"</span>
+        <span class="k">03</span><span class="t">Từ vai "người chỉ huy" chuyển thành vai "người thiết lập mục tiêu"</span>
+        <span class="s">Ở Cấp 2, bạn là người chỉ huy theo thời gian thực; còn từ Cấp 3 trở lên, bạn là người đặt mục tiêu rồi soát lại kết quả — đây là hai kỹ năng khác hẳn nhau, không đơn giản chỉ là "làm nhanh hơn" cùng một việc</span>
       </button>
     </div>
   </section>
@@ -636,31 +636,31 @@
   <section id="s09">
     <div class="sheet-tag">SHEET 09 — TƯ DUY GỐC KHI DÙNG AI XÂY HỆ THỐNG</div>
     <h2>Bốn nguyên tắc, không đổi theo công cụ</h2>
-    <p class="lede">Công cụ đổi mỗi tháng. Những câu hỏi dưới đây thì không — chúng là thứ quyết định việc dùng AI có tạo ra giá trị thật, hay chỉ tạo ra cảm giác đang tận dụng công nghệ.</p>
+    <p class="lede">Công cụ thì đổi liên tục, gần như mỗi tháng. Nhưng những câu hỏi dưới đây thì không đổi — chúng chính là thứ quyết định việc dùng AI có tạo ra giá trị thật, hay chỉ đang tạo ra cảm giác là mình "đang tận dụng công nghệ" mà thôi.</p>
 
     <div class="row2">
       <button class="block accent-amber" data-key="s9-done">
-        <span class="k">NGUYÊN TẮC 01</span><span class="t">Định nghĩa "xong" trước khi chọn cấp độ</span>
-        <span class="s">Nếu bạn mô tả được "xong" trong một câu không mơ hồ, agent có thể tự làm — đó là Cấp 3+. Nếu không, bạn cần ở trong vòng lặp — đó là Cấp 2</span>
+        <span class="k">NGUYÊN TẮC 01</span><span class="t">Định nghĩa rõ "xong" trước khi chọn cấp độ</span>
+        <span class="s">Nếu bạn mô tả được "xong" trong một câu không còn mơ hồ, agent có thể tự làm việc đó — nghĩa là bạn đang ở Cấp 3 trở lên. Nếu chưa mô tả được, bạn vẫn cần ở trong vòng lặp — nghĩa là bạn đang ở Cấp 2</span>
       </button>
       <button class="block accent-amber" data-key="s9-earn">
-        <span class="k">NGUYÊN TẮC 02</span><span class="t">Tự chủ phải được "kiếm", không phải được "muốn"</span>
-        <span class="s">Muốn nhanh hơn không tự động cho quyền tự chủ cao hơn — quyền đó chỉ nên trao khi phạm vi đủ rõ và lớp kiểm soát (CI/review) đủ vững</span>
+        <span class="k">NGUYÊN TẮC 02</span><span class="t">Mức tự chủ phải được "kiếm" lấy, không phải chỉ vì "muốn có"</span>
+        <span class="s">Muốn làm việc nhanh hơn không tự động cho bạn quyền trao mức tự chủ cao hơn — quyền đó chỉ nên được trao khi phạm vi công việc đã đủ rõ, và lớp kiểm soát như CI hay review đã đủ vững để bắt lỗi kịp thời</span>
       </button>
     </div>
     <div class="row2">
       <button class="block accent-amber" data-key="s9-oversight">
-        <span class="k">NGUYÊN TẮC 03</span><span class="t">Luôn có một tầng người giám sát, dù cấp nào</span>
-        <span class="s">Kể cả ở Cấp 5, giám sát không biến mất — nó chỉ dồn về đúng một điểm: tầng orchestrator, nơi con người vẫn theo dõi cả hệ</span>
+        <span class="k">NGUYÊN TẮC 03</span><span class="t">Luôn phải có một tầng người giám sát, bất kể ở cấp nào</span>
+        <span class="s">Ngay cả ở Cấp 5, sự giám sát của con người không biến mất đi đâu cả — nó chỉ dồn hết về đúng một điểm duy nhất: tầng orchestrator, nơi con người vẫn đang theo dõi cả hệ thống</span>
       </button>
       <button class="block accent-amber" data-key="s9-measure">
-        <span class="k">NGUYÊN TẮC 04</span><span class="t">Đo bằng kết quả, không đo bằng "đã dùng AI"</span>
-        <span class="s">Tỉ lệ merge, thời gian review, tỉ lệ task thành công — những số này nói thật hơn câu "team tôi dùng AI nhiều lắm"</span>
+        <span class="k">NGUYÊN TẮC 04</span><span class="t">Đo bằng kết quả thật, đừng đo bằng câu "đã có dùng AI"</span>
+        <span class="s">Tỉ lệ merge, thời gian review, tỉ lệ task hoàn thành thành công — những con số này nói lên sự thật rõ hơn nhiều so với câu "team tôi dùng AI nhiều lắm"</span>
       </button>
     </div>
   </section>
 
-  <footer>AI://5-CẤP-ĐỘ — tài liệu nội bộ · bấm bất kỳ khối nào để xem chi tiết<br>biên tập và bổ sung · by Binh Truong</footer>
+  <footer>AI://5-CẤP-ĐỘ — tài liệu nội bộ · bấm vào bất kỳ khối nào để xem giải thích chi tiết<br>biên tập và bổ sung · by Binh Truong</footer>
 </div>
 
 <div class="modal-backdrop" id="modalBackdrop">
@@ -675,163 +675,163 @@
 <script>
 const DETAILS = {
   lvl1: { tag:"CẤP 1 · ASSISTIVE", title:"Trợ lý tại chỗ", body:`
-    <p>Không phải "tự chủ" theo nghĩa thật. Agent chỉ thấy đúng thứ đang mở trước mắt bạn — không hơn — và không nhớ gì sau khi cửa sổ đóng lại.</p>
-    <p>Đặc điểm cốt lõi: <b>bạn tự tay quản lý ngữ cảnh</b>. Autocomplete phải phản hồi trong tức thời (mỗi lần gõ phím), nên nó buộc phải hạn chế lượng ngữ cảnh dùng được — đó là lý do kỹ thuật, không chỉ là lựa chọn thiết kế.</p>
-    <p>Ngay cả việc trò chuyện với ChatGPT rồi tự tay copy-paste kết quả vào chỗ khác cũng thuộc Cấp 1 — vì bạn vẫn là người chọn mỗi lần đưa gì vào, lấy gì ra.</p>
-    <p><b>Dùng khi:</b> việc gọn trong một file/một ô, bạn muốn giữ toàn quyền kiểm soát mỗi thay đổi, hoặc bạn đang làm quen với một hệ thống lạ. Chi phí setup gần như bằng không.</p>
-    <p><b>Giao diện kích hoạt:</b> cửa sổ chat trực tiếp (claude.ai, ChatGPT, Gemini) hoặc autocomplete inline trong IDE. Không cần cài agent, không cần tiến trình sống ngoài phiên làm việc.</p>`},
+    <p>Đây chưa phải "tự chủ" theo đúng nghĩa của từ đó. Agent ở cấp này chỉ thấy đúng những gì đang mở ra trước mắt bạn — không hơn — và không nhớ được gì cả sau khi cửa sổ đã đóng lại.</p>
+    <p>Đặc điểm cốt lõi cần nhớ: <b>chính bạn là người tự tay quản lý ngữ cảnh</b>. Vì autocomplete phải phản hồi ngay trong tức thời, ở mỗi lần gõ phím, nó buộc phải tự hạn chế lượng ngữ cảnh mà nó có thể dùng được — đây là một giới hạn kỹ thuật thật sự, không đơn thuần chỉ là một lựa chọn thiết kế.</p>
+    <p>Thậm chí việc trò chuyện với ChatGPT rồi tự tay copy-paste kết quả sang một chỗ khác cũng vẫn thuộc về Cấp 1 — vì suy cho cùng, bạn vẫn là người quyết định mỗi lần đưa gì vào, và lấy gì ra.</p>
+    <p><b>Nên dùng khi:</b> việc đã gọn trong một file hoặc một ô, bạn muốn giữ toàn quyền kiểm soát trên từng thay đổi, hoặc bạn đang làm quen với một hệ thống còn lạ lẫm. Chi phí để bắt đầu gần như bằng không.</p>
+    <p><b>Giao diện kích hoạt:</b> cửa sổ chat trực tiếp (claude.ai, ChatGPT, Gemini) hoặc autocomplete chạy ngay trong IDE. Không cần cài thêm agent nào, cũng không cần một tiến trình sống được ngoài phiên làm việc.</p>`},
   lvl2: { tag:"CẤP 2 · CONVERSATIONAL", title:"Hội thoại", body:`
-    <p>Giống ngồi cặp đôi với người đã đọc tài liệu bạn đưa — nhưng chưa từng thấy công việc thật trước đó. Kết quả tốt tới đâu phụ thuộc vào việc bạn định hướng nó rõ tới đâu.</p>
-    <p>Sự khác biệt với Cấp 1 là <b>ý định</b>: ở Cấp 1, agent đứng ngoài cố gắng giúp mà không hiểu bạn muốn gì; ở Cấp 2, bạn nói rõ mục tiêu, ràng buộc, và ngữ cảnh liên quan — chính điều này khiến việc đa file, đa bước trở nên khả thi.</p>
-    <p>Từ khoá là <b>tương tác</b>: agent di chuyển nhanh, nhưng bạn luôn là người quyết định nó đi đâu tiếp.</p>
-    <p><b>Dùng khi:</b> việc cần phán đoán, trải rộng nhiều phần, hoặc đủ mơ hồ để cần bạn định hướng liên tục.</p>
-    <p><b>Giao diện kích hoạt:</b> vẫn có thể là cửa sổ chat (claude.ai với nhiều lượt qua lại) — hoặc một CLI agent sống theo phiên như Claude Code, Cursor, Hermes CLI. Điểm chung: bạn có mặt suốt, phiên kết thúc khi bạn rời đi.</p>`},
+    <p>Cảm giác giống như ngồi cặp đôi với một người đã đọc hết tài liệu bạn đưa cho họ — nhưng lại chưa từng nhìn thấy công việc thật trước đó. Kết quả tốt đến đâu, phần nhiều phụ thuộc vào việc bạn định hướng cho nó rõ đến đâu.</p>
+    <p>Sự khác biệt với Cấp 1 nằm ở <b>ý định</b>: ở Cấp 1, agent đứng ngoài, cố gắng giúp bạn mà không hiểu bạn thật sự muốn gì; còn ở Cấp 2, bạn đã nói rõ mục tiêu, ràng buộc, và mọi ngữ cảnh liên quan — chính điều này mở đường cho những việc trải trên nhiều file, nhiều bước trở nên khả thi.</p>
+    <p>Từ khoá đáng nhớ ở đây là <b>tương tác</b>: agent di chuyển rất nhanh, nhưng bạn luôn là người quyết định nó sẽ đi đâu tiếp theo.</p>
+    <p><b>Nên dùng khi:</b> việc cần đến phán đoán, trải rộng trên nhiều phần, hoặc còn đủ mơ hồ để cần bạn định hướng liên tục.</p>
+    <p><b>Giao diện kích hoạt:</b> vẫn có thể chỉ là cửa sổ chat (claude.ai với nhiều lượt qua lại), hoặc một CLI agent sống theo từng phiên như Claude Code, Cursor, Hermes CLI. Điểm chung giữa hai cách này: bạn có mặt suốt, và phiên làm việc kết thúc ngay khi bạn rời đi.</p>`},
   lvl3: { tag:"CẤP 3 · TASK AGENT", title:"Task agent", body:`
-    <p>Bạn giao một việc, rồi quay lại nhận kết quả — không ngồi canh suốt quá trình. Đây là điểm mà "kỹ thuật agentic" (agentic engineering) thực sự bắt đầu có ý nghĩa.</p>
-    <p>Phép thử nhanh: <b>bạn có thể tạo ra kết quả này từ điện thoại, không cần mở laptop, không?</b> Nếu có — đây là Cấp 3.</p>
-    <p>Điểm khác biệt lớn: mọi bước đều để lại vết — nhánh, commit, PR đều được ghi lại, thường gắn ngược về việc gốc. Điều này giúp người khác xem lại, review, hoặc tự kích hoạt lại quy trình tương tự.</p>
-    <p><b>Điều kiện bắt buộc:</b> pipeline review phải đủ vững. AI ở cấp này khuếch đại năng lực sẵn có — pipeline yếu sẽ lộ rõ hơn, không tự khỏi.</p>
-    <p><b>Giao diện kích hoạt:</b> đây là ngưỡng thật — cửa sổ chat không đủ, vì phiên chat chết khi bạn đóng tab. Cần một agent bất đồng bộ: gán issue, tag trong PR/Slack, hoặc gọi qua API — agent chạy trong môi trường riêng, tách khỏi máy bạn.</p>`},
+    <p>Bạn giao hẳn một việc, rồi quay lại nhận kết quả — không cần ngồi canh suốt cả quá trình. Đây chính là điểm mà "kỹ thuật agentic" (agentic engineering) mới thực sự bắt đầu có ý nghĩa.</p>
+    <p>Có một phép thử rất nhanh để nhận ra: <b>bạn có thể tạo ra kết quả này ngay từ điện thoại, mà không cần mở laptop lên, được không?</b> Nếu được — đây chính là Cấp 3.</p>
+    <p>Điểm khác biệt lớn ở cấp này: mọi bước đều để lại dấu vết rõ ràng — nhánh, commit, PR đều được ghi lại đầy đủ, và thường gắn ngược về đúng việc gốc đã giao. Điều này giúp người khác dễ dàng xem lại, review, hoặc tự kích hoạt lại một quy trình tương tự về sau.</p>
+    <p><b>Điều kiện bắt buộc:</b> pipeline review của bạn phải đủ vững trước khi thử. AI ở cấp này đóng vai trò khuếch đại năng lực đã có sẵn — nếu pipeline đang yếu, điểm yếu đó sẽ lộ ra rõ hơn, chứ không tự nhiên khỏi được.</p>
+    <p><b>Giao diện kích hoạt:</b> đây là một ngưỡng thật sự — cửa sổ chat không còn đủ nữa, vì phiên chat sẽ chết ngay khi bạn đóng tab. Cần đến một agent bất đồng bộ: gán một issue, tag trong PR hoặc Slack, hay gọi qua API — agent sẽ chạy trong một môi trường riêng, tách hẳn khỏi máy của bạn.</p>`},
   lvl4: { tag:"CẤP 4 · AUTONOMOUS TEAMMATE", title:"Đồng nghiệp tự chủ", body:`
-    <p>Agent có một backlog hoặc mục tiêu, và tự chọn việc để làm — liên tục, không cần ai khởi động từng task.</p>
-    <p>Dependabot là ví dụ quen thuộc nhất: tự nhận diện dependency lỗi thời, tự mở PR, không ai giao hay lên lịch. Khác biệt với agent LLM ở Cấp 4 là Dependabot chạy theo luật cố định (rule-based), còn agent LLM chạy theo phán đoán — vừa là cơ hội, vừa là rủi ro.</p>
-    <p>Ứng viên tốt nhất cho Cấp 4: việc lặp lại đều, mà <b>chi phí điều phối còn cao hơn chính công việc đó</b> — test không ổn định, tài liệu lỗi thời, cập nhật dependency.</p>
-    <p><b>Không dùng khi:</b> việc biến động quá nhiều để định nghĩa một mục tiêu ổn định, hoặc gánh nặng review sẽ vượt quá thời gian tiết kiệm được.</p>
-    <p><b>Giao diện kích hoạt:</b> một tiến trình sống 24/7 — Gateway + Cron kiểu Hermes, hoặc dịch vụ quản lý như GitHub Agentic Workflows/Dependabot. Không có "phiên" để mở hay đóng; nó tự đánh thức theo lịch hoặc theo sự kiện.</p>`},
+    <p>Agent ở cấp này được giao một backlog hoặc một mục tiêu, và tự chọn lấy việc để làm — cứ thế liên tục, không cần ai đứng ra khởi động từng task một.</p>
+    <p>Dependabot là ví dụ quen thuộc nhất với hầu hết mọi người: nó tự nhận diện những dependency đã lỗi thời, rồi tự mở PR mà không ai phải giao hay lên lịch trước. Điểm khác biệt giữa Dependabot và một agent LLM ở Cấp 4 là Dependabot chạy theo những luật cố định đã viết sẵn (rule-based), còn agent LLM lại chạy theo phán đoán của chính nó — điều này vừa mở ra cơ hội, vừa mang theo rủi ro.</p>
+    <p>Ứng viên phù hợp nhất cho Cấp 4 là những việc lặp lại đều đặn, mà <b>chi phí điều phối còn cao hơn cả chính công việc đó</b> — chẳng hạn test không ổn định, tài liệu lỗi thời, hay việc cập nhật dependency.</p>
+    <p><b>Không nên dùng khi:</b> công việc biến động quá nhiều để có thể định nghĩa một mục tiêu ổn định, hoặc khi gánh nặng review sẽ vượt quá thời gian mà nó giúp bạn tiết kiệm được.</p>
+    <p><b>Giao diện kích hoạt:</b> một tiến trình sống suốt 24/7 — chẳng hạn Gateway kết hợp Cron kiểu Hermes, hoặc một dịch vụ được quản lý sẵn như GitHub Agentic Workflows hay Dependabot. Không còn khái niệm "phiên" để mở ra hay đóng lại nữa; nó tự đánh thức theo lịch hoặc theo sự kiện.</p>`},
   lvl5: { tag:"CẤP 5 · AGENTIC AVALANCHE", title:"Thác lũ agent", body:`
-    <p>Phần lớn team chưa ở đây, dù mạng xã hội có tạo cảm giác ngược lại. Nhiều agent làm việc cùng nhau: orchestrator sinh sub-agent, các agent điều phối qua nhiều task, con người chỉ giám sát tối thiểu ở tầng trên cùng.</p>
-    <p>Khái niệm kiến trúc cốt lõi là <b>orchestrator</b> — agent chia nhỏ một mục tiêu lớn và giao cho các sub-agent chuyên biệt. Đây cũng là nơi giám sát của con người thực sự nằm ở, dù sub-agent chạy tự do bên dưới.</p>
-    <p>Đây là vùng thực nghiệm ở biên (frontier) — đáng hiểu, nhưng chưa phải chiến lược cho phần lớn team. Coi nó là khoa học viễn tưởng cũng sai không kém.</p>
-    <p><b>Chỉ thử khi:</b> vấn đề đủ lớn, đủ chia nhỏ để chạy song song thật, và bạn đã làm chủ Cấp 3 &amp; 4 trước đó.</p>
-    <p><b>Giao diện kích hoạt:</b> một orchestrator process điều phối nhiều agent con — có thể tự sinh sub-agent trong cùng tiến trình (như Hermes <code>delegate_task</code>) hoặc điều phối qua hàng đợi task riêng. Không còn khái niệm "một cửa sổ chat" — cả hệ chạy như một dịch vụ.</p>`},
+    <p>Phần lớn team vẫn chưa đứng ở đây, dù mạng xã hội có khiến ta cảm thấy ngược lại. Ở cấp này, nhiều agent làm việc cùng nhau: một orchestrator sinh ra các sub-agent, các agent điều phối qua lại giữa nhiều task, còn con người chỉ còn giám sát ở mức tối thiểu, từ tầng trên cùng.</p>
+    <p>Khái niệm kiến trúc cốt lõi cần nắm ở đây là <b>orchestrator</b> — agent chia nhỏ một mục tiêu lớn ra rồi giao lại cho các sub-agent chuyên biệt. Đây cũng chính là nơi sự giám sát của con người thực sự đặt vào, cho dù các sub-agent bên dưới vẫn được chạy khá tự do.</p>
+    <p>Đây là một vùng thực nghiệm còn ở biên (frontier) — đáng để hiểu rõ, nhưng chưa phải là một chiến lược nên áp dụng cho phần lớn team lúc này. Xem nó như khoa học viễn tưởng cũng là một cách nhìn sai không kém.</p>
+    <p><b>Chỉ nên thử khi:</b> vấn đề đủ lớn, đủ khả năng chia nhỏ để chạy song song thật, và bạn đã thực sự làm chủ được Cấp 3 &amp; 4 từ trước.</p>
+    <p><b>Giao diện kích hoạt:</b> một orchestrator process điều phối nhiều agent con — có thể tự sinh sub-agent ngay trong cùng một tiến trình (như cách Hermes dùng <code>delegate_task</code>), hoặc điều phối qua một hàng đợi task riêng. Không còn khái niệm "một cửa sổ chat" nữa — cả hệ thống chạy như một dịch vụ đúng nghĩa.</p>`},
 
-  "l1-skillagent": { tag:"CẤP 1 · SKILL vs. AGENT", title:"Thuần skill — chưa có agent nào", body:`
-    <p>Ở Cấp 1, không có vòng lặp nào chạy độc lập. Bạn gõ, model trả lời hoặc gợi ý, xong — không có bước nào "tự nó" tiếp tục sau đó mà không cần bạn gõ tiếp.</p>
-    <p>Đây đúng nghĩa là <b>gọi một skill</b>: một năng lực được kích hoạt trong đúng một lượt, không giữ trạng thái, không tự quyết bước kế tiếp.</p>`},
+  "l1-skillagent": { tag:"CẤP 1 · SKILL vs. AGENT", title:"Thuần túy là skill — chưa có agent nào cả", body:`
+    <p>Ở Cấp 1, hoàn toàn không có vòng lặp nào chạy độc lập. Bạn gõ, model trả lời hoặc đưa ra gợi ý, thế là xong — không có bước nào "tự nó" tiếp tục chạy sau đó mà không cần bạn gõ tiếp.</p>
+    <p>Đây đúng nghĩa là <b>gọi ra một skill</b>: một năng lực được kích hoạt trong đúng một lượt, không giữ lại trạng thái nào, và cũng không tự quyết định bước kế tiếp.</p>`},
   "l1-count": { tag:"CẤP 1 · SỐ LƯỢNG AGENT", title:"0 (0–0)", body:`
-    <p>Không có agent nào đang chạy ở cấp này — theo đúng nghĩa "agent" là một tiến trình có vòng lặp riêng. Autocomplete và chat một lượt không tạo ra tiến trình nào sống ngoài lượt gõ của bạn.</p>`},
+    <p>Không có agent nào đang chạy ở cấp độ này — theo đúng nghĩa "agent" là một tiến trình có vòng lặp riêng của nó. Autocomplete và một lượt chat đơn giản không tạo ra bất kỳ tiến trình nào sống được ngoài lượt gõ của bạn.</p>`},
 
-  "l2-skillagent": { tag:"CẤP 2 · SKILL vs. AGENT", title:"Ranh giới mờ — kỹ thuật là agent, vận hành như skill", body:`
-    <p>Về mặt kỹ thuật, đã có một vòng lặp agent thật: model có thể tự gọi tool, đọc kết quả, quyết định bước tiếp theo. Nhưng về mặt <i>vận hành</i>, nó vẫn giống một skill được lái tay — vì bạn duyệt/từ chối mỗi thay đổi, và việc dừng lại ngay khi bạn không gõ tiếp.</p>
-    <p>Đây là lý do Cấp 2 thường bị gọi nhầm là "đã dùng agent" — công cụ đúng là agent, nhưng cách bạn dùng nó chưa khai thác phần "tự chủ" của agent đó.</p>`},
+  "l2-skillagent": { tag:"CẤP 2 · SKILL vs. AGENT", title:"Ranh giới còn mờ — kỹ thuật là agent, nhưng vận hành như skill", body:`
+    <p>Xét về mặt kỹ thuật, đã có một vòng lặp agent thật đang chạy: model có thể tự gọi tool, tự đọc kết quả, rồi tự quyết định bước tiếp theo. Nhưng xét về mặt <i>vận hành</i>, nó vẫn giống một skill được người lái tay — vì bạn vẫn duyệt hoặc từ chối từng thay đổi, và mọi việc dừng lại ngay khi bạn không gõ tiếp.</p>
+    <p>Đây cũng là lý do Cấp 2 thường bị gọi nhầm thành "đã dùng agent" — công cụ đúng là một agent thật, nhưng cách bạn đang dùng nó vẫn chưa khai thác hết phần "tự chủ" mà agent đó có thể mang lại.</p>`},
   "l2-count": { tag:"CẤP 2 · SỐ LƯỢNG AGENT", title:"1 (1–1)", body:`
-    <p>Luôn đúng một agent — một phiên CLI, một cửa sổ chat đang mở. Không có khái niệm "nhiều agent" ở cấp này, vì mọi việc đi qua đúng một luồng hội thoại mà bạn đang trực tiếp lái.</p>
-    <p>Agent này tắt khi bạn đóng cửa sổ/CLI — không có gì tiếp tục chạy sau đó.</p>`},
+    <p>Luôn luôn đúng một agent — một phiên CLI, hoặc một cửa sổ chat đang mở. Không có khái niệm "nhiều agent" ở cấp độ này, vì mọi việc đều đi qua đúng một luồng hội thoại mà bạn đang trực tiếp dẫn dắt.</p>
+    <p>Agent này tắt đi ngay khi bạn đóng cửa sổ hoặc CLI — không còn gì tiếp tục chạy sau đó nữa.</p>`},
 
-  "l3-skillagent": { tag:"CẤP 3 · SKILL vs. AGENT", title:"Chuyển hẳn sang agent — điểm không quay lại", body:`
-    <p>Đây là ranh giới thật của toàn bộ khung 5 cấp: agent tự chạy hết một task — lập kế hoạch, sửa, test, mở PR, phản hồi review — mà không cần bạn ở đó để "kéo" nó qua từng bước.</p>
-    <p>Nếu bạn tắt máy giữa lúc agent đang chạy, việc <b>vẫn tiếp tục</b> — đó là dấu hiệu rõ nhất phân biệt agent thật với skill được lái tay ở Cấp 1-2.</p>`},
-  "l3-count": { tag:"CẤP 3 · SỐ LƯỢNG AGENT", title:"1 mỗi task (tối thiểu 1, không có trần cứng)", body:`
-    <p>Mỗi task bạn giao sinh ra đúng một agent xử lý task đó. Bạn có thể giao nhiều task cùng lúc — nhiều agent sẽ chạy song song — nhưng <b>mỗi agent hoàn toàn độc lập</b>, không biết đến sự tồn tại của agent khác, không có ai điều phối giữa chúng.</p>
-    <p>Không có giới hạn cứng về số lượng — giới hạn thực tế nằm ở khả năng review của bạn, không nằm ở kiến trúc.</p>`},
+  "l3-skillagent": { tag:"CẤP 3 · SKILL vs. AGENT", title:"Chuyển hẳn sang agent — điểm không còn quay lại", body:`
+    <p>Đây chính là ranh giới thật của toàn bộ khung 5 cấp: agent tự chạy trọn vẹn một task — tự lập kế hoạch, tự sửa, tự test, tự mở PR, tự phản hồi review — mà không cần bạn ngồi đó để "kéo" nó đi qua từng bước.</p>
+    <p>Nếu bạn tắt máy ngay giữa lúc agent đang chạy, công việc <b>vẫn tiếp tục</b> — đây chính là dấu hiệu rõ ràng nhất để phân biệt một agent thật với một skill được người lái tay ở Cấp 1-2.</p>`},
+  "l3-count": { tag:"CẤP 3 · SỐ LƯỢNG AGENT", title:"1 agent cho mỗi task (tối thiểu 1, không có trần cứng)", body:`
+    <p>Mỗi task bạn giao ra sẽ sinh ra đúng một agent để xử lý task đó. Bạn có thể giao nhiều task cùng lúc — khi đó nhiều agent sẽ chạy song song với nhau — nhưng <b>mỗi agent vẫn hoàn toàn độc lập</b>, không biết đến sự tồn tại của agent khác, và không có ai điều phối giữa chúng cả.</p>
+    <p>Không có giới hạn cứng nào về số lượng — giới hạn trong thực tế nằm ở khả năng review của bạn, không nằm ở kiến trúc kỹ thuật.</p>`},
 
-  "l4-skillagent": { tag:"CẤP 4 · SKILL vs. AGENT", title:"Agent — chạy liên tục, tự khởi tạo việc", body:`
-    <p>Không còn ai bấm nút "chạy" mỗi lần. Agent tự quan sát một nguồn (dependency, test suite, nội dung), tự nhận diện khi có việc cần làm, và tự bắt đầu — theo lịch (cron) hoặc theo sự kiện.</p>
-    <p>Đây là agent theo đúng nghĩa đầy đủ nhất của "tự chủ": không chỉ tự chạy hết một task (như Cấp 3), mà còn <b>tự quyết định khi nào có task</b>.</p>`},
-  "l4-count": { tag:"CẤP 4 · SỐ LƯỢNG AGENT", title:"1 đến khoảng 5–10", body:`
-    <p>Thực tế thường là một agent chuyên trách cho mỗi loại việc bảo trì — ví dụ FlakyGuard chỉ lo flaky test, một agent khác chỉ lo doc, một agent khác chỉ lo dependency. Mỗi agent có mục tiêu riêng, chạy độc lập.</p>
-    <p>Số 5-10 là ước lượng thực tế cho một team cỡ vừa cấu hình vài hạng mục bảo trì khác nhau — không phải giới hạn kỹ thuật, mà là số hạng mục người ta thường thấy đáng tự động hoá cùng lúc trước khi độ phức tạp vượt tầm kiểm soát.</p>`},
+  "l4-skillagent": { tag:"CẤP 4 · SKILL vs. AGENT", title:"Đã là agent thật — chạy liên tục, tự khởi tạo việc cho mình", body:`
+    <p>Không còn ai phải bấm nút "chạy" mỗi lần nữa. Agent tự quan sát một nguồn dữ liệu nào đó (dependency, test suite, nội dung), tự nhận diện khi có việc cần làm, và tự bắt đầu — theo lịch định trước (cron) hoặc theo một sự kiện xảy ra.</p>
+    <p>Đây là agent theo đúng nghĩa đầy đủ nhất của từ "tự chủ": không chỉ tự chạy trọn vẹn một task như ở Cấp 3, mà còn <b>tự quyết định luôn khi nào có việc cần làm</b>.</p>`},
+  "l4-count": { tag:"CẤP 4 · SỐ LƯỢNG AGENT", title:"Từ 1 đến khoảng 5–10", body:`
+    <p>Trong thực tế, thường thấy nhất là một agent chuyên trách riêng cho mỗi loại việc bảo trì — chẳng hạn FlakyGuard chỉ lo về flaky test, một agent khác chỉ lo tài liệu, một agent khác nữa chỉ lo dependency. Mỗi agent có mục tiêu riêng của nó, và chạy hoàn toàn độc lập.</p>
+    <p>Con số 5-10 là một ước lượng thực tế cho một team cỡ vừa, khi họ cấu hình vài hạng mục bảo trì khác nhau cùng lúc — đây không phải một giới hạn kỹ thuật, mà là số hạng mục người ta thường thấy đáng để tự động hoá đồng thời, trước khi độ phức tạp vượt quá tầm kiểm soát.</p>`},
 
-  "l5-skillagent": { tag:"CẤP 5 · SKILL vs. AGENT", title:"Nhiều agent + orchestrator", body:`
-    <p>Không còn khái niệm "một agent" nữa. Một orchestrator đứng trên, tự sinh ra các agent con, giao việc, thu kết quả, và quyết định có cần sinh thêm agent nữa hay không.</p>
-    <p>Sự khác biệt cốt lõi với Cấp 4: ở Cấp 4, các agent chuyên trách <i>không biết đến nhau</i>. Ở Cấp 5, chúng <i>được điều phối như một hệ thống</i> bởi cùng một orchestrator.</p>`},
-  "l5-count": { tag:"CẤP 5 · SỐ LƯỢNG AGENT", title:"Tối thiểu 2, thực tế thường 3+, tối đa hàng nghìn", body:`
-    <p><b>Mức sàn kỹ thuật:</b> 2 — một orchestrator và một worker, vì không có orchestrator thì đây chỉ là Cấp 3/4 chạy song song, không phải Cấp 5.</p>
-    <p><b>Mô hình phổ biến trong thực tế:</b> 3 vai — Planner (chia việc), Worker (thực thi), Judge (đánh giá) — như kiến trúc Cursor FastRender.</p>
-    <p><b>Tối đa đã ghi nhận:</b> Cursor FastRender từng chạy tới 2.000 agent song song trong gần một tuần để tạo ra hơn 1 triệu dòng code. Đây không phải trần lý thuyết — chỉ là ví dụ lớn nhất được công bố tới nay.</p>`},
+  "l5-skillagent": { tag:"CẤP 5 · SKILL vs. AGENT", title:"Nhiều agent cộng với một orchestrator", body:`
+    <p>Không còn khái niệm "một agent" nữa. Một orchestrator đứng ở tầng trên, tự sinh ra các agent con, giao việc cho chúng, thu lại kết quả, và tự quyết định xem có cần sinh thêm agent nữa hay không.</p>
+    <p>Sự khác biệt cốt lõi so với Cấp 4 nằm ở đây: ở Cấp 4, các agent chuyên trách <i>không biết gì về nhau</i>. Còn ở Cấp 5, chúng <i>được điều phối như một hệ thống thống nhất</i>, dưới cùng một orchestrator.</p>`},
+  "l5-count": { tag:"CẤP 5 · SỐ LƯỢNG AGENT", title:"Tối thiểu 2, thực tế thường từ 3 trở lên, tối đa hàng nghìn", body:`
+    <p><b>Mức sàn về kỹ thuật:</b> là 2 — một orchestrator và một worker, vì nếu không có orchestrator, đây chỉ là Cấp 3 hoặc Cấp 4 chạy song song, chưa thể gọi là Cấp 5 được.</p>
+    <p><b>Mô hình phổ biến hơn trong thực tế:</b> là 3 vai — Planner để chia việc, Worker để thực thi, và Judge để đánh giá — đúng như kiến trúc mà Cursor FastRender đang dùng.</p>
+    <p><b>Mức tối đa đã ghi nhận được:</b> Cursor FastRender từng chạy tới 2.000 agent song song trong gần một tuần liền, để tạo ra hơn 1 triệu dòng code. Đây không phải là một trần lý thuyết cố định — chỉ đơn giản là ví dụ lớn nhất từng được công bố cho tới nay.</p>`},
 
-  "s1b-chatwindow": { tag:"SHEET 01B · KHỐI A", title:"Chỉ dùng cửa sổ chat — giới hạn ở đâu?", body:`
-    <p>Không có gì sai khi chỉ mở claude.ai, ChatGPT, hoặc Gemini và gõ trực tiếp — phần lớn giá trị hàng ngày của AI vẫn nằm ở đây. Vấn đề không phải là công cụ "kém", mà là <b>kiến trúc của một phiên chat</b>: nó tồn tại trong lúc bạn có mặt, và biến mất khi bạn đóng tab.</p>
-    <p>Điều đó tự nhiên đặt một trần: bạn có thể trò chuyện sâu, đa lượt, đa file (Cấp 2) — nhưng bạn không thể "giao việc rồi đi ngủ, sáng dậy nhận PR" (Cấp 3) chỉ bằng cửa sổ chat, vì không có gì chạy khi bạn không ở đó để gõ tiếp.</p>
-    <p>Đây không phải giới hạn của model — Claude/GPT/Gemini phía sau vẫn là "bộ não" như ở mọi cấp độ khác. Đây là giới hạn của giao diện bọc quanh nó.</p>`},
-  "s1b-harness": { tag:"SHEET 01B · KHỐI B", title:"Cần agent harness khi nào?", body:`
-    <p>Bạn cần một agent harness — một tiến trình chạy được ngoài phiên chat, như Hermes, Claude Code ở chế độ nền, GitHub Actions, hay một API server tự viết — ngay khi câu trả lời cho "ai kích hoạt việc này" không còn là "tôi, ngay bây giờ, đang ngồi đây".</p>
+  "s1b-chatwindow": { tag:"SHEET 01B · KHỐI A", title:"Chỉ dùng cửa sổ chat thôi — thì giới hạn nằm ở đâu?", body:`
+    <p>Chẳng có gì sai cả khi bạn chỉ mở claude.ai, ChatGPT, hoặc Gemini ra và gõ trực tiếp — phần lớn giá trị mà AI mang lại hàng ngày vẫn đang nằm đúng ở đây. Vấn đề không phải vì công cụ "kém", mà nằm ở <b>bản chất kiến trúc của một phiên chat</b>: nó chỉ tồn tại trong lúc bạn có mặt, và biến mất ngay khi bạn đóng tab lại.</p>
+    <p>Điều đó tự nhiên đặt ra một cái trần: bạn hoàn toàn có thể trò chuyện sâu, qua nhiều lượt, chạm tới nhiều file (Cấp 2) — nhưng bạn không thể làm kiểu "giao việc rồi đi ngủ, sáng dậy nhận PR" (Cấp 3) chỉ bằng cửa sổ chat, đơn giản vì không có gì chạy tiếp khi bạn không còn ở đó để gõ.</p>
+    <p>Đây không phải là giới hạn của model — Claude, GPT, hay Gemini phía sau vẫn đóng vai "bộ não" giống như ở mọi cấp độ khác. Đây là giới hạn của lớp giao diện đang bọc quanh nó.</p>`},
+  "s1b-harness": { tag:"SHEET 01B · KHỐI B", title:"Vậy khi nào thì cần một agent harness?", body:`
+    <p>Bạn cần đến một agent harness — một tiến trình chạy được ngoài phiên chat, chẳng hạn Hermes, Claude Code ở chế độ nền, GitHub Actions, hay một API server tự viết — ngay khi câu trả lời cho câu hỏi "ai kích hoạt việc này" không còn là "chính tôi, ngay bây giờ, đang ngồi ở đây" nữa.</p>
     <ul>
-      <li><b>Cấp 3 — bất đồng bộ:</b> bạn kích hoạt một lần (gán issue, tag trong PR), rồi rời đi. Cần một tiến trình nhận sự kiện đó và tự chạy tiếp.</li>
-      <li><b>Cấp 4 — tự khởi động:</b> không ai kích hoạt cả — cần một tiến trình sống 24/7, tự đánh thức theo lịch hoặc theo sự kiện (đây chính là vai trò của Cron/Gateway trong kiến trúc Hermes).</li>
-      <li><b>Cấp 5 — nhiều agent:</b> cần thêm một tầng orchestrator điều phối các agent con, vẫn chạy như một dịch vụ, không phải một phiên chat.</li>
+      <li><b>Cấp 3 — bất đồng bộ:</b> bạn kích hoạt đúng một lần (gán một issue, tag trong một PR), rồi rời đi làm việc khác. Cần một tiến trình nhận lấy sự kiện đó và tự chạy tiếp phần còn lại.</li>
+      <li><b>Cấp 4 — tự khởi động:</b> không cần ai kích hoạt cả — cần một tiến trình sống suốt 24/7, tự đánh thức theo lịch hoặc theo sự kiện (đây chính là vai trò của Cron và Gateway trong kiến trúc Hermes).</li>
+      <li><b>Cấp 5 — nhiều agent:</b> cần thêm một tầng orchestrator để điều phối các agent con, và cả hệ vẫn chạy như một dịch vụ, không phải một phiên chat đơn thuần.</li>
     </ul>
-    <p>Nói ngắn: cửa sổ chat trả lời "làm gì tiếp theo"; agent harness trả lời "ai chạy nó khi tôi không có ở đó".</p>`},
-  "l1-noncoder": { tag:"CẤP 1 · NON-CODER", title:"Gõ, dán, sửa câu — từng ô một", body:`
-    <p>Người không viết code trải nghiệm Cấp 1 qua những việc rất cụ thể: nhờ viết lại một câu email cho lịch sự hơn, sửa một công thức Excel, chỉnh câu chữ trên một slide.</p>
-    <p>Điểm chung: mỗi lần chỉ xử lý đúng một chỗ, và người dùng tự tay copy kết quả sang nơi cần dùng. Không có bước nào agent "tự nhớ" hay "tự nối" các việc lại với nhau.</p>`},
-  "l1-coder": { tag:"CẤP 1 · PROGRAMMER", title:"Autocomplete, sửa nhanh một file", body:`
-    <p>Copilot hay các gợi ý inline tương tự chỉ thấy file đang mở, đôi khi vài file liên quan gần đó — không có bức tranh toàn bộ dự án.</p>
-    <p>Vì phải phản hồi ở tốc độ gõ phím, công cụ này buộc phải giới hạn ngữ cảnh — đây là giới hạn kỹ thuật, không phải một lựa chọn có thể "mở rộng thêm" bằng cấu hình.</p>`},
-  "l1-condition": { tag:"CẤP 1 → CẤP 2", title:"Điều kiện lên Cấp 2", body:`
-    <p>Dấu hiệu rõ nhất: việc bắt đầu <b>trải rộng quá một cửa sổ/một file</b> — bạn thấy mình phải mở nhiều tab, dán qua dán lại ngữ cảnh giữa các lần hỏi.</p>
-    <p>Khi đó, chuyển sang một khung hội thoại có thể tự đọc nhiều file, giữ ngữ cảnh xuyên suốt, sẽ hiệu quả hơn việc bạn tiếp tục làm "người trung chuyển" ngữ cảnh bằng tay.</p>`},
-  "l1-usewhen": { tag:"CẤP 1", title:"Dùng khi nào / không khi nào", body:`
-    <p><b>Dùng khi:</b> việc gọn trong một file hoặc một ô, bạn muốn kiểm soát toàn bộ từng thay đổi, hoặc bạn đang làm quen với một hệ thống/tài liệu lạ. Chi phí setup gần như bằng không.</p>
-    <p><b>Không dùng khi:</b> việc trải rộng nhiều file hoặc cần hiểu ngữ cảnh rộng hơn cái đang mở — Cấp 1 không mở rộng được tới đó, vì bản chất kỹ thuật của nó không cho phép.</p>`},
+    <p>Nói ngắn gọn lại: cửa sổ chat trả lời câu hỏi "làm gì tiếp theo"; còn agent harness trả lời câu hỏi "ai sẽ chạy việc đó khi tôi không còn ở đây".</p>`},
+  "l1-noncoder": { tag:"CẤP 1 · NON-CODER", title:"Gõ, dán, sửa từng câu — từng ô một", body:`
+    <p>Người không viết code trải nghiệm Cấp 1 qua những việc rất cụ thể trong đời sống làm việc hàng ngày: nhờ viết lại một câu email cho lịch sự hơn, sửa lại một công thức Excel, hoặc chỉnh câu chữ trên một slide đang trình bày.</p>
+    <p>Điểm chung giữa tất cả những việc này: mỗi lần chỉ xử lý đúng một chỗ, và chính người dùng phải tự tay copy kết quả sang nơi cần dùng. Không có bước nào mà agent "tự nhớ" hay "tự nối" các việc lại với nhau cả.</p>`},
+  "l1-coder": { tag:"CẤP 1 · PROGRAMMER", title:"Autocomplete, sửa nhanh trong một file", body:`
+    <p>Copilot hay các công cụ gợi ý inline tương tự chỉ thấy được file đang mở, đôi khi thêm vài file liên quan gần đó — không có được bức tranh toàn bộ dự án.</p>
+    <p>Vì phải phản hồi ngay ở tốc độ gõ phím, những công cụ này buộc phải tự giới hạn lượng ngữ cảnh sử dụng — đây là một giới hạn kỹ thuật thật sự, không phải một lựa chọn có thể "mở rộng thêm" chỉ bằng cấu hình.</p>`},
+  "l1-condition": { tag:"CẤP 1 → CẤP 2", title:"Điều kiện để lên Cấp 2", body:`
+    <p>Dấu hiệu rõ nhất để nhận ra: công việc bắt đầu <b>trải rộng ra ngoài một cửa sổ hay một file</b> — bạn thấy mình phải mở nhiều tab, và cứ phải dán qua dán lại ngữ cảnh giữa các lần hỏi.</p>
+    <p>Khi đến lúc đó, chuyển sang một khung hội thoại có thể tự đọc nhiều file và giữ được ngữ cảnh xuyên suốt sẽ hiệu quả hơn nhiều, so với việc bạn cứ tiếp tục làm "người trung chuyển" ngữ cảnh bằng tay.</p>`},
+  "l1-usewhen": { tag:"CẤP 1", title:"Nên dùng khi nào, và không nên dùng khi nào", body:`
+    <p><b>Nên dùng khi:</b> công việc đã gọn trong một file hoặc một ô, bạn muốn kiểm soát toàn bộ từng thay đổi, hoặc bạn đang làm quen với một hệ thống hay tài liệu còn lạ lẫm. Chi phí để bắt đầu gần như bằng không.</p>
+    <p><b>Không nên dùng khi:</b> công việc đã trải rộng ra nhiều file, hoặc cần hiểu một ngữ cảnh rộng hơn cái đang mở — Cấp 1 không thể mở rộng tới đó được, vì bản chất kỹ thuật của nó không cho phép.</p>`},
 
-  "l2-noncoder": { tag:"CẤP 2 · NON-CODER", title:"Lập kế hoạch cùng AI, duyệt từng phần", body:`
-    <p>Một người làm marketing có thể nhờ AI lên outline một báo cáo, rồi duyệt outline đó, sau đó để AI viết từng phần theo đúng outline đã chốt — dừng lại kiểm tra ở mỗi phần trước khi cho viết tiếp.</p>
-    <p>Khác Cấp 1 ở chỗ: có một "kế hoạch" xuyên suốt nhiều phần, không phải từng câu rời rạc.</p>`},
-  "l2-coder": { tag:"CẤP 2 · PROGRAMMER", title:"Duyệt kế hoạch, chấp nhận/từ chối từng edit", body:`
-    <p>Yêu cầu agent đề xuất cách làm trước, review kỹ cách làm đó, rồi mới cho agent chỉnh sửa nhiều file — chấp nhận hoặc từ chối từng thay đổi, chạy test qua agent và đọc kết quả cùng nó.</p>
-    <p>Phần khó nhất của bài toán, nhiều dev vẫn chọn tự viết tay, để agent phụ trách phần khung/việc lặp.</p>`},
-  "l2-condition": { tag:"CẤP 2 → CẤP 3", title:"Điều kiện lên Cấp 3", body:`
-    <p>Khi bạn có thể mô tả "xong" trong một hoặc hai câu, <b>không còn mơ hồ</b>, và bạn tin CI hoặc review của con người sẽ bắt được lỗi — đó là lúc nên chuyển việc này lên Cấp 3.</p>
-    <p>Giữ một việc đã đủ rõ ở Cấp 2 nghĩa là bạn đang tiêu tốn sự chú ý mà việc đó không còn cần nữa.</p>`},
-  "l2-metrics": { tag:"CẤP 2 · ĐO LƯỜNG", title:"Dùng có chủ đích hay chỉ vì được yêu cầu?", body:`
-    <p>Câu hỏi đáng theo dõi ở Cấp 2 không phải "có dùng AI không" mà là "dùng có mục đích rõ hay chỉ vì công ty bảo dùng".</p>
-    <p>Một số tín hiệu: mức hài lòng qua khảo sát trải nghiệm dùng công cụ AI, tỉ lệ dùng chế độ hội thoại so với chế độ agent, và những phần nào của công việc/codebase đang thực sự được AI đụng tới.</p>`},
+  "l2-noncoder": { tag:"CẤP 2 · NON-CODER", title:"Cùng AI lập kế hoạch, rồi duyệt lại từng phần", body:`
+    <p>Một người làm marketing có thể nhờ AI lên outline cho một báo cáo, rồi duyệt lại outline đó, sau đó để AI viết từng phần theo đúng outline đã chốt — dừng lại kiểm tra ở mỗi phần trước khi cho viết tiếp phần kế.</p>
+    <p>Khác với Cấp 1 ở chỗ: giờ đã có một "kế hoạch" xuyên suốt nhiều phần, không còn là những câu rời rạc từng cái một nữa.</p>`},
+  "l2-coder": { tag:"CẤP 2 · PROGRAMMER", title:"Duyệt kế hoạch trước, rồi chấp nhận hoặc từ chối từng chỗ sửa", body:`
+    <p>Yêu cầu agent đề xuất cách làm trước, review kỹ cách làm đó, rồi mới cho agent chỉnh sửa trên nhiều file — chấp nhận hoặc từ chối từng thay đổi, chạy test qua agent và cùng nó đọc lại kết quả.</p>
+    <p>Phần khó nhất của bài toán, nhiều developer vẫn chọn tự tay viết, còn để agent phụ trách phần khung sườn hoặc những việc lặp lại.</p>`},
+  "l2-condition": { tag:"CẤP 2 → CẤP 3", title:"Điều kiện để lên Cấp 3", body:`
+    <p>Khi bạn có thể mô tả "xong" chỉ trong một hoặc hai câu, <b>không còn gì mơ hồ</b>, và bạn tin rằng CI hoặc sự review của con người sẽ bắt được lỗi nếu có — đó chính là lúc nên chuyển việc này lên Cấp 3.</p>
+    <p>Việc cứ giữ một công việc đã đủ rõ ràng ở lại Cấp 2 nghĩa là bạn đang tiêu tốn sự chú ý mà công việc đó không còn cần đến nữa.</p>`},
+  "l2-metrics": { tag:"CẤP 2 · ĐO LƯỜNG", title:"Bạn dùng có chủ đích, hay chỉ vì được yêu cầu phải dùng?", body:`
+    <p>Câu hỏi đáng theo dõi ở Cấp 2 không phải là "có dùng AI hay không", mà là "việc dùng đó có mục đích rõ ràng, hay chỉ vì công ty bảo phải dùng".</p>
+    <p>Một vài tín hiệu đáng nhìn vào: mức hài lòng qua các khảo sát về trải nghiệm dùng công cụ AI, tỉ lệ dùng chế độ hội thoại so với chế độ agent, và những phần nào trong công việc hay codebase đang thực sự được AI đụng tới.</p>`},
 
-  "l3-noncoder": { tag:"CẤP 3 · NON-CODER", title:"Giao hẳn một việc có 'xong' rõ ràng", body:`
-    <p>Ví dụ: giao agent nghiên cứu một thị trường theo tiêu chí cho sẵn, soạn một bản đề xuất theo template đã có cấu trúc — rồi bạn quay lại, nhận bản gần hoàn chỉnh để duyệt lần cuối, không cần theo dõi từng bước viết.</p>
-    <p>Điều kiện để việc này thành công: brief đủ rõ để "xong" không còn là câu hỏi mở.</p>`},
-  "l3-coder": { tag:"CẤP 3 · PROGRAMMER", title:"Gán issue, nhận PR để review", body:`
-    <p>Gán một GitHub issue cho Copilot coding agent, hoặc nhắc @claude trong một PR comment. Agent tự clone repo, làm việc trong môi trường cloud tách biệt, chạy CI của bạn, mở draft PR, rồi chờ review.</p>
-    <p>Đây cũng là nơi phép thử "làm từ điện thoại được không" áp dụng rõ nhất.</p>`},
-  "l3-condition": { tag:"CẤP 3 → CẤP 4", title:"Điều kiện lên Cấp 4", body:`
-    <p>Khi một việc không còn là "một task tôi giao hôm nay" mà trở thành <b>một hạng mục luôn tồn tại</b> — luôn có test không ổn định cần fix, luôn có tài liệu bị lệch — đó là lúc đáng cấu hình để agent tự nhận diện và xử lý, không cần ai giao mỗi lần.</p>`},
-  "l3-pipeline": { tag:"CẤP 3 · ĐIỀU KIỆN BẮT BUỘC", title:"Pipeline review phải đủ vững trước", body:`
-    <p>Theo DORA Report 2025: AI đóng vai trò bộ khuếch đại, không phải thuốc chữa. Team có quy trình kỹ thuật tốt sẽ hưởng lợi rõ; team có điểm nghẽn sẵn sẽ thấy điểm nghẽn đó lộ ra rõ hơn — không tự biến mất.</p>
-    <p>Cụ thể, mức dùng AI cao tương quan với PR lớn hơn và thời gian review dài hơn. Nếu review đang là điểm nghẽn, Cấp 3 nhiều khả năng sẽ làm nó tệ hơn trước khi có thể giúp cải thiện.</p>`},
+  "l3-noncoder": { tag:"CẤP 3 · NON-CODER", title:"Giao hẳn một việc đã có 'xong' được định nghĩa rõ ràng", body:`
+    <p>Ví dụ cụ thể: giao cho agent tự nghiên cứu một thị trường theo những tiêu chí cho sẵn, hay soạn một bản đề xuất theo đúng template đã có cấu trúc sẵn — rồi bạn quay lại, nhận về bản gần như hoàn chỉnh để duyệt lần cuối, không cần theo dõi từng bước viết ra sao.</p>
+    <p>Điều kiện để việc này thành công: cái brief phải đủ rõ, để "xong" không còn là một câu hỏi bỏ mở.</p>`},
+  "l3-coder": { tag:"CẤP 3 · PROGRAMMER", title:"Gán một issue, rồi chỉ cần nhận PR về để review", body:`
+    <p>Gán một GitHub issue cho Copilot coding agent, hoặc nhắc @claude ngay trong một PR comment. Agent sẽ tự clone repo, tự làm việc trong một môi trường cloud tách biệt, tự chạy CI của bạn, tự mở một draft PR, rồi mới chờ được review.</p>
+    <p>Đây cũng chính là nơi phép thử "làm được từ điện thoại hay không" áp dụng rõ nhất.</p>`},
+  "l3-condition": { tag:"CẤP 3 → CẤP 4", title:"Điều kiện để lên Cấp 4", body:`
+    <p>Khi một việc không còn là "một task tôi giao hôm nay" nữa, mà trở thành <b>một hạng mục luôn luôn tồn tại</b> — luôn có test không ổn định cần fix, luôn có tài liệu bị lệch khỏi thực tế — đó chính là lúc đáng cấu hình để agent tự nhận diện và tự xử lý, không cần ai giao mỗi lần nữa.</p>`},
+  "l3-pipeline": { tag:"CẤP 3 · ĐIỀU KIỆN BẮT BUỘC", title:"Pipeline review phải đủ vững trước khi thử", body:`
+    <p>Theo DORA Report 2025: AI đóng vai trò một bộ khuếch đại, không phải một thứ thuốc chữa bách bệnh. Team nào đang có quy trình kỹ thuật tốt sẽ hưởng lợi rõ ràng; còn team nào đang có điểm nghẽn sẵn sẽ thấy chính điểm nghẽn đó lộ ra rõ hơn — chứ không tự nhiên biến mất đi đâu.</p>
+    <p>Cụ thể hơn, mức dùng AI cao có tương quan với những PR lớn hơn và thời gian review kéo dài hơn. Nếu review đang là điểm nghẽn của team bạn, Cấp 3 nhiều khả năng sẽ khiến nó tệ hơn trước, rồi mới có thể giúp cải thiện được.</p>`},
 
-  "l4-noncoder": { tag:"CẤP 4 · NON-CODER", title:"Đặt mục tiêu định kỳ, không đặt từng việc", body:`
-    <p>Cấu hình một agent tự rà soát nội dung marketing đã lỗi thời mỗi tuần, hoặc tự soạn báo cáo tồn kho mỗi sáng — không có ai bấm nút "chạy" mỗi lần, chỉ có người xem lại kết quả.</p>`},
-  "l4-coder": { tag:"CẤP 4 · PROGRAMMER", title:"Agent chuyên trách một mảng bảo trì", body:`
-    <p>Uber triển khai FlakyGuard xử lý báo cáo test không ổn định hàng ngày, hoàn toàn tự động: trong 6 tháng, xử lý 1.115 test không ổn định, tái hiện được 798, tạo fix cho 380, và merge thành công 197 sau khi được dev duyệt.</p>
-    <p>GitHub's Agentic Workflows có sẵn Daily Test Improver (theo dõi coverage, tự thêm test) và Daily Documentation Updater (giữ doc khớp với PR đã merge).</p>`},
-  "l4-condition": { tag:"CẤP 4 → CẤP 5", title:"Điều kiện thử Cấp 5", body:`
-    <p>Chỉ đáng thử khi một agent không còn đủ cho quy mô vấn đề — cần nhiều vai chuyên biệt chạy song song — <b>và bạn đã làm chủ Cấp 3 &amp; 4 trước đó</b>. Không nên thử vì "muốn chạy nhiều agent hơn" mà không có lý do quy mô thực sự.</p>`},
-  "l4-risk": { tag:"CẤP 4 · RỦI RO", title:"Review có thể trở thành gánh nặng mới", body:`
-    <p>Agent tự chủ giảm chi phí điều phối (không cần ai giao việc), nhưng có thể tạo ra gánh nặng review tương đương hoặc hơn — nếu mỗi PR agent tạo ra vẫn cần soi kỹ từng dòng, bạn chỉ chuyển việc điều phối sang việc review, không thực sự tiết kiệm.</p>
-    <p>Cách giữ an toàn: giữ phạm vi mỗi việc nhỏ, CI mạnh, diff rõ ràng dễ đọc.</p>`},
+  "l4-noncoder": { tag:"CẤP 4 · NON-CODER", title:"Đặt ra mục tiêu định kỳ, không đặt từng việc lẻ tẻ", body:`
+    <p>Cấu hình một agent để nó tự rà soát nội dung marketing đã lỗi thời mỗi tuần, hoặc tự soạn báo cáo tồn kho vào mỗi buổi sáng — không cần ai bấm nút "chạy" mỗi lần, chỉ cần có người xem lại kết quả sau đó.</p>`},
+  "l4-coder": { tag:"CẤP 4 · PROGRAMMER", title:"Một agent chuyên trách riêng cho một mảng bảo trì", body:`
+    <p>Uber triển khai FlakyGuard để xử lý báo cáo về những test không ổn định mỗi ngày, hoàn toàn tự động: trong 6 tháng, hệ này đã xử lý 1.115 test không ổn định, tái hiện lại được 798 trong số đó, tạo fix cho 380, và merge thành công 197 sau khi được dev duyệt qua.</p>
+    <p>GitHub's Agentic Workflows cũng có sẵn Daily Test Improver (theo dõi coverage và tự thêm test) cùng Daily Documentation Updater (giữ tài liệu luôn khớp với những PR đã merge).</p>`},
+  "l4-condition": { tag:"CẤP 4 → CẤP 5", title:"Điều kiện nên thử trước khi lên Cấp 5", body:`
+    <p>Chỉ đáng thử khi một agent duy nhất không còn đủ cho quy mô của vấn đề — khi cần nhiều vai chuyên biệt chạy song song với nhau — <b>và bạn đã thực sự làm chủ được Cấp 3 &amp; 4 từ trước đó</b>. Không nên thử chỉ vì "muốn chạy nhiều agent hơn cho vui", mà không có một lý do về quy mô thực sự đứng sau.</p>`},
+  "l4-risk": { tag:"CẤP 4 · RỦI RO", title:"Việc review có thể biến thành một gánh nặng mới", body:`
+    <p>Một agent tự chủ giúp giảm chi phí điều phối, vì không cần ai giao việc nữa — nhưng nó cũng có thể tạo ra một gánh nặng review tương đương hoặc còn nặng hơn. Nếu mỗi PR mà agent tạo ra vẫn cần được soi kỹ từng dòng, bạn chỉ đang chuyển việc điều phối sang việc review, mà không thực sự tiết kiệm được gì cả.</p>
+    <p>Cách để giữ an toàn: giữ phạm vi mỗi việc nhỏ lại, CI đủ mạnh, và diff luôn rõ ràng, dễ đọc.</p>`},
 
-  "l5-noncoder": { tag:"CẤP 5 · NON-CODER", title:"Hầu như chưa chạm tới ở quy mô cá nhân", body:`
-    <p>Ứng dụng gần nhất mà một non-coder có thể gặp: một "dàn" agent content tự nghiên cứu chủ đề, viết bản thảo, kiểm duyệt theo brand guideline, rồi lên lịch đăng — nhưng vẫn cần một người ở vai trò orchestrator theo dõi toàn hệ, không phải để mặc chạy hoàn toàn.</p>`},
+  "l5-noncoder": { tag:"CẤP 5 · NON-CODER", title:"Hầu như vẫn chưa chạm tới ở quy mô cá nhân", body:`
+    <p>Ứng dụng gần gũi nhất mà một người không viết code có thể gặp: một "dàn" agent content tự nghiên cứu chủ đề, tự viết bản thảo, tự kiểm duyệt theo brand guideline, rồi tự lên lịch đăng — nhưng vẫn cần một người đứng ở vai trò orchestrator để theo dõi toàn hệ, không phải để mặc cho nó chạy hoàn toàn một mình.</p>`},
   "l5-coder": { tag:"CẤP 5 · PROGRAMMER", title:"Kiến trúc Planner → Worker → Judge", body:`
-    <p>Dự án FastRender của Cursor: kiến trúc ba tầng — Planner chia mục tiêu lớn thành việc nhỏ, Worker thực thi độc lập, Judge đánh giá chất lượng và quyết định tiếp tục hay không — chạy tới 2.000 agent song song trong gần một tuần, tạo ra hơn 1 triệu dòng code trên 1.000 file, 30.000 commit.</p>`},
-  "l5-notyet": { tag:"CẤP 5 · CHƯA NÊN THỬ", title:"Khi việc phức tạp nhưng tuần tự", body:`
-    <p>Nếu vấn đề không thể chia nhỏ để chạy song song thật — nghĩa là các bước phải làm theo thứ tự, phụ thuộc chặt vào nhau — một agent duy nhất đi từng bước (kiểu Cấp 2) thường vẫn tốt hơn. Đa agent ở đây chỉ cộng thêm độ phức tạp, không cộng thêm giá trị.</p>`},
-  "l5-debug": { tag:"CẤP 5 · CÁI GIÁ PHẢI TRẢ", title:"Debug đa-agent khó hơn hẳn", body:`
-    <p>Lỗi trong hệ nhiều agent khó chẩn đoán hơn nhiều so với lỗi một agent đơn — vì lỗi có thể phát sinh từ tương tác giữa các agent, không chỉ từ logic một agent.</p>
-    <p>Cần nghĩ trước: ranh giới tin cậy (trust boundary) — sub-agent được tự quyết gì, cái gì phải đẩy lên orchestrator hoặc con người; và luôn có người giám sát ở tầng orchestrator, dù sub-agent chạy tự do.</p>`},
+    <p>Dự án FastRender của Cursor dùng một kiến trúc ba tầng: Planner chia mục tiêu lớn thành những việc nhỏ hơn, Worker thực thi độc lập, còn Judge đánh giá chất lượng và quyết định có nên tiếp tục hay không — toàn bộ hệ này chạy tới 2.000 agent song song trong gần một tuần liền, tạo ra hơn 1 triệu dòng code trên 1.000 file, với 30.000 commit.</p>`},
+  "l5-notyet": { tag:"CẤP 5 · CHƯA NÊN THỬ", title:"Khi việc phức tạp nhưng phải làm theo thứ tự", body:`
+    <p>Nếu vấn đề không thể chia nhỏ để chạy song song thật — nghĩa là các bước buộc phải làm theo đúng thứ tự, phụ thuộc chặt chẽ vào nhau — thì một agent duy nhất đi từng bước (kiểu Cấp 2) thường vẫn là lựa chọn tốt hơn. Dùng nhiều agent trong trường hợp này chỉ cộng thêm độ phức tạp, mà không cộng thêm giá trị gì cả.</p>`},
+  "l5-debug": { tag:"CẤP 5 · CÁI GIÁ PHẢI TRẢ", title:"Debug một hệ nhiều agent khó hơn hẳn", body:`
+    <p>Lỗi trong một hệ nhiều agent khó chẩn đoán hơn rất nhiều so với lỗi ở một agent đơn — vì lỗi có thể phát sinh từ chính sự tương tác giữa các agent với nhau, không chỉ từ logic bên trong một agent.</p>
+    <p>Cần phải nghĩ trước những điều sau: ranh giới tin cậy (trust boundary) — sub-agent được tự quyết định điều gì, và điều gì buộc phải đẩy lên cho orchestrator hoặc con người; và luôn phải có người giám sát ở tầng orchestrator, dù các sub-agent bên dưới vẫn được chạy khá tự do.</p>`},
 
-  "s8-fit": { tag:"QUAN TRỌNG HƠN LEVEL · 01", title:"Khớp việc với cấp, không leo cấp", body:`
-    <p>Trước khi chọn công cụ, hỏi "xong" của việc này trông như thế nào. Nếu mô tả được rõ trong một câu, agent có thể tự làm mà không cần bạn theo dõi — đó là Cấp 3 trở lên. Nếu không mô tả được, bạn cần ở trong vòng lặp — đó là Cấp 2.</p>
-    <p>Ép một task còn mơ hồ lên Cấp 3 để "cho nhanh" thường tạo ra việc dọn dẹp sau đó tốn hơn việc tự làm ban đầu.</p>`},
-  "s8-pipeline": { tag:"QUAN TRỌNG HƠN LEVEL · 02", title:"Pipeline/khả năng review là trần thật", body:`
-    <p>AI khuếch đại năng lực đã có, không thay thế nó. Nếu quy trình review, kiểm thử, hoặc quy trình duyệt nội dung của bạn đang yếu, việc thêm agent tự chủ sẽ khiến điểm yếu đó hiện rõ hơn, nhanh hơn — trước khi có cơ hội mang lại lợi ích.</p>`},
-  "s8-shift": { tag:"QUAN TRỌNG HƠN LEVEL · 03", title:"Từ 'người chỉ huy' thành 'người thiết lập mục tiêu'", body:`
-    <p>Ở Cấp 2, bạn là "conductor" — chỉ huy trực tiếp theo thời gian thực. Ở Cấp 3 trở lên, bạn là "orchestrator" — người đặt mục tiêu và soát lại kết quả, không còn theo dõi từng bước.</p>
-    <p>Đây là hai kỹ năng khác nhau, không phải cùng một kỹ năng "làm nhanh hơn". Nhảy cấp mà không đổi cách tư duy vận hành thường là lý do một team "có công cụ Cấp 3" nhưng vẫn dùng nó như Cấp 2.</p>`},
+  "s8-fit": { tag:"QUAN TRỌNG HƠN LEVEL · 01", title:"Khớp việc với cấp phù hợp, thay vì cố leo cấp", body:`
+    <p>Trước khi chọn công cụ, hãy tự hỏi "xong" của việc này trông như thế nào. Nếu mô tả được rõ ràng trong một câu, agent có thể tự làm mà không cần bạn theo dõi — đó là Cấp 3 trở lên. Nếu chưa mô tả được, bạn vẫn cần ở trong vòng lặp — đó là Cấp 2.</p>
+    <p>Ép một task còn mơ hồ lên hẳn Cấp 3 chỉ để "cho nhanh" thường tạo ra một đống việc dọn dẹp sau đó, tốn công hơn cả việc tự làm ngay từ đầu.</p>`},
+  "s8-pipeline": { tag:"QUAN TRỌNG HƠN LEVEL · 02", title:"Pipeline và khả năng review chính là cái trần thật sự", body:`
+    <p>AI chỉ khuếch đại năng lực đã có sẵn, không thay thế nó. Nếu quy trình review, kiểm thử, hoặc quy trình duyệt nội dung của bạn đang yếu, việc thêm một agent tự chủ vào sẽ khiến điểm yếu đó hiện ra rõ hơn, nhanh hơn — trước khi nó có cơ hội mang lại lợi ích thật sự nào.</p>`},
+  "s8-shift": { tag:"QUAN TRỌNG HƠN LEVEL · 03", title:"Từ vai 'người chỉ huy' chuyển thành vai 'người thiết lập mục tiêu'", body:`
+    <p>Ở Cấp 2, bạn đóng vai "conductor" — người chỉ huy trực tiếp theo thời gian thực. Còn từ Cấp 3 trở lên, bạn đóng vai "orchestrator" — người đặt mục tiêu rồi soát lại kết quả, không còn theo dõi từng bước nữa.</p>
+    <p>Đây là hai kỹ năng khác hẳn nhau, không đơn giản chỉ là cùng một kỹ năng "làm nhanh hơn". Nhảy lên một cấp cao hơn mà không đổi luôn cách tư duy vận hành thường là lý do khiến một team "có sẵn công cụ Cấp 3" nhưng vẫn đang dùng nó theo kiểu Cấp 2.</p>`},
 
-  "s9-done": { tag:"TƯ DUY GỐC · 01", title:"Định nghĩa 'xong' trước khi chọn cấp độ", body:`
-    <p>Đây là câu hỏi gốc của toàn bộ khung 5 cấp: nếu bạn có thể mô tả "xong" trong một câu không mơ hồ, một agent có thể xử lý mà không cần bạn theo dõi trực tiếp. Nếu không thể, bạn cần ở trong vòng lặp.</p>
-    <p>Câu hỏi này áp dụng được cho cả người viết code và người không viết code — nó không phụ thuộc vào công cụ, mà phụ thuộc vào chính bản chất công việc.</p>`},
-  "s9-earn": { tag:"TƯ DUY GỐC · 02", title:"Tự chủ phải được 'kiếm', không phải được 'muốn'", body:`
-    <p>Muốn agent chạy nhanh, tự động hơn không tự động đủ điều kiện để trao quyền tự chủ cao hơn. Quyền tự chủ chỉ nên tăng khi hai điều kiện cùng đúng: phạm vi việc đủ rõ, và lớp kiểm soát (CI, review, quy trình duyệt) đủ vững để bắt lỗi khi agent sai.</p>
-    <p>Thiếu một trong hai, việc "lên cấp" chỉ là chuyển rủi ro từ chỗ bạn thấy được sang chỗ bạn không thấy.</p>`},
-  "s9-oversight": { tag:"TƯ DUY GỐC · 03", title:"Luôn có một tầng người giám sát, dù cấp nào", body:`
-    <p>Giám sát của con người không biến mất khi lên cấp cao hơn — nó chỉ dồn về đúng một điểm duy nhất. Ở Cấp 2, giám sát rải đều theo từng bước. Ở Cấp 5, giám sát dồn về tầng orchestrator, nơi một người vẫn theo dõi cả hệ dù không can thiệp vào từng sub-agent.</p>
-    <p>Một hệ thống "tự chủ hoàn toàn, không ai giám sát" không phải là cấp cao hơn — đó là một hệ thống thiếu tầng orchestrator, và đó là lỗ hổng, không phải tính năng.</p>`},
-  "s9-measure": { tag:"TƯ DUY GỐC · 04", title:"Đo bằng kết quả, không đo bằng 'đã dùng AI'", body:`
-    <p>"Team tôi dùng AI nhiều" không nói lên điều gì về giá trị thật. Những số đáng theo dõi hơn: tỉ lệ merge (bao nhiêu PR agent tạo ra được merge thật), thời gian review mỗi PR agent, tỉ lệ task agent tự khởi động thành công, và xu hướng theo thời gian.</p>
-    <p>Đây cũng là cách duy nhất để biết một team đang thực sự tiến lên cấp cao hơn, hay chỉ đang tạo ra nhiều việc hơn để review.</p>`},
+  "s9-done": { tag:"TƯ DUY GỐC · 01", title:"Định nghĩa rõ 'xong' trước khi chọn cấp độ", body:`
+    <p>Đây là câu hỏi gốc của toàn bộ khung 5 cấp: nếu bạn có thể mô tả "xong" trong một câu không còn mơ hồ, một agent có thể xử lý việc đó mà không cần bạn theo dõi trực tiếp. Nếu chưa thể, bạn vẫn cần ở trong vòng lặp.</p>
+    <p>Câu hỏi này áp dụng được cho cả người viết code và người không viết code — nó không phụ thuộc vào công cụ đang dùng, mà phụ thuộc vào chính bản chất của công việc.</p>`},
+  "s9-earn": { tag:"TƯ DUY GỐC · 02", title:"Mức tự chủ phải được 'kiếm' lấy, không phải chỉ vì 'muốn có'", body:`
+    <p>Muốn agent chạy nhanh hơn, tự động hơn không tự động đủ điều kiện để trao cho nó quyền tự chủ cao hơn. Mức tự chủ chỉ nên tăng lên khi hai điều kiện cùng đúng: phạm vi công việc đã đủ rõ, và lớp kiểm soát — CI, review, quy trình duyệt — đã đủ vững để bắt được lỗi khi agent làm sai.</p>
+    <p>Thiếu một trong hai điều kiện đó, việc "lên cấp" chỉ đơn giản là chuyển rủi ro từ một chỗ bạn thấy được, sang một chỗ bạn không còn thấy được nữa.</p>`},
+  "s9-oversight": { tag:"TƯ DUY GỐC · 03", title:"Luôn phải có một tầng người giám sát, bất kể ở cấp nào", body:`
+    <p>Sự giám sát của con người không biến mất khi lên một cấp cao hơn — nó chỉ dồn hết về đúng một điểm duy nhất. Ở Cấp 2, sự giám sát rải đều theo từng bước. Ở Cấp 5, nó dồn về tầng orchestrator, nơi một người vẫn đang theo dõi cả hệ, dù không còn can thiệp vào từng sub-agent riêng lẻ.</p>
+    <p>Một hệ thống "tự chủ hoàn toàn, không ai giám sát" không phải là một cấp cao hơn — đó chỉ là một hệ thống đang thiếu tầng orchestrator, và đó là một lỗ hổng, không phải là một tính năng.</p>`},
+  "s9-measure": { tag:"TƯ DUY GỐC · 04", title:"Đo bằng kết quả thật, đừng đo bằng câu 'đã có dùng AI'", body:`
+    <p>Câu "team tôi dùng AI nhiều lắm" không nói lên được điều gì về giá trị thật cả. Những con số đáng theo dõi hơn nhiều: tỉ lệ merge (bao nhiêu phần trăm PR do agent tạo ra thực sự được merge), thời gian review cho mỗi PR của agent, tỉ lệ task mà agent tự khởi động thành công, và xu hướng của những con số này theo thời gian.</p>
+    <p>Đây cũng là cách duy nhất để biết một team đang thực sự tiến lên một cấp cao hơn, hay chỉ đang tạo ra thêm nhiều việc hơn để người khác phải review.</p>`},
 };
 
 const backdrop = document.getElementById('modalBackdrop');
