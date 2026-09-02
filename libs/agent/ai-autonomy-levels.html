@@ -1,0 +1,868 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>5 cấp độ tự chủ khi dùng AI &amp; AI-agent</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#faf9f6;
+    --panel:#ffffff;
+    --panel-2:#f4f2ec;
+    --line:#e6e2d8;
+    --line-strong:#cfc9ba;
+    --ink:#1e1c16;
+    --ink-dim:#5c5748;
+    --ink-faint:#948d7b;
+    --amber:#a5620b;
+    --amber-bg:#faeeda;
+    --amber-line:#e6a94f;
+    --teal:#0f6e56;
+    --teal-bg:#e1f5ee;
+    --coral:#8a381a;
+    --coral-bg:#faece7;
+    --violet:#3c3489;
+    --violet-bg:#eeedfe;
+    --pink:#72243e;
+    --pink-bg:#fbeaf0;
+    --gray:#4a4842;
+    --gray-bg:#eceae3;
+    --mono:'JetBrains Mono', monospace;
+    --sans:'Inter', sans-serif;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  html{scroll-behavior:smooth;}
+  body{
+    background:
+      radial-gradient(circle at 1px 1px, rgba(30,28,22,0.06) 1px, transparent 0) 0 0/26px 26px,
+      var(--bg);
+    color:var(--ink);
+    font-family:var(--sans);
+    font-size:18px;
+    line-height:1.65;
+    -webkit-font-smoothing:antialiased;
+  }
+  a{color:inherit;}
+  ::selection{background:var(--amber-bg);color:var(--amber);}
+
+  .topbar{
+    position:sticky;top:0;z-index:40;
+    background:rgba(250,249,246,0.92);
+    backdrop-filter:blur(10px);
+    border-bottom:1px solid var(--line);
+    display:flex;align-items:center;gap:22px;
+    padding:16px 26px;overflow-x:auto;white-space:nowrap;
+  }
+  .topbar .brand{font-family:var(--mono);font-weight:600;font-size:15px;letter-spacing:0.04em;color:var(--amber);flex-shrink:0;}
+  .topbar nav{display:flex;gap:4px;}
+  .topbar nav a{
+    font-family:var(--mono);font-size:13.5px;color:var(--ink-dim);
+    padding:7px 12px;border-radius:6px;text-decoration:none;border:1px solid transparent;
+  }
+  .topbar nav a:hover{color:var(--ink);background:var(--panel-2);border-color:var(--line);}
+
+  .wrap{max-width:1080px;margin:0 auto;padding:0 26px;}
+  section{padding:96px 0;border-bottom:1px dashed var(--line);}
+  section:last-of-type{border-bottom:none;}
+  .sheet-tag{
+    font-family:var(--mono);font-size:14px;font-weight:600;color:var(--amber);
+    letter-spacing:0.08em;margin-bottom:16px;display:flex;align-items:center;gap:10px;
+  }
+  .sheet-tag::before{content:'';width:26px;height:2px;background:var(--amber-line);}
+  h2{
+    font-family:var(--mono);font-weight:700;font-size:clamp(26px,3.4vw,38px);
+    letter-spacing:-0.01em;margin-bottom:14px;
+  }
+  .lede{color:var(--ink-dim);max-width:700px;margin-bottom:44px;font-size:18px;}
+  .lede b{color:var(--ink);font-weight:600;}
+  .subhead{font-family:var(--mono);font-size:13.5px;font-weight:600;color:var(--ink-faint);letter-spacing:0.06em;margin:36px 0 14px;}
+  .subhead:first-child{margin-top:0;}
+
+  .hero{padding-top:110px;padding-bottom:90px;}
+  .hero .kicker{font-family:var(--mono);font-size:14px;font-weight:600;color:var(--coral);letter-spacing:0.1em;margin-bottom:24px;}
+  .hero h1{
+    font-family:var(--mono);font-weight:700;
+    font-size:clamp(36px,6.2vw,64px);line-height:1.08;letter-spacing:-0.02em;
+    margin-bottom:28px;
+  }
+  .hero h1 span{color:var(--ink-faint);}
+  .hero p{max-width:660px;color:var(--ink-dim);font-size:19px;margin-bottom:38px;}
+  .hero .stats{display:flex;gap:40px;flex-wrap:wrap;border-top:1px solid var(--line);padding-top:26px;}
+  .hero .stat b{display:block;font-family:var(--mono);font-size:26px;color:var(--amber);}
+  .hero .stat span{font-size:14px;color:var(--ink-faint);}
+
+  .block{
+    background:var(--panel);
+    border:1.5px solid var(--line-strong);
+    border-radius:12px;
+    padding:20px 22px;
+    cursor:pointer;
+    transition:border-color .15s, transform .1s, box-shadow .15s;
+    text-align:left;position:relative;
+    font-family:inherit;color:inherit;width:100%;
+  }
+  .block:hover{border-color:var(--ink-dim);transform:translateY(-2px);box-shadow:0 6px 16px rgba(30,28,22,0.06);}
+  .block:focus-visible{outline:2px solid var(--amber);outline-offset:2px;}
+  .block .k{font-family:var(--mono);font-size:12.5px;color:var(--ink-faint);letter-spacing:0.06em;display:block;margin-bottom:8px;}
+  .block .t{font-weight:700;font-size:18px;margin-bottom:6px;display:block;}
+  .block .s{font-size:14.5px;color:var(--ink-dim);}
+  .block.accent-teal{border-color:var(--teal);background:var(--teal-bg);}
+  .block.accent-amber{border-color:var(--amber-line);background:var(--amber-bg);}
+  .block.accent-coral{border-color:var(--coral);background:var(--coral-bg);}
+  .block.accent-violet{border-color:var(--violet);background:var(--violet-bg);}
+  .block.accent-pink{border-color:var(--pink);background:var(--pink-bg);}
+  .block.accent-gray{border-color:var(--ink-faint);background:var(--gray-bg);}
+  .row2{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px;}
+  .row3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px;margin-bottom:16px;}
+  @media(max-width:700px){.row2{grid-template-columns:1fr;} .row3{grid-template-columns:1fr;}}
+
+  .diagram-card{
+    background:var(--panel);border:1px solid var(--line-strong);
+    border-radius:16px;padding:22px;box-shadow:0 2px 10px rgba(30,28,22,0.04);
+  }
+  .diagram-card figcaption{
+    font-family:var(--mono);font-size:13px;color:var(--ink-faint);
+    text-align:center;margin-top:14px;letter-spacing:0.02em;
+  }
+  svg.diagram{width:100%;height:auto;display:block;}
+  .diagram text{font-family:var(--sans);}
+  .diagram text.t{font-size:16px;fill:var(--ink);}
+  .diagram text.ts{font-size:13.5px;fill:var(--ink-dim);}
+  .diagram text.th{font-size:16px;font-weight:600;fill:var(--ink);}
+  .diagram .box rect{fill:var(--panel-2);stroke:var(--line-strong);stroke-width:1;}
+  .diagram .node{cursor:pointer;}
+  .diagram .node rect{transition:stroke-width .1s;}
+  .diagram .node:hover rect{stroke-width:2.2;}
+  .diagram .arr{stroke:#9c9587;fill:none;}
+  .diagram .c-gray rect{fill:var(--gray-bg);stroke:var(--ink-faint);}
+  .diagram .c-gray text.th{fill:#2c2c2a;} .diagram .c-gray text.ts{fill:#5c5748;}
+  .diagram .c-teal rect{fill:var(--teal-bg);stroke:var(--teal);}
+  .diagram .c-teal text.th{fill:#085041;} .diagram .c-teal text.ts{fill:var(--teal);}
+  .diagram .c-amber rect{fill:var(--amber-bg);stroke:var(--amber-line);}
+  .diagram .c-amber text.th{fill:#633806;} .diagram .c-amber text.ts{fill:var(--amber);}
+  .diagram .c-coral rect{fill:var(--coral-bg);stroke:var(--coral);}
+  .diagram .c-coral text.th{fill:#712b13;} .diagram .c-coral text.ts{fill:var(--coral);}
+  .diagram .c-violet rect{fill:var(--violet-bg);stroke:var(--violet);}
+  .diagram .c-violet text.th{fill:#26205e;} .diagram .c-violet text.ts{fill:var(--violet);}
+
+  .cmp-table{width:100%;border-collapse:collapse;font-size:15px;background:var(--panel);border-radius:14px;overflow:hidden;border:1px solid var(--line-strong);}
+  .cmp-table th,.cmp-table td{padding:16px 18px;text-align:left;border-bottom:1px solid var(--line);vertical-align:top;}
+  .cmp-table th{font-family:var(--mono);font-size:12.5px;letter-spacing:0.05em;color:var(--ink-faint);background:var(--panel-2);}
+  .cmp-table tr:last-child td{border-bottom:none;}
+  .cmp-table td.lvl{font-family:var(--mono);font-weight:700;font-size:14px;width:130px;}
+  .cmp-table td.lvl span{display:block;font-family:var(--sans);font-weight:400;font-size:12.5px;color:var(--ink-faint);margin-top:3px;}
+  .cmp-table td b{color:var(--ink);}
+  .l1{color:var(--gray);} .l2{color:var(--teal);} .l3{color:var(--amber);} .l4{color:var(--coral);} .l5{color:var(--violet);}
+
+  .callout{
+    background:var(--panel-2);border-left:3px solid var(--amber-line);
+    border-radius:10px;padding:18px 22px;margin:28px 0;color:var(--ink-dim);font-size:16px;
+  }
+  .callout b{color:var(--ink);}
+
+  footer{padding:64px 0 110px;text-align:center;color:var(--ink-faint);font-size:14.5px;font-family:var(--mono);}
+
+  .modal-backdrop{
+    position:fixed;inset:0;background:rgba(30,28,22,0.45);
+    backdrop-filter:blur(3px);
+    display:none;align-items:flex-start;justify-content:center;
+    z-index:100;overflow-y:auto;padding:48px 20px;
+  }
+  .modal-backdrop.open{display:flex;}
+  .modal{
+    background:var(--panel);border:1px solid var(--line-strong);
+    border-radius:18px;max-width:680px;width:100%;
+    padding:40px 40px 44px;position:relative;
+    box-shadow:0 20px 60px rgba(30,28,22,0.18);
+    animation:pop .18s ease;
+  }
+  @keyframes pop{from{opacity:0;transform:translateY(8px) scale(0.98);}to{opacity:1;transform:none;}}
+  .modal .close{
+    position:absolute;top:22px;right:22px;
+    width:38px;height:38px;border-radius:50%;
+    border:1.5px solid var(--line-strong);background:var(--panel);color:var(--ink-dim);
+    font-size:17px;cursor:pointer;display:flex;align-items:center;justify-content:center;
+  }
+  .modal .close:hover{color:var(--ink);border-color:var(--ink-dim);}
+  .modal .tag{font-family:var(--mono);font-size:13px;font-weight:600;letter-spacing:0.06em;color:var(--amber);margin-bottom:16px;}
+  .modal h3{font-family:var(--mono);font-size:25px;margin-bottom:20px;padding-right:34px;}
+  .modal .body p{color:var(--ink-dim);margin-bottom:16px;font-size:17px;}
+  .modal .body p:last-child{margin-bottom:0;}
+  .modal .body b{color:var(--ink);font-weight:600;}
+  .modal .body ul{margin:0 0 16px 20px;color:var(--ink-dim);font-size:16.5px;}
+  .modal .body li{margin-bottom:8px;}
+  .modal .body code{font-family:var(--mono);font-size:15px;background:var(--amber-bg);padding:2px 7px;border-radius:5px;color:var(--amber);}
+  @media(prefers-reduced-motion:reduce){.modal{animation:none;} .block{transition:none;}}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="brand">AI://5-CẤP-ĐỘ</div>
+  <nav>
+    <a href="#s01">01 · Toàn cảnh</a>
+    <a href="#s01b">01b · Chat vs Agent</a>
+    <a href="#s01c">01c · Skill vs Agent</a>
+    <a href="#s02">02 · Cấp 1</a>
+    <a href="#s03">03 · Cấp 2</a>
+    <a href="#s04">04 · Cấp 3</a>
+    <a href="#s05">05 · Cấp 4</a>
+    <a href="#s06">06 · Cấp 5</a>
+    <a href="#s07">07 · Non-code vs Dev</a>
+    <a href="#s08">08 · Quan trọng hơn level</a>
+    <a href="#s09">09 · Tư duy gốc</a>
+  </nav>
+</div>
+
+<div class="wrap">
+
+  <section class="hero">
+    <div class="kicker">TỪ AUTOCOMPLETE ĐẾN AGENTIC AVALANCHE</div>
+    <h1>"Dùng AI" không phải<br><span>một mức duy nhất.</span></h1>
+    <p>Gợi ý gõ dở trong IDE, một khung chat hiểu cả codebase, hay một agent tự mở pull request lúc bạn đang ngồi xe buýt — đều được gọi chung là "dùng AI". Nhưng đó là ba công việc khác nhau, với rủi ro và cách đo khác nhau. Bài này chia thành 5 cấp độ, dựa trên đúng một biến số: <b>agent tự làm bao nhiêu việc trước khi phải quay lại hỏi bạn.</b> Đây <i>không</i> phải là bài phân biệt "dùng cửa sổ chat của Claude/GPT/Gemini" với "tự xây agent chạy CLI/cronjob kiểu Hermes" — cả hai là <b>cách kích hoạt</b>; cấp độ 1-5 là <b>mức tự chủ</b> được trao. Sheet 01b bên dưới nói rõ hai trục này khớp nhau ở đâu, và lệch nhau ở đâu.</p>
+    <div class="stats">
+      <div class="stat"><b>5</b><span>cấp độ tự chủ</span></div>
+      <div class="stat"><b>1</b><span>biến số duy nhất phân tầng</span></div>
+      <div class="stat"><b>2</b><span>vai trò: non-coder &amp; programmer</span></div>
+      <div class="stat"><b>0</b><span>cấp độ nào là "cao cấp nhất nên dùng"</span></div>
+    </div>
+  </section>
+
+  <!-- 01 TOÀN CẢNH -->
+  <section id="s01">
+    <div class="sheet-tag">SHEET 01 — BỨC TRANH TOÀN CẢNH</div>
+    <h2>Không phải bảng xếp hạng</h2>
+    <p class="lede">Cao hơn không có nghĩa là tốt hơn. Hãy nghĩ như một quyết định nhân sự: <b>bắt một chuyên gia dày dạn làm việc như intern là lãng phí năng lực; đặt một học sinh cấp 2 vào ghế CEO là một thảm hoạ.</b> Việc của bạn là khớp đúng công việc với đúng cấp độ — không phải leo lên cấp cao nhất có thể.</p>
+    <figure class="diagram-card">
+      <svg class="diagram" viewBox="0 0 680 640" role="img">
+      <title>5 cấp độ tự chủ khi dùng AI</title>
+      <defs><marker id="arrowL" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M2 1L8 5L2 9" fill="none" stroke="context-stroke" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></marker></defs>
+
+      <g class="node c-gray" onclick="openModal('lvl1')"><rect x="40" y="20" width="600" height="86" rx="12"/>
+        <text class="th" x="64" y="52">CẤP 1 · TRỢ LÝ TẠI CHỖ (Assistive)</text>
+        <text class="ts" x="64" y="76">Bạn tự tay quản lý toàn bộ ngữ cảnh, mỗi lần một chỗ</text></g>
+      <line x1="340" y1="106" x2="340" y2="128" class="arr" marker-end="url(#arrowL)"/>
+
+      <g class="node c-teal" onclick="openModal('lvl2')"><rect x="40" y="128" width="600" height="86" rx="12"/>
+        <text class="th" x="64" y="160">CẤP 2 · HỘI THOẠI (Conversational)</text>
+        <text class="ts" x="64" y="184">Bạn nêu mục tiêu, agent đề xuất — bạn duyệt từng bước</text></g>
+      <line x1="340" y1="214" x2="340" y2="236" class="arr" marker-end="url(#arrowL)"/>
+
+      <g class="node c-amber" onclick="openModal('lvl3')"><rect x="40" y="236" width="600" height="86" rx="12"/>
+        <text class="th" x="64" y="268">CẤP 3 · TASK AGENT</text>
+        <text class="ts" x="64" y="292">Bạn giao việc, agent tự làm xong rồi mang kết quả về</text></g>
+      <line x1="340" y1="322" x2="340" y2="344" class="arr" marker-end="url(#arrowL)"/>
+
+      <g class="node c-coral" onclick="openModal('lvl4')"><rect x="40" y="344" width="600" height="86" rx="12"/>
+        <text class="th" x="64" y="376">CẤP 4 · ĐỒNG NGHIỆP TỰ CHỦ (Autonomous teammate)</text>
+        <text class="ts" x="64" y="400">Agent tự chọn việc từ một backlog, không cần ai giao</text></g>
+      <line x1="340" y1="430" x2="340" y2="452" class="arr" marker-end="url(#arrowL)"/>
+
+      <g class="node c-violet" onclick="openModal('lvl5')"><rect x="40" y="452" width="600" height="86" rx="12"/>
+        <text class="th" x="64" y="484">CẤP 5 · THÁC LŨ AGENT (Agentic avalanche)</text>
+        <text class="ts" x="64" y="508">Nhiều agent điều phối nhau, người chỉ giám sát ở tầng trên cùng</text></g>
+
+      <text class="ts" x="64" y="580" font-style="italic">Biến số phân tầng: mức tự chủ trước khi quay lại xin phản hồi từ người.</text>
+      <text class="ts" x="64" y="606" font-style="italic">Không phải cấp nào cũng phù hợp — chọn theo việc, không chọn theo "cấp cao nhất mình có thể chạm tới".</text>
+      </svg>
+      <figcaption>Bấm vào từng cấp độ để xem tóm tắt nhanh</figcaption>
+    </figure>
+  </section>
+
+  <!-- 01B CHAT WINDOW vs AGENT HARNESS -->
+  <section id="s01b">
+    <div class="sheet-tag">SHEET 01B — HAI TRỤC KHÁC NHAU, HAY BỊ GỘP LÀM MỘT</div>
+    <h2>"Cấp độ" không phải là "cửa sổ chat" hay "agent"</h2>
+    <p class="lede">Câu hỏi rất đúng: bài này đang nói về việc <b>gõ trực tiếp vào cửa sổ chat</b> (claude.ai, ChatGPT, Gemini) hay về việc <b>tạo hẳn một agent rồi kích hoạt nó qua CLI/cronjob</b> kiểu Hermes? Câu trả lời là — cả hai đều tồn tại, và <b>cấp độ tự chủ (1-5) là một trục, giao diện kích hoạt là một trục khác.</b> Hai trục này tương quan chặt nhưng không phải là một.</p>
+
+    <div class="subhead">TRỤC THỨ HAI: BẠN CHẠM VÀO AI QUA ĐÂU</div>
+    <table class="cmp-table">
+      <tr>
+        <th>Giao diện kích hoạt</th>
+        <th>Cách vận hành</th>
+        <th>Ví dụ cụ thể</th>
+        <th>Thường khớp cấp độ</th>
+      </tr>
+      <tr>
+        <td><b>Cửa sổ chat</b><br>(chat window)</td>
+        <td>Bạn mở app, gõ, đọc trả lời, gõ tiếp — con người phải có mặt ở đó suốt phiên</td>
+        <td>claude.ai, ChatGPT, Gemini web/app — dùng trực tiếp, không gắn thêm gì</td>
+        <td class="l1">Cấp 1–2</td>
+      </tr>
+      <tr>
+        <td><b>CLI / IDE agent</b><br>(tương tác, sống theo phiên)</td>
+        <td>Bạn gõ một lệnh hoặc mở một phiên, agent tự chạy vòng lặp nhiều bước — nhưng bạn vẫn ngồi đó duyệt từng phần</td>
+        <td>Claude Code, Cursor, Hermes CLI (<code>hermes -p ...</code>), agent trong IDE (Zed, VS Code)</td>
+        <td class="l2">Cấp 2</td>
+      </tr>
+      <tr>
+        <td><b>Agent bất đồng bộ</b><br>(giao rồi rời đi)</td>
+        <td>Bạn kích hoạt một lần — qua issue, PR comment, tag trong Slack — rồi đóng máy; agent tự làm xong trong môi trường riêng</td>
+        <td>Copilot coding agent, Claude Code GitHub Actions (@claude), Cursor background agent</td>
+        <td class="l3">Cấp 3</td>
+      </tr>
+      <tr>
+        <td><b>Agent nền / theo lịch</b><br>(gateway, cron)</td>
+        <td>Không ai kích hoạt — tiến trình chạy 24/7, tự đánh thức theo lịch hoặc theo sự kiện, tự quyết định có việc để làm hay không</td>
+        <td>Hermes Gateway + Cron, GitHub Agentic Workflows, Dependabot, Uber FlakyGuard</td>
+        <td class="l4">Cấp 4</td>
+      </tr>
+      <tr>
+        <td><b>Nhiều agent + orchestrator</b></td>
+        <td>Một tiến trình orchestrator đứng trên, tự sinh và điều phối nhiều agent con chạy song song — con người chỉ giám sát ở tầng trên cùng</td>
+        <td>Cursor FastRender (Planner/Worker/Judge), Hermes <code>delegate_task</code> sinh sub-agent</td>
+        <td class="l5">Cấp 5</td>
+      </tr>
+    </table>
+
+    <div class="callout">Vì sao hai trục không trùng khớp 100%: bạn hoàn toàn có thể ngồi trong <b>cửa sổ chat của Claude</b> và vẫn ở Cấp 2 thật (nêu mục tiêu, duyệt từng bước) — hoặc dùng <b>Hermes chạy qua CLI</b> mà vẫn chỉ đang ở Cấp 1 nếu bạn tự tay dán từng đoạn ngữ cảnh vào mỗi câu hỏi. <b>Cấp độ đo mức tự chủ agent được trao — không đo bạn đang mở app nào.</b> Nhưng có một ngưỡng thật: Cấp 3 trở lên <b>đòi hỏi một agent harness</b> — code chạy được ngoài phiên chat (CLI với chế độ nền, API server, hoặc một tiến trình như Hermes) — vì bản chất "giao rồi rời đi" không thể làm được chỉ bằng cửa sổ chat, nơi phiên làm việc chấm dứt khi bạn đóng tab.</div>
+
+    <div class="row2">
+      <button class="block accent-gray" data-key="s1b-chatwindow">
+        <span class="k">KHỐI A</span><span class="t">Chỉ dùng cửa sổ chat — giới hạn ở đâu?</span>
+        <span class="s">Không có gì sai khi chỉ dùng claude.ai/ChatGPT — nhưng nó tự nhiên chặn bạn ở Cấp 1-2, không phải vì công cụ kém, mà vì kiến trúc "phiên chat" không sống được sau khi bạn đóng tab</span>
+      </button>
+      <button class="block accent-coral" data-key="s1b-harness">
+        <span class="k">KHỐI B</span><span class="t">Cần agent harness khi nào?</span>
+        <span class="s">Ngay khi bạn muốn "giao việc rồi rời đi" (Cấp 3) hoặc "không ai giao mà nó vẫn tự chạy" (Cấp 4) — đó là lúc cần một tiến trình sống ngoài phiên chat, như Hermes, GitHub Actions, hay Claude Code chạy nền</span>
+      </button>
+    </div>
+  </section>
+
+  <!-- 01C SKILL vs AGENT -->
+  <section id="s01c">
+    <div class="sheet-tag">SHEET 01C — RANH GIỚI SKILL vs. AGENT, VÀ SỐ LƯỢNG</div>
+    <h2>Khi nào hết là "skill", bắt đầu là "agent"?</h2>
+    <p class="lede"><b>Skill</b> ở đây nghĩa là một năng lực/hướng dẫn được gọi ra dùng trong một lượt, do bạn kích hoạt và lái từng bước. <b>Agent</b> nghĩa là một tiến trình có vòng lặp riêng — tự quan sát kết quả, tự quyết bước kế tiếp, tự biết khi nào xong — mà không cần bạn bấm tiếp mỗi bước. <b>Ranh giới thật nằm giữa Cấp 2 và Cấp 3</b>: đúng như bài gốc gọi Cấp 3 là nơi "kỹ thuật agentic thực sự bắt đầu".</p>
+
+    <table class="cmp-table">
+      <tr>
+        <th>Cấp độ</th>
+        <th>Skill hay Agent?</th>
+        <th>Số lượng agent (tối thiểu–tối đa)</th>
+      </tr>
+      <tr>
+        <td class="lvl l1">CẤP 1</td>
+        <td>Thuần <b>skill</b> — không có vòng lặp độc lập nào cả, chỉ một lần gọi rồi trả kết quả ngay</td>
+        <td><b>0</b> agent (0–0) — không có gì chạy tự động ngoài lượt gõ của bạn</td>
+      </tr>
+      <tr>
+        <td class="lvl l2">CẤP 2</td>
+        <td>Ranh giới mờ — <i>kỹ thuật</i> đã là agent (có vòng lặp gọi tool), nhưng <i>vận hành</i> như skill vì bạn lái từng bước, duyệt từng edit</td>
+        <td><b>1</b> agent (1–1) — luôn đúng một, sống theo phiên, tắt khi bạn rời đi</td>
+      </tr>
+      <tr>
+        <td class="lvl l3">CẤP 3</td>
+        <td><b>Chuyển hẳn sang agent</b> — đây là điểm không còn quay lại: agent tự chạy hết một task, không cần bạn ở đó để "kéo" nó qua từng bước</td>
+        <td><b>1</b> agent mỗi task (1 min) — có thể nhiều task chạy song song không giới hạn cứng, nhưng <i>mỗi agent độc lập, không phối hợp với agent khác</i></td>
+      </tr>
+      <tr>
+        <td class="lvl l4">CẤP 4</td>
+        <td><b>Agent</b> — chạy liên tục, tự khởi tạo việc, không ai bấm nút mỗi lần</td>
+        <td><b>1 đến khoảng 5–10</b> — thường một agent chuyên trách cho mỗi loại việc (flaky test, doc lỗi thời, dependency...), mỗi agent riêng biệt, không chung một orchestrator</td>
+      </tr>
+      <tr>
+        <td class="lvl l5">CẤP 5</td>
+        <td><b>Nhiều agent + orchestrator</b> — không còn khái niệm "một agent", mà là một hệ agent điều phối nhau</td>
+        <td><b>Tối thiểu 2</b> (1 orchestrator + 1 worker), thực tế thường <b>3+</b> (Planner/Worker/Judge) — <b>tối đa</b> lên tới hàng nghìn (Cursor FastRender: tới 2.000 agent chạy song song)</td>
+      </tr>
+    </table>
+
+    <div class="callout">Dấu hiệu để tự nhận biết bạn đã qua ranh giới: nếu bạn <b>tắt máy, rời đi, và việc vẫn tiếp tục chạy</b> — đó là agent thật (Cấp 3+). Nếu việc dừng lại ngay khi bạn không gõ tiếp — bạn vẫn đang ở vùng skill/agent-được-lái (Cấp 1-2), dù giao diện có gắn mác "agent" trong tên sản phẩm.</div>
+  </section>
+
+  <!-- 02 CẤP 1 -->
+  <section id="s02">
+    <div class="sheet-tag">SHEET 02 — CẤP 1 · TRỢ LÝ TẠI CHỖ</div>
+    <h2>Đây chưa thực sự là "tự chủ"</h2>
+    <p class="lede">Gợi ý gõ dở, sửa nhanh trong một file, hoặc copy-paste kết quả từ ChatGPT vào terminal. Agent chỉ thấy đúng cái bạn đang mở, không hơn, và không nhớ gì sau khi bạn tắt cửa sổ. <b>Bạn là người quản lý ngữ cảnh, mỗi lần một chỗ.</b></p>
+
+    <div class="subhead">AI DÙNG RA SAO — THEO VAI TRÒ</div>
+    <div class="row2">
+      <button class="block accent-gray" data-key="l1-noncoder">
+        <span class="k">NON-CODER</span><span class="t">Gõ, dán, sửa câu — từng ô một</span>
+        <span class="s">Hỏi ChatGPT viết lại một đoạn email, sửa công thức Excel, chỉnh một slide</span>
+      </button>
+      <button class="block accent-gray" data-key="l1-coder">
+        <span class="k">PROGRAMMER</span><span class="t">Autocomplete, sửa nhanh một file</span>
+        <span class="s">Copilot gợi ý dòng code kế tiếp, refactor một hàm đang mở</span>
+      </button>
+    </div>
+    <div class="row2">
+      <button class="block" data-key="l1-condition">
+        <span class="k">ĐIỀU KIỆN LÊN CẤP 2</span><span class="t">Khi ngữ cảnh vượt quá một cửa sổ</span>
+        <span class="s">Việc cần chạm nhiều file, nhiều bước, hoặc cần agent tự tìm hiểu thay vì bạn dán vào</span>
+      </button>
+      <button class="block" data-key="l1-usewhen">
+        <span class="k">DÙNG KHI / KHÔNG</span><span class="t">Tốt cho việc gọn trong 1 file</span>
+        <span class="s">Không dùng khi việc trải rộng nhiều file — Cấp 1 không mở rộng được tới đó, vì bản chất nó không thể</span>
+      </button>
+    </div>
+    <div class="row2">
+      <button class="block accent-gray" data-key="l1-skillagent">
+        <span class="k">SKILL vs. AGENT</span><span class="t">Thuần skill — chưa có agent nào</span>
+        <span class="s">Một lượt gọi, một kết quả, không có vòng lặp nào tự chạy tiếp sau đó</span>
+      </button>
+      <button class="block accent-gray" data-key="l1-count">
+        <span class="k">SỐ LƯỢNG AGENT</span><span class="t">0 (0–0)</span>
+        <span class="s">Không có tiến trình agent độc lập nào đang chạy ở cấp này</span>
+      </button>
+    </div>
+  </section>
+
+  <!-- 03 CẤP 2 -->
+  <section id="s03">
+    <div class="sheet-tag">SHEET 03 — CẤP 2 · HỘI THOẠI</div>
+    <h2>Bạn luôn quyết định agent đi đâu</h2>
+    <p class="lede">Giống ngồi cặp đôi với người đã đọc hết tài liệu bạn đưa — nhưng chưa từng thấy codebase hay công việc thật trước đó. Agent điều hướng, chạy công cụ khi được yêu cầu, viết nhiều file — nhưng <b>bạn nêu mục tiêu, ràng buộc, và duyệt từng bước.</b> Đây vẫn là điểm rơi (sweet spot) của phần lớn người dùng hiện nay.</p>
+
+    <div class="subhead">AI DÙNG RA SAO — THEO VAI TRÒ</div>
+    <div class="row2">
+      <button class="block accent-teal" data-key="l2-noncoder">
+        <span class="k">NON-CODER</span><span class="t">Lập kế hoạch cùng AI, duyệt từng phần</span>
+        <span class="s">Nhờ AI lên outline báo cáo, chia nhỏ một dự án marketing thành các bước, rồi duyệt/sửa từng bước</span>
+      </button>
+      <button class="block accent-teal" data-key="l2-coder">
+        <span class="k">PROGRAMMER</span><span class="t">Duyệt kế hoạch, chấp nhận/từ chối từng edit</span>
+        <span class="s">Yêu cầu agent lập plan trước, review plan, rồi để agent sửa nhiều file — chạy test qua agent, code phần khó nhất tự tay</span>
+      </button>
+    </div>
+    <div class="row2">
+      <button class="block" data-key="l2-condition">
+        <span class="k">ĐIỀU KIỆN LÊN CẤP 3</span><span class="t">Khi "xong" mô tả được trong 1-2 câu</span>
+        <span class="s">Nếu việc đủ rõ để không cần bạn ngồi canh, giữ ở Cấp 2 là phí sự chú ý không cần phí</span>
+      </button>
+      <button class="block" data-key="l2-metrics">
+        <span class="k">ĐO LƯỜNG</span><span class="t">Dùng có chủ đích hay chỉ vì được yêu cầu?</span>
+        <span class="s">Mức hài lòng qua khảo sát, tỉ lệ dùng hội thoại vs. agent, mảng codebase nào đang được AI đụng tới</span>
+      </button>
+    </div>
+    <div class="row2">
+      <button class="block accent-teal" data-key="l2-skillagent">
+        <span class="k">SKILL vs. AGENT</span><span class="t">Ranh giới mờ — kỹ thuật là agent, vận hành như skill</span>
+        <span class="s">Có vòng lặp gọi tool thật, nhưng bạn lái từng bước — chưa phải agent độc lập theo nghĩa "rời đi mà việc vẫn chạy"</span>
+      </button>
+      <button class="block accent-teal" data-key="l2-count">
+        <span class="k">SỐ LƯỢNG AGENT</span><span class="t">1 (1–1)</span>
+        <span class="s">Luôn đúng một agent, sống theo phiên — tắt khi bạn đóng cửa sổ/CLI</span>
+      </button>
+    </div>
+  </section>
+
+  <!-- 04 CẤP 3 -->
+  <section id="s04">
+    <div class="sheet-tag">SHEET 04 — CẤP 3 · TASK AGENT</div>
+    <h2>Giao việc, rồi nhận lại kết quả</h2>
+    <p class="lede">Đây là lúc "kỹ thuật agentic" thực sự bắt đầu: agent lập kế hoạch, sửa code, chạy test, mở PR, phản hồi review — không cần bạn ngồi nhìn. <b>Phép thử nhanh: bạn có thể tạo ra kết quả này từ điện thoại, không cần mở laptop, không?</b> Nếu có — đây là Cấp 3.</p>
+
+    <div class="subhead">AI DÙNG RA SAO — THEO VAI TRÒ</div>
+    <div class="row2">
+      <button class="block accent-amber" data-key="l3-noncoder">
+        <span class="k">NON-CODER</span><span class="t">Giao hẳn một việc có "xong" rõ ràng</span>
+        <span class="s">Nhắn agent nghiên cứu thị trường, soạn hẳn một bản đề xuất theo template có sẵn, rồi quay lại nhận bản hoàn chỉnh để duyệt</span>
+      </button>
+      <button class="block accent-amber" data-key="l3-coder">
+        <span class="k">PROGRAMMER</span><span class="t">Gán issue, nhận PR để review</span>
+        <span class="s">Gán GitHub issue cho Copilot coding agent, hoặc @claude trong PR comment — agent clone repo, chạy CI, mở draft PR</span>
+      </button>
+    </div>
+    <div class="row2">
+      <button class="block" data-key="l3-condition">
+        <span class="k">ĐIỀU KIỆN LÊN CẤP 4</span><span class="t">Khi loại việc này lặp lại đều, không ai muốn làm</span>
+        <span class="s">Từ "một task tôi giao" thành "một danh mục việc luôn tồn tại" — đó là lúc đáng cấu hình để agent tự nhận, không cần người giao mỗi lần</span>
+      </button>
+      <button class="block" data-key="l3-pipeline">
+        <span class="k">ĐIỀU KIỆN BẮT BUỘC</span><span class="t">Pipeline review phải đủ vững trước</span>
+        <span class="s">DORA Report 2025: AI là bộ khuếch đại, không phải thuốc chữa — pipeline yếu sẽ chỉ khuếch đại điểm nghẽn, không giải quyết nó</span>
+      </button>
+    </div>
+    <div class="row2">
+      <button class="block accent-amber" data-key="l3-skillagent">
+        <span class="k">SKILL vs. AGENT</span><span class="t">Chuyển hẳn sang agent — điểm không quay lại</span>
+        <span class="s">Agent tự chạy hết một task mà không cần bạn "kéo" nó qua từng bước — đây là ranh giới thật của bài này</span>
+      </button>
+      <button class="block accent-amber" data-key="l3-count">
+        <span class="k">SỐ LƯỢNG AGENT</span><span class="t">1 mỗi task (tối thiểu 1)</span>
+        <span class="s">Nhiều task có thể chạy song song không giới hạn cứng, nhưng mỗi agent độc lập — không phối hợp với agent khác</span>
+      </button>
+    </div>
+  </section>
+
+  <!-- 05 CẤP 4 -->
+  <section id="s05">
+    <div class="sheet-tag">SHEET 05 — CẤP 4 · ĐỒNG NGHIỆP TỰ CHỦ</div>
+    <h2>Agent không đợi bạn giao việc nữa</h2>
+    <p class="lede">Agent có một backlog hoặc một mục tiêu, và <b>tự chọn việc để làm, liên tục, không cần ai bắt đầu từng task.</b> Dependabot là ví dụ mọi team đã quen: tự phát hiện dependency lỗi thời, tự mở PR. Khác biệt với agent LLM là Dependabot chạy theo luật cố định — agent LLM chạy theo phán đoán, vừa là cơ hội vừa là rủi ro.</p>
+
+    <div class="subhead">AI DÙNG RA SAO — THEO VAI TRÒ</div>
+    <div class="row2">
+      <button class="block accent-coral" data-key="l4-noncoder">
+        <span class="k">NON-CODER</span><span class="t">Đặt mục tiêu định kỳ, không đặt từng việc</span>
+        <span class="s">Cấu hình agent tự rà soát nội dung marketing lỗi thời hàng tuần, tự soạn báo cáo tồn kho mỗi sáng — không ai bấm nút mỗi lần</span>
+      </button>
+      <button class="block accent-coral" data-key="l4-coder">
+        <span class="k">PROGRAMMER</span><span class="t">Agent chuyên trách một mảng bảo trì</span>
+        <span class="s">Uber FlakyGuard tự xử lý test không ổn định hàng ngày; GitHub Daily Test Improver, Daily Documentation Updater tự vá test/doc theo lịch</span>
+      </button>
+    </div>
+    <div class="row2">
+      <button class="block" data-key="l4-condition">
+        <span class="k">ĐIỀU KIỆN LÊN CẤP 5</span><span class="t">Khi một agent không còn đủ, cần nhiều chuyên biệt</span>
+        <span class="s">Chỉ đáng thử khi việc đủ lớn, đủ chia nhỏ được, và bạn đã làm chủ Cấp 3 &amp; 4 trước đó — không phải vì "muốn dùng nhiều agent hơn"</span>
+      </button>
+      <button class="block" data-key="l4-risk">
+        <span class="k">RỦI RO THẬT</span><span class="t">Review có thể trở thành gánh nặng mới</span>
+        <span class="s">Agent tự chủ có thể tạo ra việc review nhiều hơn công sức nó tiết kiệm — nếu mỗi PR đều cần soi kỹ, bạn chỉ chuyển việc sang chỗ khác</span>
+      </button>
+    </div>
+    <div class="row2">
+      <button class="block accent-coral" data-key="l4-skillagent">
+        <span class="k">SKILL vs. AGENT</span><span class="t">Agent — chạy liên tục, tự khởi tạo việc</span>
+        <span class="s">Không ai bấm nút mỗi lần — agent tự phát hiện việc cần làm và tự bắt đầu, theo lịch hoặc theo sự kiện</span>
+      </button>
+      <button class="block accent-coral" data-key="l4-count">
+        <span class="k">SỐ LƯỢNG AGENT</span><span class="t">1 đến khoảng 5–10</span>
+        <span class="s">Thường một agent chuyên trách cho mỗi loại việc (flaky test, doc, dependency...) — mỗi agent riêng biệt, không chung orchestrator</span>
+      </button>
+    </div>
+  </section>
+
+  <!-- 06 CẤP 5 -->
+  <section id="s06">
+    <div class="sheet-tag">SHEET 06 — CẤP 5 · THÁC LŨ AGENT</div>
+    <h2>Phần lớn team chưa ở đây — dù LinkedIn có nói gì</h2>
+    <p class="lede">Nhiều agent làm việc cùng nhau: orchestrator sinh ra sub-agent, các agent điều phối qua nhiều task, con người chỉ giám sát tối thiểu ở tầng trên cùng. <b>Khái niệm cốt lõi là orchestrator</b> — nơi giám sát của người thực sự nằm ở, dù sub-agent chạy tự do bên dưới.</p>
+
+    <div class="subhead">AI DÙNG RA SAO — THEO VAI TRÒ</div>
+    <div class="row2">
+      <button class="block accent-violet" data-key="l5-noncoder">
+        <span class="k">NON-CODER</span><span class="t">Hầu như chưa chạm tới ở quy mô cá nhân</span>
+        <span class="s">Ứng dụng gần nhất: một "dàn nhạc" agent content tự nghiên cứu, viết, kiểm duyệt, đăng bài — nhưng vẫn cần một người ở vai trò orchestrator</span>
+      </button>
+      <button class="block accent-violet" data-key="l5-coder">
+        <span class="k">PROGRAMMER</span><span class="t">Kiến trúc Planner → Worker → Judge</span>
+        <span class="s">Cursor FastRender: agent Planner chia mục tiêu, Worker thực thi độc lập, Judge đánh giá chất lượng — chạy tới 2.000 agent song song trong gần một tuần</span>
+      </button>
+    </div>
+    <div class="row2">
+      <button class="block" data-key="l5-notyet">
+        <span class="k">KHI NÀO CHƯA NÊN THỬ</span><span class="t">Việc phức tạp nhưng tuần tự</span>
+        <span class="s">Nếu vấn đề không thể chia nhỏ để chạy song song, một agent duy nhất làm từng bước (kiểu Cấp 2) vẫn hiệu quả hơn — đa agent chỉ thêm phức tạp không cần thiết</span>
+      </button>
+      <button class="block" data-key="l5-debug">
+        <span class="k">CÁI GIÁ PHẢI TRẢ</span><span class="t">Debug đa-agent khó hơn hẳn</span>
+        <span class="s">Lỗi ở hệ nhiều agent khó chẩn đoán hơn nhiều so với một agent đơn — cần tính trước ranh giới tin cậy (trust boundary) và ai giám sát ở đâu</span>
+      </button>
+    </div>
+    <div class="row2">
+      <button class="block accent-violet" data-key="l5-skillagent">
+        <span class="k">SKILL vs. AGENT</span><span class="t">Nhiều agent + orchestrator</span>
+        <span class="s">Không còn "một agent" — mà là một hệ agent điều phối nhau, orchestrator sinh và quản lý các agent con</span>
+      </button>
+      <button class="block accent-violet" data-key="l5-count">
+        <span class="k">SỐ LƯỢNG AGENT</span><span class="t">Tối thiểu 2, thực tế thường 3+, tối đa hàng nghìn</span>
+        <span class="s">1 orchestrator + 1 worker là mức sàn; Planner/Worker/Judge là mô hình phổ biến; Cursor FastRender từng chạy tới 2.000 agent song song</span>
+      </button>
+    </div>
+  </section>
+
+  <!-- 07 SO SÁNH -->
+  <section id="s07">
+    <div class="sheet-tag">SHEET 07 — NON-CODER vs. PROGRAMMER</div>
+    <h2>Cùng một cấp độ, hai cách trải nghiệm khác nhau</h2>
+    <p class="lede">Biến số phân tầng (mức tự chủ) giống nhau cho cả hai vai trò. Nhưng <b>"đơn vị công việc" mà mỗi vai trò giao cho agent thì khác hẳn</b> — non-coder giao theo tài liệu/kết quả, programmer giao theo file/PR. Hiểu sự khác biệt này giúp bạn không áp sai kỳ vọng của một vai trò lên vai trò khác.</p>
+
+    <table class="cmp-table">
+      <tr>
+        <th>Cấp độ</th>
+        <th>Non-coder — đơn vị công việc</th>
+        <th>Programmer — đơn vị công việc</th>
+      </tr>
+      <tr>
+        <td class="lvl l1">CẤP 1<span>Trợ lý tại chỗ</span></td>
+        <td>Một câu, một ô tính, một đoạn văn — sửa tại chỗ, dán kết quả vào chỗ khác bằng tay</td>
+        <td>Một dòng code, một hàm trong một file đang mở</td>
+      </tr>
+      <tr>
+        <td class="lvl l2">CẤP 2<span>Hội thoại</span></td>
+        <td>Một tài liệu nhiều phần — outline trước, viết từng phần, duyệt tại mỗi bước</td>
+        <td>Một feature nhiều file — plan trước, duyệt từng edit, chạy test qua agent</td>
+      </tr>
+      <tr>
+        <td class="lvl l3">CẤP 3<span>Task agent</span></td>
+        <td>Một sản phẩm hoàn chỉnh có brief rõ — báo cáo, bản đề xuất, bộ slide — nhận lại để duyệt lần cuối</td>
+        <td>Một pull request hoàn chỉnh — bug có repro rõ, cập nhật dependency, feature có spec đủ</td>
+      </tr>
+      <tr>
+        <td class="lvl l4">CẤP 4<span>Đồng nghiệp tự chủ</span></td>
+        <td>Một hạng mục việc định kỳ — rà soát nội dung, tổng hợp báo cáo — chạy nền, chỉ xem lại kết quả</td>
+        <td>Một mảng bảo trì — test không ổn định, doc lỗi thời, dependency — agent tự phát hiện &amp; tự sửa</td>
+      </tr>
+      <tr>
+        <td class="lvl l5">CẤP 5<span>Thác lũ agent</span></td>
+        <td>Hiếm gặp ở quy mô cá nhân — cần một hệ vận hành đủ lớn để biện minh cho độ phức tạp</td>
+        <td>Một hệ thống lớn, chia nhỏ được — nhiều module chạy song song dưới một orchestrator</td>
+      </tr>
+    </table>
+
+    <div class="callout">Điểm chung ở mọi dòng: <b>độ tự chủ tăng theo mức độ "xong" được định nghĩa rõ tới đâu</b> — không theo việc bạn có biết code hay không. Một non-coder với brief rõ có thể vận hành ở Cấp 3-4 hiệu quả hơn một dev với yêu cầu mơ hồ đang mắc kẹt ở Cấp 2.</div>
+  </section>
+
+  <!-- 08 QUAN TRỌNG HƠN LEVEL -->
+  <section id="s08">
+    <div class="sheet-tag">SHEET 08 — ĐIỀU QUAN TRỌNG HƠN "LÊN LEVEL"</div>
+    <h2>Mục tiêu không phải là chạm cấp cao nhất</h2>
+    <p class="lede">Phần lớn team mắc kẹt đâu đó giữa Cấp 2 và Cấp 3 — và nguyên nhân thường không phải công cụ, mà là <b>dùng có chủ đích hay chỉ dùng vì được yêu cầu.</b> Hỏi "cấp nào, cho loại việc nào" là điểm khởi đầu đúng hơn là hỏi "sao mình chưa lên Cấp 4".</p>
+
+    <div class="row3">
+      <button class="block" data-key="s8-fit">
+        <span class="k">01</span><span class="t">Khớp việc với cấp, không leo cấp</span>
+        <span class="s">Ép một task mơ hồ lên Cấp 3 tạo ra rác cần dọn; giữ một task đã rõ ràng ở Cấp 2 là phí sự chú ý</span>
+      </button>
+      <button class="block" data-key="s8-pipeline">
+        <span class="k">02</span><span class="t">Pipeline/khả năng review là trần thật</span>
+        <span class="s">AI khuếch đại năng lực sẵn có của bạn — pipeline yếu, review chậm sẽ lộ rõ hơn, không tự nhiên biến mất</span>
+      </button>
+      <button class="block" data-key="s8-shift">
+        <span class="k">03</span><span class="t">Từ "người chỉ huy" thành "người thiết lập mục tiêu"</span>
+        <span class="s">Cấp 2 là chỉ huy thời gian thực; Cấp 3+ là đặt mục tiêu rồi soát kết quả — hai vai trò cần kỹ năng khác nhau, không phải cùng một việc "làm nhanh hơn"</span>
+      </button>
+    </div>
+  </section>
+
+  <!-- 09 TƯ DUY GỐC -->
+  <section id="s09">
+    <div class="sheet-tag">SHEET 09 — TƯ DUY GỐC KHI DÙNG AI XÂY HỆ THỐNG</div>
+    <h2>Bốn nguyên tắc, không đổi theo công cụ</h2>
+    <p class="lede">Công cụ đổi mỗi tháng. Những câu hỏi dưới đây thì không — chúng là thứ quyết định việc dùng AI có tạo ra giá trị thật, hay chỉ tạo ra cảm giác đang tận dụng công nghệ.</p>
+
+    <div class="row2">
+      <button class="block accent-amber" data-key="s9-done">
+        <span class="k">NGUYÊN TẮC 01</span><span class="t">Định nghĩa "xong" trước khi chọn cấp độ</span>
+        <span class="s">Nếu bạn mô tả được "xong" trong một câu không mơ hồ, agent có thể tự làm — đó là Cấp 3+. Nếu không, bạn cần ở trong vòng lặp — đó là Cấp 2</span>
+      </button>
+      <button class="block accent-amber" data-key="s9-earn">
+        <span class="k">NGUYÊN TẮC 02</span><span class="t">Tự chủ phải được "kiếm", không phải được "muốn"</span>
+        <span class="s">Muốn nhanh hơn không tự động cho quyền tự chủ cao hơn — quyền đó chỉ nên trao khi phạm vi đủ rõ và lớp kiểm soát (CI/review) đủ vững</span>
+      </button>
+    </div>
+    <div class="row2">
+      <button class="block accent-amber" data-key="s9-oversight">
+        <span class="k">NGUYÊN TẮC 03</span><span class="t">Luôn có một tầng người giám sát, dù cấp nào</span>
+        <span class="s">Kể cả ở Cấp 5, giám sát không biến mất — nó chỉ dồn về đúng một điểm: tầng orchestrator, nơi con người vẫn theo dõi cả hệ</span>
+      </button>
+      <button class="block accent-amber" data-key="s9-measure">
+        <span class="k">NGUYÊN TẮC 04</span><span class="t">Đo bằng kết quả, không đo bằng "đã dùng AI"</span>
+        <span class="s">Tỉ lệ merge, thời gian review, tỉ lệ task thành công — những số này nói thật hơn câu "team tôi dùng AI nhiều lắm"</span>
+      </button>
+    </div>
+  </section>
+
+  <footer>AI://5-CẤP-ĐỘ — tài liệu nội bộ · bấm bất kỳ khối nào để xem chi tiết<br>biên tập và bổ sung · by Binh Truong</footer>
+</div>
+
+<div class="modal-backdrop" id="modalBackdrop">
+  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+    <button class="close" id="modalClose" aria-label="Đóng">✕</button>
+    <div class="tag" id="modalTag"></div>
+    <h3 id="modalTitle"></h3>
+    <div class="body" id="modalBody"></div>
+  </div>
+</div>
+
+<script>
+const DETAILS = {
+  lvl1: { tag:"CẤP 1 · ASSISTIVE", title:"Trợ lý tại chỗ", body:`
+    <p>Không phải "tự chủ" theo nghĩa thật. Agent chỉ thấy đúng thứ đang mở trước mắt bạn — không hơn — và không nhớ gì sau khi cửa sổ đóng lại.</p>
+    <p>Đặc điểm cốt lõi: <b>bạn tự tay quản lý ngữ cảnh</b>. Autocomplete phải phản hồi trong tức thời (mỗi lần gõ phím), nên nó buộc phải hạn chế lượng ngữ cảnh dùng được — đó là lý do kỹ thuật, không chỉ là lựa chọn thiết kế.</p>
+    <p>Ngay cả việc trò chuyện với ChatGPT rồi tự tay copy-paste kết quả vào chỗ khác cũng thuộc Cấp 1 — vì bạn vẫn là người chọn mỗi lần đưa gì vào, lấy gì ra.</p>
+    <p><b>Dùng khi:</b> việc gọn trong một file/một ô, bạn muốn giữ toàn quyền kiểm soát mỗi thay đổi, hoặc bạn đang làm quen với một hệ thống lạ. Chi phí setup gần như bằng không.</p>
+    <p><b>Giao diện kích hoạt:</b> cửa sổ chat trực tiếp (claude.ai, ChatGPT, Gemini) hoặc autocomplete inline trong IDE. Không cần cài agent, không cần tiến trình sống ngoài phiên làm việc.</p>`},
+  lvl2: { tag:"CẤP 2 · CONVERSATIONAL", title:"Hội thoại", body:`
+    <p>Giống ngồi cặp đôi với người đã đọc tài liệu bạn đưa — nhưng chưa từng thấy công việc thật trước đó. Kết quả tốt tới đâu phụ thuộc vào việc bạn định hướng nó rõ tới đâu.</p>
+    <p>Sự khác biệt với Cấp 1 là <b>ý định</b>: ở Cấp 1, agent đứng ngoài cố gắng giúp mà không hiểu bạn muốn gì; ở Cấp 2, bạn nói rõ mục tiêu, ràng buộc, và ngữ cảnh liên quan — chính điều này khiến việc đa file, đa bước trở nên khả thi.</p>
+    <p>Từ khoá là <b>tương tác</b>: agent di chuyển nhanh, nhưng bạn luôn là người quyết định nó đi đâu tiếp.</p>
+    <p><b>Dùng khi:</b> việc cần phán đoán, trải rộng nhiều phần, hoặc đủ mơ hồ để cần bạn định hướng liên tục.</p>
+    <p><b>Giao diện kích hoạt:</b> vẫn có thể là cửa sổ chat (claude.ai với nhiều lượt qua lại) — hoặc một CLI agent sống theo phiên như Claude Code, Cursor, Hermes CLI. Điểm chung: bạn có mặt suốt, phiên kết thúc khi bạn rời đi.</p>`},
+  lvl3: { tag:"CẤP 3 · TASK AGENT", title:"Task agent", body:`
+    <p>Bạn giao một việc, rồi quay lại nhận kết quả — không ngồi canh suốt quá trình. Đây là điểm mà "kỹ thuật agentic" (agentic engineering) thực sự bắt đầu có ý nghĩa.</p>
+    <p>Phép thử nhanh: <b>bạn có thể tạo ra kết quả này từ điện thoại, không cần mở laptop, không?</b> Nếu có — đây là Cấp 3.</p>
+    <p>Điểm khác biệt lớn: mọi bước đều để lại vết — nhánh, commit, PR đều được ghi lại, thường gắn ngược về việc gốc. Điều này giúp người khác xem lại, review, hoặc tự kích hoạt lại quy trình tương tự.</p>
+    <p><b>Điều kiện bắt buộc:</b> pipeline review phải đủ vững. AI ở cấp này khuếch đại năng lực sẵn có — pipeline yếu sẽ lộ rõ hơn, không tự khỏi.</p>
+    <p><b>Giao diện kích hoạt:</b> đây là ngưỡng thật — cửa sổ chat không đủ, vì phiên chat chết khi bạn đóng tab. Cần một agent bất đồng bộ: gán issue, tag trong PR/Slack, hoặc gọi qua API — agent chạy trong môi trường riêng, tách khỏi máy bạn.</p>`},
+  lvl4: { tag:"CẤP 4 · AUTONOMOUS TEAMMATE", title:"Đồng nghiệp tự chủ", body:`
+    <p>Agent có một backlog hoặc mục tiêu, và tự chọn việc để làm — liên tục, không cần ai khởi động từng task.</p>
+    <p>Dependabot là ví dụ quen thuộc nhất: tự nhận diện dependency lỗi thời, tự mở PR, không ai giao hay lên lịch. Khác biệt với agent LLM ở Cấp 4 là Dependabot chạy theo luật cố định (rule-based), còn agent LLM chạy theo phán đoán — vừa là cơ hội, vừa là rủi ro.</p>
+    <p>Ứng viên tốt nhất cho Cấp 4: việc lặp lại đều, mà <b>chi phí điều phối còn cao hơn chính công việc đó</b> — test không ổn định, tài liệu lỗi thời, cập nhật dependency.</p>
+    <p><b>Không dùng khi:</b> việc biến động quá nhiều để định nghĩa một mục tiêu ổn định, hoặc gánh nặng review sẽ vượt quá thời gian tiết kiệm được.</p>
+    <p><b>Giao diện kích hoạt:</b> một tiến trình sống 24/7 — Gateway + Cron kiểu Hermes, hoặc dịch vụ quản lý như GitHub Agentic Workflows/Dependabot. Không có "phiên" để mở hay đóng; nó tự đánh thức theo lịch hoặc theo sự kiện.</p>`},
+  lvl5: { tag:"CẤP 5 · AGENTIC AVALANCHE", title:"Thác lũ agent", body:`
+    <p>Phần lớn team chưa ở đây, dù mạng xã hội có tạo cảm giác ngược lại. Nhiều agent làm việc cùng nhau: orchestrator sinh sub-agent, các agent điều phối qua nhiều task, con người chỉ giám sát tối thiểu ở tầng trên cùng.</p>
+    <p>Khái niệm kiến trúc cốt lõi là <b>orchestrator</b> — agent chia nhỏ một mục tiêu lớn và giao cho các sub-agent chuyên biệt. Đây cũng là nơi giám sát của con người thực sự nằm ở, dù sub-agent chạy tự do bên dưới.</p>
+    <p>Đây là vùng thực nghiệm ở biên (frontier) — đáng hiểu, nhưng chưa phải chiến lược cho phần lớn team. Coi nó là khoa học viễn tưởng cũng sai không kém.</p>
+    <p><b>Chỉ thử khi:</b> vấn đề đủ lớn, đủ chia nhỏ để chạy song song thật, và bạn đã làm chủ Cấp 3 &amp; 4 trước đó.</p>
+    <p><b>Giao diện kích hoạt:</b> một orchestrator process điều phối nhiều agent con — có thể tự sinh sub-agent trong cùng tiến trình (như Hermes <code>delegate_task</code>) hoặc điều phối qua hàng đợi task riêng. Không còn khái niệm "một cửa sổ chat" — cả hệ chạy như một dịch vụ.</p>`},
+
+  "l1-skillagent": { tag:"CẤP 1 · SKILL vs. AGENT", title:"Thuần skill — chưa có agent nào", body:`
+    <p>Ở Cấp 1, không có vòng lặp nào chạy độc lập. Bạn gõ, model trả lời hoặc gợi ý, xong — không có bước nào "tự nó" tiếp tục sau đó mà không cần bạn gõ tiếp.</p>
+    <p>Đây đúng nghĩa là <b>gọi một skill</b>: một năng lực được kích hoạt trong đúng một lượt, không giữ trạng thái, không tự quyết bước kế tiếp.</p>`},
+  "l1-count": { tag:"CẤP 1 · SỐ LƯỢNG AGENT", title:"0 (0–0)", body:`
+    <p>Không có agent nào đang chạy ở cấp này — theo đúng nghĩa "agent" là một tiến trình có vòng lặp riêng. Autocomplete và chat một lượt không tạo ra tiến trình nào sống ngoài lượt gõ của bạn.</p>`},
+
+  "l2-skillagent": { tag:"CẤP 2 · SKILL vs. AGENT", title:"Ranh giới mờ — kỹ thuật là agent, vận hành như skill", body:`
+    <p>Về mặt kỹ thuật, đã có một vòng lặp agent thật: model có thể tự gọi tool, đọc kết quả, quyết định bước tiếp theo. Nhưng về mặt <i>vận hành</i>, nó vẫn giống một skill được lái tay — vì bạn duyệt/từ chối mỗi thay đổi, và việc dừng lại ngay khi bạn không gõ tiếp.</p>
+    <p>Đây là lý do Cấp 2 thường bị gọi nhầm là "đã dùng agent" — công cụ đúng là agent, nhưng cách bạn dùng nó chưa khai thác phần "tự chủ" của agent đó.</p>`},
+  "l2-count": { tag:"CẤP 2 · SỐ LƯỢNG AGENT", title:"1 (1–1)", body:`
+    <p>Luôn đúng một agent — một phiên CLI, một cửa sổ chat đang mở. Không có khái niệm "nhiều agent" ở cấp này, vì mọi việc đi qua đúng một luồng hội thoại mà bạn đang trực tiếp lái.</p>
+    <p>Agent này tắt khi bạn đóng cửa sổ/CLI — không có gì tiếp tục chạy sau đó.</p>`},
+
+  "l3-skillagent": { tag:"CẤP 3 · SKILL vs. AGENT", title:"Chuyển hẳn sang agent — điểm không quay lại", body:`
+    <p>Đây là ranh giới thật của toàn bộ khung 5 cấp: agent tự chạy hết một task — lập kế hoạch, sửa, test, mở PR, phản hồi review — mà không cần bạn ở đó để "kéo" nó qua từng bước.</p>
+    <p>Nếu bạn tắt máy giữa lúc agent đang chạy, việc <b>vẫn tiếp tục</b> — đó là dấu hiệu rõ nhất phân biệt agent thật với skill được lái tay ở Cấp 1-2.</p>`},
+  "l3-count": { tag:"CẤP 3 · SỐ LƯỢNG AGENT", title:"1 mỗi task (tối thiểu 1, không có trần cứng)", body:`
+    <p>Mỗi task bạn giao sinh ra đúng một agent xử lý task đó. Bạn có thể giao nhiều task cùng lúc — nhiều agent sẽ chạy song song — nhưng <b>mỗi agent hoàn toàn độc lập</b>, không biết đến sự tồn tại của agent khác, không có ai điều phối giữa chúng.</p>
+    <p>Không có giới hạn cứng về số lượng — giới hạn thực tế nằm ở khả năng review của bạn, không nằm ở kiến trúc.</p>`},
+
+  "l4-skillagent": { tag:"CẤP 4 · SKILL vs. AGENT", title:"Agent — chạy liên tục, tự khởi tạo việc", body:`
+    <p>Không còn ai bấm nút "chạy" mỗi lần. Agent tự quan sát một nguồn (dependency, test suite, nội dung), tự nhận diện khi có việc cần làm, và tự bắt đầu — theo lịch (cron) hoặc theo sự kiện.</p>
+    <p>Đây là agent theo đúng nghĩa đầy đủ nhất của "tự chủ": không chỉ tự chạy hết một task (như Cấp 3), mà còn <b>tự quyết định khi nào có task</b>.</p>`},
+  "l4-count": { tag:"CẤP 4 · SỐ LƯỢNG AGENT", title:"1 đến khoảng 5–10", body:`
+    <p>Thực tế thường là một agent chuyên trách cho mỗi loại việc bảo trì — ví dụ FlakyGuard chỉ lo flaky test, một agent khác chỉ lo doc, một agent khác chỉ lo dependency. Mỗi agent có mục tiêu riêng, chạy độc lập.</p>
+    <p>Số 5-10 là ước lượng thực tế cho một team cỡ vừa cấu hình vài hạng mục bảo trì khác nhau — không phải giới hạn kỹ thuật, mà là số hạng mục người ta thường thấy đáng tự động hoá cùng lúc trước khi độ phức tạp vượt tầm kiểm soát.</p>`},
+
+  "l5-skillagent": { tag:"CẤP 5 · SKILL vs. AGENT", title:"Nhiều agent + orchestrator", body:`
+    <p>Không còn khái niệm "một agent" nữa. Một orchestrator đứng trên, tự sinh ra các agent con, giao việc, thu kết quả, và quyết định có cần sinh thêm agent nữa hay không.</p>
+    <p>Sự khác biệt cốt lõi với Cấp 4: ở Cấp 4, các agent chuyên trách <i>không biết đến nhau</i>. Ở Cấp 5, chúng <i>được điều phối như một hệ thống</i> bởi cùng một orchestrator.</p>`},
+  "l5-count": { tag:"CẤP 5 · SỐ LƯỢNG AGENT", title:"Tối thiểu 2, thực tế thường 3+, tối đa hàng nghìn", body:`
+    <p><b>Mức sàn kỹ thuật:</b> 2 — một orchestrator và một worker, vì không có orchestrator thì đây chỉ là Cấp 3/4 chạy song song, không phải Cấp 5.</p>
+    <p><b>Mô hình phổ biến trong thực tế:</b> 3 vai — Planner (chia việc), Worker (thực thi), Judge (đánh giá) — như kiến trúc Cursor FastRender.</p>
+    <p><b>Tối đa đã ghi nhận:</b> Cursor FastRender từng chạy tới 2.000 agent song song trong gần một tuần để tạo ra hơn 1 triệu dòng code. Đây không phải trần lý thuyết — chỉ là ví dụ lớn nhất được công bố tới nay.</p>`},
+
+  "s1b-chatwindow": { tag:"SHEET 01B · KHỐI A", title:"Chỉ dùng cửa sổ chat — giới hạn ở đâu?", body:`
+    <p>Không có gì sai khi chỉ mở claude.ai, ChatGPT, hoặc Gemini và gõ trực tiếp — phần lớn giá trị hàng ngày của AI vẫn nằm ở đây. Vấn đề không phải là công cụ "kém", mà là <b>kiến trúc của một phiên chat</b>: nó tồn tại trong lúc bạn có mặt, và biến mất khi bạn đóng tab.</p>
+    <p>Điều đó tự nhiên đặt một trần: bạn có thể trò chuyện sâu, đa lượt, đa file (Cấp 2) — nhưng bạn không thể "giao việc rồi đi ngủ, sáng dậy nhận PR" (Cấp 3) chỉ bằng cửa sổ chat, vì không có gì chạy khi bạn không ở đó để gõ tiếp.</p>
+    <p>Đây không phải giới hạn của model — Claude/GPT/Gemini phía sau vẫn là "bộ não" như ở mọi cấp độ khác. Đây là giới hạn của giao diện bọc quanh nó.</p>`},
+  "s1b-harness": { tag:"SHEET 01B · KHỐI B", title:"Cần agent harness khi nào?", body:`
+    <p>Bạn cần một agent harness — một tiến trình chạy được ngoài phiên chat, như Hermes, Claude Code ở chế độ nền, GitHub Actions, hay một API server tự viết — ngay khi câu trả lời cho "ai kích hoạt việc này" không còn là "tôi, ngay bây giờ, đang ngồi đây".</p>
+    <ul>
+      <li><b>Cấp 3 — bất đồng bộ:</b> bạn kích hoạt một lần (gán issue, tag trong PR), rồi rời đi. Cần một tiến trình nhận sự kiện đó và tự chạy tiếp.</li>
+      <li><b>Cấp 4 — tự khởi động:</b> không ai kích hoạt cả — cần một tiến trình sống 24/7, tự đánh thức theo lịch hoặc theo sự kiện (đây chính là vai trò của Cron/Gateway trong kiến trúc Hermes).</li>
+      <li><b>Cấp 5 — nhiều agent:</b> cần thêm một tầng orchestrator điều phối các agent con, vẫn chạy như một dịch vụ, không phải một phiên chat.</li>
+    </ul>
+    <p>Nói ngắn: cửa sổ chat trả lời "làm gì tiếp theo"; agent harness trả lời "ai chạy nó khi tôi không có ở đó".</p>`},
+  "l1-noncoder": { tag:"CẤP 1 · NON-CODER", title:"Gõ, dán, sửa câu — từng ô một", body:`
+    <p>Người không viết code trải nghiệm Cấp 1 qua những việc rất cụ thể: nhờ viết lại một câu email cho lịch sự hơn, sửa một công thức Excel, chỉnh câu chữ trên một slide.</p>
+    <p>Điểm chung: mỗi lần chỉ xử lý đúng một chỗ, và người dùng tự tay copy kết quả sang nơi cần dùng. Không có bước nào agent "tự nhớ" hay "tự nối" các việc lại với nhau.</p>`},
+  "l1-coder": { tag:"CẤP 1 · PROGRAMMER", title:"Autocomplete, sửa nhanh một file", body:`
+    <p>Copilot hay các gợi ý inline tương tự chỉ thấy file đang mở, đôi khi vài file liên quan gần đó — không có bức tranh toàn bộ dự án.</p>
+    <p>Vì phải phản hồi ở tốc độ gõ phím, công cụ này buộc phải giới hạn ngữ cảnh — đây là giới hạn kỹ thuật, không phải một lựa chọn có thể "mở rộng thêm" bằng cấu hình.</p>`},
+  "l1-condition": { tag:"CẤP 1 → CẤP 2", title:"Điều kiện lên Cấp 2", body:`
+    <p>Dấu hiệu rõ nhất: việc bắt đầu <b>trải rộng quá một cửa sổ/một file</b> — bạn thấy mình phải mở nhiều tab, dán qua dán lại ngữ cảnh giữa các lần hỏi.</p>
+    <p>Khi đó, chuyển sang một khung hội thoại có thể tự đọc nhiều file, giữ ngữ cảnh xuyên suốt, sẽ hiệu quả hơn việc bạn tiếp tục làm "người trung chuyển" ngữ cảnh bằng tay.</p>`},
+  "l1-usewhen": { tag:"CẤP 1", title:"Dùng khi nào / không khi nào", body:`
+    <p><b>Dùng khi:</b> việc gọn trong một file hoặc một ô, bạn muốn kiểm soát toàn bộ từng thay đổi, hoặc bạn đang làm quen với một hệ thống/tài liệu lạ. Chi phí setup gần như bằng không.</p>
+    <p><b>Không dùng khi:</b> việc trải rộng nhiều file hoặc cần hiểu ngữ cảnh rộng hơn cái đang mở — Cấp 1 không mở rộng được tới đó, vì bản chất kỹ thuật của nó không cho phép.</p>`},
+
+  "l2-noncoder": { tag:"CẤP 2 · NON-CODER", title:"Lập kế hoạch cùng AI, duyệt từng phần", body:`
+    <p>Một người làm marketing có thể nhờ AI lên outline một báo cáo, rồi duyệt outline đó, sau đó để AI viết từng phần theo đúng outline đã chốt — dừng lại kiểm tra ở mỗi phần trước khi cho viết tiếp.</p>
+    <p>Khác Cấp 1 ở chỗ: có một "kế hoạch" xuyên suốt nhiều phần, không phải từng câu rời rạc.</p>`},
+  "l2-coder": { tag:"CẤP 2 · PROGRAMMER", title:"Duyệt kế hoạch, chấp nhận/từ chối từng edit", body:`
+    <p>Yêu cầu agent đề xuất cách làm trước, review kỹ cách làm đó, rồi mới cho agent chỉnh sửa nhiều file — chấp nhận hoặc từ chối từng thay đổi, chạy test qua agent và đọc kết quả cùng nó.</p>
+    <p>Phần khó nhất của bài toán, nhiều dev vẫn chọn tự viết tay, để agent phụ trách phần khung/việc lặp.</p>`},
+  "l2-condition": { tag:"CẤP 2 → CẤP 3", title:"Điều kiện lên Cấp 3", body:`
+    <p>Khi bạn có thể mô tả "xong" trong một hoặc hai câu, <b>không còn mơ hồ</b>, và bạn tin CI hoặc review của con người sẽ bắt được lỗi — đó là lúc nên chuyển việc này lên Cấp 3.</p>
+    <p>Giữ một việc đã đủ rõ ở Cấp 2 nghĩa là bạn đang tiêu tốn sự chú ý mà việc đó không còn cần nữa.</p>`},
+  "l2-metrics": { tag:"CẤP 2 · ĐO LƯỜNG", title:"Dùng có chủ đích hay chỉ vì được yêu cầu?", body:`
+    <p>Câu hỏi đáng theo dõi ở Cấp 2 không phải "có dùng AI không" mà là "dùng có mục đích rõ hay chỉ vì công ty bảo dùng".</p>
+    <p>Một số tín hiệu: mức hài lòng qua khảo sát trải nghiệm dùng công cụ AI, tỉ lệ dùng chế độ hội thoại so với chế độ agent, và những phần nào của công việc/codebase đang thực sự được AI đụng tới.</p>`},
+
+  "l3-noncoder": { tag:"CẤP 3 · NON-CODER", title:"Giao hẳn một việc có 'xong' rõ ràng", body:`
+    <p>Ví dụ: giao agent nghiên cứu một thị trường theo tiêu chí cho sẵn, soạn một bản đề xuất theo template đã có cấu trúc — rồi bạn quay lại, nhận bản gần hoàn chỉnh để duyệt lần cuối, không cần theo dõi từng bước viết.</p>
+    <p>Điều kiện để việc này thành công: brief đủ rõ để "xong" không còn là câu hỏi mở.</p>`},
+  "l3-coder": { tag:"CẤP 3 · PROGRAMMER", title:"Gán issue, nhận PR để review", body:`
+    <p>Gán một GitHub issue cho Copilot coding agent, hoặc nhắc @claude trong một PR comment. Agent tự clone repo, làm việc trong môi trường cloud tách biệt, chạy CI của bạn, mở draft PR, rồi chờ review.</p>
+    <p>Đây cũng là nơi phép thử "làm từ điện thoại được không" áp dụng rõ nhất.</p>`},
+  "l3-condition": { tag:"CẤP 3 → CẤP 4", title:"Điều kiện lên Cấp 4", body:`
+    <p>Khi một việc không còn là "một task tôi giao hôm nay" mà trở thành <b>một hạng mục luôn tồn tại</b> — luôn có test không ổn định cần fix, luôn có tài liệu bị lệch — đó là lúc đáng cấu hình để agent tự nhận diện và xử lý, không cần ai giao mỗi lần.</p>`},
+  "l3-pipeline": { tag:"CẤP 3 · ĐIỀU KIỆN BẮT BUỘC", title:"Pipeline review phải đủ vững trước", body:`
+    <p>Theo DORA Report 2025: AI đóng vai trò bộ khuếch đại, không phải thuốc chữa. Team có quy trình kỹ thuật tốt sẽ hưởng lợi rõ; team có điểm nghẽn sẵn sẽ thấy điểm nghẽn đó lộ ra rõ hơn — không tự biến mất.</p>
+    <p>Cụ thể, mức dùng AI cao tương quan với PR lớn hơn và thời gian review dài hơn. Nếu review đang là điểm nghẽn, Cấp 3 nhiều khả năng sẽ làm nó tệ hơn trước khi có thể giúp cải thiện.</p>`},
+
+  "l4-noncoder": { tag:"CẤP 4 · NON-CODER", title:"Đặt mục tiêu định kỳ, không đặt từng việc", body:`
+    <p>Cấu hình một agent tự rà soát nội dung marketing đã lỗi thời mỗi tuần, hoặc tự soạn báo cáo tồn kho mỗi sáng — không có ai bấm nút "chạy" mỗi lần, chỉ có người xem lại kết quả.</p>`},
+  "l4-coder": { tag:"CẤP 4 · PROGRAMMER", title:"Agent chuyên trách một mảng bảo trì", body:`
+    <p>Uber triển khai FlakyGuard xử lý báo cáo test không ổn định hàng ngày, hoàn toàn tự động: trong 6 tháng, xử lý 1.115 test không ổn định, tái hiện được 798, tạo fix cho 380, và merge thành công 197 sau khi được dev duyệt.</p>
+    <p>GitHub's Agentic Workflows có sẵn Daily Test Improver (theo dõi coverage, tự thêm test) và Daily Documentation Updater (giữ doc khớp với PR đã merge).</p>`},
+  "l4-condition": { tag:"CẤP 4 → CẤP 5", title:"Điều kiện thử Cấp 5", body:`
+    <p>Chỉ đáng thử khi một agent không còn đủ cho quy mô vấn đề — cần nhiều vai chuyên biệt chạy song song — <b>và bạn đã làm chủ Cấp 3 &amp; 4 trước đó</b>. Không nên thử vì "muốn chạy nhiều agent hơn" mà không có lý do quy mô thực sự.</p>`},
+  "l4-risk": { tag:"CẤP 4 · RỦI RO", title:"Review có thể trở thành gánh nặng mới", body:`
+    <p>Agent tự chủ giảm chi phí điều phối (không cần ai giao việc), nhưng có thể tạo ra gánh nặng review tương đương hoặc hơn — nếu mỗi PR agent tạo ra vẫn cần soi kỹ từng dòng, bạn chỉ chuyển việc điều phối sang việc review, không thực sự tiết kiệm.</p>
+    <p>Cách giữ an toàn: giữ phạm vi mỗi việc nhỏ, CI mạnh, diff rõ ràng dễ đọc.</p>`},
+
+  "l5-noncoder": { tag:"CẤP 5 · NON-CODER", title:"Hầu như chưa chạm tới ở quy mô cá nhân", body:`
+    <p>Ứng dụng gần nhất mà một non-coder có thể gặp: một "dàn" agent content tự nghiên cứu chủ đề, viết bản thảo, kiểm duyệt theo brand guideline, rồi lên lịch đăng — nhưng vẫn cần một người ở vai trò orchestrator theo dõi toàn hệ, không phải để mặc chạy hoàn toàn.</p>`},
+  "l5-coder": { tag:"CẤP 5 · PROGRAMMER", title:"Kiến trúc Planner → Worker → Judge", body:`
+    <p>Dự án FastRender của Cursor: kiến trúc ba tầng — Planner chia mục tiêu lớn thành việc nhỏ, Worker thực thi độc lập, Judge đánh giá chất lượng và quyết định tiếp tục hay không — chạy tới 2.000 agent song song trong gần một tuần, tạo ra hơn 1 triệu dòng code trên 1.000 file, 30.000 commit.</p>`},
+  "l5-notyet": { tag:"CẤP 5 · CHƯA NÊN THỬ", title:"Khi việc phức tạp nhưng tuần tự", body:`
+    <p>Nếu vấn đề không thể chia nhỏ để chạy song song thật — nghĩa là các bước phải làm theo thứ tự, phụ thuộc chặt vào nhau — một agent duy nhất đi từng bước (kiểu Cấp 2) thường vẫn tốt hơn. Đa agent ở đây chỉ cộng thêm độ phức tạp, không cộng thêm giá trị.</p>`},
+  "l5-debug": { tag:"CẤP 5 · CÁI GIÁ PHẢI TRẢ", title:"Debug đa-agent khó hơn hẳn", body:`
+    <p>Lỗi trong hệ nhiều agent khó chẩn đoán hơn nhiều so với lỗi một agent đơn — vì lỗi có thể phát sinh từ tương tác giữa các agent, không chỉ từ logic một agent.</p>
+    <p>Cần nghĩ trước: ranh giới tin cậy (trust boundary) — sub-agent được tự quyết gì, cái gì phải đẩy lên orchestrator hoặc con người; và luôn có người giám sát ở tầng orchestrator, dù sub-agent chạy tự do.</p>`},
+
+  "s8-fit": { tag:"QUAN TRỌNG HƠN LEVEL · 01", title:"Khớp việc với cấp, không leo cấp", body:`
+    <p>Trước khi chọn công cụ, hỏi "xong" của việc này trông như thế nào. Nếu mô tả được rõ trong một câu, agent có thể tự làm mà không cần bạn theo dõi — đó là Cấp 3 trở lên. Nếu không mô tả được, bạn cần ở trong vòng lặp — đó là Cấp 2.</p>
+    <p>Ép một task còn mơ hồ lên Cấp 3 để "cho nhanh" thường tạo ra việc dọn dẹp sau đó tốn hơn việc tự làm ban đầu.</p>`},
+  "s8-pipeline": { tag:"QUAN TRỌNG HƠN LEVEL · 02", title:"Pipeline/khả năng review là trần thật", body:`
+    <p>AI khuếch đại năng lực đã có, không thay thế nó. Nếu quy trình review, kiểm thử, hoặc quy trình duyệt nội dung của bạn đang yếu, việc thêm agent tự chủ sẽ khiến điểm yếu đó hiện rõ hơn, nhanh hơn — trước khi có cơ hội mang lại lợi ích.</p>`},
+  "s8-shift": { tag:"QUAN TRỌNG HƠN LEVEL · 03", title:"Từ 'người chỉ huy' thành 'người thiết lập mục tiêu'", body:`
+    <p>Ở Cấp 2, bạn là "conductor" — chỉ huy trực tiếp theo thời gian thực. Ở Cấp 3 trở lên, bạn là "orchestrator" — người đặt mục tiêu và soát lại kết quả, không còn theo dõi từng bước.</p>
+    <p>Đây là hai kỹ năng khác nhau, không phải cùng một kỹ năng "làm nhanh hơn". Nhảy cấp mà không đổi cách tư duy vận hành thường là lý do một team "có công cụ Cấp 3" nhưng vẫn dùng nó như Cấp 2.</p>`},
+
+  "s9-done": { tag:"TƯ DUY GỐC · 01", title:"Định nghĩa 'xong' trước khi chọn cấp độ", body:`
+    <p>Đây là câu hỏi gốc của toàn bộ khung 5 cấp: nếu bạn có thể mô tả "xong" trong một câu không mơ hồ, một agent có thể xử lý mà không cần bạn theo dõi trực tiếp. Nếu không thể, bạn cần ở trong vòng lặp.</p>
+    <p>Câu hỏi này áp dụng được cho cả người viết code và người không viết code — nó không phụ thuộc vào công cụ, mà phụ thuộc vào chính bản chất công việc.</p>`},
+  "s9-earn": { tag:"TƯ DUY GỐC · 02", title:"Tự chủ phải được 'kiếm', không phải được 'muốn'", body:`
+    <p>Muốn agent chạy nhanh, tự động hơn không tự động đủ điều kiện để trao quyền tự chủ cao hơn. Quyền tự chủ chỉ nên tăng khi hai điều kiện cùng đúng: phạm vi việc đủ rõ, và lớp kiểm soát (CI, review, quy trình duyệt) đủ vững để bắt lỗi khi agent sai.</p>
+    <p>Thiếu một trong hai, việc "lên cấp" chỉ là chuyển rủi ro từ chỗ bạn thấy được sang chỗ bạn không thấy.</p>`},
+  "s9-oversight": { tag:"TƯ DUY GỐC · 03", title:"Luôn có một tầng người giám sát, dù cấp nào", body:`
+    <p>Giám sát của con người không biến mất khi lên cấp cao hơn — nó chỉ dồn về đúng một điểm duy nhất. Ở Cấp 2, giám sát rải đều theo từng bước. Ở Cấp 5, giám sát dồn về tầng orchestrator, nơi một người vẫn theo dõi cả hệ dù không can thiệp vào từng sub-agent.</p>
+    <p>Một hệ thống "tự chủ hoàn toàn, không ai giám sát" không phải là cấp cao hơn — đó là một hệ thống thiếu tầng orchestrator, và đó là lỗ hổng, không phải tính năng.</p>`},
+  "s9-measure": { tag:"TƯ DUY GỐC · 04", title:"Đo bằng kết quả, không đo bằng 'đã dùng AI'", body:`
+    <p>"Team tôi dùng AI nhiều" không nói lên điều gì về giá trị thật. Những số đáng theo dõi hơn: tỉ lệ merge (bao nhiêu PR agent tạo ra được merge thật), thời gian review mỗi PR agent, tỉ lệ task agent tự khởi động thành công, và xu hướng theo thời gian.</p>
+    <p>Đây cũng là cách duy nhất để biết một team đang thực sự tiến lên cấp cao hơn, hay chỉ đang tạo ra nhiều việc hơn để review.</p>`},
+};
+
+const backdrop = document.getElementById('modalBackdrop');
+const modalTag = document.getElementById('modalTag');
+const modalTitle = document.getElementById('modalTitle');
+const modalBody = document.getElementById('modalBody');
+let lastFocused = null;
+
+function openModal(key){
+  const d = DETAILS[key];
+  if(!d) return;
+  modalTag.textContent = d.tag || '';
+  modalTitle.innerHTML = d.title || '';
+  modalBody.innerHTML = d.body || '';
+  backdrop.classList.add('open');
+  document.body.style.overflow = 'hidden';
+  lastFocused = document.activeElement;
+  document.getElementById('modalClose').focus();
+}
+function closeModal(){
+  backdrop.classList.remove('open');
+  document.body.style.overflow = '';
+  if(lastFocused) lastFocused.focus();
+}
+document.querySelectorAll('.block[data-key]').forEach(el=>{
+  el.addEventListener('click', ()=>openModal(el.dataset.key));
+});
+document.querySelectorAll('.node[onclick]').forEach(()=>{}); // svg nodes already use inline onclick
+document.getElementById('modalClose').addEventListener('click', closeModal);
+backdrop.addEventListener('click', (e)=>{ if(e.target === backdrop) closeModal(); });
+document.addEventListener('keydown', (e)=>{ if(e.key === 'Escape' && backdrop.classList.contains('open')) closeModal(); });
+</script>
+</body>
+</html>
